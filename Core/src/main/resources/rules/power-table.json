@@ -1,0 +1,21 @@
+{
+  "_note": "Chapter 7.6 of project_v2.md (Suggested): a move's power becomes damage dice. Each row starts at 'from' and lasts until the next row starts. Effective power is the dice total x 5. Edit the game's copy (combat.damage.powerTable), not this file.",
+  "rows": [
+    { "from": 1,   "dice": "1d4"  },
+    { "from": 16,  "dice": "1d6"  },
+    { "from": 21,  "dice": "1d8"  },
+    { "from": 26,  "dice": "1d10" },
+    { "from": 31,  "dice": "1d12" },
+    { "from": 39,  "dice": "2d8"  },
+    { "from": 51,  "dice": "2d10" },
+    { "from": 61,  "dice": "2d12" },
+    { "from": 67,  "dice": "3d8"  },
+    { "from": 76,  "dice": "3d10" },
+    { "from": 91,  "dice": "3d12" },
+    { "from": 104, "dice": "4d10" },
+    { "from": 121, "dice": "4d12" },
+    { "from": 147, "dice": "5d12" },
+    { "from": 179, "dice": "6d12" },
+    { "from": 228, "dice": "8d12" }
+  ]
+}

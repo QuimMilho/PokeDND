@@ -21,17 +21,17 @@ Put the type effectiveness table and the natures in Core and prove them against 
 
 ## Tasks
 
-- [ ] Write the type chart (18 types, multipliers 0, 0.5, 1, 2) and the nature table as data in Core.
-- [ ] Functions: effectiveness of one move type against one or two defender types; nature multipliers per stat.
-- [ ] Write the independent reference table in the test folder from a different source (for example typed in by hand from the games), not copied from the Showdown data.
+- [x] Write the type chart (18 types, multipliers 0, 0.5, 1, 2) and the nature table as data in Core.
+- [x] Functions: effectiveness of one move type against one or two defender types; nature multipliers per stat.
+- [x] Write the independent reference table in the test folder from a different source (for example typed in by hand from the games), not copied from the Showdown data.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] All 18 x 18 pairs equal the independent table.
-- [ ] Dual types multiply (Fire against Grass/Bug is 4x; Ground against Flying is 0).
-- [ ] The 25 natures: five neutral, each other one raises one stat by 10 % and lowers another by 10 %.
+- [x] All 18 x 18 pairs equal the independent table.
+- [x] Dual types multiply (Fire against Grass/Bug is 4x; Ground against Flying is 0).
+- [x] The 25 natures: five neutral, each other one raises one stat by 10 % and lowers another by 10 %.
 
 ## Done when
 

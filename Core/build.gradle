@@ -21,6 +21,7 @@ repositories {
 dependencies {
     // The only two things Core may depend on (chapter 13.4): a JSON library and the SLF4J API.
     api libs.jackson.databind
+    api libs.jackson.jdk8   // Optional support when writing the bundle
     api libs.slf4j.api
 
     testImplementation platform(libs.junit.bom)
@@ -88,8 +89,23 @@ tasks.named('test') {
     // The importer tests also read the real resources/ folder (rebuilt with: node tools/extract.mjs). When it is missing
     // they are skipped, unless POKEDND_REQUIRE_RESOURCES=true (CI sets it), in which case they fail instead.
     systemProperty 'pokednd.resources', file('../resources').absolutePath
+    systemProperty 'pokednd.roster', file('../build/roster.json').absolutePath
     environment 'POKEDND_REQUIRE_RESOURCES', System.getenv('POKEDND_REQUIRE_RESOURCES') ?: 'false'
     // Rerun when the raw inputs change. Only the files the importer reads are tracked, not the 100 MB of art.
+    inputs.files(files('../build/roster.json')).withPropertyName('roster').optional()
     inputs.files(fileTree(dir: '../resources', includes: ['*.csv', 'data/cobblemon/species/**/*.json']))
             .withPropertyName('rawResources').withPathSensitivity(PathSensitivity.RELATIVE).optional()
+}
+
+// Writes the data bundle (chapter 19.2) to ../build/bundle. Needs ../resources (node tools/extract.mjs) and
+// ../build/roster.json (node tools/check-assets.mjs). Run with: ./gradlew importBundle
+tasks.register('importBundle', JavaExec) {
+    group = 'application'
+    description = 'Writes the data bundle (species, moves, items, learnsets, reports, manifest) to ../build/bundle.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'net.quimmilho.pokednd.core.ImporterCli'
+    javaLauncher = javaToolchains.launcherFor(java.toolchain)
+    args '--resources', file('../resources').absolutePath, '--roster', file('../build/roster.json').absolutePath,
+            '--out', file('../build/bundle').absolutePath,
+            '--overrides', file('../cards/signature-overrides.json').absolutePath
 }

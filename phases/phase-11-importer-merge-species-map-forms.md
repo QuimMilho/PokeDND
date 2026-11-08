@@ -21,18 +21,18 @@ Produce one merged list of species and forms, and report every place where the C
 
 ## Tasks
 
-- [ ] Merge each species: start from the CSV row and fill gaps from the JSON (hitbox, scale, behaviour, labels). If they disagree the CSV wins (decided); write every disagreement to a conflicts report.
-- [ ] Map the 63 free-text `form` values of `pokemon-attacks.csv` to form ids using the species features and the resolvers (19.4). Unknown values are reported, never guessed.
-- [ ] Mark forms as playable only when the roster says they are complete (use `build/roster.json` from the assets phase).
-- [ ] Note: there are no Mega, Gigantamax, Primal or Terastal forms in the assets.
+- [x] Merge each species: start from the CSV row and fill gaps from the JSON (hitbox, scale, behaviour, labels). If they disagree the CSV wins (decided); write every disagreement to a conflicts report.
+- [x] Map the 63 free-text `form` values of `pokemon-attacks.csv` to form ids using the species features and the resolvers (19.4). Unknown values are reported, never guessed.
+- [x] Mark forms as playable only when the roster says they are complete (use `build/roster.json` from the assets phase).
+- [x] Note: there are no Mega, Gigantamax, Primal or Terastal forms in the assets.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] All 63 form values map to a form id or appear in the "unmapped" list, which a test pins to a known, reviewed content.
-- [ ] The merged list has 1,025 species; the roster subset has 905.
-- [ ] The conflicts report is deterministic (same file twice).
+- [x] All 63 form values map to a form id or appear in the "unmapped" list, which a test pins to a known, reviewed content.
+- [x] The merged list has 1,025 species; the roster subset has 903 (Bounsweet and Pyukumuku wait for animations, Appendix E #32; Cobblemon marks 905 as implemented).
+- [x] The conflicts report is deterministic (same file twice).
 
 ## Done when
 

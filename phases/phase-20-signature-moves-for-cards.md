@@ -21,17 +21,17 @@ Decide which four moves a species card shows, in a way that is explainable and c
 
 ## Tasks
 
-- [ ] Implement the selection rule of 9.3 (candidate filter, scoring, pick order, level caps by stage `cards.signature.stageLevelCaps`).
-- [ ] Read the overrides file `cards/signature-overrides.json` (create it with a few examples) and let it win.
-- [ ] Add the result to `derived.json`.
+- [x] Implement the selection rule of 9.3 (candidate filter, scoring, pick order, level caps by stage `cards.signature.stageLevelCaps`).
+- [x] Read the overrides file `cards/signature-overrides.json` (create it with a few examples) and let it win.
+- [x] Add the result to `derived.json`.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Pikachu, Charizard, Magikarp and Eevee get sensible, documented moves (a test lists the expected four each).
-- [ ] Every species in the roster gets exactly four distinct moves, or fewer only if it truly has fewer.
-- [ ] An override changes the result and is reported.
+- [x] Pikachu, Charizard, Magikarp and Eevee get sensible, documented moves (a test lists the expected four each).
+- [x] Every species in the roster gets exactly four distinct moves, or fewer only if it truly has fewer.
+- [x] An override changes the result and is reported.
 
 ## Done when
 

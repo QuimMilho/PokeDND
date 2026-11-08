@@ -21,20 +21,20 @@ Finish the importer: one deterministic data bundle (with a content hash) that th
 
 ## Tasks
 
-- [ ] Learnsets: per species and form, moves by method and level (the form text is mapped with the table from the merge phase).
-- [ ] Derived values: stage badge (Basic, Stage 1, Stage 2), weaknesses and resistances (they need the type chart from Phase 15: if that is not done yet, leave a clearly marked stub and finish it there). Default hit bands and damage dice per move are added in Phase 18.
-- [ ] Validate: fail the build if any id dangles (a learnset move that does not exist, an evolution result that does not exist, a roster species without data).
-- [ ] Write the bundle files (`species.json`, `evolutions.json`, `learnsets.json`, `moves.json`, `abilities.json`, `items.json`, `roster.json`, `derived.json`), `reports/*.md` and `MANIFEST.json` (version, input hashes, output hash).
-- [ ] Add the `Core` command-line entry that writes the bundle to a folder.
+- [x] Learnsets: per species and form, moves by method and level (the form text is mapped with the table from the merge phase).
+- [x] Derived values: stage badge (Basic, Stage 1, Stage 2), weaknesses and resistances (they need the type chart from Phase 15: if that is not done yet, leave a clearly marked stub and finish it there). Default hit bands and damage dice per move are added in Phase 18.
+- [x] Validate: fail the build if any id dangles (a learnset move that does not exist, an evolution result that does not exist, a roster species without data).
+- [x] Write the bundle files (`species.json`, `evolutions.json`, `learnsets.json`, `moves.json`, `abilities.json`, `items.json`, `roster.json`, `derived.json`), `reports/*.md` and `MANIFEST.json` (version, input hashes, output hash).
+- [x] Add the `Core` command-line entry that writes the bundle to a folder.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Running the importer twice gives the same output hash.
-- [ ] The bundle has no dangling ids (a test removes one move and expects a failure).
-- [ ] The roster equals the output of `tools/check-assets` (905 species).
-- [ ] The item filter removed exactly the Pokédex rows.
+- [x] Running the importer twice gives the same output hash.
+- [x] The bundle has no dangling ids (a test removes one move and expects a failure).
+- [x] The roster equals the output of `tools/check-assets` (903 species: 905 modelled, minus Bounsweet and Pyukumuku, Appendix E #32).
+- [x] The item filter removed exactly the Pokédex rows.
 
 ## Done when
 

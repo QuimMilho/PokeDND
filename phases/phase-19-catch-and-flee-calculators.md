@@ -21,17 +21,17 @@ Implement the catch and flee odds with the ball table, and express them as dice 
 
 ## Tasks
 
-- [ ] Catch chance from the species catch rate, HP, status and the ball table in 7.10 (the common balls; special balls have their own rules).
-- [ ] Flee chance (7.11) with its settings.
-- [ ] Both return a smart-dice roll (die and bands).
+- [x] Catch chance from the species catch rate, HP, status and the ball table in 7.10 (the common balls; special balls have their own rules).
+- [x] Flee chance (7.11) with its settings.
+- [x] Both return a smart-dice roll (die and bands).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The worked examples in 7.10 and 7.11 are test cases.
-- [ ] A Master Ball always catches; a fainted-or-full-HP edge case behaves as documented.
-- [ ] The ball table covers every ball in `resources/icons/items/poke_balls` or marks it "not for sale / special".
+- [x] The worked examples in 7.10 and 7.11 are test cases.
+- [x] A Master Ball always catches; a fainted-or-full-HP edge case behaves as documented.
+- [x] The ball table covers every ball in `resources/icons/items/poke_balls` or marks it "not for sale / special".
 
 ## Done when
 

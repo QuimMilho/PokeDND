@@ -21,18 +21,18 @@ Turn the free-text evolution strings into clean rules that the battle engine can
 
 ## Tasks
 
-- [ ] Write the parser for the evolution text produced by `tools/build-csv.mjs` (for example `Vaporeon (Use Water Stone); Espeon (Friendship >= 160, Day)`).
-- [ ] Output normalised rules (`evolutions.json` in the bundle): target, method, conditions.
-- [ ] Cross-check each parsed rule with the species JSON `evolutions` list and report mismatches.
-- [ ] List the strings that cannot be parsed, deliberately, with the reason.
+- [x] Write the parser for the evolution text produced by `tools/build-csv.mjs` (for example `Vaporeon (Use Water Stone); Espeon (Friendship >= 160, Day)`).
+- [x] Output normalised rules (`evolutions.json` in the bundle): target, method, conditions.
+- [x] Cross-check each parsed rule with the species JSON `evolutions` list and report mismatches.
+- [x] List the strings that cannot be parsed, deliberately, with the reason.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Every one of the roughly 450 evolution strings parses, or is on the reviewed "unparseable" list.
-- [ ] Hand-picked cases: Eevee (all eight), Pikachu, Wurmple, Slowpoke, a trade evolution, a level + time-of-day one.
-- [ ] The cross-check against the species JSON reports no unexplained mismatch.
+- [x] Every one of the roughly 450 evolution strings parses, or is on the reviewed "unparseable" list.
+- [x] Hand-picked cases: Eevee (all eight), Pikachu, Wurmple, Slowpoke, a trade evolution, a level + time-of-day one.
+- [x] The cross-check against the species JSON reports no unexplained mismatch.
 
 ## Done when
 

@@ -25,18 +25,18 @@ Build the moves, abilities and items tables with their effects, using a committe
 
 ## Tasks
 
-- [ ] Write a Node script in `tools/` that unpacks `showdown.zip` from the jar and converts the needed data files to JSON; commit the JSON in `Core/src/main/resources/showdown/` with the MIT notice (19.5).
-- [ ] Merge `attack.csv` with Showdown moves; same for abilities and items. Classify every entry as **automatic**, **scripted** or **manual** with the rule in `tools/effect-coverage.mjs` (19.6).
-- [ ] Items: read `item.csv` (390 rows, drop the 7 Pokédex rows) and `tm.csv` (391 TMs); attach the category effect handler (the Cobblemon `bag_items` scripts are the reference), the default price table (8.8) and the TM price.
-- [ ] The IV candies change one IV by the step in `items.ivCandy.step` (decided: 1).
+- [x] Write a Node script in `tools/` that unpacks `showdown.zip` from the jar and converts the needed data files to JSON; commit the JSON in `Core/src/main/resources/showdown/` with the MIT notice (19.5).
+- [x] Merge `attack.csv` with Showdown moves; same for abilities and items. Classify every entry as **automatic**, **scripted** or **manual** with the rule in `tools/effect-coverage.mjs` (19.6).
+- [x] Items: read `item.csv` (390 rows, drop the 7 Pokédex rows) and `tm.csv` (391 TMs); attach the category effect handler (the Cobblemon `bag_items` scripts are the reference), the default price table (8.8) and the TM price.
+- [x] The IV candies change one IV by the step in `items.ivCandy.step` (decided: 1).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The class counts equal `build/reports/coverage.json` (445 automatic and 397 scripted moves; 87 Z/Max and 1 without data are listed separately).
-- [ ] There are 383 usable items plus 391 TM items; Aprijuice appears nowhere.
-- [ ] No move, ability or item in the tables refers to an id that does not exist.
+- [x] The class counts equal `build/reports/coverage.json` (445 automatic and 397 scripted moves; 87 Z/Max and 1 without data are listed separately).
+- [x] There are 383 usable items plus 391 TM items; Aprijuice appears nowhere.
+- [x] No move, ability or item in the tables refers to an id that does not exist.
 
 ## Done when
 

@@ -1,0 +1,11 @@
+{
+  "note": "Written by tools/export-showdown.mjs. Update it together with a Cobblemon update, never by hand.",
+  "cobblemon": "1.8.4+1.21.1",
+  "sourceFiles": {
+    "data/moves.js": "2eddea9a4e4b5fd9e0d57ec264ea3c45d17c717207aa0ab7daad2472473811f2",
+    "data/abilities.js": "40ac358d9d1befc58b87cba410d7a9648320d6cac0aecc6678709e4e8260c740",
+    "data/items.js": "ea8d95c3361b8e09f09465608887278c270e7159e49547e7556ac6e6e8e38823",
+    "data/natures.js": "9075adf12fb7dfdbdb215d553419c3faaad5fcd3007d2865dbaa52986c1da6d1",
+    "data/typechart.js": "7871f541822a95cb9288d89e98cd7f30cfa2ba94938711b3796999411215e05b"
+  }
+}

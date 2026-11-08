@@ -21,17 +21,17 @@ Turn a move into dice: how likely it is to hit, to crit, and how many dice of da
 
 ## Tasks
 
-- [ ] The power table (`combat.damage.powerTable`) as editable data, with the default values of 7.6.
-- [ ] Hit bands from accuracy and stat stages (7.5) using the smart dice; crit chance and stages.
-- [ ] Damage from dice, STAB, type effectiveness, burn, and the scale settings, with every setting defaulted.
+- [x] The power table (`combat.damage.powerTable`) as editable data, with the default values of 7.6.
+- [x] Hit bands from accuracy and stat stages (7.5) using the smart dice; crit chance and stages.
+- [x] Damage from dice, STAB, type effectiveness, burn, and the scale settings, with every setting defaulted.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Every worked example in 7.5 and 7.6 is a test.
-- [ ] A move that always hits (accuracy shown as the dash) never produces a miss band.
-- [ ] Changing the power table changes the result as expected (a test edits the table).
+- [x] Every worked example in 7.5 and 7.6 is a test.
+- [x] A move that always hits (accuracy shown as the dash) never produces a miss band.
+- [x] Changing the power table changes the result as expected (a test edits the table).
 
 ## Done when
 

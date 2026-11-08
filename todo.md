@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 9 of 86 phases done · 0 of 6 stage gates passed
+**Progress:** 19 of 86 phases done · 0 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -58,34 +58,34 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 10 — Importer: read and clean** · Core · [prompt](phases/phase-10-importer-read-and-clean.md)
   Core reads the four CSVs, tm.csv and the species JSON and cleans them (byte-order mark, header typos, numbers, malformed rows).
   *Depends on:* Phase 03, Phase 01
-- [ ] **Phase 11 — Importer: merge species, map forms** · Core · [prompt](phases/phase-11-importer-merge-species-map-forms.md)
+- [x] **Phase 11 — Importer: merge species, map forms** · Core · [prompt](phases/phase-11-importer-merge-species-map-forms.md)
   Merge CSV and species JSON into one species list (CSV wins), map the 63 form names to form ids, and write a conflicts report.
   *Depends on:* Phase 10
-- [ ] **Phase 12 — Importer: evolution parser** · Core · [prompt](phases/phase-12-importer-evolution-parser.md)
+- [x] **Phase 12 — Importer: evolution parser** · Core · [prompt](phases/phase-12-importer-evolution-parser.md)
   Parse the evolution text of every species into rules (level, item, friendship, trade and more) and list the ones that cannot be parsed.
   *Depends on:* Phase 11
-- [ ] **Phase 13 — Importer: moves, abilities, items, TMs** · Core · [prompt](phases/phase-13-importer-moves-abilities-items-tms.md)
+- [x] **Phase 13 — Importer: moves, abilities, items, TMs** · Core · [prompt](phases/phase-13-importer-moves-abilities-items-tms.md)
   Merge moves, abilities and items with the Showdown data (kept as committed JSON), classify effects as automatic, scripted or manual, and build the item list including the 391 TMs.
   *Depends on:* Phase 11
-- [ ] **Phase 14 — Importer: learnsets, derived values, bundle** · Core · [prompt](phases/phase-14-importer-learnsets-derived-values-bundle.md)
+- [x] **Phase 14 — Importer: learnsets, derived values, bundle** · Core · [prompt](phases/phase-14-importer-learnsets-derived-values-bundle.md)
   Add learnsets and derived values (stage badges, weaknesses), validate that nothing dangles, and write the data bundle, reports and manifest.
   *Depends on:* Phase 12, Phase 13, Phase 09
-- [ ] **Phase 15 — Type chart and natures** · Core · [prompt](phases/phase-15-type-chart-and-natures.md)
+- [x] **Phase 15 — Type chart and natures** · Core · [prompt](phases/phase-15-type-chart-and-natures.md)
   The type chart and the 25 natures in Core, tested against an independently written table.
   *Depends on:* Phase 03
-- [ ] **Phase 16 — Smart dice selector** · Core · [prompt](phases/phase-16-smart-dice-selector.md)
+- [x] **Phase 16 — Smart dice selector** · Core · [prompt](phases/phase-16-smart-dice-selector.md)
   The algorithm that picks the right die for any odds (25 % is a d4, awkward odds use a d100), with every worked example as a test.
   *Depends on:* Phase 03
-- [ ] **Phase 17 — Stats, XP and levelling** · Core · [prompt](phases/phase-17-stats-xp-and-levelling.md)
+- [x] **Phase 17 — Stats, XP and levelling** · Core · [prompt](phases/phase-17-stats-xp-and-levelling.md)
   Stat formulas (HP and the other five, with IVs, EVs and natures) and the XP tables for all six growth groups.
   *Depends on:* Phase 03
-- [ ] **Phase 18 — Damage dice, hit bands, crits** · Core · [prompt](phases/phase-18-damage-dice-hit-bands-crits.md)
+- [x] **Phase 18 — Damage dice, hit bands, crits** · Core · [prompt](phases/phase-18-damage-dice-hit-bands-crits.md)
   The power-to-dice table, the hit roll bands, critical hits and the damage formula.
   *Depends on:* Phase 15, Phase 16
-- [ ] **Phase 19 — Catch and flee calculators** · Core · [prompt](phases/phase-19-catch-and-flee-calculators.md)
+- [x] **Phase 19 — Catch and flee calculators** · Core · [prompt](phases/phase-19-catch-and-flee-calculators.md)
   The odds of catching a Pokémon (balls, HP, status) and of fleeing, as smart-dice rolls.
   *Depends on:* Phase 16, Phase 17
-- [ ] **Phase 20 — Signature moves for cards** · Core · [prompt](phases/phase-20-signature-moves-for-cards.md)
+- [x] **Phase 20 — Signature moves for cards** · Core · [prompt](phases/phase-20-signature-moves-for-cards.md)
   Choose the four moves printed on each species card with the rule in 9.3, plus a manual overrides file.
   *Depends on:* Phase 14, Phase 18
 - [ ] **Phase 21 — API: database layer and reference data** · API · [prompt](phases/phase-21-api-database-layer-and-reference-data.md)

@@ -1,0 +1,6 @@
+{
+  "_note": "Chapter 9.3 of project_v2.md. Fixes the four moves printed on a species card; an entry always wins over the rule. The key is the four-digit Dex number, an underscore, and the species id (base form) or the form id (other forms), for example 0006_charizard or 0105_marowak_alolan. Move names may be written air-slash, airslash or Air Slash. Give one to four moves. The three entries below are examples of the classic sets.",
+  "0003_venusaur": ["solar-beam", "sludge-bomb", "sleep-powder", "earthquake"],
+  "0006_charizard": ["flamethrower", "air-slash", "dragon-claw", "roost"],
+  "0009_blastoise": ["hydro-pump", "ice-beam", "flash-cannon", "skull-bash"]
+}

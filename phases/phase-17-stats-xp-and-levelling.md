@@ -21,18 +21,18 @@ Put the numbers for a Pokémon's stats and for experience into Core.
 
 ## Tasks
 
-- [ ] Stat formulas exactly as in 5.2 (HP and other stats, IV 0-31, EV 0-252 and 510 in total, nature multiplier).
-- [ ] XP needed per level for the six growth groups (5.3) and the XP reward from a defeated Pokémon.
-- [ ] The trainer XP curve (4.5) and the `trainer.xp.multiplier` setting.
-- [ ] Settings for the IV mode (`random` or `fixed`) with their defaults.
+- [x] Stat formulas exactly as in 5.2 (HP and other stats, IV 0-31, EV 0-252 and 510 in total, nature multiplier).
+- [x] XP needed per level for the six growth groups (5.3) and the XP reward from a defeated Pokémon.
+- [x] The trainer XP curve (4.5) and the `trainer.xp.multiplier` setting.
+- [x] Settings for the IV mode (`random` or `fixed`) with their defaults.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The worked examples in 5.2 and 5.3 are test cases.
-- [ ] A few official values (for example a level 50 Garchomp with known IVs/EVs) match.
-- [ ] XP is strictly increasing per level for all six groups and level 100 is reached.
+- [x] The worked examples in 5.2 and 5.3 are test cases.
+- [x] A few official values (for example a level 50 Garchomp with known IVs/EVs) match.
+- [x] XP is strictly increasing per level for all six groups and level 100 is reached.
 
 ## Done when
 

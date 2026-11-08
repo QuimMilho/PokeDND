@@ -915,7 +915,7 @@ All of these were computed by the reference algorithm (the same one that goes in
 | Flee, second try | 61 % | **d8** · 4–8 = escapes | 62.5 % |
 | Catch, Pidgey at full HP | 33 % | **d6** · 5–6 = caught | 33.3 % |
 | Catch, Bulbasaur at low HP | 16 % | **d6** · 6 = caught | 16.7 % |
-| Catch, Bulbasaur asleep at low HP | 40 % | **d10** · 7–10 = caught | 40 % |
+| Catch, Bulbasaur asleep at low HP | 40 % *(exactly 40.3 %, which is a d10 · 7–10, see 7.10)* | **d8** · 6–8 = caught | 37.5 % |
 | Catch, Pidgey nearly dead | 88 % | **d8** · 2–8 = caught | 87.5 % |
 | Catch, legendary at 1 HP, Ultra Ball | 2.3 % | **d100** · 99–100 = caught | 2 % |
 | Catch, legendary at full HP, Ultra Ball | 0.8 % | **d100** · 100 = caught | 1 % |
@@ -1633,7 +1633,7 @@ Rewards: trainer XP, ₽, items, a badge, cosmetics, a Pokémon. Quests and thei
 
 #### 8.8 Items, money and shops
 
-**Items.** The item list is `./resources/item.csv`: **390 entries in 10 categories**, each with an icon. Seven of them (the Pokédexes) are not used, which leaves **383 usable items**. On top of those come the **391 TM items** (5.5) listed in `./resources/tm.csv`.
+**Items.** The item list is `./resources/item.csv`: **390 entries in 10 categories**, each with an icon. Seven of them (the Pokédexes) are not used, which leaves **383 usable rows**. Two ids, King's Rock and Shell Helmet, appear in two categories (held items and evolution items), so there are **381 distinct items**; the importer files each under `held_items` and notes the other category. On top of those come the **391 TM items** (5.5) listed in `./resources/tm.csv`.
 
 **Aprijuice is not part of the game** *(decided)*: in Cobblemon it only changes riding stats, and PokeDnD has no riding. `tools/extract.mjs` leaves its 16 icons (7 drinks and 9 decorative overlays) out of `resources/`, so they are not in `item.csv` either. Items from the main games that Cobblemon 1.8.4 does not have (for example the Shiny Charm) are not in the list. Details of how the item gaps were closed are in [Appendix E](#appendix-e--gaps-found-while-writing).
 
@@ -1661,7 +1661,7 @@ Item **effects are hard-coded per category** (decided) in `Core`, with item-spec
 
 **Prices.** `item.csv` has no prices, so the game ships a default price table and the admin can change any price. Sell price = 50 % of buy price.
 
-> **Suggested — please review:** the whole default price table for shops.
+> **Decided (2026-11-08):** this is the default price table for shops. Items the table does not mention (vitamins, PP Up/Max, Max Ether/Elixir, the medicinal herbs and remedies, mint plants, evolution items that are not stones) have **no default price** and are not offered until the admin sets one; `reports/coverage.md` lists them. "Rare" berries and held items are two short lists in `ItemRules` *(Suggested, Appendix D #34)*.
 
 | Item or category | Buy price |
 |---|---:|
@@ -1882,6 +1882,10 @@ Species cards show the four "signature" level-up moves "traditionally known to b
 ```json
 { "0006_charizard": ["flamethrower", "air-slash", "dragon-claw", "roost"] }
 ```
+
+**Card keys.** The key is the four-digit Dex number, an underscore, and the species id for the base form (`0006_charizard`) or the form id for any other form (`0105_marowak_alolan`). Move names may be written `air-slash`, `airslash` or `Air Slash`. An override lists one to four moves and always wins; the import report shows what the rule would have picked instead. A key or a move that does not exist stops the import.
+
+A form with no level-up moves of its own uses the base form's, but its own types count for the same-type bonus (Alolan Marowak is Fire/Ghost). A few species truly have fewer than four usable level-up moves (Caterpie, Magikarp, Ditto…); their card shows fewer, and `reports/signature.md` lists them so an override can fill the gaps.
 
 An evolved species has its own card with its own four moves, so evolving in physical mode means a new card (decided).
 
@@ -3605,7 +3609,7 @@ The importer (in `Core`) turns the raw files in `resources/` into one clean **da
 |---|---|---|
 | `resources/pokedex.csv` | 1,025 rows, 35 columns: Dex number, name, types, six base stats and total, abilities (two + hidden), height and weight, EV yields, base experience, catch rate, growth group, base friendship, colour, gender ratio, egg cycles, two egg groups, evolution text | The file starts with a byte-order mark. The header has a typo (`Attcak EVs`). `Type` is a combined text like `Grass/Poison`. Evolution text is free-form (5.4). |
 | `resources/attack.csv` | 930 rows (929 usable moves): id, name, type, category (Physical/Special/Status), power, accuracy, PP, priority, target, description | Accuracy `—` means "never misses". Priority runs −7 to +5. Targets: `normal`, `self`, `allAdjacentFoes`, `allAdjacent`, `all`, `adjacentFoe`, `any`, `allySide`, `foeSide` and a few more. One malformed row (`nihillight`: no type, category or numbers) must be skipped, which leaves 929. |
-| `resources/item.csv` | 390 items: id, name, category, icon path, description | The 7 Pokédex rows are excluded (Aprijuice, 16 rows, was removed from the game and is no longer in the file). 371 items have a description. |
+| `resources/item.csv` | 390 items: id, name, category, icon path, description | The 7 Pokédex rows are excluded; King's Rock and Shell Helmet appear twice (held items and evolution items) and become one item each (Aprijuice, 16 rows, was removed from the game and is no longer in the file). 371 items have a description. |
 | `resources/tm.csv` | 391 TMs: move id, name, type, source (`cobblemon` 334 / `generated` 57), how Cobblemon obtains it (`default` / `unlockable`), icon path | Built by `tools/build-csv.mjs` from Cobblemon's `data/cobblemon/tms/*.json` plus every move that has a `tm` row in `pokemon-attacks.csv`. All 334 Cobblemon TMs are among those 391 moves. The 18 icons are in `resources/icons/tm/` |
 | `resources/pokemon-attacks.csv` | 130,704 rows: Dex, species, form, move id, move name, method, level, implemented | Methods: level, tm, tutor, egg, legacy, special, form_change. 63 distinct `form` values. `implemented` is `true` for 112,863 rows and `false` for 17,841: exactly the rows of the 120 species without a model (the file used to leave these blank). |
 | `resources/data/cobblemon/species/…` | 1,025 species JSON files in generation folders (1–9, 7b, 8a) | Base stats, abilities, `moves`, `evolutions`, hitbox, `baseScale`, `behaviour`, `labels`, `pokedex` (language keys only), `drops`, and `implemented: true` for the 905 species with models |
@@ -3726,7 +3730,7 @@ Abilities are the bigger gap. Automatic abilities cover only 6.1 % of the 2,328 
 - **Formulas:** stats, XP (including all six growth groups), damage, catch, flee, crit, accuracy stages — each with the worked examples in this document as test cases, plus a few official values.
 - **Type chart:** every pair, against an independently written table.
 - **Evolution parser:** all 450 evolution strings parse, and the unparseable ones are listed deliberately.
-- **Importer:** the bundle has no dangling ids; the roster equals the asset check; the item filter removes exactly the 9 + 7 rows.
+- **Importer:** the bundle has no dangling ids; the roster equals the asset check; the item filter removes exactly the 7 Pokédex rows (and merges the 2 ids that appear in two categories).
 - **Battle engine:** replaying an event log gives the same state; undo returns to the exact previous state.
 
 #### 20.3 API
@@ -4412,7 +4416,7 @@ Everything below was proposed by me because it was not decided. Change anything:
 | 8 | 7.10 Catching | The ball table. It covers the common balls only. |
 | 9 | 7.12 Enemies attacking trainers | The 10 % targeting chance, the `level / 8` attack bonus, the trainer Defense value and the 0.25 damage scale. |
 | 10 | 8.3.1 Event nodes | This list of steps is a first proposal. It is data-driven, so more can be added. |
-| 11 | 8.8 Items, money and shops | The whole default price table for shops. |
+| 11 | 8.8 Items, money and shops | ~~The whole default price table for shops.~~ **Decided 2026-11-08.** |
 | 12 | 8.9 Bosses and shinies | The default loot table: Rare Candy (weight 20), Exp. Candy L (25), Exp. Candy XL (10), Revive (25), Max Revive (10), Full Restore (10), a random evolution stone (15), Lucky Egg (5), Leftovers (5), Life Orb (3), Master Ball (1). Loot rolls are made by the system. |
 | 13 | 9.3 The four signature moves of a species card | The whole signature-move selection rule (candidate filter, scoring, and the pick order). |
 | 14 | 9.7 Look and feel | The type colours. |
@@ -4438,8 +4442,17 @@ Everything below was proposed by me because it was not decided. Change anything:
 | 32 | 19.3 and Appendix C, `tools/check-assets.mjs` | What counts as playable. A species is in the roster (`build/roster.json`) when it has **all** of: resolver, model (every model the resolver names exists), texture (every texture it names exists), animations, poser (every poser it names exists), icon, cry and licence file. So the roster has **903** species, not 905: Bounsweet and Pyukumuku wait for their animations (phase 84). The shiny texture is reported but **not required** (one species, Spiritomb, has none). A cry is found as `pokemon.<species>.cry` or `pokemon.<species>_<form>.cry` in `sounds.json` (Eiscue's is `eiscueice`). A **form** in the roster is one resolver file, named by its file (`marowak_alolan`) with the aspects of its first entry. `--strict` fails on any species that has some assets but lacks a required piece; `--expect` fails on any listed species that is not complete. |
 
 | 33 | 19.1 and 19.3, `Core/…/importer/` | How the raw files are read (phase 10). The `Type` text of the Pokédex is split on `/` and checked against the `Type I` / `Type II` columns (they agree on all 1,025 rows); a blank or `—` cell means "none". `attack.csv` has 930 rows and **929** are usable: a row is skipped when it has no type, category, power, accuracy, PP, priority or target (only `nihillight`). A bad row is skipped and reported, never fatal; a missing file or column stops the import. The species JSON is typed for the fields the next phases merge (stats, types, abilities, gender, growth, egg data, moves, evolutions) and keeps the whole file besides. Core's tests read the real `resources/` too; CI rebuilds it first and fails if it is missing. |
+| 34 | 8.8 Items, money and shops, `Core/…/importer/ItemRules.java` | The parts of the price and effect table that 8.8 does not state (phase 13): which berries and held items are "rare" (two short lists), that Exp. Share, Master Ball, Rare Candy and all candies are not for sale, that vitamins add 10 EVs, Ether and Elixir restore 10 PP, PP Up adds 1 point, and that remedies, energy root and heal powder stay text-only (the admin applies them). |
+| 35 | 19.3 and 19.4, `Core/…/importer/Forms.java` | The form-id convention and the reviewed list of the 63 form texts (phase 11): a form id is `<speciesId>_<slug>`, the base form is `<speciesId>_base`, and a form is playable only when the roster has a resolver file for it (the roster's own id is then used). The two Gigantamax texts (`Low-Key-Gmax`, `Rapid-Strike-Gmax`) are deliberately unmapped, so their 219 learnset rows are left out of the bundle. |
+| 36 | 5.4 and 19.3, `Core/…/importer/EvolutionParser.java` | How evolution conditions are sorted (phase 12): *automatic* (level, friendship, time of day, held item, known move, travel, weather, party, stats, gender, hidden values), *region tag* (biome and structure), *admin confirms* (moon, advancement, Gimmighoul coins and Netherite) and *unknown* (none in the data today). Only the top-level `evolutions` of a species file are used; the lists inside a species' alternative forms are ignored. |
+| 37 | 19.3 steps 8 and 9, `Core/…/importer/Derived.java` | The derived values (phase 14): the stage badge is the length of the longest chain of evolutions before the species (0 Basic, 1 Stage 1, 2 Stage 2), and weaknesses and resistances are worked out from the species' own types (a regional form with other types is not given its own values yet). The bundle files are compact JSON with sorted keys; `MANIFEST.json` holds the SHA-256 of every input and output and one hash of the bundle. Core gets one more library, Jackson's Jdk8 module, for `Optional`. |
+| 38 | 6.4, `Core/…/dice/SmartDice.java` | Two small additions to the reference algorithm (phase 16): when the d100 is used, a possible outcome always keeps at least one face (a chance under 0.5 % would otherwise become impossible), and a roll with only one possible outcome is not rolled. Also corrected in 6.5: a 40 % chance is a **d8**, 6–8 (as Appendix B.1 says), not a d10. |
+| 39 | 5.2, 5.3 and 4.5, `Core/…/rules/` | Small rules the text leaves open (phase 17). All stat arithmetic uses whole numbers (the nature is ×11/10 or ×9/10, rounded down), and Shedinja's HP of 1 is not special-cased. XP is rounded down once, after the Lucky Egg, the NPC bonus and `pokemon.xp.multiplier`. With `pokemon.xp.share` = `participantsOnly` the others get 0, with `all` everyone gets the full amount. At the level cap the XP stops at that level's total. EV gains fill HP first, and what does not fit under 252 per stat and 510 in total is lost. With `pokemon.natures.enabled` off every Pokémon counts as neutral. A quest gives its own XP, or 100 when it sets none. |
+| 40 | 7.5 and 7.6, `Core/…/combat/` | Small rules the text leaves open (phase 18). A move that always crits still rolls to hit (only the crit roll disappears). A one-hit-KO move uses accuracy `30 + level difference` (0–100 %) and ignores accuracy stages, bonuses and crits. Status, fixed-damage and one-hit-KO moves have no damage dice. The power table is read from `rules/power-table.json` and is stored as JSON in the game's settings. How the Handling bonus becomes the command accuracy bonus is left to the trainer phases; the hit roll takes the finished percentage points. |
+| 41 | 7.10 and 7.11, `Core/…/combat/` | Small rules the text leaves open (phase 19). A fainted Pokémon cannot be caught (the throw is refused, even with a Master Ball), and HP above the maximum counts as full. Rounds count from 1, so a Quick Ball works in round 1 and a Timer Ball is ×1.3 in round 1. The ball table has a rule for all 48 balls: the 10 common ones and the 3 Ancient copies as in 7.10, the **Ancient Origin Ball catches like a Master Ball**, and the other 34 are marked *special* (not for sale, ×1 until edited). The first flee try is attempt 1 (that gives the 49 % of the example), and the DEX bonus can also be negative (−2 points per point of modifier). The asleep-Bulbasaur row of 6.5 uses the rounded 40 %; the exact 40.3 % of 7.10 is a d10. |
+| 42 | 9.3, `Core/…/cards/` and `importer/Signature.java` | How the signature rule is applied (phase 20). The same-type bonus (+25) and the accuracy bonus (+10) count for damaging moves only. A damaging move with no power number (fixed damage, one-hit KO) scores as power 50. Ties go to the later level, then to the move id. "Another type" means a type other than the first pick's; if the two-moves-per-type limit would leave a place empty it is relaxed. The useless moves are Splash, Celebrate, Struggle, Hold Hands and Happy Hour. A Basic Pokémon that does not evolve counts as single-stage (level cap 100). Cards exist for the roster only (1,089 species and forms), and 22 of them have fewer than four moves. The three example overrides (Venusaur, Charizard, Blastoise) are the classic sets and may be changed freely. |
 
-*33 items.* In addition, **every default value in Appendix A** is a suggestion.
+*42 items.* In addition, **every default value in Appendix A** is a suggestion.
 
 
 ### Appendix E — Gaps found while writing

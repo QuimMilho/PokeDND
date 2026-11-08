@@ -25,6 +25,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 | `effect-coverage.mjs` | Measures how much of the Showdown move, ability and item data is plain data |
 | `check-resources.mjs` | Checks that a rebuilt `resources/` is complete |
 | `check-assets.mjs` | For every Pokémon: resolver, model, texture, shiny texture, animations, poser, icon, cry, licence file. Writes `build/reports/assets.md` (Appendix C) and `build/roster.json` (the playable species and forms). `--strict` fails if a species with some assets lacks a required piece; `--expect <roster.json>` fails if a listed species is incomplete; `--no-icons` for a folder made without icons |
+| `export-showdown.mjs` | Unpacks the Showdown data inside the Cobblemon jar and writes it as JSON to `Core/src/main/resources/showdown/` (committed, MIT notice included), so CI needs neither the jar nor the network |
 | `check-docs.mjs` | Checks the licence text, the credits table and every link in README, CREDITS and CONTRIBUTING (`--offline` skips the web) |
 | `check-deploy.mjs` | Checks `deploy/.env.example` against the spec and `docker-compose.yml` |
 

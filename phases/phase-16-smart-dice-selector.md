@@ -21,17 +21,17 @@ Implement the heart of the dice system: given a chance (or several outcomes), ch
 
 ## Tasks
 
-- [ ] Port the reference implementation of Appendix B.3 into Core, with dice notation (6.2): d4, d6, d8, d10, d12, d20, d100, and the tolerance and preferences as settings with defaults.
-- [ ] Support one success chance (B.1) and several outcomes on one roll (B.2).
-- [ ] Return a small result object: die, bands per outcome, the error against the official odds, and a plain-language explanation for the UI.
+- [x] Port the reference implementation of Appendix B.3 into Core, with dice notation (6.2): d4, d6, d8, d10, d12, d20, d100, and the tolerance and preferences as settings with defaults.
+- [x] Support one success chance (B.1) and several outcomes on one roll (B.2).
+- [x] Return a small result object: die, bands per outcome, the error against the official odds, and a plain-language explanation for the UI.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Every example in chapter 6.5 and Appendix B gives exactly the die and bands shown there.
-- [ ] Property tests: the bands always add up to the die's sides; the error never exceeds the tolerance; a possible outcome never ends with zero faces.
-- [ ] Edge odds (0 %, 100 %, 1 %, 99 %, 33.3 %) behave as documented.
+- [x] Every example in chapter 6.5 and Appendix B gives exactly the die and bands shown there.
+- [x] Property tests: the bands always add up to the die's sides; the error never exceeds the tolerance; a possible outcome never ends with zero faces.
+- [x] Edge odds (0 %, 100 %, 1 %, 99 %, 33.3 %) behave as documented.
 
 ## Done when
 

@@ -1,31 +1,67 @@
 # Core — the shared rules library
 
-Plain Java with **no Minecraft code and no Quarkus code**. It holds what the API and the Mod must agree on: dice, game rules and the data importer. The only libraries it may use are Jackson (JSON) and the SLF4J API; the build fails if anything else sneaks in (`checkAllowedDependencies`).
+Plain Java with **no Minecraft code and no Quarkus code**. It holds what the API and the Mod must agree on: dice, game rules and the data importer. The only libraries it may use are Jackson (JSON, with its Jdk8 module for `Optional`) and the SLF4J API; the build fails if anything else sneaks in (`checkAllowedDependencies`).
 
 Spec: [`project_v2.md`](../project_v2.md), chapters 13.3 and 13.4.
 
 ## Status
 
-The first step of the importer exists (phase 10): it **reads and cleans** the raw files. Merging, evolutions, moves, learnsets and the data bundle come in phases 11 to 14, and the rules and the smart-dice selector in phases 15 to 20 (see [`todo.md`](../todo.md)).
+Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) and the **signature moves** of the cards (phase 20). Trainers, game state and the battle engine come next (see [`todo.md`](../todo.md)).
 
 ## The importer (`net.quimmilho.pokednd.core.importer`)
 
-```java
-Raw raw = RawReader.read(Path.of("../resources"));   // the folder made by: node tools/extract.mjs
-raw.pokedex();    // 1,025 rows of pokedex.csv     raw.attacks();   // 929 usable moves (930 rows, 1 skipped)
-raw.items();      // 390 rows of item.csv         raw.learnsets(); // 130,704 rows of pokemon-attacks.csv
-raw.tms();        // 391 rows of tm.csv           raw.species();   // 1,025 species JSON files, by Dex number
-raw.reports();    // per file: rows read, rows kept, every skipped or repaired row with the reason
+Write the data bundle. It needs `resources/` (from `node tools/extract.mjs`) and `build/roster.json` (from `node tools/check-assets.mjs`):
+
+```sh
+./gradlew importBundle      # writes ../build/bundle: species, evolutions, learnsets, moves, abilities, items,
+                            # natures, typechart, roster, derived, reports/*.md and MANIFEST.json
 ```
+
+`importBundle` also reads the hand-written `cards/signature-overrides.json`. From code: `Bundle.build(resources, rosterJson, overridesJson).write(outDir)` (pass `null`, or use the two-argument `build`, for no overrides). The same inputs always give the same files (the hash is in `MANIFEST.json`), and nothing is written if an id dangles.
 
 | Class | What it does |
 |---|---|
-| `Csv` | CSV reader: byte-order mark, quoted fields, CRLF/LF, blank lines, and the header typo `Attcak EVs` |
-| `RawReader` | Reads the five CSVs and the species JSON into typed records. A bad row is skipped and reported; a missing file or column stops the import (`ImportException`) |
-| `Raw` | The records. A blank cell or `—` becomes `Optional.empty()` |
-| `FileReport` | What was skipped or repaired in one file, for the reports of phase 14 |
+| `Csv`, `RawReader`, `Raw`, `FileReport` | Phase 10: read and clean the CSVs and the species JSON. A bad row is skipped and reported; a missing file or column stops the import (`ImportException`) |
+| `Roster` | Reads `build/roster.json`, the playable species and forms |
+| `Forms` | The 63 reviewed `form` texts and their form ids; unknown texts are reported, never guessed |
+| `SpeciesMerger` | CSV and species JSON in one list (the CSV wins), the conflicts, the form table |
+| `EvolutionParser`, `Evolutions` | Evolution text to rules, cross-checked with the species JSON |
+| `Showdown` | The committed Pokémon Showdown snapshot (`src/main/resources/showdown/`, MIT; made by `tools/export-showdown.mjs`) |
+| `Catalog`, `ItemRules` | Moves, abilities, items and TM items, each with an effect class (automatic, scripted, manual), default effects and prices |
+| `Learnsets`, `Derived` | What each form learns; stage badges, weaknesses and resistances, and the signature moves of every card |
+| `Signature` | Phase 20: the four signature moves of every roster species and form (rule plus overrides), and `reports/signature.md` |
+| `Bundle`, `Reports` | Validation, the bundle files, the manifest and the Markdown reports |
 
-The importer tests also read the real `resources/` folder. If it is missing they are skipped, unless `POKEDND_REQUIRE_RESOURCES=true` (CI sets it), when they fail.
+The importer tests also read the real `resources/` and `build/roster.json`. If they are missing the tests are skipped, unless `POKEDND_REQUIRE_RESOURCES=true` (CI sets it), when they fail.
+
+## Rules (`net.quimmilho.pokednd.core.rules`, `net.quimmilho.pokednd.core.dice`)
+
+| Class | What it does |
+|---|---|
+| `TypeChart`, `PokemonType` | The 18-type chart (data in `rules/typechart.json`); dual types multiply; weaknesses and resistances; `with(…)` makes an edited copy |
+| `Nature`, `Stat` | The 25 natures and their 1.1 / 0.9 multipliers |
+| `SmartDice`, `DiceSettings`, `DiceChoice`, `Dice` | The smart-dice rule: the simplest die for any odds, with the faces of each outcome, the error, and a sentence for the screen |
+| `Stats`, `StatBlock`, `Ivs`, `Evs`, `PokemonSettings` | Phase 17: the HP and other-stat formulas (whole-number maths), stat and accuracy stages, IV generation (random or fixed), EV limits |
+| `Growth`, `Experience`, `TrainerXp` | Phase 17: the XP tables of the six growth groups, the XP a defeated Pokémon gives, levelling up, and the trainer XP curve and table |
+
+## Combat (`net.quimmilho.pokednd.core.combat`)
+
+| Class | What it does |
+|---|---|
+| `PowerTable` | Move power to damage dice, as data (`rules/power-table.json`); edit with `withRow(…)`, store as JSON |
+| `HitRoll` | The hit roll: accuracy, stages, bonuses and crit stage become the bands miss / hit / crit and the die; one-hit-KO moves |
+| `Damage` | The damage formula with the dice total, crit, STAB, type, burn and other factors; fixed-damage moves |
+| `MoveProfile` | What the calculators need to know about a move, read from the bundle |
+| `CombatSettings` | `combat.crit.*`, `combat.stab.multiplier`, `combat.accuracy.stageEffects`, `combat.damage.*`, `combat.multihit.damageDice` with their defaults |
+| `CatchCalculator`, `BallTable` | The catch chance from catch rate, HP, status, ball and Handling bonus, as a smart-dice roll; the table of all 48 balls |
+| `FleeCalculator` | The flee chance from Speed, tries and the DEX bonus, as a smart-dice roll |
+
+## Cards (`net.quimmilho.pokednd.core.cards`)
+
+| Class | What it does |
+|---|---|
+| `SignatureMoves` | The rule of chapter 9.3: candidates, score, pick order, level caps by stage |
+| `SignatureOverrides` | Reads `cards/signature-overrides.json`, which fixes the four moves of any card by hand |
 
 ## Build
 
@@ -45,6 +81,10 @@ Publish Core **before** building the API; the API builds against the jar in your
 | Path | What |
 |---|---|
 | `src/main/java/net/quimmilho/pokednd/core/` | The library |
+| `src/main/resources/showdown/` | The committed Showdown snapshot (JSON, with the MIT notice) |
+| `src/main/resources/rules/` | The type chart and the power table as data |
+| `../cards/signature-overrides.json` | Hand-written signature moves (outside Core; read by the importer) |
 | `src/test/java/` | JUnit tests |
+| `src/test/resources/dice/reference.json` | Output of the reference smart-dice JavaScript (Appendix B.3), to compare against |
 | `gradle/libs.versions.toml` | Pinned library versions |
 | `core_version` in `gradle.properties` | The version number that the API and Mod depend on |
