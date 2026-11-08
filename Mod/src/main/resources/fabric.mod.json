@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "pokednd",
+  "version": "${version}",
+  "name": "PokeDnD",
+  "description": "Play Pokémon as a tabletop role-playing game: the Minecraft side of PokeDnD. It shows the game (trainers, Pokémon, battles, the map) while the PokeDnD server and app hold the rules. Fan project, not for sale. Requires Cobblemon assets; art based on Cobblemon models (CC BY-NC 3.0), modified.",
+  "authors": [
+    "QuimMilho"
+  ],
+  "contributors": [
+    {
+      "name": "The Cobblemon Team",
+      "contact": {
+        "homepage": "https://cobblemon.com"
+      }
+    }
+  ],
+  "contact": {},
+  "license": "MPL-2.0",
+  "icon": "assets/pokednd/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "net.quimmilho.mods.pokednd.client.PokeDnDDataGenerator"
+    ],
+    "client": [
+      "net.quimmilho.mods.pokednd.client.PokeDnDClient"
+    ],
+    "main": [
+      "net.quimmilho.mods.pokednd.PokeDnD"
+    ]
+  },
+  "mixins": [
+    "pokednd.mixins.json",
+    {
+      "config": "pokednd.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

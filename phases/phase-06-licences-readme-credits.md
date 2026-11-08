@@ -21,20 +21,29 @@ Put the legal and welcome files in place: our code licence, a README that tells 
 
 ## Tasks
 
-- [ ] Add the root `LICENSE` with the official MPL-2.0 text (fetch it from mozilla.org and compare, do not retype it).
-- [ ] Write `README.md`: what PokeDnD is in plain words, the folders (13.1), how to rebuild `resources/` (`node tools/extract.mjs`), and how to build each project (the commands from Phase 02, Phase 03, Phase 04 and Phase 05).
-- [ ] Write `CREDITS.md` with the **decided** wording: "The Cobblemon Team" with links to cobblemon.com and the assets repository, CC BY-NC 3.0, everything derived is labelled modified; plus the Showdown (MIT), BlueMap (MIT), SkinRestorer (MIT, Lionarius) and Pokémon trademark lines from 21.1, and the fan-content disclaimer.
-- [ ] Define the MPL source-file notice once (in `README.md` or `CONTRIBUTING.md`) so every later phase uses the same text.
-- [ ] Do not invent artist names. If something is unknown, say so.
+- [x] Add the root `LICENSE` with the official MPL-2.0 text (fetch it from mozilla.org and compare, do not retype it).
+- [x] Write `README.md`: what PokeDnD is in plain words, the folders (13.1), how to rebuild `resources/` (`node tools/extract.mjs`), and how to build each project (the commands from Phase 02, Phase 03, Phase 04 and Phase 05).
+- [x] Write `CREDITS.md` with the **decided** wording: "The Cobblemon Team" with links to cobblemon.com and the assets repository, CC BY-NC 3.0, everything derived is labelled modified; plus the Showdown (MIT), BlueMap (MIT), SkinRestorer (MIT, Lionarius) and Pokémon trademark lines from 21.1, and the fan-content disclaimer.
+- [x] Define the MPL source-file notice once (in `README.md` or `CONTRIBUTING.md`) so every later phase uses the same text.
+- [x] Do not invent artist names. If something is unknown, say so.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The `LICENSE` file is byte-identical to the official MPL-2.0 text.
-- [ ] Every row of the table in 21.1 appears in `CREDITS.md` or the README.
-- [ ] Every link in README and CREDITS answers (check them).
-- [ ] A person who only reads the README can run the commands for the projects that exist at this point.
+- [x] The `LICENSE` file is byte-identical to the official MPL-2.0 text.
+- [x] Every row of the table in 21.1 appears in `CREDITS.md` or the README.
+- [x] Every link in README and CREDITS answers (check them).
+- [x] A person who only reads the README can run the commands for the projects that exist at this point.
+
+## What was built
+
+- `LICENSE`: the official MPL-2.0 text from mozilla.org. `Mod/LICENSE` was one character different (`http://` instead of `https://` in the notice line), so it was replaced by the same official text. `.gitattributes` keeps both files free of line-ending conversion (`-text`), so they stay byte-identical.
+- `README.md`: what PokeDnD is, the folders, what to install, how to rebuild `resources/`, and the build commands for Core, API, App and Mod.
+- `CREDITS.md`: the decided wording (The Cobblemon Team, links, CC BY-NC 3.0, "modified"), Showdown, BlueMap, SkinRestorer (Lionarius), Pokémon trademarks, Minecraft, the fan-content disclaimer. It names no individual artists and says so.
+- `CONTRIBUTING.md`: the one MPL source-file notice every later phase must use, plus the art and data rules.
+- `tools/check-docs.mjs`: the tests of this phase as a script (licence identical to mozilla.org, every 21.1 row covered, every link answers, notice present). `--offline` skips the network checks. Phase 77 can reuse it.
+- Test 4 was done by running the README commands as written: `check-resources`, `Core` build + publishToMavenLocal, `API` build, `Mod` build, and `App` `npm ci` / build / test / test:smoke. All passed.
 
 ## Done when
 

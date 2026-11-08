@@ -21,18 +21,18 @@ Make the list of which Pokémon are complete enough to play. The check reproduce
 
 ## Tasks
 
-- [ ] Write `tools/check-assets.mjs` (no dependencies). For every species and form it checks: model, texture, shiny texture, animations, poser, resolver, icon, cry sound, licence file.
-- [ ] Write the report to `build/reports/assets.md` and the roster to `build/roster.json` (generated, ignored). The roster lists the playable species and forms (all required assets present).
-- [ ] Make it fail with a clear message if a species listed in the roster is incomplete.
-- [ ] Add a small test with a fixture folder (a few fake species with missing pieces) so the logic is tested without the real 100 MB.
+- [x] Write `tools/check-assets.mjs` (no dependencies). For every species and form it checks: model, texture, shiny texture, animations, poser, resolver, icon, cry sound, licence file.
+- [x] Write the report to `build/reports/assets.md` and the roster to `build/roster.json` (generated, ignored). The roster lists the playable species and forms (all required assets present).
+- [x] Make it fail with a clear message if a species listed in the roster is incomplete.
+- [x] Add a small test with a fixture folder (a few fake species with missing pieces) so the logic is tested without the real 100 MB.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] On the real `resources/` it reports: 905 species with models, resolvers, icons and textures; 120 species without assets (Appendix C.1); 2 models without animations (Bounsweet, Pyukumuku); and every poser named by a resolver exists (the 277 ported ones count).
-- [ ] The fixture test passes for each kind of missing piece.
-- [ ] Running it twice gives byte-identical output.
+- [x] On the real `resources/` it reports: 905 species with models, resolvers, icons and textures; 120 species without assets (Appendix C.1); 2 models without animations (Bounsweet, Pyukumuku); and every poser named by a resolver exists (the 277 ported ones count).
+- [x] The fixture test passes for each kind of missing piece.
+- [x] Running it twice gives byte-identical output.
 
 ## Done when
 

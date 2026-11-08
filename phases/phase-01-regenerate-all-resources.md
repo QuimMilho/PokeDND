@@ -36,25 +36,25 @@ Rebuild every generated file from the Cobblemon jar with a clean slate, check th
 
 ## Tasks
 
-- [ ] Pre-checks: Node 22.2 or newer, `git` on the PATH, the Cobblemon jar present (its SHA-512 is checked by `extract.mjs`), at least 2 GB of free disk.
-- [ ] Record a snapshot of the current state: file counts per top folder of `resources/` and the row count of each CSV (pokedex 1,025; attack 930; pokemon-attacks 130,704; item 390; tm 391).
-- [ ] Run `node tools/extract.mjs --clean --card-art 1-1025` (all generations: about 1,500 images and about 110 MB, estimated from Generation 1). It is slow, so run it in the background and wait for it to finish.
-- [ ] Run `node tools/effect-coverage.mjs` (writes `build/reports/coverage.md` and `.json`).
-- [ ] Run `node tools/port-posers.mjs --no-fetch --out build/ported-posers-check --report build/reports` and compare the result with `tools/ported-posers/` (same files, same content). This shows the conversion is deterministic without touching the tracked folder.
-- [ ] Write `tools/check-resources.mjs` *(Suggested)*, a smoke test of `resources/` that asserts: the jar SHA-512; the CSV row counts above; 905 model folders each with a `license` file; `icons/_errors.txt` and `card-art/_errors.txt` are empty; every poser named by a resolver exists as a JSON file; the three language files, `data/cobblemon/tms` and `ATTRIBUTION.md` exist; no Aprijuice file anywhere.
-- [ ] Audit `.gitignore`: it must contain the block for generated output (`**/.gradle/`, `**/build/`, `/PokeDnD/run/`, `/Mod/run/`, `.idea/`, `*.iml`, `node_modules/`, `.angular/`, `/App/dist/`, `.env`, `*.log`) plus `/resources`, `/build`, `/vendor`, `/extracted` and the jar. Add anything the rebuild revealed that is missing.
-- [ ] Run `git check-ignore -v` on every generated path, `git ls-files resources build vendor` (must print nothing) and `git status --short --ignored`; no generated file may show as untracked.
-- [ ] Ask the user whether to delete the obsolete `extracted/` folder (about 110 MB, ignored). Delete it only if they say yes.
+- [x] Pre-checks: Node 22.2 or newer, `git` on the PATH, the Cobblemon jar present (its SHA-512 is checked by `extract.mjs`), at least 2 GB of free disk.
+- [x] Record a snapshot of the current state: file counts per top folder of `resources/` and the row count of each CSV (pokedex 1,025; attack 930; pokemon-attacks 130,704; item 390; tm 391).
+- [x] Run `node tools/extract.mjs --clean --card-art 1-1025` (all generations: about 1,500 images and about 110 MB, estimated from Generation 1). It is slow, so run it in the background and wait for it to finish.
+- [x] Run `node tools/effect-coverage.mjs` (writes `build/reports/coverage.md` and `.json`).
+- [x] Run `node tools/port-posers.mjs --no-fetch --out build/ported-posers-check --report build/reports` and compare the result with `tools/ported-posers/` (same files, same content). This shows the conversion is deterministic without touching the tracked folder.
+- [x] Write `tools/check-resources.mjs` *(Suggested)*, a smoke test of `resources/` that asserts: the jar SHA-512; the CSV row counts above; 905 model folders each with a `license` file; `icons/_errors.txt` and `card-art/_errors.txt` are empty; every poser named by a resolver exists as a JSON file; the three language files, `data/cobblemon/tms` and `ATTRIBUTION.md` exist; no Aprijuice file anywhere.
+- [x] Audit `.gitignore`: it must contain the block for generated output (`**/.gradle/`, `**/build/`, `/PokeDnD/run/`, `/Mod/run/`, `.idea/`, `*.iml`, `node_modules/`, `.angular/`, `/App/dist/`, `.env`, `*.log`) plus `/resources`, `/build`, `/vendor`, `/extracted` and the jar. Add anything the rebuild revealed that is missing.
+- [x] Run `git check-ignore -v` on every generated path, `git ls-files resources build vendor` (must print nothing) and `git status --short --ignored`; no generated file may show as untracked.
+- [x] Ask the user whether to delete the obsolete `extracted/` folder (about 110 MB, ignored). Delete it only if they say yes.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] `node tools/check-resources.mjs` exits with 0 and prints each check.
-- [ ] A second run, `node tools/extract.mjs --no-icons --out build/second-run`, produces the same file list and the same SHA-256 hashes as the first run (apart from icons and card art).
-- [ ] The snapshot from before matches the result apart from the card art (more images) and nothing missing.
-- [ ] `git status --short` lists nothing under `resources/`, `build/`, `vendor/`, `PokeDnD/.gradle`, `PokeDnD/build`, `PokeDnD/run` or `PokeDnD/.idea`.
-- [ ] `git ls-files resources build vendor` prints nothing.
+- [x] `node tools/check-resources.mjs` exits with 0 and prints each check.
+- [x] A second run, `node tools/extract.mjs --no-icons --out build/second-run`, produces the same file list and the same SHA-256 hashes as the first run (apart from icons and card art).
+- [x] The snapshot from before matches the result apart from the card art (more images) and nothing missing.
+- [x] `git status --short` lists nothing under `resources/`, `build/`, `vendor/`, `PokeDnD/.gradle`, `PokeDnD/build`, `PokeDnD/run` or `PokeDnD/.idea`.
+- [x] `git ls-files resources build vendor` prints nothing.
 
 ## Done when
 

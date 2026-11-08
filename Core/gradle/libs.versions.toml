@@ -1,0 +1,13 @@
+# Versions pinned on 2026-11-08 (newest stable on Maven Central that day).
+# Core may only depend on Jackson and the SLF4J API (see the checkAllowedDependencies task in build.gradle).
+[versions]
+jackson = "2.23.0"   # Jackson 2.x line, the one Quarkus and the Fabric libraries use (Jackson 3.3.0 exists but was not chosen)
+slf4j = "2.0.20"     # newest stable; 2.1.0-alpha1 is not stable
+junit = "6.1.3"      # JUnit 6 (same @Test API as JUnit 5)
+
+[libraries]
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

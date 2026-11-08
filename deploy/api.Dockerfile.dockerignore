@@ -1,0 +1,7 @@
+# Used only by api.Dockerfile: send just Core and API to the build, and none of their build output.
+*
+!Core
+!API
+**/build
+**/.gradle
+**/.idea

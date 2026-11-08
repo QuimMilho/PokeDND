@@ -1,0 +1,7 @@
+# Used only by app.Dockerfile: send just App and the Caddyfile, without installed packages or build output.
+*
+!App
+!deploy/app.Caddyfile
+**/node_modules
+**/dist
+**/.angular

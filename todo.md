@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 0 of 86 phases done · 0 of 6 stage gates passed
+**Progress:** 9 of 86 phases done · 0 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -23,31 +23,31 @@ Decided on 2026-11-08, so no phase builds them:
 
 ## Stage 0 — Resources and foundations (M0)
 
-- [ ] **Phase 01 — Regenerate all resources** · tools · [prompt](phases/phase-01-regenerate-all-resources.md)
+- [x] **Phase 01 — Regenerate all resources** · tools · [prompt](phases/phase-01-regenerate-all-resources.md)
   Rebuild everything generated (resources/, card art, reports) from scratch, prove it is reproducible, and make sure every generated file is git-ignored.
   *Depends on:* none
-- [ ] **Phase 02 — Mod skeleton clean-up** · Mod · [prompt](phases/phase-02-mod-skeleton-clean-up.md)
+- [x] **Phase 02 — Mod skeleton clean-up** · Mod · [prompt](phases/phase-02-mod-skeleton-clean-up.md)
   Rename the mod folder PokeDnD to Mod and apply the clean-ups from chapter 13.2 (licence, description, authors, entry class names). The mod builds.
   *Depends on:* Phase 01
-- [ ] **Phase 03 — Core library skeleton** · Core · [prompt](phases/phase-03-core-library-skeleton.md)
+- [x] **Phase 03 — Core library skeleton** · Core · [prompt](phases/phase-03-core-library-skeleton.md)
   Create the Core Java library (rules, dice, importer) with Gradle, JUnit and publishToMavenLocal. One class and one test.
   *Depends on:* Phase 01, Phase 02
-- [ ] **Phase 04 — API skeleton** · API · [prompt](phases/phase-04-api-skeleton.md)
+- [x] **Phase 04 — API skeleton** · API · [prompt](phases/phase-04-api-skeleton.md)
   Create the Quarkus API project with a health endpoint and a PostgreSQL profile. It builds and the health check passes in a test.
   *Depends on:* Phase 03
-- [ ] **Phase 05 — App skeleton** · App · [prompt](phases/phase-05-app-skeleton.md)
+- [x] **Phase 05 — App skeleton** · App · [prompt](phases/phase-05-app-skeleton.md)
   Create the Angular PWA with Angular Material and English/Portuguese translation support. It builds, its unit test passes, and it opens.
   *Depends on:* Phase 01
-- [ ] **Phase 06 — Licences, README, credits** · Docs · [prompt](phases/phase-06-licences-readme-credits.md)
+- [x] **Phase 06 — Licences, README, credits** · Docs · [prompt](phases/phase-06-licences-readme-credits.md)
   Add the root LICENSE (MPL-2.0), README with build steps, and CREDITS.md with the decided credit wording and all third-party licences.
   *Depends on:* Phase 01
-- [ ] **Phase 07 — Deploy skeleton** · tools · [prompt](phases/phase-07-deploy-skeleton.md)
+- [x] **Phase 07 — Deploy skeleton** · tools · [prompt](phases/phase-07-deploy-skeleton.md)
   Create deploy/ with docker-compose.yml, a Caddyfile and .env.example for the API, app and database.
   *Depends on:* Phase 04, Phase 05
 - [ ] **Phase 08 — CI pipelines** · tools · [prompt](phases/phase-08-ci-pipelines.md)
   GitHub Actions that build and test tools, Core, API, App and Mod, download the Cobblemon jar from Modrinth, and run the resource check.
   *Depends on:* Phase 01, Phase 02, Phase 03, Phase 04, Phase 05
-- [ ] **Phase 09 — check-assets tool and the roster** · tools · [prompt](phases/phase-09-check-assets-tool-and-the-roster.md)
+- [x] **Phase 09 — check-assets tool and the roster** · tools · [prompt](phases/phase-09-check-assets-tool-and-the-roster.md)
   Write tools/check-assets: for every species and form report model, texture, shiny texture, animations, poser, resolver, icon, cry and licence file, and write the roster of playable species.
   *Depends on:* Phase 01
 
@@ -55,7 +55,7 @@ Decided on 2026-11-08, so no phase builds them:
 
 ## Stage 1 — Data and cards (M1)
 
-- [ ] **Phase 10 — Importer: read and clean** · Core · [prompt](phases/phase-10-importer-read-and-clean.md)
+- [x] **Phase 10 — Importer: read and clean** · Core · [prompt](phases/phase-10-importer-read-and-clean.md)
   Core reads the four CSVs, tm.csv and the species JSON and cleans them (byte-order mark, header typos, numbers, malformed rows).
   *Depends on:* Phase 03, Phase 01
 - [ ] **Phase 11 — Importer: merge species, map forms** · Core · [prompt](phases/phase-11-importer-merge-species-map-forms.md)

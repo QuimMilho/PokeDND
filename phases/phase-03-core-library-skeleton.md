@@ -21,21 +21,21 @@ Create the shared Java library that the API and the mod will both use. It has no
 
 ## Tasks
 
-- [ ] Create `Core/` as its own Gradle build (Java 25, Gradle 9.8.2 like the mod). Copy the wrapper files (`gradlew`, `gradlew.bat`, `gradle/wrapper/*`) from `Mod/` (made in Phase 02) and use the same Java 25 toolchain. Group `net.quimmilho.pokednd`, artifact `core`.
-- [ ] Pin versions in a version catalog (`gradle/libs.versions.toml`): Jackson, SLF4J API, JUnit 5. Use the newest stable versions at the time and record them.
-- [ ] Add one small class (for example `CoreVersion`) and one JUnit test, so the pipeline is real.
-- [ ] Configure `maven-publish` so `./gradlew publishToMavenLocal` installs the jar.
-- [ ] Add a build check that fails if Core depends on anything other than Jackson and the SLF4J API *(Suggested)*.
-- [ ] Add the standard MPL-2.0 source-file notice to the sample files.
+- [x] Create `Core/` as its own Gradle build (Java 25, Gradle 9.8.2 like the mod). Copy the wrapper files (`gradlew`, `gradlew.bat`, `gradle/wrapper/*`) from `Mod/` (made in Phase 02) and use the same Java 25 toolchain. Group `net.quimmilho.pokednd`, artifact `core`.
+- [x] Pin versions in a version catalog (`gradle/libs.versions.toml`): Jackson, SLF4J API, JUnit 5. Use the newest stable versions at the time and record them.
+- [x] Add one small class (for example `CoreVersion`) and one JUnit test, so the pipeline is real.
+- [x] Configure `maven-publish` so `./gradlew publishToMavenLocal` installs the jar.
+- [x] Add a build check that fails if Core depends on anything other than Jackson and the SLF4J API *(Suggested)*.
+- [x] Add the standard MPL-2.0 source-file notice to the sample files.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] `./gradlew build` passes in `Core/`.
-- [ ] `./gradlew publishToMavenLocal` puts `net/quimmilho/pokednd/core` in the local Maven repository.
-- [ ] The dependency check passes, and fails when a forbidden dependency is added (try it once, then undo).
-- [ ] `git status --short` shows no `Core/build` or `Core/.gradle`.
+- [x] `./gradlew build` passes in `Core/`.
+- [x] `./gradlew publishToMavenLocal` puts `net/quimmilho/pokednd/core` in the local Maven repository.
+- [x] The dependency check passes, and fails when a forbidden dependency is added (try it once, then undo).
+- [x] `git status --short` shows no `Core/build` or `Core/.gradle`.
 
 ## Done when
 

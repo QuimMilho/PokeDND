@@ -1,0 +1,33 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.lang-switch a[aria-current='true'] {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+// Phone first: the card fills the width with a small gutter.
+.home {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.home-card {
+  width: 100%;
+  max-width: 560px;
+}
+
+// Larger windows: more room around the card.
+@media (min-width: 900px) {
+  .home {
+    padding: 48px 24px;
+  }
+}

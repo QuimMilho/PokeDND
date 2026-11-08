@@ -1,0 +1,14 @@
+# deploy — your real settings and local data never go into git.
+
+# Secrets: the real settings file. The example .env.example stays tracked.
+.env
+.env.*
+!.env.example
+
+# Local copies of backups and dumps
+*.sql
+*.dump
+backups/
+
+# Logs
+*.log

@@ -21,20 +21,20 @@ Describe how the whole system is run on a server with Docker Compose, with safe 
 
 ## Tasks
 
-- [ ] Create `deploy/docker-compose.yml` with the services from 13.5: `caddy`, `app`, `api`, `db` (PostgreSQL by default, with profiles for MySQL, MariaDB and MongoDB), `mailpit` for development, and the optional `minecraft` profile.
-- [ ] Write the `Caddyfile` (automatic HTTPS, proxy to the API, static files for the app, WebSocket pass-through).
-- [ ] Write `deploy/.env.example` with every variable in the 13.5 table and a comment each. No real secrets.
-- [ ] Write `Dockerfile`s for the API and the app (they can be minimal now; later phases refine them).
-- [ ] Make sure `deploy/.env` is ignored and `.env.example` is tracked.
+- [x] Create `deploy/docker-compose.yml` with the services from 13.5: `caddy`, `app`, `api`, `db` (PostgreSQL by default, with profiles for MySQL, MariaDB and MongoDB), `mailpit` for development, and the optional `minecraft` profile.
+- [x] Write the `Caddyfile` (automatic HTTPS, proxy to the API, static files for the app, WebSocket pass-through).
+- [x] Write `deploy/.env.example` with every variable in the 13.5 table and a comment each. No real secrets.
+- [x] Write `Dockerfile`s for the API and the app (they can be minimal now; later phases refine them).
+- [x] Make sure `deploy/.env` is ignored and `.env.example` is tracked.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] `docker compose -f deploy/docker-compose.yml config` succeeds with `.env.example` copied to `.env` (if Docker is missing, validate the YAML with a linter and say so).
-- [ ] Each of the images builds (`docker compose build`), if Docker is available.
-- [ ] `git check-ignore deploy/.env` says ignored; `git check-ignore deploy/.env.example` says not ignored.
-- [ ] `.env.example` contains no real password, token or key.
+- [x] `docker compose -f deploy/docker-compose.yml config` succeeds with `.env.example` copied to `.env` (if Docker is missing, validate the YAML with a linter and say so).
+- [x] Each of the images builds (`docker compose build`), if Docker is available.
+- [x] `git check-ignore deploy/.env` says ignored; `git check-ignore deploy/.env.example` says not ignored.
+- [x] `.env.example` contains no real password, token or key.
 
 ## Done when
 

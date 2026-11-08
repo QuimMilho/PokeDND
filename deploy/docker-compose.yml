@@ -1,0 +1,171 @@
+# PokeDnD — run the whole system on one server with Docker Compose (spec chapter 13.5).
+#
+#   cp deploy/.env.example deploy/.env      # then fill in the secrets
+#   docker compose -f deploy/docker-compose.yml up -d
+#
+# Which database runs is chosen with COMPOSE_PROFILES in .env (default: postgres).
+# Only PostgreSQL has an API image today; the others arrive in phase 34.
+#
+# Profiles:  postgres (default) | mysql | mariadb | mongo   -> the database
+#            dev                                            -> mailpit, a fake mail server
+#            minecraft                                      -> a test Minecraft server with the mod
+
+name: pokednd
+
+services:
+  # Reverse proxy with automatic HTTPS. HTTPS is required: the PWA, the camera scanner and Web Push need it.
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      POKEDND_DOMAIN: ${POKEDND_DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+      - api
+
+  # The built Angular app (static files, English and Portuguese). Plain HTTP inside the network.
+  app:
+    image: ${POKEDND_APP_IMAGE:-ghcr.io/owner/pokednd-app:latest}
+    build:
+      context: ..
+      dockerfile: deploy/app.Dockerfile
+    restart: unless-stopped
+
+  # The Quarkus service. One image per database flavour (spec 16.3).
+  api:
+    image: ${POKEDND_API_IMAGE:-ghcr.io/owner/pokednd-api:latest-postgres}
+    build:
+      context: ..
+      dockerfile: deploy/api.Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POKEDND_DATA_DIR: /data
+    volumes:
+      - api_data:/data
+    # Wait for whichever database profile is switched on (the others are skipped).
+    depends_on:
+      db:
+        condition: service_healthy
+        required: false
+      db-mysql:
+        condition: service_healthy
+        required: false
+      db-mariadb:
+        condition: service_healthy
+        required: false
+      db-mongo:
+        condition: service_healthy
+        required: false
+
+  # --- Databases: switch exactly one on with COMPOSE_PROFILES ---
+
+  db: # PostgreSQL (default)
+    profiles: [postgres]
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-pokednd}
+      POSTGRES_USER: ${DB_USER:-pokednd}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  db-mysql:
+    profiles: [mysql]
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-pokednd}
+      MYSQL_USER: ${DB_USER:-pokednd}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  db-mariadb:
+    profiles: [mariadb]
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-pokednd}
+      MARIADB_USER: ${DB_USER:-pokednd}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  db-mongo:
+    profiles: [mongo]
+    image: mongo:8
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME:-pokednd}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER:-pokednd}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in deploy/.env}
+    volumes:
+      - db_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand(\"ping\").ok' | grep -q 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # --- Development only ---
+
+  # A fake mail server: sign-up and password-reset mails show up in its web page, nothing leaves the machine.
+  mailpit:
+    profiles: [dev]
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025" # web page (this machine only)
+
+  # --- Optional: a test Minecraft server (normally the Minecraft server runs on its own machine) ---
+
+  minecraft:
+    profiles: [minecraft]
+    image: itzg/minecraft-server:latest
+    restart: unless-stopped
+    environment:
+      EULA: ${MINECRAFT_EULA:-FALSE} # set to TRUE in .env to accept https://aka.ms/MinecraftEULA
+      TYPE: FABRIC
+      VERSION: "1.21.1"
+      MEMORY: ${MINECRAFT_MEMORY:-4G}
+      MODRINTH_PROJECTS: fabric-api,bluemap,skinrestorer
+    ports:
+      - "25565:25565"
+      - "127.0.0.1:8100:8100" # BlueMap web page (this machine only)
+    volumes:
+      - mc_data:/data
+      - ../Mod/build/libs:/mods:ro # the PokeDnD jar built by Mod/ (./gradlew build)
+
+volumes:
+  caddy_data:
+  caddy_config:
+  api_data:
+  db_data:
+  mc_data:

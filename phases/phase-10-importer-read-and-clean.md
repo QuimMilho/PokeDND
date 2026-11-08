@@ -21,18 +21,18 @@ Start the importer in Core: read the raw files in `resources/` into clean in-mem
 
 ## Tasks
 
-- [ ] Add a CSV reader to Core (no new dependencies). Handle the byte-order mark, quoted fields and the known header typo (`Attcak EVs`).
-- [ ] Read `pokedex.csv` (split the combined `Type` text into two, turn `—` into "none"), `attack.csv` (skip the one blank row), `item.csv`, `pokemon-attacks.csv` and `tm.csv` into typed records.
-- [ ] Read the species JSON files (`data/cobblemon/species/**`) into records, indexed by Dex number.
-- [ ] Every file gets a small report of what was skipped and why (kept for the final reports phase).
+- [x] Add a CSV reader to Core (no new dependencies). Handle the byte-order mark, quoted fields and the known header typo (`Attcak EVs`).
+- [x] Read `pokedex.csv` (split the combined `Type` text into two and check it against the `Type I` / `Type II` columns; a blank or `—` becomes "none"), `attack.csv` (skip the one row with no stats, `nihillight`; accuracy `—` means "never misses"), `item.csv`, `pokemon-attacks.csv` and `tm.csv` into typed records.
+- [x] Read the species JSON files (`data/cobblemon/species/**`) into records, indexed by Dex number.
+- [x] Every file gets a small report of what was skipped and why (kept for the final reports phase).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Row counts: pokedex 1,025; attack 930 usable moves; pokemon-attacks 130,704; item 390; tm 391; species JSON 1,025.
-- [ ] The known quirks are covered by unit tests with small fixtures (BOM, typo header, blank row, `—`).
-- [ ] Reading twice gives equal results.
+- [x] Row counts: pokedex 1,025; attack 930 rows of which **929 usable** (one is skipped and reported); pokemon-attacks 130,704; item 390; tm 391; species JSON 1,025. *(Changed in phase 10: this said "930 usable moves", but `attack.csv` has 930 rows and one has no stats, as chapter 19.1 says.)*
+- [x] The known quirks are covered by unit tests with small fixtures (BOM, typo header, blank row, `—`).
+- [x] Reading twice gives equal results.
 
 ## Done when
 

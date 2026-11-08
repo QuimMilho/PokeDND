@@ -1,0 +1,98 @@
+# Tools, generated resources, documents and the deploy skeleton (spec 13.6, phases 01, 06, 07, 08).
+# Runs only when something these checks look at has changed.
+name: tools
+
+on:
+  push:
+    paths:
+      - "tools/**"
+      - "deploy/**"
+      - "README.md"
+      - "CREDITS.md"
+      - "CONTRIBUTING.md"
+      - "LICENSE"
+      - "project_v2.md"
+      - ".github/workflows/tools.yml"
+  pull_request:
+    paths:
+      - "tools/**"
+      - "deploy/**"
+      - "README.md"
+      - "CREDITS.md"
+      - "CONTRIBUTING.md"
+      - "LICENSE"
+      - "project_v2.md"
+      - ".github/workflows/tools.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tools-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  resources:
+    name: Rebuild resources/ and check them
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      # No stored copy of the Cobblemon jar: extract.mjs downloads it from the URL in tools/extract.config.json
+      # and stops if its SHA-512 is not the expected one.
+      - name: Extract resources (without icons, the slowest step; icons are checked locally)
+        run: node tools/extract.mjs --no-icons
+      - name: Check resources
+        run: node tools/check-resources.mjs --no-icons
+      - name: Asset check and roster (report and roster.json go to build/)
+        run: node tools/check-assets.mjs --no-icons
+      - name: Tests of the tools (fixtures; the real-resources tests need icons and skip themselves here)
+        run: node --test "tools/test/*.test.mjs"
+      - name: Keep the asset report and the roster
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: asset-report
+          path: |
+            build/reports/assets.md
+            build/roster.json
+          if-no-files-found: error
+
+  docs:
+    name: Licence, credits and links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Check documents (web links are checked too)
+        run: node tools/check-docs.mjs
+
+  deploy:
+    name: Deploy files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Check .env.example against the spec
+        run: node tools/check-deploy.mjs
+      - name: Validate docker-compose.yml with every database profile
+        run: |
+          cp deploy/.env.example deploy/.env
+          for profile in postgres mysql mariadb mongo; do
+            COMPOSE_PROFILES="$profile,dev,minecraft" docker compose -f deploy/docker-compose.yml config --quiet
+          done
+      # The file goes in through stdin, not a bind mount: mounts hang on some Docker Desktop set-ups, so the
+      # same command runs everywhere. "timeout" makes a stuck Docker fail the step instead of waiting for hours.
+      - name: Validate the Caddyfiles
+        run: |
+          timeout 120 docker run --rm -i caddy:2 caddy validate --config /dev/stdin --adapter caddyfile < deploy/Caddyfile
+          timeout 120 docker run --rm -i caddy:2 caddy validate --config /dev/stdin --adapter caddyfile < deploy/app.Caddyfile

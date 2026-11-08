@@ -1,0 +1,47 @@
+# PokeDnD edge proxy (spec chapter 13.5).
+#
+# Caddy gets and renews the HTTPS certificate by itself for the domain in POKEDND_DOMAIN.
+# With the default "localhost" it uses its own local certificate, so your browser will warn once.
+# Ports 80 and 443 must be reachable from the internet for a real domain.
+#
+#   /api/*  /ws/*   -> the API (REST and WebSocket; Caddy passes WebSocket upgrades through by itself)
+#   /q/health*      -> the API health check (liveness and readiness)
+#   everything else -> the app (static files)
+#   /q/metrics is NOT published. Scrape it from inside the Docker network (api:8080/q/metrics).
+
+{$POKEDND_DOMAIN:localhost} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		# The card scanner needs the camera; nothing else needs these.
+		Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+		-Server
+	}
+
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+
+	handle /ws/* {
+		# Long-lived connections: keep them open when the config reloads.
+		reverse_proxy api:8080 {
+			stream_close_delay 5m
+		}
+	}
+
+	handle /q/health* {
+		reverse_proxy api:8080
+	}
+
+	handle {
+		reverse_proxy app:80
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

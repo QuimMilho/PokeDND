@@ -1,0 +1,35 @@
+# Inside the app image: serves the built Angular app (plain HTTP; the edge Caddy adds HTTPS).
+# The build has one folder per language: /en/ and /pt/.
+
+:80 {
+	root * /srv
+	encode zstd gzip
+
+	# "/" -> the language the browser asks for (Portuguese, otherwise English)
+	@pt header_regexp Accept-Language ^pt
+	handle / {
+		redir @pt /pt/ 302
+		redir /en/ 302
+	}
+
+	# Files that never change (the build hashes their names) can be cached for a year.
+	@hashed path_regexp ^/(en|pt)/.+-[A-Z0-9]{8}\.(js|css)$
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+
+	# The service worker files and index pages must always be re-checked.
+	@volatile path_regexp ^/(en|pt)/(ngsw\.json|ngsw-worker\.js|safety-worker\.js|worker-basic\.min\.js|index\.html|manifest\.webmanifest)$
+	header @volatile Cache-Control "no-cache"
+
+	# Angular routes live in the browser: unknown paths fall back to that language's index.html.
+	handle /pt/* {
+		try_files {path} /pt/index.html
+		file_server
+	}
+	handle /en/* {
+		try_files {path} /en/index.html
+		file_server
+	}
+	handle {
+		redir /en/ 302
+	}
+}

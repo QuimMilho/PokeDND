@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <span class="app-name" i18n="@@appName">PokeDnD</span>
+  <span class="spacer"></span>
+  <nav class="lang-switch" aria-label="Language" i18n-aria-label="@@languageLabel">
+    <a mat-button href="/en/" [attr.aria-current]="language === 'en' ? 'true' : null">EN</a>
+    <a mat-button href="/pt/" [attr.aria-current]="language === 'pt' ? 'true' : null">PT</a>
+  </nav>
+</mat-toolbar>
+
+<main class="home">
+  <mat-card appearance="outlined" class="home-card">
+    <mat-card-header>
+      <mat-card-title i18n="@@homeTitle">Welcome to PokeDnD</mat-card-title>
+      <mat-card-subtitle i18n="@@homeSubtitle">Pokémon adventures with dice, played with friends.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p i18n="@@homePlaceholder">This is a placeholder home screen. The real app is coming soon.</p>
+    </mat-card-content>
+  </mat-card>
+</main>
+
+<router-outlet />

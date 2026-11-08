@@ -1,0 +1,44 @@
+# App: build (both languages), unit tests, smoke test (spec 13.6).
+# Later phases add lint and the Playwright end-to-end tests.
+name: app
+
+on:
+  push:
+    paths:
+      - "App/**"
+      - ".github/workflows/app.yml"
+  pull_request:
+    paths:
+      - "App/**"
+      - ".github/workflows/app.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app:
+    name: Build and test the app
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: App
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: App/package-lock.json
+      - run: npm ci
+      - name: Build (production, English and Portuguese)
+        run: npm run build
+      - name: Unit tests (headless Chrome, which the runner has)
+        run: npm test
+      - name: Smoke test of the built app
+        run: npm run test:smoke

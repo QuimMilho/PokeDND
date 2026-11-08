@@ -1,0 +1,32 @@
+# Mod — files that are generated or personal. (The repository root .gitignore covers these too.)
+
+# Gradle and Fabric Loom
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+remappedSrc/
+
+# Minecraft development runs (worlds, logs, options, crash reports)
+run/
+runs/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+eclipse/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+hs_err_pid*.log

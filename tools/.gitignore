@@ -1,0 +1,20 @@
+# tools — files that are generated or personal. (The repository root .gitignore covers the big ones.)
+# NOT ignored on purpose: ported-posers/ (can be fixed by hand and is tracked) and extract.config.json.
+
+# Downloaded Cobblemon jars and their working copies
+*.jar
+.cache/
+tmp/
+
+# Dependencies, if a script ever gets any
+node_modules/
+
+# Logs and reports written next to the scripts
+*.log
+npm-debug.log*
+
+# OS and IDEs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

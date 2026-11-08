@@ -1,0 +1,54 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+plugins {
+    id 'java'
+    id 'io.quarkus' version "${quarkusPluginVersion}"
+}
+
+group = 'net.quimmilho.pokednd'
+version = project.api_version
+
+repositories {
+    // Core is published to Maven local by Core/: ./gradlew publishToMavenLocal (chapter 13.4)
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+
+    // The shared rules library
+    implementation "net.quimmilho.pokednd:core:${core_version}"
+
+    // REST with Jackson, health (/q/health), metrics (/q/metrics), scheduler. WebSockets Next comes in a later phase.
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+    implementation 'io.quarkus:quarkus-scheduler'
+
+    // Database: PostgreSQL by default (the other flavours come in phase 34)
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+
+    testImplementation 'io.quarkus:quarkus-junit'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+def targetJavaVersion = 25
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(targetJavaVersion)
+    options.compilerArgs << '-parameters'
+}
+
+java {
+    // Always build with a Java 25 toolchain, whatever JDK started Gradle (same as Core and Mod).
+    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+}
+
+test {
+    systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
+    useJUnitPlatform()
+}

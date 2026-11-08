@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en" trgLang="pt">
+  <file id="ngi18n" original="ng.template">
+    <unit id="appName">
+      <segment>
+        <source>PokeDnD</source>
+        <target>PokeDnD</target>
+      </segment>
+    </unit>
+    <unit id="languageLabel">
+      <segment>
+        <source>Language</source>
+        <target>Idioma</target>
+      </segment>
+    </unit>
+    <unit id="homeTitle">
+      <segment>
+        <source>Welcome to PokeDnD</source>
+        <target>Bem-vindo ao PokeDnD</target>
+      </segment>
+    </unit>
+    <unit id="homeSubtitle">
+      <segment>
+        <source>Pokémon adventures with dice, played with friends.</source>
+        <target>Aventuras Pokémon com dados, jogadas com amigos.</target>
+      </segment>
+    </unit>
+    <unit id="homePlaceholder">
+      <segment>
+        <source>This is a placeholder home screen. The real app is coming soon.</source>
+        <target>Este é um ecrã inicial provisório. A aplicação a sério chega em breve.</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

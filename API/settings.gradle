@@ -1,0 +1,8 @@
+pluginManagement {
+    // The Quarkus Gradle plugin version is set in gradle.properties (quarkusPluginVersion), so it is pinned in one place.
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'api'

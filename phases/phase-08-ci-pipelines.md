@@ -25,18 +25,18 @@ Make a clean machine prove, on every push, that the whole repository builds and 
 
 ## Tasks
 
-- [ ] Create `.github/workflows/`: one workflow per project (tools, core, api, app, mod) with path filters, so a change in one project does not rebuild the others.
-- [ ] The tools workflow downloads the jar from the URL in `tools/extract.config.json`, verifies its SHA-512 (extract does this), runs `node tools/extract.mjs --no-icons` and `node tools/check-resources.mjs`.
-- [ ] Pin every action to a full version or commit and use caches for Gradle and npm.
-- [ ] Core publishes to Maven local before the API and the mod build (13.4).
-- [ ] Keep secrets out of the files; document which repository secrets will be needed later.
+- [x] Create `.github/workflows/`: one workflow per project (tools, core, api, app, mod) with path filters, so a change in one project does not rebuild the others.
+- [x] The tools workflow downloads the jar from the URL in `tools/extract.config.json`, verifies its SHA-512 (extract does this), runs `node tools/extract.mjs --no-icons` and `node tools/check-resources.mjs`.
+- [x] Pin every action to a full version or commit and use caches for Gradle and npm.
+- [x] Core publishes to Maven local before the API and the mod build (13.4).
+- [x] Keep secrets out of the files; document which repository secrets will be needed later.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Every workflow file is valid (run `actionlint` if it can be installed, otherwise a YAML parser).
-- [ ] Every command in every workflow runs successfully on this machine, in the same order.
+- [x] Every workflow file is valid (run `actionlint` if it can be installed, otherwise a YAML parser).
+- [x] Every command in every workflow runs successfully on this machine, in the same order.
 - [ ] A push to a throw-away branch runs all workflows green (ask the user to push, or to confirm there is a GitHub remote; if there is none, say so).
 
 ## Done when

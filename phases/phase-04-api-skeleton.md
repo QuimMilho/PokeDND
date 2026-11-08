@@ -25,20 +25,20 @@ Create the API project so that later phases can add features to a working servic
 
 ## Tasks
 
-- [ ] Check whether Docker is available on this machine (Testcontainers and Dev Services need it). If not, tell the user and agree how tests will run.
-- [ ] Create `API/` as a Gradle project with Quarkus (the newest stable version at the time; record it), with the same wrapper files and Java 25 toolchain as `Core/`. Extensions: REST with Jackson, health, metrics, scheduler. WebSockets Next comes in a later phase.
-- [ ] Declare the dependency on `net.quimmilho.pokednd:core` from Maven local.
-- [ ] Add the PostgreSQL profile in `application.properties` (the connection settings are read from environment variables, see 13.5).
-- [ ] Add a `@QuarkusTest` that checks `/q/health` answers UP, and one that checks `/q/metrics` answers.
-- [ ] Add `API/` build output to `.gitignore` if it is not covered.
+- [x] Check whether Docker is available on this machine (Testcontainers and Dev Services need it). If not, tell the user and agree how tests will run.
+- [x] Create `API/` as a Gradle project with Quarkus (the newest stable version at the time; record it), with the same wrapper files and Java 25 toolchain as `Core/`. Extensions: REST with Jackson, health, metrics, scheduler. WebSockets Next comes in a later phase.
+- [x] Declare the dependency on `net.quimmilho.pokednd:core` from Maven local.
+- [x] Add the PostgreSQL profile in `application.properties` (the connection settings are read from environment variables, see 13.5).
+- [x] Add a `@QuarkusTest` that checks `/q/health` answers UP, and one that checks `/q/metrics` answers.
+- [x] Add `API/` build output to `.gitignore` if it is not covered.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] `./gradlew build` passes in `API/` including the two tests.
-- [ ] Start the API (`./gradlew quarkusDev` or the built jar) and `curl http://localhost:8080/q/health` returns UP; stop it afterwards.
-- [ ] The API jar contains the Core classes (or resolves them), proven by a test that calls the sample Core class.
+- [x] `./gradlew build` passes in `API/` including the two tests.
+- [x] Start the API (`./gradlew quarkusDev` or the built jar) and `curl http://localhost:8080/q/health` returns UP; stop it afterwards.
+- [x] The API jar contains the Core classes (or resolves them), proven by a test that calls the sample Core class.
 
 ## Done when
 

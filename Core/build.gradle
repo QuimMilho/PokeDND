@@ -1,0 +1,95 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group = 'net.quimmilho.pokednd'
+version = project.core_version
+
+base {
+    archivesName = 'core'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // The only two things Core may depend on (chapter 13.4): a JSON library and the SLF4J API.
+    api libs.jackson.databind
+    api libs.slf4j.api
+
+    testImplementation platform(libs.junit.bom)
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly libs.junit.platform.launcher
+}
+
+def targetJavaVersion = 25
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release.set(targetJavaVersion)
+}
+
+java {
+    // Always build with a Java 25 toolchain, whatever JDK started Gradle (same as the Mod).
+    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    withSourcesJar()
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Fails the build if Core depends on anything other than Jackson and the SLF4J API (Suggested).
+// Checks what the shipped jar needs (compile and runtime classpaths); test libraries are not checked.
+def allowedGroupPrefixes = ['com.fasterxml.jackson', 'org.slf4j']
+tasks.register('checkAllowedDependencies') {
+    group = 'verification'
+    description = 'Fails if Core depends on anything other than Jackson and the SLF4J API.'
+    doLast {
+        // Resolved when the task runs, not while Gradle configures the build.
+        def resolved = [configurations.compileClasspath, configurations.runtimeClasspath].collectMany { cfg ->
+            cfg.incoming.resolutionResult.allComponents
+                .findAll { !(it.id instanceof ProjectComponentIdentifier) }  // skip Core itself
+                .collect { it.moduleVersion }
+        }.findAll { it != null }
+        def forbidden = resolved.findAll { mv ->
+            !allowedGroupPrefixes.any { mv.group.startsWith(it) }
+        }.collect { "${it.group}:${it.name}:${it.version}" }.unique().sort()
+        if (!forbidden.isEmpty()) {
+            throw new GradleException(
+                "Core may only depend on Jackson and the SLF4J API, but it also depends on:\n  - " +
+                forbidden.join('\n  - '))
+        }
+        logger.lifecycle('Core dependencies OK: only Jackson and the SLF4J API.')
+    }
+}
+tasks.named('check') {
+    dependsOn 'checkAllowedDependencies'
+}
+
+publishing {
+    publications {
+        create('mavenJava', MavenPublication) {
+            artifactId = 'core'
+            from components.java
+        }
+    }
+}
+
+tasks.named('test') {
+    systemProperty 'core.version', project.version.toString()
+
+    // The importer tests also read the real resources/ folder (rebuilt with: node tools/extract.mjs). When it is missing
+    // they are skipped, unless POKEDND_REQUIRE_RESOURCES=true (CI sets it), in which case they fail instead.
+    systemProperty 'pokednd.resources', file('../resources').absolutePath
+    environment 'POKEDND_REQUIRE_RESOURCES', System.getenv('POKEDND_REQUIRE_RESOURCES') ?: 'false'
+    // Rerun when the raw inputs change. Only the files the importer reads are tracked, not the 100 MB of art.
+    inputs.files(fileTree(dir: '../resources', includes: ['*.csv', 'data/cobblemon/species/**/*.json']))
+            .withPropertyName('rawResources').withPathSensitivity(PathSensitivity.RELATIVE).optional()
+}

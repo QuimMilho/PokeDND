@@ -27,24 +27,24 @@ Turn the Fabric template into the real mod project: right folder name, right lic
 
 ## Tasks
 
-- [ ] Close any IDE that has the folder open, then rename `PokeDnD/` to `Mod/` (a normal rename; `git mv` is not possible because nothing is tracked yet).
-- [ ] Bootstrap Gradle. The folder has **no `gradlew`, `gradlew.bat` or `gradle-wrapper.jar`** (only `gradle-wrapper.properties`, pointing at Gradle 9.8.2) and no `gradle` command is on the PATH. Download the distribution named in that file into a temporary folder outside the repository, run `gradle wrapper` once in `Mod/`, and keep the wrapper files (they are tracked, not ignored). IntelliJ can also generate them.
-- [ ] Check the JDK: the machine has JDK 27 on the PATH, but the spec needs Java 25 (Minecraft 26.3). Use a Gradle toolchain for Java 25 (it can download it) or install JDK 25, and write down which.
-- [ ] In `fabric.mod.json`: set `license` to `MPL-2.0`, write a real `description`, fill `authors` and `credits` (the credit wording is decided in 21.2).
-- [ ] Remove the unused `yarn_mappings` line from `gradle.properties` (Minecraft 26.x needs no mappings).
-- [ ] Replace `LICENSE.txt` with the MPL-2.0 text (Phase 06 adds the root `LICENSE`; copy the same text).
-- [ ] Rename the entry classes `Core`, `CoreClient`, `CoreDataGenerator` to `PokeDnD`, `PokeDnDClient`, `PokeDnDDataGenerator` *(Suggested)* so they do not clash with the new Core library, and update `fabric.mod.json` and the mixin files.
-- [ ] Update every path in the repository that still says `PokeDnD/` (docs, `.gitignore` already covers both names).
+- [x] Close any IDE that has the folder open, then rename `PokeDnD/` to `Mod/` (a normal rename; `git mv` is not possible because nothing is tracked yet).
+- [x] Bootstrap Gradle. The folder has **no `gradlew`, `gradlew.bat` or `gradle-wrapper.jar`** (only `gradle-wrapper.properties`, pointing at Gradle 9.8.2) and no `gradle` command is on the PATH. Download the distribution named in that file into a temporary folder outside the repository, run `gradle wrapper` once in `Mod/`, and keep the wrapper files (they are tracked, not ignored). IntelliJ can also generate them.
+- [x] Check the JDK: the machine has JDK 27 on the PATH, but the spec needs Java 25 (Minecraft 26.3). Use a Gradle toolchain for Java 25 (it can download it) or install JDK 25, and write down which.
+- [x] In `fabric.mod.json`: set `license` to `MPL-2.0`, write a real `description`, fill `authors` and `credits` (the credit wording is decided in 21.2).
+- [x] Remove the unused `yarn_mappings` line from `gradle.properties` (Minecraft 26.x needs no mappings).
+- [x] Replace `LICENSE.txt` with the MPL-2.0 text (Phase 06 adds the root `LICENSE`; copy the same text).
+- [x] Rename the entry classes `Core`, `CoreClient`, `CoreDataGenerator` to `PokeDnD`, `PokeDnDClient`, `PokeDnDDataGenerator` *(Suggested)* so they do not clash with the new Core library, and update `fabric.mod.json` and the mixin files.
+- [x] Update every path in the repository that still says `PokeDnD/` (docs, `.gitignore` already covers both names).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] `./gradlew --version` works in `Mod/` and reports Gradle 9.8.2 and Java 25; the wrapper files are not ignored by git (`git check-ignore` prints nothing for them).
-- [ ] `./gradlew build` in `Mod/` finishes with BUILD SUCCESSFUL.
-- [ ] The built jar contains `fabric.mod.json` with license MPL-2.0 and the new entrypoint class names (check with a zip listing).
-- [ ] `gradle.properties` has no `yarn_mappings`; no source file still refers to the old class names (search).
-- [ ] `git status --short` shows `Mod/src` and the Gradle wrapper as untracked, and nothing under `Mod/build`, `Mod/.gradle`, `Mod/run`, `Mod/.idea`.
+- [x] `./gradlew --version` works in `Mod/` and reports Gradle 9.8.2 and Java 25; the wrapper files are not ignored by git (`git check-ignore` prints nothing for them).
+- [x] `./gradlew build` in `Mod/` finishes with BUILD SUCCESSFUL.
+- [x] The built jar contains `fabric.mod.json` with license MPL-2.0 and the new entrypoint class names (check with a zip listing).
+- [x] `gradle.properties` has no `yarn_mappings`; no source file still refers to the old class names (search).
+- [x] `git status --short` shows `Mod/src` and the Gradle wrapper as untracked, and nothing under `Mod/build`, `Mod/.gradle`, `Mod/run`, `Mod/.idea`.
 
 ## Done when
 
