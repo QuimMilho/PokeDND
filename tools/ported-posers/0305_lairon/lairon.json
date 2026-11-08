@@ -1,0 +1,48 @@
+{
+  "portraitScale": 1.76,
+  "portraitTranslation": [
+    -0.68,
+    -1.01,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('lairon', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lairon', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.quadruped_walk(0.7, 1, 'leg_front_left', 'leg_front_right', 'leg_back_left3', 'leg_back_right3')",
+        "q.look('head')",
+        "q.bedrock('lairon', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lairon', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.72,
+  "profileTranslation": [
+    0,
+    0.59,
+    0
+  ],
+  "rootBone": "lairon"
+}

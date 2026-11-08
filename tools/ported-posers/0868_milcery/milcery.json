@@ -1,0 +1,72 @@
+{
+  "portraitScale": 3,
+  "portraitTranslation": [
+    -0.15,
+    -2.8,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('milcery', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "transformedParts": [
+        {
+          "part": "milcery",
+          "position": [
+            4,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('milcery', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "transformedParts": [
+        {
+          "part": "milcery",
+          "position": [
+            -4,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('milcery', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 1,
+  "profileTranslation": [
+    0,
+    0.2,
+    0
+  ],
+  "rootBone": "milcery"
+}

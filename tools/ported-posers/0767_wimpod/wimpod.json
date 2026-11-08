@@ -1,0 +1,87 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -0.35,
+    -1.6,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.look('head', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('wimpod', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wimpod', 'blink')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_left')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_right')"
+      ],
+      "transformTicks": 10
+    },
+    "sleeping": {
+      "animations": [
+        "q.bedrock('wimpod', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('wimpod', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wimpod', 'blink')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_left')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_right')"
+      ],
+      "transformTicks": 10
+    },
+    "swimming": {
+      "animations": [
+        "q.look('head', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('wimpod', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wimpod', 'blink')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_left')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_right')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('wimpod', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wimpod', 'blink')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_left')",
+        "q.bedrock_quirk('wimpod', 'twitch_quirk_right')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.7,
+  "profileTranslation": [
+    0,
+    0.71,
+    0
+  ],
+  "rootBone": "wimpod"
+}

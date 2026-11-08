@@ -1,0 +1,49 @@
+{
+  "portraitScale": 1.9,
+  "portraitTranslation": [
+    -0.1,
+    1,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('machoke', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('machoke', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('machoke', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('machoke', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.71,
+  "profileTranslation": [
+    0,
+    0.69,
+    0
+  ],
+  "rootBone": "machoke"
+}

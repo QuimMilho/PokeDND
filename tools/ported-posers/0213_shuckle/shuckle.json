@@ -1,0 +1,64 @@
+{
+  "portraitScale": 2.2,
+  "portraitTranslation": [
+    -0.7,
+    0.1,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shuckle', 'sleep')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ditto', 'blink')"
+      ],
+      "transformTicks": 5
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shuckle', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ditto', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shuckle', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ditto', 'blink')"
+      ],
+      "transformTicks": 5
+    }
+  },
+  "profileScale": 0.6,
+  "profileTranslation": [
+    0,
+    0.8,
+    0
+  ],
+  "rootBone": "shuckle"
+}

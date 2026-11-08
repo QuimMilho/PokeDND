@@ -1,0 +1,103 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -0.46,
+    0.1,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.bedrock('venomoth', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'blink')",
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk2')"
+      ],
+      "transformTicks": 10
+    },
+    "fly": {
+      "animations": [
+        "q.bedrock('venomoth', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'blink')",
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk2')"
+      ]
+    },
+    "hover": {
+      "animations": [
+        "q.bedrock('venomoth', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'blink')",
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk2')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('venomoth', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk_sleep')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('venomoth', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'blink')",
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk2')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('venomoth', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('venomoth', 'blink')",
+        "q.bedrock_quirk('venomoth', 'quirk1')",
+        "q.bedrock_quirk('venomoth', 'quirk2')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.6,
+    0
+  ],
+  "rootBone": "venomoth"
+}

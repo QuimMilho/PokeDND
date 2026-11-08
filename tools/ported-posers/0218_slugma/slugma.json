@@ -1,0 +1,55 @@
+{
+  "portraitScale": 1.7,
+  "portraitTranslation": [
+    -0.35,
+    -0.3,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('slugma', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('slugma', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('slugma', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('slugma', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('slugma', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.75,
+  "profileTranslation": [
+    0,
+    0.575,
+    0
+  ],
+  "rootBone": "slugma"
+}

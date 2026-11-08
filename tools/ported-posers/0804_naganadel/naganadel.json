@@ -1,0 +1,43 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    0,
+    4.3,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('naganadel', 'ground_idle')",
+        "q.sine_wing_flap(0.4, 0.9, -0.17453, 'y', 'wing_left', 'wing_right')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('naganadel', 'ground_idle')",
+        "q.sine_wing_flap(0.4, 0.9, -0.17453, 'y', 'wing_left', 'wing_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ]
+    }
+  },
+  "profileScale": 0.4,
+  "profileTranslation": [
+    0.05,
+    1.3,
+    0
+  ],
+  "rootBone": "naganadel"
+}

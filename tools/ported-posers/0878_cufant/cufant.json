@@ -1,0 +1,87 @@
+{
+  "animations": {
+    "cry": "q.bedrock_stateful('cufant', 'cry')",
+    "physical": "q.bedrock_primary('cufant', 'physical', 'look', q.curve('symmetrical_wide'))",
+    "recoil": "q.bedrock_stateful('cufant', 'recoil')",
+    "special": "q.bedrock_primary('cufant', 'special', 'look', q.curve('symmetrical_wide'))",
+    "status": "q.bedrock_primary('cufant', 'status', q.curve('symmetrical_wide'))"
+  },
+  "portraitScale": 1.5,
+  "portraitTranslation": [
+    -0.32,
+    0.13,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.bedrock('cufant', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('cufant', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('cufant', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('cufant', 'sleep')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('cufant', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('cufant', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('cufant', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('cufant', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('cufant', 'ground_walk')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('cufant', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('cufant', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.62,
+  "profileTranslation": [
+    0.05,
+    0.8,
+    0
+  ],
+  "rootBone": "cufant"
+}

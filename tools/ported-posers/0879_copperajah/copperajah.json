@@ -1,0 +1,93 @@
+{
+  "animations": {
+    "cry": "q.bedrock_stateful('copperajah', 'cry')",
+    "physical": "q.bedrock_primary('copperajah', 'physical', 'look', q.curve('symmetrical_wide'))",
+    "recoil": "q.bedrock_stateful('copperajah', 'recoil')",
+    "special": "q.bedrock_primary('copperajah', 'special', 'look', q.curve('symmetrical_wide'))",
+    "status": "q.bedrock_primary('copperajah', 'status', q.curve('symmetrical_wide'))"
+  },
+  "portraitScale": 0.6,
+  "portraitTranslation": [
+    -0.67,
+    1.62,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.bedrock('copperajah', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('copperajah', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('copperajah', 'blink')",
+        "q.bedrock_quirk('copperajah', 'quirk_idle', 30, 60, 1)"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('copperajah', 'sleep')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('copperajah', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('copperajah', 'blink')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('copperajah', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('copperajah', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('copperajah', 'blink')",
+        "q.bedrock_quirk('copperajah', 'quirk_idle', 30, 60, 1)"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('copperajah', 'ground_walk')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('copperajah', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('copperajah', 'blink')",
+        "q.bedrock_quirk('copperajah', 'quirk_idle', 30, 60, 1)"
+      ]
+    }
+  },
+  "profileScale": 0.3,
+  "profileTranslation": [
+    -0.02,
+    1.2,
+    0
+  ],
+  "rootBone": "copperajah"
+}

@@ -1,0 +1,122 @@
+{
+  "portraitScale": 1,
+  "portraitTranslation": [
+    -1.35,
+    1.5,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('avalugg', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('avalugg', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('avalugg', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('avalugg', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isTouchingWater": false,
+      "poseTypes": [
+        "STAND",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('avalugg', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "surface_idle": {
+      "animations": [
+        "q.bedrock('avalugg', 'water_idle')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('avalugg', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "avalugg",
+          "position": [
+            0,
+            -3.5,
+            0
+          ]
+        }
+      ]
+    },
+    "surface_swim": {
+      "animations": [
+        "q.bedrock('avalugg', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('avalugg', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "avalugg",
+          "position": [
+            0,
+            -3.5,
+            0
+          ]
+        }
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('avalugg', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "WALK",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('avalugg', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.27,
+  "profileTranslation": [
+    -0.05,
+    1.2,
+    0
+  ],
+  "rootBone": "avalugg"
+}

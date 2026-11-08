@@ -1,0 +1,59 @@
+{
+  "portraitScale": 1.5,
+  "portraitTranslation": [
+    -0.8,
+    0.25,
+    0
+  ],
+  "poses": {
+    "sleeping": {
+      "animations": [
+        "q.bedrock('dachsbun', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('dachsbun', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('dachsbun', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('dachsbun', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.bedrock('dachsbun', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('dachsbun', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.6,
+  "profileTranslation": [
+    0,
+    0.8,
+    0
+  ],
+  "rootBone": "dachsbun"
+}

@@ -1,0 +1,37 @@
+{
+  "portraitScale": 3,
+  "portraitTranslation": [
+    -0.1,
+    -2.5,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.biped_walk(1, 0.5, 'left_foot', 'right_foot')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ]
+    }
+  },
+  "profileScale": 1.2,
+  "profileTranslation": [
+    0,
+    0,
+    0
+  ],
+  "rootBone": "bounsweet"
+}

@@ -1,0 +1,57 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -1.5,
+    -0.92,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('torterra', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('torterra', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('torterra', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('torterra', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('torterra', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.4,
+  "profileTranslation": [
+    0,
+    1.1,
+    0
+  ],
+  "rootBone": "torterra"
+}

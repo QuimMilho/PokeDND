@@ -1,0 +1,74 @@
+{
+  "portraitScale": 2.1,
+  "portraitTranslation": [
+    -0.4,
+    0.7,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('boltund', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('boltund', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('boltund', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('boltund', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('boltund', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('boltund', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('boltund', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "boltund"
+}

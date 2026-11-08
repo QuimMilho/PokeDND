@@ -1,0 +1,125 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    0,
+    0,
+    0
+  ],
+  "poses": {
+    "flying": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "hovering": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'air_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "shoulder_left": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "flittle",
+          "position": [
+            11,
+            6,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "flittle",
+          "position": [
+            -11,
+            6,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('flittle', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('flittle', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('flittle', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.85,
+  "profileTranslation": [
+    0,
+    0.65,
+    0
+  ],
+  "rootBone": "flittle"
+}

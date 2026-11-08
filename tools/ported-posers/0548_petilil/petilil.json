@@ -1,0 +1,120 @@
+{
+  "portraitScale": 1.52,
+  "portraitTranslation": [
+    0.1,
+    -0.25,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head', 0.9, 0.9, 70, -45, 45, -45)",
+        "q.bedrock('petilil', 'battle_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')",
+        "q.bedrock_quirk('petilil', 'idle_quirk')"
+      ]
+    },
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('petilil', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "petilil",
+          "position": [
+            3,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('petilil', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "petilil",
+          "position": [
+            -3,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('petilil', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head', 0.9, 0.9, 70, -45, 45, -45)",
+        "q.bedrock('petilil', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')",
+        "q.bedrock_quirk('petilil', 'idle_quirk')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head', 0.9, 0.9, 70, -45, 45, -45)",
+        "q.bedrock('petilil', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('petilil', 'blink')",
+        "q.bedrock_quirk('petilil', 'idle_quirk')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "petilil"
+}

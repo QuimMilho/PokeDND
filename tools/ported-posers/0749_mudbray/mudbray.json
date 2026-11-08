@@ -1,0 +1,57 @@
+{
+  "portraitScale": 2.3,
+  "portraitTranslation": [
+    -0.6,
+    -0.5,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('mudbray', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('neck', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('mudbray', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('mudbray', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('neck', 0, 1, 70, -45, 45, -45)",
+        "q.bedrock('mudbray', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('mudbray', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.4,
+    0
+  ],
+  "rootBone": "mudbray"
+}

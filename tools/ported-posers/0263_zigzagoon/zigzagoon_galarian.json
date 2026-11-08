@@ -1,0 +1,88 @@
+{
+  "portraitScale": 2.55,
+  "portraitTranslation": [
+    -0.5,
+    -2.2,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zigzagoon', 'shoulder_left')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zigzagoon_galarian', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "zigzagoon_galarian",
+          "position": [
+            0,
+            0,
+            -0.5
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zigzagoon', 'shoulder_right')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zigzagoon_galarian', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "zigzagoon_galarian",
+          "position": [
+            0,
+            0,
+            -0.5
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zigzagoon_galarian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zigzagoon_galarian', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.quadruped_walk(1.1, 1.4, 'leg_front_left', 'leg_front_right', 'leg_back_left', 'leg_back_right')",
+        "q.look('head')",
+        "q.bedrock('zigzagoon_galarian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zigzagoon_galarian', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 1,
+  "profileTranslation": [
+    0,
+    0.2,
+    0
+  ],
+  "rootBone": "zigzagoon_galarian"
+}

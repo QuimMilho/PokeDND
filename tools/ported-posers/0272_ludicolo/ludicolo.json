@@ -1,0 +1,70 @@
+{
+  "portraitScale": 2.4,
+  "portraitTranslation": [
+    -0.4,
+    -0.3,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.bedrock('ludicolo', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('ludicolo', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformTicks": 10
+    },
+    "standing": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('ludicolo', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ludicolo', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.bedrock('ludicolo', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('body')",
+        "q.bedrock('ludicolo', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ludicolo', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.75,
+  "profileTranslation": [
+    0,
+    0.6,
+    0
+  ],
+  "rootBone": "ludicolo"
+}

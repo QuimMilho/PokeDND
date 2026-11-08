@@ -1,0 +1,72 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -0.45,
+    1.15,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('ambipom', 'ground_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ambipom', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('ambipom', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('ambipom', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ambipom', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('ambipom', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ambipom', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.65,
+  "profileTranslation": [
+    0,
+    0.85,
+    0
+  ],
+  "rootBone": "ambipom"
+}

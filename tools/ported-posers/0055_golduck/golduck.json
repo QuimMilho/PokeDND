@@ -1,0 +1,75 @@
+{
+  "portraitScale": 2.1,
+  "portraitTranslation": [
+    -0.1,
+    0.55,
+    0
+  ],
+  "poses": {
+    "float": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('golduck', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('golduck', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('golduck', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('golduck', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('golduck', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('golduck', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('golduck', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('golduck', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('golduck', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.54,
+    0
+  ],
+  "rootBone": "golduck"
+}

@@ -1,0 +1,48 @@
+{
+  "portraitScale": 1.7,
+  "portraitTranslation": [
+    0,
+    0.15,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('marowak', 'idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('marowak', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.biped_walk(0.9, 1.1, 'left_leg', 'right_leg')",
+        "q.look('head')",
+        "q.bedrock('marowak', 'idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('marowak', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.85,
+  "profileTranslation": [
+    0,
+    0.48,
+    0
+  ],
+  "rootBone": "marowak"
+}

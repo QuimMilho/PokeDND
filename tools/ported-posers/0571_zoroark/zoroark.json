@@ -1,0 +1,43 @@
+{
+  "portraitScale": 1.49,
+  "portraitTranslation": [
+    -0.89,
+    2.09,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zoroark', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zoroark', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.44,
+  "profileTranslation": [
+    0,
+    1.08,
+    -6
+  ],
+  "rootBone": "zoroark"
+}

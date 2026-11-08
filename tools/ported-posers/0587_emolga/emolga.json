@@ -1,0 +1,71 @@
+{
+  "portraitScale": 2.2,
+  "portraitTranslation": [
+    -0.05,
+    -0.8,
+    0
+  ],
+  "poses": {
+    "flying": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('emolga', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('emolga', 'blink')"
+      ]
+    },
+    "hovering": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('emolga', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('emolga', 'blink')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('emolga', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('emolga', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('emolga', 'ground_idle')",
+        "q.biped_walk(1, 0.7, 'foot_left', 'foot_right')",
+        "q.bimanual_swing(1, 0.7, 'arm_left', 'arm_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('emolga', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.6,
+    0
+  ],
+  "rootBone": "emolga"
+}

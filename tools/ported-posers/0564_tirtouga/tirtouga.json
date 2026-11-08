@@ -1,0 +1,87 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -0.9,
+    -1.65,
+    0
+  ],
+  "poses": {
+    "float": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('tirtouga', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('tirtouga', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('tirtouga', 'sleep')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('tirtouga', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('tirtouga', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('tirtouga', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('tirtouga', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('tirtouga', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('tirtouga', 'blink')"
+      ]
+    },
+    "water_sleep": {
+      "animations": [
+        "q.bedrock('tirtouga', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    }
+  },
+  "profileScale": 0.6,
+  "profileTranslation": [
+    0,
+    0.65,
+    0
+  ],
+  "rootBone": "tirtouga"
+}

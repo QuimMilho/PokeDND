@@ -1,0 +1,65 @@
+{
+  "portraitScale": 2.1,
+  "portraitTranslation": [
+    -0.3,
+    0.7,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gigalith', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('gigalith', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gigalith', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gigalith', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.6,
+  "profileTranslation": [
+    0,
+    0.7,
+    0
+  ],
+  "rootBone": "gigalith"
+}

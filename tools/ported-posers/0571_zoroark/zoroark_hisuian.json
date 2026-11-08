@@ -1,0 +1,53 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -1.15,
+    1.54,
+    0
+  ],
+  "poses": {
+    "portrait": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zoroark_hisuian', 'portrait')"
+      ],
+      "poseTypes": [
+        "PORTRAIT"
+      ],
+      "transformTicks": 0
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zoroark_hisuian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zoroark_hisuian', 'ground_walk')",
+        "q.bedrock('zoroark_hisuian', 'hair_setup')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.46,
+  "profileTranslation": [
+    -0.05,
+    1.06,
+    0
+  ],
+  "rootBone": "zoroark"
+}

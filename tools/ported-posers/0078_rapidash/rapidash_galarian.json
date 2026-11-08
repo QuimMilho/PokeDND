@@ -1,0 +1,63 @@
+{
+  "portraitScale": 1.86,
+  "portraitTranslation": [
+    -0.5,
+    1.3,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('rapidash_galar', 'battle_idle')",
+        "q.bedrock('rapidash_galar', 'hair')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('rapidash_galar', 'ground_idle')",
+        "q.bedrock('rapidash_galar', 'hair')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('rapidash_galar', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('rapidash_galar', 'ground_walk')",
+        "q.bedrock('rapidash_galar', 'hair')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('rapidash_galar', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.67,
+  "profileTranslation": [
+    0,
+    0.72,
+    0
+  ],
+  "rootBone": "rapidash_galar"
+}

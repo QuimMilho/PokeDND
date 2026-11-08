@@ -1,0 +1,82 @@
+{
+  "portraitScale": 0.5,
+  "portraitTranslation": [
+    -0.4,
+    0.8,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.bedrock('wishiwashi_school', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('wishiwashi_school', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('wishiwashi_school', 'water_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "WALK",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "transformedParts": [
+        {
+          "part": "wishiwashi_school",
+          "position": [
+            0,
+            -8,
+            0
+          ]
+        }
+      ]
+    },
+    "swimming": {
+      "animations": [
+        "q.bedrock('wishiwashi_school', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.bedrock('wishiwashi_school', 'water_swim')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "FLY"
+      ],
+      "transformedParts": [
+        {
+          "part": "wishiwashi_school",
+          "position": [
+            0,
+            -8,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.2,
+  "profileTranslation": [
+    0,
+    1,
+    0
+  ],
+  "rootBone": "wishiwashi_school"
+}

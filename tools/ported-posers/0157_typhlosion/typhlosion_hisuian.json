@@ -1,0 +1,146 @@
+{
+  "portraitScale": 1.4,
+  "portraitTranslation": [
+    -0.45,
+    2.37,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head', 1, 1, 70, 0, 45, -45)",
+        "q.bedrock('typhlosion_hisuian', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('typhlosion_hisuian', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "fire_main"
+        },
+        {
+          "isVisible": "true",
+          "part": "fire_orb_right1"
+        },
+        {
+          "isVisible": "true",
+          "part": "fire_orb_middle1"
+        },
+        {
+          "isVisible": "true",
+          "part": "fire_orb_left1"
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('typhlosion_hisuian', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "fire_main"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_right1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_middle1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_left1"
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head', 1, 1, 70, 0, 45, -45)",
+        "q.bedrock('typhlosion_hisuian', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('typhlosion_hisuian', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "fire_main"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_right1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_middle1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_left1"
+        }
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.look('head', 1, 1, 70, 0, 45, -45)",
+        "q.bedrock('typhlosion_hisuian', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('typhlosion_hisuian', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "fire_main"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_right1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_middle1"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "fire_orb_left1"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.5,
+  "profileTranslation": [
+    0,
+    1,
+    0
+  ],
+  "rootBone": "typhlosion"
+}

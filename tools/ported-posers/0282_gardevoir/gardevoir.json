@@ -1,0 +1,72 @@
+{
+  "portraitScale": 2.6,
+  "portraitTranslation": [
+    -0.1,
+    1.9,
+    0
+  ],
+  "poses": {
+    "battleidle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gardevoir', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gardevoir', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gardevoir', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gardevoir', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gardevoir', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gardevoir', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gardevoir', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.65,
+  "profileTranslation": [
+    0,
+    0.76,
+    0
+  ],
+  "rootBone": "gardevoir"
+}

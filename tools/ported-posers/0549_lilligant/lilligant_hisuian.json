@@ -1,0 +1,49 @@
+{
+  "portraitScale": 2.76,
+  "portraitTranslation": [
+    -0.31,
+    1.85,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('lilligant_hisuian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lilligant_hisuian', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('lilligant_hisuian', 'ground_idle')",
+        "q.biped_walk(0.6, 0.9, 'leg_left', 'leg_right')",
+        "q.bimanual_swing(0.6, 0.9, 'arm_left', 'arm_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lilligant_hisuian', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.65,
+  "profileTranslation": [
+    0,
+    0.76,
+    0
+  ],
+  "rootBone": "lilligant_hisuian"
+}

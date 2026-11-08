@@ -1,0 +1,98 @@
+{
+  "portraitScale": 1.26,
+  "portraitTranslation": [
+    -0.23,
+    1.14,
+    0
+  ],
+  "poses": {
+    "fly": {
+      "animations": [
+        "q.bedrock('dartrix', 'ground_idle')",
+        "q.sine_wing_flap(0.9, 0.9, -0.24435, 'z', 'wing_left_open', 'wing_right_open')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "wings_open"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "wings_closed"
+        }
+      ]
+    },
+    "hover": {
+      "animations": [
+        "q.bedrock('dartrix', 'ground_idle')",
+        "q.sine_wing_flap(0.6, 0.9, -0.17453, 'z', 'wing_left_open', 'wing_right_open')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "wings_open"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "wings_closed"
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('dartrix', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "wings_open"
+        },
+        {
+          "isVisible": "true",
+          "part": "wings_closed"
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('dartrix', 'ground_idle')",
+        "q.biped_walk(0.75, 0.7, 'leg_left', 'leg_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "wings_open"
+        },
+        {
+          "isVisible": "true",
+          "part": "wings_closed"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.55000013,
+  "profileTranslation": [
+    0,
+    0.88,
+    0
+  ],
+  "rootBone": "dartrix"
+}

@@ -1,0 +1,174 @@
+{
+  "animations": {
+    "cry": "q.bedrock_stateful('wartortle', 'cry')",
+    "physical": "q.bedrock_primary('wartortle', 'physical', 'look', q.curve('symmetrical_wide'))",
+    "recoil": "q.bedrock_stateful('wartortle', 'recoil')",
+    "special": "q.bedrock_primary('wartortle', 'special', 'look', q.curve('symmetrical_wide'))",
+    "status": "q.bedrock_primary('wartortle', 'status', q.curve('symmetrical_wide'))"
+  },
+  "portraitScale": 1.57,
+  "portraitTranslation": [
+    -0.17,
+    0.54,
+    0
+  ],
+  "poses": {
+    "battle_standing": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')",
+        "q.bedrock_quirk('wartortle', 'quirk_idle')"
+      ]
+    },
+    "floating": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'water_idle')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('wartortle', 'sleep')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isUnderWater": false,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')",
+        "q.bedrock_quirk('wartortle', 'quirk_idle')"
+      ]
+    },
+    "surface_idle": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'surfacewater_idle')"
+      ],
+      "isTouchingWater": true,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "wartortle",
+          "position": [
+            0,
+            -10,
+            0
+          ]
+        }
+      ]
+    },
+    "surface_swim": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'surfacewater_swim')"
+      ],
+      "isTouchingWater": true,
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "wartortle",
+          "position": [
+            0,
+            -10,
+            0
+          ]
+        }
+      ]
+    },
+    "swimming": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'water_swim')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head_ai')",
+        "q.bedrock('wartortle', 'ground_walk')"
+      ],
+      "namedAnimations": {
+        "faint": "q.bedrock_primary('wartortle', 'faint', q.curve('one'))"
+      },
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wartortle', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.69,
+  "profileTranslation": [
+    0,
+    0.69,
+    0
+  ],
+  "rootBone": "wartortle"
+}

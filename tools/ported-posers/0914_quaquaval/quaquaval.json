@@ -1,0 +1,216 @@
+{
+  "portraitScale": 2.3,
+  "portraitTranslation": [
+    -0.42,
+    3.7,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "water_feathers"
+        }
+      ]
+    },
+    "float": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'water_idle')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('quaquaval', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "stand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'water_idle')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        },
+        {
+          "part": "quaquaval",
+          "position": [
+            0,
+            19,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isInWaterOrRain": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        }
+      ]
+    },
+    "standing2": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'ground_idle2')"
+      ],
+      "isBattle": false,
+      "isInWaterOrRain": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        }
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        },
+        {
+          "part": "quaquaval",
+          "position": [
+            0,
+            19,
+            0
+          ]
+        }
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('quaquaval', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('quaquaval', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "water_feathers"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.36,
+  "profileTranslation": [
+    0,
+    1.19,
+    0
+  ],
+  "rootBone": "quaquaval"
+}

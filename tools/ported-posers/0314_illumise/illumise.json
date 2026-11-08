@@ -1,0 +1,154 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -0.2,
+    -0.3,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "fly": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "hover": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('illumise', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "water_surface": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'air_idle')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')",
+        "q.bedrock_quirk('illumise', 'flicker_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "illumise",
+          "position": [
+            0,
+            -15,
+            0
+          ]
+        }
+      ]
+    },
+    "water_surface_fly": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('illumise', 'air_fly')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('illumise', 'blink')",
+        "q.bedrock_quirk('illumise', 'flicker_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "illumise",
+          "position": [
+            0,
+            -15,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.3,
+    0
+  ],
+  "rootBone": "illumise"
+}

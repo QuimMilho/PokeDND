@@ -1,0 +1,68 @@
+{
+  "portraitScale": 1.91,
+  "portraitTranslation": [
+    -0.04,
+    1.16,
+    0
+  ],
+  "poses": {
+    "hover": {
+      "animations": [
+        "q.look('head', 1, 1, 0, -15, 45, -45)",
+        "q.bedrock('xatu', 'air_idle')",
+        "q.sine_wing_flap(0.6, 0.9, -0.17453, 'y', 'wing_open_left', 'wing_open_right')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('xatu', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('xatu', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head', 1, 1, 0, -15, 45, -45)",
+        "q.bedrock('xatu', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('xatu', 'blink')"
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.look('head', 1, 1, 0, -15, 45, -45)",
+        "q.bedrock('xatu', 'air_idle')",
+        "q.sine_wing_flap(0.6, 0.9, -0.17453, 'y', 'wing_open_left', 'wing_open_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('xatu', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.69,
+  "profileTranslation": [
+    0,
+    0.75,
+    0
+  ],
+  "rootBone": "xatu"
+}

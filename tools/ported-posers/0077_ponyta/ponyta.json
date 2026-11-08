@@ -1,0 +1,58 @@
+{
+  "portraitScale": 3,
+  "portraitTranslation": [
+    -0.6,
+    -0.2,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('ponyta', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('ponyta', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ponyta', 'blink')",
+        "q.bedrock_quirk('ponyta', 'quirk1', 60, 360, 1)"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('ponyta', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('ponyta', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.43,
+    0
+  ],
+  "rootBone": "ponyta"
+}

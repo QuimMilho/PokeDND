@@ -1,0 +1,65 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    0,
+    0.2,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.bedrock('carbink', 'air_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('carbink', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "carbink",
+          "position": [
+            0,
+            -0.5,
+            0
+          ]
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('carbink', 'air_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('carbink', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "carbink",
+          "position": [
+            0,
+            -3,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.68,
+  "profileTranslation": [
+    0,
+    0.7,
+    0
+  ],
+  "rootBone": "carbink"
+}

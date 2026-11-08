@@ -1,0 +1,65 @@
+{
+  "portraitScale": 2.1,
+  "portraitTranslation": [
+    0,
+    -1.9,
+    0
+  ],
+  "poses": {
+    "portrait": {
+      "animations": [
+        "q.bedrock('exeggcute', 'portrait')"
+      ],
+      "poseTypes": [
+        "PORTRAIT"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('exeggcute', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('exeggcute', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('exeggcute', 'blink')",
+        "q.bedrock_quirk('exeggcute', 'blink2')",
+        "q.bedrock_quirk('exeggcute', 'blink3')",
+        "q.bedrock_quirk('exeggcute', 'blink4')",
+        "q.bedrock_quirk('exeggcute', 'blink5')",
+        "q.bedrock_quirk('exeggcute', 'blink6')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('exeggcute', 'ground_idle')",
+        "q.bedrock('exeggcute', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 1,
+  "profileTranslation": [
+    -0.15,
+    0,
+    0
+  ],
+  "rootBone": "exeggcute"
+}

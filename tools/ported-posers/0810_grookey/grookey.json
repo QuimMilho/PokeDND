@@ -1,0 +1,94 @@
+{
+  "portraitScale": 2.2,
+  "portraitTranslation": [
+    -0.2,
+    -0.9,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('grookey', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('grookey', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "stick"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "hair_stick"
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('grookey', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('grookey', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "stick"
+        },
+        {
+          "isVisible": "true",
+          "part": "hair_stick"
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('grookey', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('grookey', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "stick"
+        },
+        {
+          "isVisible": "true",
+          "part": "hair_stick"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.75,
+  "profileTranslation": [
+    0,
+    0.6,
+    0
+  ],
+  "rootBone": "grookey"
+}

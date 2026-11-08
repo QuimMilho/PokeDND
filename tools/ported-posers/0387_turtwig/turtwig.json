@@ -1,0 +1,101 @@
+{
+  "portraitScale": 2.1,
+  "portraitTranslation": [
+    -0.25,
+    -1,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('turtwig', 'shoulder_left')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('turtwig', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "turtwig",
+          "position": [
+            3,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('turtwig', 'shoulder_right')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('turtwig', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "turtwig",
+          "position": [
+            -3,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('turtwig', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('turtwig', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('turtwig', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('turtwig', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('turtwig', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.85,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "turtwig"
+}

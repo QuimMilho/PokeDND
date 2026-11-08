@@ -1,0 +1,291 @@
+{
+  "portraitScale": 0.6,
+  "portraitTranslation": [
+    -0.63,
+    0.73,
+    0
+  ],
+  "poses": {
+    "battleidle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "isStandingOnSandOrRedSand": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "battleidleredsand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sand_battle_idle')"
+      ],
+      "isBattle": true,
+      "isStandingOnRedSand": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "true",
+          "part": "redsand"
+        }
+      ]
+    },
+    "battleidlesand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sand_battle_idle')"
+      ],
+      "isBattle": true,
+      "isStandingOnSand": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sleep')"
+      ],
+      "isStandingOnSand": false,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "sleepsand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sand_sleep')"
+      ],
+      "isStandingOnRedSand": true,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isStandingOnSandOrRedSand": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')",
+        "q.bedrock_quirk('hippowdon', 'quirk_idle')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "standingredsand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sand_idle')"
+      ],
+      "isBattle": false,
+      "isStandingOnRedSand": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')",
+        "q.bedrock_quirk('hippowdon', 'quirk_idle')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "standingsand": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'sand_idle')"
+      ],
+      "isBattle": false,
+      "isStandingOnSand": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')",
+        "q.bedrock_quirk('hippowdon', 'quirk_idle')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('hippowdon', 'ground_walk')"
+      ],
+      "isStandingOnSandOrRedSand": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "walkredsand": {
+      "animations": [
+        "q.bedrock('hippowdon', 'sand_swim')"
+      ],
+      "isStandingOnRedSand": true,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    },
+    "walksand": {
+      "animations": [
+        "q.bedrock('hippowdon', 'sand_swim')"
+      ],
+      "isStandingOnSand": true,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('hippowdon', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "sand"
+        },
+        {
+          "isVisible": "0.0",
+          "part": "redsand"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.4,
+  "profileTranslation": [
+    -0.1,
+    1,
+    0
+  ],
+  "rootBone": "hippowdon"
+}

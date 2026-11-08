@@ -1,0 +1,76 @@
+{
+  "portraitScale": 2.6,
+  "portraitTranslation": [
+    -0.2,
+    -1,
+    0
+  ],
+  "poses": {
+    "fly": {
+      "animations": [
+        "q.bedrock('farfetchd', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "transformTicks": 10
+    },
+    "hover": {
+      "animations": [
+        "q.bedrock('farfetchd', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('farfetchd', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('farfetchd', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('farfetchd', 'blink')",
+        "q.bedrock_quirk('farfetchd', 'quirk_leakflip_idle', 60, 120, 1)",
+        "q.bedrock_quirk('farfetchd', 'quirk_wink', 60, 120, 1)"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('farfetchd', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('farfetchd', 'blink')",
+        "q.bedrock_quirk('farfetchd', 'quirk_leakflip_walk', 30, 120, 1)"
+      ],
+      "transformTicks": 5
+    }
+  },
+  "profileScale": 0.93,
+  "profileTranslation": [
+    -0.1,
+    0.36,
+    0
+  ],
+  "rootBone": "farfetchd"
+}

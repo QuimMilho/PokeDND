@@ -1,0 +1,102 @@
+{
+  "portraitScale": 0.66,
+  "portraitTranslation": [
+    -0.36,
+    1.98,
+    0
+  ],
+  "poses": {
+    "float": {
+      "animations": [
+        "q.bedrock('arctovish', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('arctovish', 'blink')",
+        "q.bedrock_quirk('arctovish', 'water_quirk', 30, 60, 1)"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('arctovish', 'sleep')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformTicks": 10
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('arctovish', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('arctovish', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "swim": {
+      "animations": [
+        "q.bedrock('arctovish', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('arctovish', 'blink')",
+        "q.bedrock_quirk('arctovish', 'water_quirk', 30, 60, 1)"
+      ],
+      "transformTicks": 10
+    },
+    "ui_poses": {
+      "animations": [
+        "q.bedrock('arctovish', 'water_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('arctovish', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('arctovish', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('arctovish', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "water_sleep": {
+      "animations": [
+        "q.bedrock('arctovish', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.35,
+  "profileTranslation": [
+    0,
+    1.25,
+    0
+  ],
+  "rootBone": "arctovish"
+}

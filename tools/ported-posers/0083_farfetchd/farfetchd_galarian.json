@@ -1,0 +1,50 @@
+{
+  "portraitScale": 2.6,
+  "portraitTranslation": [
+    -0.2,
+    -1,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('farfetchd_galar', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('farfetchd_galar', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('neck')",
+        "q.bedrock('farfetchd_galar', 'ground_idle')",
+        "q.biped_walk(0.6, 0.9, 'leg_left', 'leg_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('farfetchd_galar', 'blink')"
+      ],
+      "transformTicks": 5
+    }
+  },
+  "profileScale": 0.93,
+  "profileTranslation": [
+    -0.1,
+    0.36,
+    0
+  ],
+  "rootBone": "farfetchd"
+}

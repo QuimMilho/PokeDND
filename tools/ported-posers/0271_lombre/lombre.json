@@ -1,0 +1,116 @@
+{
+  "portraitScale": 2.4,
+  "portraitTranslation": [
+    -0.15,
+    -0.55,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.bedrock('lombre', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('lombre', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformTicks": 10
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('lombre', 'ground_idle')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lombre', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.bedrock('lombre', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('lombre', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lombre', 'blink')"
+      ]
+    },
+    "waterstanding": {
+      "animations": [
+        "q.bedrock('lombre', 'water_idle')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lombre', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "lombre",
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    "waterwalk": {
+      "animations": [
+        "q.bedrock('lombre', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lombre', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "lombre",
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.44,
+    0
+  ],
+  "rootBone": "lombre"
+}

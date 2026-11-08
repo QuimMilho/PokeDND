@@ -1,0 +1,121 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -0.15,
+    -0.65,
+    0
+  ],
+  "poses": {
+    "float": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ]
+    },
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "wooper",
+          "position": [
+            2.5,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "wooper",
+          "position": [
+            -2.5,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('wooper', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('wooper', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('wooper', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.75,
+  "profileTranslation": [
+    0,
+    0.6,
+    0
+  ],
+  "rootBone": "wooper"
+}

@@ -1,0 +1,71 @@
+{
+  "portraitScale": 1.88,
+  "portraitTranslation": [
+    -0.6,
+    0.68,
+    0
+  ],
+  "poses": {
+    "hovering": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('swoobat', 'air_idle')",
+        "q.sine_wing_flap(0.6, 0.9, -0.17453, 'y', 'left_wing', 'right_wing')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "transformedParts": [
+        {
+          "part": "swoobat",
+          "position": [
+            0,
+            -4,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('swoobat', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('swoobat', 'air_fly')",
+        "q.sine_wing_flap(0.9, 0.9, -0.24435, 'y', 'left_wing', 'right_wing')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "transformedParts": [
+        {
+          "part": "swoobat",
+          "position": [
+            0,
+            -4,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.63,
+  "profileTranslation": [
+    -0.05,
+    0.75,
+    0
+  ],
+  "rootBone": "swoobat"
+}

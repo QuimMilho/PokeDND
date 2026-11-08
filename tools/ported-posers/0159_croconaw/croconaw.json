@@ -1,0 +1,162 @@
+{
+  "portraitScale": 1.3,
+  "portraitTranslation": [
+    -0.2,
+    1,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "isTouchingWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "floating": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'water_idle')"
+      ],
+      "isUnderWater": true,
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ]
+    },
+    "sleeping": {
+      "animations": [
+        "q.bedrock('croconaw', 'sleep')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isTouchingWater": false,
+      "isUnderWater": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ]
+    },
+    "surface_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'surfacewater_idle')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "croconaw",
+          "position": [
+            0,
+            -10,
+            0
+          ]
+        }
+      ]
+    },
+    "surface_swim": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'surfacewater_swim')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "croconaw",
+          "position": [
+            0,
+            -10,
+            0
+          ]
+        }
+      ]
+    },
+    "swimming": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'water_swim')"
+      ],
+      "isUnderWater": true,
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('croconaw', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('croconaw', 'blink')"
+      ]
+    },
+    "water_sleeping": {
+      "animations": [
+        "q.bedrock('croconaw', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    }
+  },
+  "profileScale": 0.6,
+  "profileTranslation": [
+    0,
+    0.76,
+    0
+  ],
+  "rootBone": "croconaw"
+}

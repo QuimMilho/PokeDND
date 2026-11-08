@@ -1,0 +1,106 @@
+{
+  "portraitScale": 2.3,
+  "portraitTranslation": [
+    -0.85,
+    1.65,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('rillaboom', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('rillaboom', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "isVisible": "true",
+          "part": "drum"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_left"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_right"
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('rillaboom', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('rillaboom', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "drum"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_left"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_right"
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('rillaboom', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('rillaboom', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "isVisible": "0.0",
+          "part": "drum"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_left"
+        },
+        {
+          "isVisible": "true",
+          "part": "stick_right"
+        }
+      ]
+    }
+  },
+  "profileScale": 0.65,
+  "profileTranslation": [
+    0,
+    0.76,
+    0
+  ],
+  "rootBone": "rillaboom"
+}

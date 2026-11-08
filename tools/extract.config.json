@@ -1,0 +1,21 @@
+{
+  "cobblemon": {
+    "version": "1.8.4+1.21.1",
+    "jar": "Cobblemon-fabric-1.8.4+1.21.1.jar",
+    "size": 139966403,
+    "sha512": "8ba3bc7eb0bb6d52309ca339dfc9fb11adcffebe36d183e0a8df7c8e741edbcbc436c60cc877fd2b42aa224670825cf4f55946676b58ecf0e998f9feae2173c2",
+    "download": "https://cdn.modrinth.com/data/MdwFAVRL/versions/PdOzYHKU/Cobblemon-fabric-1.8.4%2B1.21.1.jar",
+    "note": "Newest Cobblemon release for Minecraft 1.21.1 on Modrinth when checked (2026-11-08). To update, change these four values and re-run tools/extract.mjs."
+  },
+  "languages": ["en_us", "pt_br", "pt_pt"],
+  "showdownFiles": [
+    "data/moves.js",
+    "data/abilities.js",
+    "data/items.js",
+    "data/conditions.js",
+    "data/pokedex.js",
+    "data/text/moves.js",
+    "data/text/abilities.js",
+    "data/text/items.js"
+  ]
+}

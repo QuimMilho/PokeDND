@@ -1,0 +1,68 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -0.6,
+    -0.25,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.look('head', 1, 0, 70, -45, 45, -45)",
+        "q.bedrock('numel', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('numel', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head', 1, 0, 70, -45, 45, -45)",
+        "q.bedrock('numel', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('numel', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head', 1, 0, 70, -45, 45, -45)",
+        "q.bedrock('numel', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('numel', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.35,
+    0
+  ],
+  "rootBone": "numel"
+}

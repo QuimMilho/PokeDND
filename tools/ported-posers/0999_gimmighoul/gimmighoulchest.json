@@ -1,0 +1,79 @@
+{
+  "portraitScale": 2.54,
+  "portraitTranslation": [
+    -0.01,
+    -1.6,
+    0
+  ],
+  "poses": {
+    "battle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gimmighoul_chest', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gimmighoul_chest', 'blink')"
+      ]
+    },
+    "closed": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gimmighoul_chest', 'mimic')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gimmighoul_chest', 'blink')"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gimmighoul_chest', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gimmighoul_chest', 'blink')",
+        "q.bedrock_primary_quirk('gimmighoul_chest', 'idle_quirk', 30, 120, 1)"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gimmighoul_chest', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gimmighoul_chest', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.65,
+  "profileTranslation": [
+    0,
+    0.76,
+    0
+  ],
+  "rootBone": "gimmighoul_chest"
+}

@@ -1,0 +1,47 @@
+{
+  "portraitScale": 1.55,
+  "portraitTranslation": [
+    -0.28,
+    -0.55,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('aron', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('aron', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('aron', 'ground_walk2')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('aron', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.66,
+  "profileTranslation": [
+    0,
+    0.74,
+    0
+  ],
+  "rootBone": "aron"
+}

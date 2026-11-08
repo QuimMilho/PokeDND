@@ -1,0 +1,93 @@
+{
+  "portraitScale": 2.14,
+  "portraitTranslation": [
+    0.18,
+    -0.64,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('larvitar', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('larvitar', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "larvitar",
+          "position": [
+            0.8,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('larvitar', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('larvitar', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "larvitar",
+          "position": [
+            -0.8,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('larvitar', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('larvitar', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('larvitar', 'ground_idle')",
+        "q.biped_walk(0.6, 0.9, 'leg_left', 'leg_right')",
+        "q.bimanual_swing(0.6, 0.9, 'arm_left', 'arm_right')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('larvitar', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 1.05,
+  "profileTranslation": [
+    0.04,
+    0.22,
+    0
+  ],
+  "rootBone": "larvitar"
+}

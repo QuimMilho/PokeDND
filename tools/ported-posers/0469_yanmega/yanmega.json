@@ -1,0 +1,87 @@
+{
+  "portraitScale": 1.6,
+  "portraitTranslation": [
+    -0.55,
+    -0.9,
+    0
+  ],
+  "poses": {
+    "flying": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('yanmega', 'air_idle')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "transformedParts": [
+        {
+          "part": "yanmega",
+          "position": [
+            0,
+            -4,
+            0
+          ]
+        }
+      ]
+    },
+    "hovering": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('yanmega', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "transformedParts": [
+        {
+          "part": "yanmega",
+          "position": [
+            0,
+            -4,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('yanmega', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('yanmega', 'air_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "transformedParts": [
+        {
+          "part": "yanmega",
+          "position": [
+            0,
+            -4,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.61,
+  "profileTranslation": [
+    0,
+    0.8,
+    0
+  ],
+  "rootBone": "yanmega"
+}

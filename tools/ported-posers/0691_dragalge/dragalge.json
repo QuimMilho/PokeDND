@@ -1,0 +1,45 @@
+{
+  "portraitScale": 2.4,
+  "portraitTranslation": [
+    -0.55,
+    1.5,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.bedrock('dragalge', 'water_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('dragalge', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('dragalge', 'water_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('dragalge', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.7,
+  "profileTranslation": [
+    0,
+    1,
+    -6
+  ],
+  "rootBone": "dragalge"
+}

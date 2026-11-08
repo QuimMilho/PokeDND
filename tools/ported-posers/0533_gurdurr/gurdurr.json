@@ -1,0 +1,72 @@
+{
+  "portraitScale": 1.7,
+  "portraitTranslation": [
+    -0.36,
+    1.1,
+    0
+  ],
+  "poses": {
+    "battleidle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gurdurr', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gurdurr', 'blink')"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('gurdurr', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gurdurr', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gurdurr', 'blink')",
+        "q.bedrock_primary_quirk('gurdurr', 'quirk_idle')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('gurdurr', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('gurdurr', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.47,
+  "profileTranslation": [
+    0,
+    0.98,
+    0
+  ],
+  "rootBone": "gurdurr"
+}

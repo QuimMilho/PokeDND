@@ -1,0 +1,48 @@
+{
+  "portraitScale": 2,
+  "portraitTranslation": [
+    -0.28,
+    -0.79,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('zorua', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zorua', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.quadruped_walk(1.1, 1.4, 'leg_front_left', 'leg_front_right', 'leg_back_left', 'leg_back_right')",
+        "q.look('head')",
+        "q.bedrock('zorua', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('zorua', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.81,
+  "profileTranslation": [
+    0,
+    0.54,
+    0
+  ],
+  "rootBone": "zorua"
+}

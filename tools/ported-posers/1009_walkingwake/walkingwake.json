@@ -1,0 +1,109 @@
+{
+  "portraitScale": 2.2,
+  "portraitTranslation": [
+    -2.5,
+    2.4,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('walkingwake', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('walkingwake', 'ground_idle')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('walkingwake', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('walkingwake', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('walkingwake', 'blink')"
+      ]
+    },
+    "waterstanding": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('walkingwake', 'ground_idle')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('walkingwake', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "walkingwake",
+          "position": [
+            0,
+            -6,
+            0
+          ]
+        }
+      ]
+    },
+    "waterwalk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('walkingwake', 'ground_walk')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('walkingwake', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "walkingwake",
+          "position": [
+            0,
+            -6,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.35,
+  "profileTranslation": [
+    0,
+    1.2,
+    -6
+  ],
+  "rootBone": "walkingwake"
+}

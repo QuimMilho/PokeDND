@@ -1,0 +1,143 @@
+{
+  "portraitScale": 2.5,
+  "portraitTranslation": [
+    -0.15,
+    -2,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.bedrock('lotad', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "lotad",
+          "position": [
+            0,
+            -2,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('lotad', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('lotad', 'ground_idle')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ]
+    },
+    "swim": {
+      "animations": [
+        "q.bedrock('lotad', 'water_swim')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "lotad",
+          "position": [
+            0,
+            -2,
+            0
+          ]
+        }
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('lotad', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ]
+    },
+    "waterstanding": {
+      "animations": [
+        "q.bedrock('lotad', 'water_idle')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "STAND"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "lotad",
+          "position": [
+            0,
+            -2,
+            0
+          ]
+        }
+      ]
+    },
+    "waterwalk": {
+      "animations": [
+        "q.bedrock('lotad', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "poseTypes": [
+        "WALK"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('lotad', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "lotad",
+          "position": [
+            0,
+            -2,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 1,
+  "profileTranslation": [
+    0,
+    0.25,
+    0
+  ],
+  "rootBone": "lotad"
+}

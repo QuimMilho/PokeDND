@@ -1,0 +1,97 @@
+{
+  "portraitScale": 2.6,
+  "portraitTranslation": [
+    -0.2,
+    -1.9,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.bedrock('scatterbug', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('scatterbug', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "scatterbug",
+          "position": [
+            2.4,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.bedrock('scatterbug', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('scatterbug', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "scatterbug",
+          "position": [
+            -2.4,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('scatterbug', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('scatterbug', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('scatterbug', 'blink')",
+        "q.bedrock_quirk('scatterbug', 'quirk')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('scatterbug', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('scatterbug', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.98,
+  "profileTranslation": [
+    0,
+    0.28,
+    0
+  ],
+  "rootBone": "scatterbug"
+}

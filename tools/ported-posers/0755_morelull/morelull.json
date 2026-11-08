@@ -1,0 +1,75 @@
+{
+  "portraitScale": 5,
+  "portraitTranslation": [
+    0,
+    -5,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.bedrock('morelull', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('morelull', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "morelull",
+          "position": [
+            0,
+            -0.35,
+            0
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.bedrock('morelull', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('morelull', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "morelull",
+          "position": [
+            0,
+            -0.35,
+            0
+          ]
+        }
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('morelull', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('morelull', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 1,
+  "profileTranslation": [
+    0,
+    0.25,
+    0
+  ],
+  "rootBone": "morelull"
+}

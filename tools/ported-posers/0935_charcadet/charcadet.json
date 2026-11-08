@@ -1,0 +1,127 @@
+{
+  "portraitScale": 1.7,
+  "portraitTranslation": [
+    -0.15,
+    0.08,
+    0
+  ],
+  "poses": {
+    "shoulder_left": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('charcadet', 'shoulder_left')",
+        "q.bedrock('charcadet', 'eye_flame_overlay')",
+        "q.bedrock('charcadet', 'head_flame_overlay')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('charcadet', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "charcadet",
+          "position": [
+            0,
+            -0.1,
+            0
+          ]
+        },
+        {
+          "part": "charcadet",
+          "position": [
+            0,
+            0,
+            -1.1
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('charcadet', 'shoulder_right')",
+        "q.bedrock('charcadet', 'eye_flame_overlay')",
+        "q.bedrock('charcadet', 'head_flame_overlay')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('charcadet', 'blink')"
+      ],
+      "transformedParts": [
+        {
+          "part": "charcadet",
+          "position": [
+            0,
+            -0.1,
+            0
+          ]
+        },
+        {
+          "part": "charcadet",
+          "position": [
+            0,
+            0,
+            -1.1
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('charcadet', 'sleep')",
+        "q.bedrock('charcadet', 'eye_flame_overlay')",
+        "q.bedrock('charcadet', 'head_flame_overlay')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('charcadet', 'ground_idle')",
+        "q.bedrock('charcadet', 'eye_flame_overlay')",
+        "q.bedrock('charcadet', 'head_flame_overlay')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('charcadet', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walking": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('charcadet', 'ground_walk')",
+        "q.bedrock('charcadet', 'eye_flame_overlay')",
+        "q.bedrock('charcadet', 'head_flame_overlay')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('charcadet', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.58,
+  "profileTranslation": [
+    0,
+    0.91,
+    0
+  ],
+  "rootBone": "charcadet"
+}

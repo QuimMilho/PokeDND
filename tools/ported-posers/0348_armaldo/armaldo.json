@@ -1,0 +1,296 @@
+{
+  "portraitScale": 1.73,
+  "portraitTranslation": [
+    -0.46,
+    1.5,
+    0
+  ],
+  "poses": {
+    "battle_idle": {
+      "animations": [
+        "q.bedrock('armaldo', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "isTouchingWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('armaldo', 'sleep')"
+      ],
+      "isTouchingWater": false,
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('armaldo', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "isTouchingWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10
+    },
+    "surface_battle_idle": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_battle_idle')"
+      ],
+      "isBattle": true,
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            10,
+            0
+          ]
+        }
+      ]
+    },
+    "surface_swim": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            10,
+            0
+          ]
+        }
+      ]
+    },
+    "ui_poses": {
+      "animations": [
+        "q.bedrock('armaldo', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ]
+    },
+    "walking": {
+      "animations": [
+        "q.bedrock('armaldo', 'ground_walk')"
+      ],
+      "isTouchingWater": false,
+      "isUnderWater": false,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10
+    },
+    "water_battle_idle": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_battle_idle')"
+      ],
+      "isBattle": true,
+      "isTouchingWater": true,
+      "isUnderWater": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            -4.5,
+            0
+          ]
+        }
+      ]
+    },
+    "water_idle": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_idle')"
+      ],
+      "isBattle": false,
+      "isTouchingWater": true,
+      "isUnderWater": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            -4.5,
+            0
+          ]
+        }
+      ]
+    },
+    "water_sleep": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": true,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            -4.5,
+            0
+          ]
+        }
+      ]
+    },
+    "water_surface_idle": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_idle')"
+      ],
+      "isBattle": false,
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            10,
+            0
+          ]
+        }
+      ]
+    },
+    "water_surface_sleep": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_sleep')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": false,
+      "poseTypes": [
+        "SLEEP"
+      ],
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            10,
+            0
+          ]
+        }
+      ]
+    },
+    "water_swim": {
+      "animations": [
+        "q.bedrock('armaldo', 'water_swim')"
+      ],
+      "isTouchingWater": true,
+      "isUnderWater": true,
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('armaldo', 'blink')",
+        "q.bedrock_quirk('armaldo', 'look_quirk')"
+      ],
+      "transformTicks": 10,
+      "transformedParts": [
+        {
+          "part": "armaldo",
+          "position": [
+            0,
+            -4.5,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "profileScale": 0.63,
+  "profileTranslation": [
+    0,
+    0.77,
+    0
+  ],
+  "rootBone": "armaldo"
+}

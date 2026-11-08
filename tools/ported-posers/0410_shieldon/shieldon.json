@@ -1,0 +1,75 @@
+{
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -0.45,
+    -0.9,
+    0
+  ],
+  "poses": {
+    "battleidle": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shieldon', 'battle_idle')"
+      ],
+      "isBattle": true,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('shieldon', 'blink')",
+        "q.bedrock_quirk('shieldon', 'glance_quirk', 60, 120, 1)"
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shieldon', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shieldon', 'ground_idle')"
+      ],
+      "isBattle": false,
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('shieldon', 'blink')",
+        "q.bedrock_quirk('shieldon', 'glance_quirk', 60, 120, 1)",
+        "q.bedrock_quirk('shieldon', 'graze_quirk', 60, 120, 1)"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('shieldon', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('shieldon', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "shieldon"
+}

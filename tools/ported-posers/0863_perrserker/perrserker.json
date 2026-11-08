@@ -1,0 +1,49 @@
+{
+  "portraitScale": 1.6,
+  "portraitTranslation": [
+    -0.2,
+    0.2,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('perrserker', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('perrserker', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.biped_walk(0.7, 1.4, 'leg_left', 'leg_right')",
+        "q.bimanual_swing(0.6662, 1, 'arm_left', 'arm_right')",
+        "q.bedrock('perrserker', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('perrserker', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.54,
+    0
+  ],
+  "rootBone": "perrserker"
+}

@@ -1,0 +1,65 @@
+{
+  "portraitScale": 3,
+  "portraitTranslation": [
+    0,
+    -2.15,
+    0
+  ],
+  "poses": {
+    "floating": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('clamperl', 'water_idle')"
+      ],
+      "poseTypes": [
+        "FLOAT"
+      ]
+    },
+    "portrait": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('clamperl', 'portrait')"
+      ],
+      "poseTypes": [
+        "PORTRAIT"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('clamperl', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "STAND"
+      ]
+    },
+    "swimming": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('clamperl', 'water_swim')",
+        "q.bedrock('clamperl', 'water_idle')"
+      ],
+      "poseTypes": [
+        "SWIM"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('clamperl', 'ground_idle')",
+        "q.bedrock('clamperl', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "clamperl"
+}

@@ -1,0 +1,58 @@
+{
+  "portraitScale": 1.56,
+  "portraitTranslation": [
+    -0.33,
+    0.78,
+    0
+  ],
+  "poses": {
+    "sleep": {
+      "animations": [
+        "q.bedrock('nidoqueen', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('nidoqueen', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('nidoqueen', 'blink')",
+        "q.bedrock_quirk('nidoqueen', 'spgs_happy_place', 600, 900, 1)"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('nidoqueen', 'ground_idle')",
+        "q.biped_walk(0.6662, 1.4, 'left_upper_leg', 'right_upper_leg')",
+        "q.bimanual_swing(0.6662, 1, 'left_shoulder', 'right_shoulder')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('nidoqueen', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.8,
+  "profileTranslation": [
+    0,
+    0.5,
+    0
+  ],
+  "rootBone": "nidoqueen"
+}

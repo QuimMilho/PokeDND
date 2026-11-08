@@ -1,0 +1,122 @@
+{
+  "animations": {
+    "cry": "q.bedrock_stateful('combee', 'cry')"
+  },
+  "portraitScale": 1.8,
+  "portraitTranslation": [
+    -0.11,
+    -0.77,
+    0
+  ],
+  "poses": {
+    "fly": {
+      "animations": [
+        "q.bedrock('combee', 'air_fly')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('combee', 'blink_right')",
+        "q.bedrock_quirk('combee', 'blink_gender')",
+        "q.bedrock_quirk('combee', 'blink_left')"
+      ]
+    },
+    "hover": {
+      "animations": [
+        "q.bedrock('combee', 'air_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('combee', 'blink_right')",
+        "q.bedrock_quirk('combee', 'blink_gender')",
+        "q.bedrock_quirk('combee', 'blink_left')"
+      ]
+    },
+    "shoulder_left": {
+      "animations": [
+        "q.bedrock('combee', 'air_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_LEFT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('combee', 'blink_right')",
+        "q.bedrock_quirk('combee', 'blink_gender')",
+        "q.bedrock_quirk('combee', 'blink_left')"
+      ],
+      "transformedParts": [
+        {
+          "part": "combee",
+          "position": [
+            4,
+            0,
+            0
+          ]
+        },
+        {
+          "part": "combee",
+          "position": [
+            0,
+            0,
+            8
+          ]
+        }
+      ]
+    },
+    "shoulder_right": {
+      "animations": [
+        "q.bedrock('combee', 'air_idle')"
+      ],
+      "poseTypes": [
+        "SHOULDER_RIGHT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('combee', 'blink_right')",
+        "q.bedrock_quirk('combee', 'blink_gender')",
+        "q.bedrock_quirk('combee', 'blink_left')"
+      ],
+      "transformedParts": [
+        {
+          "part": "combee",
+          "position": [
+            -4,
+            0,
+            0
+          ]
+        },
+        {
+          "part": "combee",
+          "position": [
+            0,
+            0,
+            8
+          ]
+        }
+      ]
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('combee', 'air_sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    }
+  },
+  "profileScale": 0.9,
+  "profileTranslation": [
+    0,
+    0.35,
+    0
+  ],
+  "rootBone": "combee"
+}

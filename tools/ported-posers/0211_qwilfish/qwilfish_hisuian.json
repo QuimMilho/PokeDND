@@ -1,0 +1,45 @@
+{
+  "portraitScale": 2.12,
+  "portraitTranslation": [
+    -0.26,
+    -1.06,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.bedrock('qwilfish_hisuian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "HOVER",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('qwilfish_hisuian', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('qwilfish_hisuian', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('qwilfish_hisuian', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.84,
+  "profileTranslation": [
+    0.02,
+    0.54,
+    0
+  ],
+  "rootBone": "qwilfish_hisuian"
+}

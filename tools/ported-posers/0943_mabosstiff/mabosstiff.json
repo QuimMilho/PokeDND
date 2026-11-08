@@ -1,0 +1,48 @@
+{
+  "portraitScale": 1.2,
+  "portraitTranslation": [
+    -1,
+    0.75,
+    0
+  ],
+  "poses": {
+    "standing": {
+      "animations": [
+        "q.look('head')",
+        "q.bedrock('mabosstiff', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "PROFILE",
+        "PORTRAIT",
+        "STAND",
+        "FLOAT",
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('mabosstiff', 'blink')"
+      ]
+    },
+    "walk": {
+      "animations": [
+        "q.quadruped_walk(1.1, 1.4, 'leg_front_left1', 'leg_front_right1', 'leg_back_left1', 'leg_back_right1')",
+        "q.look('head')",
+        "q.bedrock('mabosstiff', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM",
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('mabosstiff', 'blink')"
+      ]
+    }
+  },
+  "profileScale": 0.55,
+  "profileTranslation": [
+    0,
+    0.85,
+    0
+  ],
+  "rootBone": "mabosstiff"
+}

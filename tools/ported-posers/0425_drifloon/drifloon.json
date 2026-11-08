@@ -1,0 +1,77 @@
+{
+  "portraitScale": 1.5,
+  "portraitTranslation": [
+    -0.1,
+    1.2,
+    0
+  ],
+  "poses": {
+    "flying": {
+      "animations": [
+        "q.bedrock('drifloon', 'air_fly')"
+      ],
+      "poseTypes": [
+        "FLY"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('drifloon', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "hovering": {
+      "animations": [
+        "q.bedrock('drifloon', 'air_idle')"
+      ],
+      "poseTypes": [
+        "HOVER"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('drifloon', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "sleep": {
+      "animations": [
+        "q.bedrock('drifloon', 'sleep')"
+      ],
+      "poseTypes": [
+        "SLEEP"
+      ]
+    },
+    "standing": {
+      "animations": [
+        "q.bedrock('drifloon', 'ground_idle')"
+      ],
+      "poseTypes": [
+        "STAND",
+        "FLOAT",
+        "PROFILE",
+        "PORTRAIT"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('drifloon', 'blink')"
+      ],
+      "transformTicks": 10
+    },
+    "walk": {
+      "animations": [
+        "q.bedrock('drifloon', 'ground_walk')"
+      ],
+      "poseTypes": [
+        "WALK",
+        "SWIM"
+      ],
+      "quirks": [
+        "q.bedrock_quirk('drifloon', 'blink')"
+      ],
+      "transformTicks": 10
+    }
+  },
+  "profileScale": 0.5,
+  "profileTranslation": [
+    0,
+    0.9,
+    0
+  ],
+  "rootBone": "drifloon"
+}
