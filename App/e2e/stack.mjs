@@ -114,7 +114,7 @@ export async function startStack({ log = () => {} } = {}) {
   check(join(webRoot, 'en', 'index.html'), 'The app is not built: run "npm run build" in App/');
   check(join(apiDir, 'build', 'quarkus-app', 'quarkus-run.jar'), 'The API is not built: run "./gradlew quarkusBuild" in API/');
   check(join(repoDir, 'build', 'bundle', 'MANIFEST.json'), 'The data bundle is missing: see API/README.md');
-  check(join(repoDir, 'resources', 'card-art'), 'resources/ is missing: run "node tools/extract.mjs"');
+  check(join(repoDir, 'resources', 'pokedex.csv'), 'resources/ is missing: run "node tools/extract.mjs --no-icons" (the pictures are not needed)');
 
   const cleanups = [];
   const stop = async () => {
