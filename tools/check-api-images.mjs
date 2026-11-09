@@ -57,10 +57,15 @@ for (const flavour of flavours) {
     console.log(`[${flavour}] starting the database and the image`);
     let r = docker(['run', '-d', '--name', names[0], '--network', net, '--network-alias', 'db', ...spec.env.flatMap((e) => ['-e', e]), spec.image]);
     if (r.status !== 0) throw new Error('database: ' + r.stderr);
-    for (let i = 0; ; i++) {
-      if (i > 200) throw new Error('the database did not become ready');
-      const p = docker(['exec', names[0], ...spec.ready], 60000);
-      if (p.status === 0 && (flavour !== 'mongo' || p.stdout.trim() === '1')) break;
+    for (let i = 0, last = null; ; i++) {
+      if (i > 100) {
+        const logs = docker(['logs', '--tail', '25', names[0]]);
+        const tail = (logs.stdout + logs.stderr).split(String.fromCharCode(10)).slice(-25).join(String.fromCharCode(10));
+        throw new Error(`the database did not become ready. Last check: exit ${last?.status}, stdout "${(last?.stdout ?? '').trim()}", stderr "${(last?.stderr ?? '').trim().slice(0, 300)}"`
+          + String.fromCharCode(10) + 'Database log:' + String.fromCharCode(10) + tail);
+      }
+      last = docker(['exec', names[0], ...spec.ready], 60000);
+      if (last.status === 0 && (flavour !== 'mongo' || last.stdout.trim() === '1')) break;
       await sleep(3000);
     }
     const env = {
