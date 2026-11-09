@@ -45,6 +45,7 @@
               "@angular/localize/init"
             ],
             "localize": true,
+            "i18nMissingTranslation": "error",
             "loader": {
               ".xlf": "text"
             }

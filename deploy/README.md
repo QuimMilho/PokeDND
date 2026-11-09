@@ -22,11 +22,24 @@ Open `https://<POKEDND_DOMAIN>` (with the default `localhost`, your browser warn
 | Profile | Starts |
 |---|---|
 | `postgres` (default) | PostgreSQL |
-| `mysql`, `mariadb`, `mongo` | The other databases (the API images for them come in phase 34) |
+| `mysql`, `mariadb`, `mongo` | The other databases. Pick the API image of the same kind (see below) |
 | `dev` | Mailpit, a fake mail server: mails show at http://localhost:8025 |
 | `minecraft` | A test Minecraft server with the mod (set `MINECRAFT_EULA=TRUE`) |
 
 Example: `COMPOSE_PROFILES=postgres,dev`.
+
+## Choosing the database
+
+The API supports PostgreSQL, MySQL, MariaDB and MongoDB. The kind of database is fixed when the API is built, so there is **one API image per database**. To switch, change four things in `.env` (the comments in `.env.example` show each):
+
+| Database | `COMPOSE_PROFILES` | `POKEDND_API_IMAGE` | `API_FLAVOUR` | Connection |
+|---|---|---|---|---|
+| PostgreSQL | `postgres` | `…/pokednd-api:latest-postgres` | `postgres` | `QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://db:5432/pokednd` |
+| MySQL | `mysql` | `…:latest-mysql` | `mysql` | `jdbc:mysql://db-mysql:3306/pokednd` |
+| MariaDB | `mariadb` | `…:latest-mariadb` | `mariadb` | `jdbc:mariadb://db-mariadb:3306/pokednd` |
+| MongoDB | `mongo` | `…:latest-mongo` | `mongo` | `QUARKUS_MONGODB_CONNECTION_STRING=mongodb://…@db-mongo:27017/pokednd?authSource=admin` (instead of the three datasource lines) |
+
+Nothing else changes: the schema is made by the API when it starts (Flyway scripts for the SQL databases, versioned index scripts for MongoDB). `API_FLAVOUR` only matters when you build the image on the spot with `docker compose build`. `node tools/check-api-images.mjs` builds and starts every image against its database and asks it for `/q/health`.
 
 ## Files
 

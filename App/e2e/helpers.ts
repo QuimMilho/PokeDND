@@ -38,3 +38,24 @@ export async function logIn(page: Page, email: string, language = 'en'): Promise
   await page.getByTestId('submit').click();
   await expect(page.getByTestId('logout')).toBeVisible();
 }
+
+/** The site admin that the end-to-end stack creates at start (see `stack.mjs`). */
+export const ADMIN_EMAIL = 'admin@example.test';
+
+let serverCounter = 0;
+
+/** A Minecraft server registered through the API by the site admin. `token` is what the mod would use. */
+export async function createServer(request: APIRequestContext, name = 'Survival'): Promise<{ id: string; name: string; token: string }> {
+  serverCounter += 1;
+  const unique = `${name} ${Date.now()}-${serverCounter}`;
+  const admin = await accessToken(request, ADMIN_EMAIL);
+  const answer = await request.post(`${site()}/api/v1/servers`, { data: { name: unique }, headers: { Authorization: `Bearer ${admin}` } });
+  expect(answer.status()).toBe(201);
+  const body = await answer.json();
+  return { id: body.server.id, name: unique, token: body.token };
+}
+
+/** Logs in through the login screen as the site admin. */
+export async function logInAsAdmin(page: Page, language = 'en'): Promise<void> {
+  await logIn(page, ADMIN_EMAIL, language);
+}

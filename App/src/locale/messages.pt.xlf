@@ -853,5 +853,1967 @@
         <target>Exportar cartas</target>
       </segment>
     </unit>
+    <unit id="accountTitle">
+      <segment>
+        <source>Your account</source>
+        <target>A sua conta</target>
+      </segment>
+    </unit>
+    <unit id="discordTitle">
+      <segment>
+        <source>Discord</source>
+        <target>Discord</target>
+      </segment>
+    </unit>
+    <unit id="discordSubtitle">
+      <segment>
+        <source>Use Discord as another way to log in.</source>
+        <target>Use o Discord como outra forma de iniciar sessão.</target>
+      </segment>
+    </unit>
+    <unit id="discordIsLinked">
+      <segment>
+        <source>Your Discord account is linked.</source>
+        <target>A sua conta do Discord está associada.</target>
+      </segment>
+    </unit>
+    <unit id="discordUnlink">
+      <segment>
+        <source>Unlink Discord</source>
+        <target>Desassociar o Discord</target>
+      </segment>
+    </unit>
+    <unit id="discordIsNotLinked">
+      <segment>
+        <source>Discord is not linked.</source>
+        <target>O Discord não está associado.</target>
+      </segment>
+    </unit>
+    <unit id="discordLink">
+      <segment>
+        <source>Link Discord</source>
+        <target>Associar o Discord</target>
+      </segment>
+    </unit>
+    <unit id="minecraftTitle">
+      <segment>
+        <source>Minecraft accounts</source>
+        <target>Contas de Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="minecraftSubtitle">
+      <segment>
+        <source>Link your Minecraft account so the game knows who you are.</source>
+        <target>Associe a sua conta de Minecraft para o jogo saber quem é.</target>
+      </segment>
+    </unit>
+    <unit id="minecraftLinkedOn">
+      <segment>
+        <source>Linked <ph id="0" equiv="INTERPOLATION" disp="{{ a.linkedAt | date: &apos;mediumDate&apos; }}"/></source>
+        <target>Associada em <ph id="0" equiv="INTERPOLATION" disp="{{ a.linkedAt | date: &apos;mediumDate&apos; }}"/></target>
+      </segment>
+    </unit>
+    <unit id="minecraftUnlink">
+      <segment>
+        <source>Unlink</source>
+        <target>Desassociar</target>
+      </segment>
+    </unit>
+    <unit id="minecraftNone">
+      <segment>
+        <source>No Minecraft account is linked yet.</source>
+        <target>Ainda não há nenhuma conta de Minecraft associada.</target>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeField">
+      <segment>
+        <source>Code from Minecraft</source>
+        <target>Código do Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeHint">
+      <segment>
+        <source>Type /pokednd link in Minecraft, then enter the code here.</source>
+        <target>Escreva /pokednd link no Minecraft e depois introduza aqui o código.</target>
+      </segment>
+    </unit>
+    <unit id="minecraftLink">
+      <segment>
+        <source>Link</source>
+        <target>Associar</target>
+      </segment>
+    </unit>
+    <unit id="minecraftNewCode">
+      <segment>
+        <source>Show me a code to type in Minecraft</source>
+        <target>Mostrar-me um código para escrever no Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeUntil">
+      <segment>
+        <source>Valid until <ph id="0" equiv="INTERPOLATION" disp="{{ c.expiresAt | date: &apos;shortTime&apos; }}"/>. Enter this code in Minecraft with the /pokednd link command.</source>
+        <target>Válido até às <ph id="0" equiv="INTERPOLATION" disp="{{ c.expiresAt | date: &apos;shortTime&apos; }}"/>. Introduza este código no Minecraft com o comando /pokednd link.</target>
+      </segment>
+    </unit>
+    <unit id="minecraftLinkedNow">
+      <segment>
+        <source>Linked: <ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>.</source>
+        <target>Associada: <ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>.</target>
+      </segment>
+    </unit>
+    <unit id="errCodeRequired">
+      <segment>
+        <source>Enter the code that Minecraft showed.</source>
+        <target>Introduza o código que o Minecraft mostrou.</target>
+      </segment>
+    </unit>
+    <unit id="themeLight">
+      <segment>
+        <source>Light</source>
+        <target>Claro</target>
+      </segment>
+    </unit>
+    <unit id="themeDark">
+      <segment>
+        <source>Dark</source>
+        <target>Escuro</target>
+      </segment>
+    </unit>
+    <unit id="themeSystem">
+      <segment>
+        <source>Same as the device</source>
+        <target>Igual ao dispositivo</target>
+      </segment>
+    </unit>
+    <unit id="accountProfileTitle">
+      <segment>
+        <source>Profile and preferences</source>
+        <target>Perfil e preferências</target>
+      </segment>
+    </unit>
+    <unit id="fieldDisplayNameRequired">
+      <segment>
+        <source>Enter a name of up to 40 characters.</source>
+        <target>Introduza um nome com até 40 caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="save">
+      <segment>
+        <source>Save</source>
+        <target>Guardar</target>
+      </segment>
+    </unit>
+    <unit id="accountLanguage">
+      <segment>
+        <source>Language</source>
+        <target>Idioma</target>
+      </segment>
+    </unit>
+    <unit id="accountTheme">
+      <segment>
+        <source>Theme</source>
+        <target>Tema</target>
+      </segment>
+    </unit>
+    <unit id="saved">
+      <segment>
+        <source>Saved.</source>
+        <target>Guardado.</target>
+      </segment>
+    </unit>
+    <unit id="sessionsTitle">
+      <segment>
+        <source>Where you are logged in</source>
+        <target>Onde tem a sessão iniciada</target>
+      </segment>
+    </unit>
+    <unit id="sessionsSubtitle">
+      <segment>
+        <source>End a login you do not recognise.</source>
+        <target>Termine uma sessão que não reconheça.</target>
+      </segment>
+    </unit>
+    <unit id="sessionThis">
+      <segment>
+        <source> (this device)</source>
+        <target> (este dispositivo)</target>
+      </segment>
+    </unit>
+    <unit id="sessionSince">
+      <segment>
+        <source>Since <ph id="0" equiv="INTERPOLATION" disp="{{ s.createdAt | date: &apos;medium&apos; }}"/></source>
+        <target>Desde <ph id="0" equiv="INTERPOLATION" disp="{{ s.createdAt | date: &apos;medium&apos; }}"/></target>
+      </segment>
+    </unit>
+    <unit id="sessionEnd">
+      <segment>
+        <source>End this login</source>
+        <target>Terminar esta sessão</target>
+      </segment>
+    </unit>
+    <unit id="sessionUnknown">
+      <segment>
+        <source>Unknown device</source>
+        <target>Dispositivo desconhecido</target>
+      </segment>
+    </unit>
+    <unit id="loginOr">
+      <segment>
+        <source>or</source>
+        <target>ou</target>
+      </segment>
+    </unit>
+    <unit id="loginDiscord">
+      <segment>
+        <source>Sign in with Discord</source>
+        <target>Iniciar sessão com o Discord</target>
+      </segment>
+    </unit>
+    <unit id="errPreference">
+      <segment>
+        <source>That choice is not available.</source>
+        <target>Essa escolha não está disponível.</target>
+      </segment>
+    </unit>
+    <unit id="errInvalidCode">
+      <segment>
+        <source>This code is not right, or it was used already.</source>
+        <target>Este código não está certo ou já foi usado.</target>
+      </segment>
+    </unit>
+    <unit id="errCodeExpired">
+      <segment>
+        <source>This code has expired. Ask for a new one.</source>
+        <target>Este código expirou. Peça um novo.</target>
+      </segment>
+    </unit>
+    <unit id="errMcLinked">
+      <segment>
+        <source>This Minecraft account is linked to an account already.</source>
+        <target>Esta conta de Minecraft já está associada a uma conta.</target>
+      </segment>
+    </unit>
+    <unit id="errMcInvalid">
+      <segment>
+        <source>This is not a valid Minecraft account.</source>
+        <target>Esta não é uma conta de Minecraft válida.</target>
+      </segment>
+    </unit>
+    <unit id="errLastLogin">
+      <segment>
+        <source>This is the only way you can log in. Set a password first (use &quot;forgot password&quot;), then unlink Discord.</source>
+        <target>Esta é a única forma de iniciar sessão. Defina primeiro uma palavra-passe (use "esqueci-me da palavra-passe") e depois desassocie o Discord.</target>
+      </segment>
+    </unit>
+    <unit id="errDiscordLinked">
+      <segment>
+        <source>This Discord account is linked to an account already, or another Discord account is linked to yours.</source>
+        <target>Esta conta do Discord já está associada a uma conta, ou outra conta do Discord já está associada à sua.</target>
+      </segment>
+    </unit>
+    <unit id="errAlreadyMember">
+      <segment>
+        <source>You are in this game already.</source>
+        <target>Já está neste jogo.</target>
+      </segment>
+    </unit>
+    <unit id="errKicked">
+      <segment>
+        <source>The admin removed you from this game.</source>
+        <target>O administrador removeu-o deste jogo.</target>
+      </segment>
+    </unit>
+    <unit id="errJoinCode">
+      <segment>
+        <source>This code is not right, or the lobby is closed.</source>
+        <target>Este código não está certo ou a sala de espera está fechada.</target>
+      </segment>
+    </unit>
+    <unit id="errJoinRole">
+      <segment>
+        <source>Join as a player or as a spectator.</source>
+        <target>Entre como jogador ou como espetador.</target>
+      </segment>
+    </unit>
+    <unit id="errTransition">
+      <segment>
+        <source>The game cannot do that in its present state.</source>
+        <target>O jogo não pode fazer isso no estado em que está.</target>
+      </segment>
+    </unit>
+    <unit id="errServerBusy">
+      <segment>
+        <source>This server already has an active game. Pause or end it first.</source>
+        <target>Este servidor já tem um jogo ativo. Ponha-o em pausa ou termine-o primeiro.</target>
+      </segment>
+    </unit>
+    <unit id="errNotPending">
+      <segment>
+        <source>This request was answered already.</source>
+        <target>Este pedido já foi respondido.</target>
+      </segment>
+    </unit>
+    <unit id="errArchived">
+      <segment>
+        <source>This game is archived.</source>
+        <target>Este jogo está arquivado.</target>
+      </segment>
+    </unit>
+    <unit id="errSetting">
+      <segment>
+        <source>This value is not allowed for this setting.</source>
+        <target>Este valor não é permitido para esta definição.</target>
+      </segment>
+    </unit>
+    <unit id="errNothingToUndo">
+      <segment>
+        <source>There is no settings change to take back.</source>
+        <target>Não há nenhuma alteração de definições para desfazer.</target>
+      </segment>
+    </unit>
+    <unit id="errForbidden">
+      <segment>
+        <source>You are not allowed to do that.</source>
+        <target>Não tem permissão para fazer isso.</target>
+      </segment>
+    </unit>
+    <unit id="errNotFound">
+      <segment>
+        <source>This does not exist, or you cannot see it.</source>
+        <target>Isto não existe ou não o pode ver.</target>
+      </segment>
+    </unit>
+    <unit id="oauthLinked">
+      <segment>
+        <source>Discord is linked to your account.</source>
+        <target>O Discord ficou associado à sua conta.</target>
+      </segment>
+    </unit>
+    <unit id="oauthDenied">
+      <segment>
+        <source>You did not allow PokeDnD to use your Discord account.</source>
+        <target>Não permitiu que o PokeDnD usasse a sua conta do Discord.</target>
+      </segment>
+    </unit>
+    <unit id="oauthAlreadyLinked">
+      <segment>
+        <source>This Discord account belongs to another PokeDnD account.</source>
+        <target>Esta conta do Discord pertence a outra conta do PokeDnD.</target>
+      </segment>
+    </unit>
+    <unit id="oauthEmailUnverified">
+      <segment>
+        <source>Discord has no verified e-mail address for this account. Verify it at Discord and try again.</source>
+        <target>O Discord não tem um endereço de e-mail verificado para esta conta. Verifique-o no Discord e tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="oauthState">
+      <segment>
+        <source>The sign-in took too long or came from another browser. Try again.</source>
+        <target>O início de sessão demorou demasiado ou veio de outro navegador. Tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="oauthFailed">
+      <segment>
+        <source>Signing in with Discord did not work. Try again.</source>
+        <target>Não foi possível iniciar sessão com o Discord. Tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="navGames">
+      <segment>
+        <source>Games</source>
+        <target>Jogos</target>
+      </segment>
+    </unit>
+    <unit id="navNewGame">
+      <segment>
+        <source>New game</source>
+        <target>Novo jogo</target>
+      </segment>
+    </unit>
+    <unit id="navAccount">
+      <segment>
+        <source>Account</source>
+        <target>Conta</target>
+      </segment>
+    </unit>
+    <unit id="gameAdmins">
+      <segment>
+        <source>Run by <ph id="0" equiv="INTERPOLATION" disp="{{ adminNames() }}"/>.</source>
+        <target>Dirigido por <ph id="0" equiv="INTERPOLATION" disp="{{ adminNames() }}"/>.</target>
+      </segment>
+    </unit>
+    <unit id="gameDraftAdmin">
+      <segment>
+        <source>This game is a draft. Nobody can join yet. Change its settings, then open the lobby.</source>
+        <target>Este jogo é um rascunho. Ainda ninguém pode entrar. Altere as definições e depois abra a sala de espera.</target>
+      </segment>
+    </unit>
+    <unit id="gameDraftPlayer">
+      <segment>
+        <source>The admin is still preparing this game.</source>
+        <target>O administrador ainda está a preparar este jogo.</target>
+      </segment>
+    </unit>
+    <unit id="gameOver">
+      <segment>
+        <source>This game is over.</source>
+        <target>Este jogo terminou.</target>
+      </segment>
+    </unit>
+    <unit id="gameLobbyOpen">
+      <segment>
+        <source>The lobby is open.</source>
+        <target>A sala de espera está aberta.</target>
+      </segment>
+    </unit>
+    <unit id="gameToLobby">
+      <segment>
+        <source>Lobby and members</source>
+        <target>Sala de espera e membros</target>
+      </segment>
+    </unit>
+    <unit id="gameToSettings">
+      <segment>
+        <source>Settings</source>
+        <target>Definições</target>
+      </segment>
+    </unit>
+    <unit id="actionReopenLobby">
+      <segment>
+        <source>Reopen the lobby (late joiners)</source>
+        <target>Reabrir a sala de espera (quem chega tarde)</target>
+      </segment>
+    </unit>
+    <unit id="actionOpenLobby">
+      <segment>
+        <source>Open the lobby</source>
+        <target>Abrir a sala de espera</target>
+      </segment>
+    </unit>
+    <unit id="actionStart">
+      <segment>
+        <source>Start the game</source>
+        <target>Começar o jogo</target>
+      </segment>
+    </unit>
+    <unit id="actionPause">
+      <segment>
+        <source>Pause</source>
+        <target>Pausa</target>
+      </segment>
+    </unit>
+    <unit id="actionResume">
+      <segment>
+        <source>Resume</source>
+        <target>Continuar</target>
+      </segment>
+    </unit>
+    <unit id="actionEnd">
+      <segment>
+        <source>End the game</source>
+        <target>Terminar o jogo</target>
+      </segment>
+    </unit>
+    <unit id="actionDiscard">
+      <segment>
+        <source>Discard this game</source>
+        <target>Descartar este jogo</target>
+      </segment>
+    </unit>
+    <unit id="actionArchive">
+      <segment>
+        <source>Archive</source>
+        <target>Arquivar</target>
+      </segment>
+    </unit>
+    <unit id="stateDraft">
+      <segment>
+        <source>Draft</source>
+        <target>Rascunho</target>
+      </segment>
+    </unit>
+    <unit id="stateLobby">
+      <segment>
+        <source>Lobby open</source>
+        <target>Sala de espera aberta</target>
+      </segment>
+    </unit>
+    <unit id="stateRunning">
+      <segment>
+        <source>Running</source>
+        <target>A decorrer</target>
+      </segment>
+    </unit>
+    <unit id="statePaused">
+      <segment>
+        <source>Paused</source>
+        <target>Em pausa</target>
+      </segment>
+    </unit>
+    <unit id="stateEnded">
+      <segment>
+        <source>Ended</source>
+        <target>Terminado</target>
+      </segment>
+    </unit>
+    <unit id="stateArchived">
+      <segment>
+        <source>Archived</source>
+        <target>Arquivado</target>
+      </segment>
+    </unit>
+    <unit id="membershipRequested">
+      <segment>
+        <source>Waiting for the admin to accept you</source>
+        <target>À espera de que o administrador o aceite</target>
+      </segment>
+    </unit>
+    <unit id="membershipRejected">
+      <segment>
+        <source>The admin did not accept your request</source>
+        <target>O administrador não aceitou o seu pedido</target>
+      </segment>
+    </unit>
+    <unit id="membershipKicked">
+      <segment>
+        <source>The admin removed you</source>
+        <target>O administrador removeu-o</target>
+      </segment>
+    </unit>
+    <unit id="gamesTitle">
+      <segment>
+        <source>Games</source>
+        <target>Jogos</target>
+      </segment>
+    </unit>
+    <unit id="gamesNew">
+      <segment>
+        <source>New game</source>
+        <target>Novo jogo</target>
+      </segment>
+    </unit>
+    <unit id="joinTitle">
+      <segment>
+        <source>Join a game</source>
+        <target>Entrar num jogo</target>
+      </segment>
+    </unit>
+    <unit id="joinSubtitle">
+      <segment>
+        <source>Ask the admin for the code shown in the lobby.</source>
+        <target>Peça ao administrador o código que aparece na sala de espera.</target>
+      </segment>
+    </unit>
+    <unit id="joinCodeField">
+      <segment>
+        <source>Join code</source>
+        <target>Código de entrada</target>
+      </segment>
+    </unit>
+    <unit id="joinAs">
+      <segment>
+        <source>Join as</source>
+        <target>Entrar como</target>
+      </segment>
+    </unit>
+    <unit id="joinPlayer">
+      <segment>
+        <source>Player</source>
+        <target>Jogador</target>
+      </segment>
+    </unit>
+    <unit id="joinSpectator">
+      <segment>
+        <source>Spectator</source>
+        <target>Espetador</target>
+      </segment>
+    </unit>
+    <unit id="joinButton">
+      <segment>
+        <source>Ask to join</source>
+        <target>Pedir para entrar</target>
+      </segment>
+    </unit>
+    <unit id="joinSent">
+      <segment>
+        <source>Your request to join “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” was sent. The admin will answer it.</source>
+        <target>O seu pedido para entrar em “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” foi enviado. O administrador vai responder.</target>
+      </segment>
+    </unit>
+    <unit id="gamesNone">
+      <segment>
+        <source>You are not in any game yet. Join one with a code, or ask an admin to make one.</source>
+        <target>Ainda não está em nenhum jogo. Entre com um código ou peça a um administrador que crie um.</target>
+      </segment>
+    </unit>
+    <unit id="roleAdmin">
+      <segment>
+        <source>You run this game</source>
+        <target>Dirige este jogo</target>
+      </segment>
+    </unit>
+    <unit id="rolePlayer">
+      <segment>
+        <source>Player</source>
+        <target>Jogador</target>
+      </segment>
+    </unit>
+    <unit id="roleSpectator">
+      <segment>
+        <source>Spectator</source>
+        <target>Espetador</target>
+      </segment>
+    </unit>
+    <unit id="roleServerAdmin">
+      <segment>
+        <source>Server admin</source>
+        <target>Administrador do servidor</target>
+      </segment>
+    </unit>
+    <unit id="errJoinCodeRequired">
+      <segment>
+        <source>Enter the code from the lobby.</source>
+        <target>Introduza o código da sala de espera.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyBack">
+      <segment>
+        <source>Back to the game</source>
+        <target>Voltar ao jogo</target>
+      </segment>
+    </unit>
+    <unit id="lobbyCodeLabel">
+      <segment>
+        <source>Join code</source>
+        <target>Código de entrada</target>
+      </segment>
+    </unit>
+    <unit id="lobbyCodeHelp">
+      <segment>
+        <source>Players type this code in the app. It is also shown in Minecraft.</source>
+        <target>Os jogadores escrevem este código na aplicação. Também aparece no Minecraft.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyWaiting">
+      <segment>
+        <source>The lobby is open. Waiting for the admin to start the game.</source>
+        <target>A sala de espera está aberta. À espera de que o administrador comece o jogo.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyRequests">
+      <segment>
+        <source>Requests to join</source>
+        <target>Pedidos para entrar</target>
+      </segment>
+    </unit>
+    <unit id="lobbyAccept">
+      <segment>
+        <source>Accept</source>
+        <target>Aceitar</target>
+      </segment>
+    </unit>
+    <unit id="lobbyReject">
+      <segment>
+        <source>Reject</source>
+        <target>Recusar</target>
+      </segment>
+    </unit>
+    <unit id="lobbyNoRequests">
+      <segment>
+        <source>Nobody is waiting.</source>
+        <target>Ninguém está à espera.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyMembers">
+      <segment>
+        <source>In the game</source>
+        <target>No jogo</target>
+      </segment>
+    </unit>
+    <unit id="lobbyNoMembers">
+      <segment>
+        <source>Nobody has joined yet.</source>
+        <target>Ainda ninguém entrou.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyKick">
+      <segment>
+        <source>Remove</source>
+        <target>Remover</target>
+      </segment>
+    </unit>
+    <unit id="lobbyDraft">
+      <segment>
+        <source>The lobby is not open yet. The admin opens it when the game is ready.</source>
+        <target>A sala de espera ainda não está aberta. O administrador abre-a quando o jogo estiver pronto.</target>
+      </segment>
+    </unit>
+    <unit id="lobbyOver">
+      <segment>
+        <source>This game is over (<ph id="0" equiv="state" disp="stateLabel(game.state)"/>).</source>
+        <target>Este jogo terminou (<ph id="0" equiv="state" disp="stateLabel(game.state)"/>).</target>
+      </segment>
+    </unit>
+    <unit id="lobbyClosed">
+      <segment>
+        <source>The lobby is closed. The game is <ph id="0" equiv="state" disp="stateLabel(game.state)"/>.</source>
+        <target>A sala de espera está fechada. O jogo está: <ph id="0" equiv="state" disp="stateLabel(game.state)"/>.</target>
+      </segment>
+    </unit>
+    <unit id="newGameTitle">
+      <segment>
+        <source>New game</source>
+        <target>Novo jogo</target>
+      </segment>
+    </unit>
+    <unit id="newGameSubtitle">
+      <segment>
+        <source>Everything can be changed later, also during the game.</source>
+        <target>Tudo pode ser alterado mais tarde, também durante o jogo.</target>
+      </segment>
+    </unit>
+    <unit id="newGameNoServers">
+      <segment>
+        <source>There is no Minecraft server you can run a game on. Ask the site admin to make you an admin of one.</source>
+        <target>Não há nenhum servidor de Minecraft em que possa dirigir um jogo. Peça ao administrador do site que o torne administrador de um.</target>
+      </segment>
+    </unit>
+    <unit id="newGameServer">
+      <segment>
+        <source>Minecraft server</source>
+        <target>Servidor de Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="newGameName">
+      <segment>
+        <source>Name of the game</source>
+        <target>Nome do jogo</target>
+      </segment>
+    </unit>
+    <unit id="newGameNameRequired">
+      <segment>
+        <source>Give the game a name.</source>
+        <target>Dê um nome ao jogo.</target>
+      </segment>
+    </unit>
+    <unit id="newGamePreset">
+      <segment>
+        <source>Starting point</source>
+        <target>Ponto de partida</target>
+      </segment>
+    </unit>
+    <unit id="newGamePresetHint">
+      <segment>
+        <source>A preset or a saved rule set. “Defaults” changes nothing.</source>
+        <target>Uma predefinição ou um conjunto de regras guardado. “Defaults” não altera nada.</target>
+      </segment>
+    </unit>
+    <unit id="newGameCreate">
+      <segment>
+        <source>Create the game</source>
+        <target>Criar o jogo</target>
+      </segment>
+    </unit>
+    <unit id="homeGamesText">
+      <segment>
+        <source>Create a game or join one with a code.</source>
+        <target>Crie um jogo ou entre num com um código.</target>
+      </segment>
+    </unit>
+    <unit id="homeGames">
+      <segment>
+        <source>My games</source>
+        <target>Os meus jogos</target>
+      </segment>
+    </unit>
+    <unit id="errNotWhole">
+      <segment>
+        <source>Enter a whole number.</source>
+        <target>Introduza um número inteiro.</target>
+      </segment>
+    </unit>
+    <unit id="errNotNumber">
+      <segment>
+        <source>Enter a number.</source>
+        <target>Introduza um número.</target>
+      </segment>
+    </unit>
+    <unit id="errTooSmall">
+      <segment>
+        <source>The smallest value is <ph id="0" equiv="min" disp="setting.min"/>.</source>
+        <target>O menor valor é <ph id="0" equiv="min" disp="setting.min"/>.</target>
+      </segment>
+    </unit>
+    <unit id="errTooBig">
+      <segment>
+        <source>The largest value is <ph id="0" equiv="max" disp="setting.max"/>.</source>
+        <target>O maior valor é <ph id="0" equiv="max" disp="setting.max"/>.</target>
+      </segment>
+    </unit>
+    <unit id="errNotWholeList">
+      <segment>
+        <source>Enter whole numbers separated by commas.</source>
+        <target>Introduza números inteiros separados por vírgulas.</target>
+      </segment>
+    </unit>
+    <unit id="errNotJson">
+      <segment>
+        <source>This is not valid JSON.</source>
+        <target>Isto não é JSON válido.</target>
+      </segment>
+    </unit>
+    <unit id="sourceGame">
+      <segment>
+        <source>Changed in this game</source>
+        <target>Alterada neste jogo</target>
+      </segment>
+    </unit>
+    <unit id="sourceRuleSet">
+      <segment>
+        <source>From the rule set</source>
+        <target>Do conjunto de regras</target>
+      </segment>
+    </unit>
+    <unit id="sourceDefault">
+      <segment>
+        <source>Default</source>
+        <target>Padrão</target>
+      </segment>
+    </unit>
+    <unit id="settingDefault">
+      <segment>
+        <source>Default:</source>
+        <target>Padrão:</target>
+      </segment>
+    </unit>
+    <unit id="settingReset">
+      <segment>
+        <source>Reset to default</source>
+        <target>Repor o padrão</target>
+      </segment>
+    </unit>
+    <unit id="settingBuiltInData">
+      <segment>
+        <source>built-in data</source>
+        <target>dados incluídos</target>
+      </segment>
+    </unit>
+    <unit id="settingsTitle">
+      <segment>
+        <source>Settings</source>
+        <target>Definições</target>
+      </segment>
+    </unit>
+    <unit id="settingsLoading">
+      <segment>
+        <source>Loading…</source>
+        <target>A carregar…</target>
+      </segment>
+    </unit>
+    <unit id="settingsNotAdmin">
+      <segment>
+        <source>Only the people who run the game can change its settings.</source>
+        <target>Só quem dirige o jogo pode alterar as suas definições.</target>
+      </segment>
+    </unit>
+    <unit id="settingsStartTitle">
+      <segment>
+        <source>Starting point</source>
+        <target>Ponto de partida</target>
+      </segment>
+    </unit>
+    <unit id="settingsRuleSetNow">
+      <segment>
+        <source>Rule set in use:</source>
+        <target>Conjunto de regras em uso:</target>
+      </segment>
+    </unit>
+    <unit id="settingsPreset">
+      <segment>
+        <source>Preset</source>
+        <target>Predefinição</target>
+      </segment>
+    </unit>
+    <unit id="settingsPickNone">
+      <segment>
+        <source>Choose…</source>
+        <target>Escolher…</target>
+      </segment>
+    </unit>
+    <unit id="settingsRuleSet">
+      <segment>
+        <source>Saved rule set</source>
+        <target>Conjunto de regras guardado</target>
+      </segment>
+    </unit>
+    <unit id="settingsPickNone2">
+      <segment>
+        <source>Choose…</source>
+        <target>Escolher…</target>
+      </segment>
+    </unit>
+    <unit id="settingsPreviewTitle">
+      <segment>
+        <source>Loading “<ph id="0" equiv="INTERPOLATION" disp="{{ p.ruleSet.name }}"/>” would change:</source>
+        <target>Carregar “<ph id="0" equiv="INTERPOLATION" disp="{{ p.ruleSet.name }}"/>” iria alterar:</target>
+      </segment>
+    </unit>
+    <unit id="settingsNoChanges">
+      <segment>
+        <source>Nothing would change.</source>
+        <target>Nada iria mudar.</target>
+      </segment>
+    </unit>
+    <unit id="settingsDiscardOwn">
+      <segment>
+        <source>Also discard the changes made in this game</source>
+        <target>Descartar também as alterações feitas neste jogo</target>
+      </segment>
+    </unit>
+    <unit id="settingsApply">
+      <segment>
+        <source>Load it</source>
+        <target>Carregar</target>
+      </segment>
+    </unit>
+    <unit id="settingsCancel">
+      <segment>
+        <source>Cancel</source>
+        <target>Cancelar</target>
+      </segment>
+    </unit>
+    <unit id="settingsApplied">
+      <segment>
+        <source>“<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” was loaded.</source>
+        <target>“<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” foi carregado.</target>
+      </segment>
+    </unit>
+    <unit id="settingsSaveAs">
+      <segment>
+        <source>Save these rules as a rule set</source>
+        <target>Guardar estas regras como um conjunto de regras</target>
+      </segment>
+    </unit>
+    <unit id="settingsSave">
+      <segment>
+        <source>Save</source>
+        <target>Guardar</target>
+      </segment>
+    </unit>
+    <unit id="settingsSaved">
+      <segment>
+        <source>Saved as “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>”.</source>
+        <target>Guardado como “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>”.</target>
+      </segment>
+    </unit>
+    <unit id="settingsToolsLabel">
+      <segment>
+        <source>Find settings</source>
+        <target>Procurar definições</target>
+      </segment>
+    </unit>
+    <unit id="settingsSearch">
+      <segment>
+        <source>Search settings</source>
+        <target>Procurar definições</target>
+      </segment>
+    </unit>
+    <unit id="settingsChangedOnly">
+      <segment>
+        <source>Changed only</source>
+        <target>Só as alteradas</target>
+      </segment>
+    </unit>
+    <unit id="settingsOpenAll">
+      <segment>
+        <source>Open all groups</source>
+        <target>Abrir todos os grupos</target>
+      </segment>
+    </unit>
+    <unit id="settingsCloseAll">
+      <segment>
+        <source>Close all groups</source>
+        <target>Fechar todos os grupos</target>
+      </segment>
+    </unit>
+    <unit id="settingsUndo">
+      <segment>
+        <source>Take back the last change</source>
+        <target>Desfazer a última alteração</target>
+      </segment>
+    </unit>
+    <unit id="settingsNoMatch">
+      <segment>
+        <source>No setting matches.</source>
+        <target>Nenhuma definição corresponde.</target>
+      </segment>
+    </unit>
+    <unit id="settingsResetAll">
+      <segment>
+        <source>Reset all to default</source>
+        <target>Repor tudo ao padrão</target>
+      </segment>
+    </unit>
+    <unit id="settingsCount">
+      <segment>
+        <source><ph id="0" equiv="shown" disp="this.shownCount()"/> of <ph id="1" equiv="total" disp="this.settings().length"/> settings shown · <ph id="2" equiv="changed" disp="this.changedCount()"/> changed</source>
+        <target><ph id="0" equiv="shown" disp="this.shownCount()"/> de <ph id="1" equiv="total" disp="this.settings().length"/> definições mostradas · <ph id="2" equiv="changed" disp="this.changedCount()"/> alteradas</target>
+      </segment>
+    </unit>
+    <unit id="confirmQuestion">
+      <segment>
+        <source>Are you sure?</source>
+        <target>Tem a certeza?</target>
+      </segment>
+    </unit>
+    <unit id="confirmYes">
+      <segment>
+        <source>Yes</source>
+        <target>Sim</target>
+      </segment>
+    </unit>
+    <unit id="confirmNo">
+      <segment>
+        <source>No</source>
+        <target>Não</target>
+      </segment>
+    </unit>
+    <unit id="errTrainerExists">
+      <segment>
+        <source>You have a trainer in this game already. Change or remove it instead.</source>
+        <target>Já tem um treinador neste jogo. Altere-o ou remova-o.</target>
+      </segment>
+    </unit>
+    <unit id="errGameStarted">
+      <segment>
+        <source>The game has started, so only the admin can change this trainer now.</source>
+        <target>O jogo já começou, por isso só o administrador pode alterar este treinador.</target>
+      </segment>
+    </unit>
+    <unit id="errTrainerProgressed">
+      <segment>
+        <source>This trainer has played already, so its sheet can no longer be remade.</source>
+        <target>Este treinador já jogou, por isso a sua ficha já não pode ser refeita.</target>
+      </segment>
+    </unit>
+    <unit id="errInvalidState">
+      <segment>
+        <source>Trainers cannot be made or changed in a game that is over.</source>
+        <target>Não se podem criar nem alterar treinadores num jogo que já terminou.</target>
+      </segment>
+    </unit>
+    <unit id="errNoMinecraft">
+      <segment>
+        <source>This game uses your Minecraft name as the trainer name. Link a Minecraft account first (on the account page).</source>
+        <target>Este jogo usa o seu nome de Minecraft como nome do treinador. Associe primeiro uma conta de Minecraft (na página da conta).</target>
+      </segment>
+    </unit>
+    <unit id="srvInvalid">
+      <segment>
+        <source>The trainer does not follow the rules of this game. Check each step.</source>
+        <target>O treinador não cumpre as regras deste jogo. Verifique cada passo.</target>
+      </segment>
+    </unit>
+    <unit id="errTrainerRules">
+      <segment>
+        <source>The trainer settings of this game are not valid. Ask the admin.</source>
+        <target>As definições de treinadores deste jogo não são válidas. Fale com o administrador.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinTooLarge">
+      <segment>
+        <source>This skin file is too big.</source>
+        <target>Este ficheiro de skin é demasiado grande.</target>
+      </segment>
+    </unit>
+    <unit id="skinNotPng">
+      <segment>
+        <source>The skin must be a PNG picture.</source>
+        <target>A skin tem de ser uma imagem PNG.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinWrongSize">
+      <segment>
+        <source>The skin must be 64×64 pixels.</source>
+        <target>A skin tem de ter 64×64 píxeis.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinUnreadable">
+      <segment>
+        <source>This skin file could not be read as a PNG picture.</source>
+        <target>Não foi possível ler este ficheiro de skin como uma imagem PNG.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinModel">
+      <segment>
+        <source>Choose classic or slim arms.</source>
+        <target>Escolha braços clássicos ou finos.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinUploadOff">
+      <segment>
+        <source>This game does not allow uploaded skins.</source>
+        <target>Este jogo não permite carregar skins.</target>
+      </segment>
+    </unit>
+    <unit id="errSkinCopyOff">
+      <segment>
+        <source>This game does not allow copying a skin from a Minecraft name.</source>
+        <target>Este jogo não permite copiar uma skin a partir de um nome de Minecraft.</target>
+      </segment>
+    </unit>
+    <unit id="skinBadName">
+      <segment>
+        <source>A Minecraft name has 3 to 16 letters, digits or underscores.</source>
+        <target>Um nome de Minecraft tem 3 a 16 letras, algarismos ou sublinhados.</target>
+      </segment>
+    </unit>
+    <unit id="errMcUserNotFound">
+      <segment>
+        <source>There is no Minecraft account with that name.</source>
+        <target>Não existe nenhuma conta de Minecraft com esse nome.</target>
+      </segment>
+    </unit>
+    <unit id="errMcNoSkin">
+      <segment>
+        <source>That account has no custom skin.</source>
+        <target>Essa conta não tem uma skin personalizada.</target>
+      </segment>
+    </unit>
+    <unit id="errMojang">
+      <segment>
+        <source>Mojang could not be reached. Try again later, or upload a skin.</source>
+        <target>Não foi possível contactar a Mojang. Tente mais tarde ou carregue uma skin.</target>
+      </segment>
+    </unit>
+    <unit id="gameToTrainer">
+      <segment>
+        <source>Your trainer</source>
+        <target>O seu treinador</target>
+      </segment>
+    </unit>
+    <unit id="skinTooLarge">
+      <segment>
+        <source>This file is too big (<ph id="0" equiv="size" disp="size"/> bytes, the limit is <ph id="1" equiv="max" disp="maxBytes"/> bytes).</source>
+        <target>Este ficheiro é demasiado grande (<ph id="0" equiv="size" disp="size"/> bytes; o limite é <ph id="1" equiv="max" disp="maxBytes"/> bytes).</target>
+      </segment>
+    </unit>
+    <unit id="skinWrongSize">
+      <segment>
+        <source>The skin must be <ph id="0" equiv="px" disp="pixels"/>×<ph id="1" equiv="px2" disp="pixels"/> pixels, not <ph id="2" equiv="w" disp="width"/>×<ph id="3" equiv="h" disp="height"/>.</source>
+        <target>A skin tem de ter <ph id="0" equiv="px" disp="pixels"/>×<ph id="1" equiv="px2" disp="pixels"/> píxeis, não <ph id="2" equiv="w" disp="width"/>×<ph id="3" equiv="h" disp="height"/>.</target>
+      </segment>
+    </unit>
+    <unit id="skinLegend">
+      <segment>
+        <source>Skin</source>
+        <target>Skin</target>
+      </segment>
+    </unit>
+    <unit id="skinNone">
+      <segment>
+        <source>No skin (the default)</source>
+        <target>Sem skin (a predefinida)</target>
+      </segment>
+    </unit>
+    <unit id="skinUpload">
+      <segment>
+        <source>Upload a PNG</source>
+        <target>Carregar um PNG</target>
+      </segment>
+    </unit>
+    <unit id="skinCopy">
+      <segment>
+        <source>Copy from a Minecraft name</source>
+        <target>Copiar de um nome de Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="skinHelp">
+      <segment>
+        <source>A skin is a 64×64 PNG. It is checked and cleaned by the server.</source>
+        <target>Uma skin é um PNG de 64×64. O servidor verifica-a e limpa-a.</target>
+      </segment>
+    </unit>
+    <unit id="skinFile">
+      <segment>
+        <source>PNG file</source>
+        <target>Ficheiro PNG</target>
+      </segment>
+    </unit>
+    <unit id="skinArmsLabel">
+      <segment>
+        <source>Arms</source>
+        <target>Braços</target>
+      </segment>
+    </unit>
+    <unit id="skinClassic">
+      <segment>
+        <source>Classic arms (Steve)</source>
+        <target>Braços clássicos (Steve)</target>
+      </segment>
+    </unit>
+    <unit id="skinSlim">
+      <segment>
+        <source>Slim arms (Alex)</source>
+        <target>Braços finos (Alex)</target>
+      </segment>
+    </unit>
+    <unit id="skinUsername">
+      <segment>
+        <source>Minecraft name</source>
+        <target>Nome de Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="trainerPageTitle">
+      <segment>
+        <source>Your trainer</source>
+        <target>O seu treinador</target>
+      </segment>
+    </unit>
+    <unit id="wizardBack">
+      <segment>
+        <source>Back to the game</source>
+        <target>Voltar ao jogo</target>
+      </segment>
+    </unit>
+    <unit id="wizardLoading">
+      <segment>
+        <source>Loading…</source>
+        <target>A carregar…</target>
+      </segment>
+    </unit>
+    <unit id="levelN">
+      <segment>
+        <source>Level <ph id="0" equiv="INTERPOLATION" disp="{{ t.level }}"/></source>
+        <target>Nível <ph id="0" equiv="INTERPOLATION" disp="{{ t.level }}"/></target>
+      </segment>
+    </unit>
+    <unit id="skinAlt">
+      <segment>
+        <source>Skin of the trainer</source>
+        <target>Skin do treinador</target>
+      </segment>
+    </unit>
+    <unit id="noSkin">
+      <segment>
+        <source>No skin yet.</source>
+        <target>Ainda sem skin.</target>
+      </segment>
+    </unit>
+    <unit id="vitalHp">
+      <segment>
+        <source>HP</source>
+        <target>PV</target>
+      </segment>
+    </unit>
+    <unit id="vitalAc">
+      <segment>
+        <source>Armor Class</source>
+        <target>Classe de Armadura</target>
+      </segment>
+    </unit>
+    <unit id="vitalProficiency">
+      <segment>
+        <source>Proficiency</source>
+        <target>Proficiência</target>
+      </segment>
+    </unit>
+    <unit id="vitalHandling">
+      <segment>
+        <source>Pokémon Handling</source>
+        <target>Trato com Pokémon</target>
+      </segment>
+    </unit>
+    <unit id="vitalXp">
+      <segment>
+        <source>XP</source>
+        <target>XP</target>
+      </segment>
+    </unit>
+    <unit id="vitalMoney">
+      <segment>
+        <source>Money</source>
+        <target>Dinheiro</target>
+      </segment>
+    </unit>
+    <unit id="vitalStarter">
+      <segment>
+        <source>Starter Pokémon</source>
+        <target>Pokémon inicial</target>
+      </segment>
+    </unit>
+    <unit id="sheetAbilities">
+      <segment>
+        <source>Abilities</source>
+        <target>Atributos</target>
+      </segment>
+    </unit>
+    <unit id="colAbility">
+      <segment>
+        <source>Ability</source>
+        <target>Atributo</target>
+      </segment>
+    </unit>
+    <unit id="colScore">
+      <segment>
+        <source>Score</source>
+        <target>Valor</target>
+      </segment>
+    </unit>
+    <unit id="colModifier">
+      <segment>
+        <source>Modifier</source>
+        <target>Modificador</target>
+      </segment>
+    </unit>
+    <unit id="colSave">
+      <segment>
+        <source>Saving throw</source>
+        <target>Salvaguarda</target>
+      </segment>
+    </unit>
+    <unit id="sheetSkills">
+      <segment>
+        <source>Skills</source>
+        <target>Perícias</target>
+      </segment>
+    </unit>
+    <unit id="proficientMark">
+      <segment>
+        <source>(proficient)</source>
+        <target>(proficiente)</target>
+      </segment>
+    </unit>
+    <unit id="sheetFeatures">
+      <segment>
+        <source>Class features</source>
+        <target>Características da classe</target>
+      </segment>
+    </unit>
+    <unit id="noSheet">
+      <segment>
+        <source>The class of this trainer is not in the game&apos;s class list any more, so the sheet cannot be shown.</source>
+        <target>A classe deste treinador já não está na lista de classes do jogo, por isso não é possível mostrar a ficha.</target>
+      </segment>
+    </unit>
+    <unit id="sheetBag">
+      <segment>
+        <source>Bag</source>
+        <target>Mochila</target>
+      </segment>
+    </unit>
+    <unit id="bagEmpty">
+      <segment>
+        <source>Nothing yet.</source>
+        <target>Ainda nada.</target>
+      </segment>
+    </unit>
+    <unit id="trainerEdit">
+      <segment>
+        <source>Change the trainer</source>
+        <target>Alterar o treinador</target>
+      </segment>
+    </unit>
+    <unit id="trainerLocked">
+      <segment>
+        <source>The game has started, so only the admin can change this trainer now.</source>
+        <target>O jogo já começou, por isso só o administrador pode alterar este treinador.</target>
+      </segment>
+    </unit>
+    <unit id="skinSectionTitle">
+      <segment>
+        <source>Change the skin</source>
+        <target>Alterar a skin</target>
+      </segment>
+    </unit>
+    <unit id="skinSave">
+      <segment>
+        <source>Use this skin</source>
+        <target>Usar esta skin</target>
+      </segment>
+    </unit>
+    <unit id="othersTitle">
+      <segment>
+        <source>Other trainers in this game</source>
+        <target>Outros treinadores neste jogo</target>
+      </segment>
+    </unit>
+    <unit id="trainerRemove">
+      <segment>
+        <source>Remove the trainer</source>
+        <target>Remover o treinador</target>
+      </segment>
+    </unit>
+    <unit id="skinRemove">
+      <segment>
+        <source>Remove the skin</source>
+        <target>Remover a skin</target>
+      </segment>
+    </unit>
+    <unit id="armsSlim">
+      <segment>
+        <source>slim arms</source>
+        <target>braços finos</target>
+      </segment>
+    </unit>
+    <unit id="armsClassic">
+      <segment>
+        <source>classic arms</source>
+        <target>braços clássicos</target>
+      </segment>
+    </unit>
+    <unit id="skinInfoCopy">
+      <segment>
+        <source>Copied from <ph id="0" equiv="name" disp="s.username ?? &apos;&apos;"/>, <ph id="1" equiv="arms" disp="arms"/></source>
+        <target>Copiada de <ph id="0" equiv="name" disp="s.username ?? &apos;&apos;"/>, <ph id="1" equiv="arms" disp="arms"/></target>
+      </segment>
+    </unit>
+    <unit id="skinInfoUpload">
+      <segment>
+        <source>Uploaded, <ph id="0" equiv="arms" disp="arms"/></source>
+        <target>Carregada, <ph id="0" equiv="arms" disp="arms"/></target>
+      </segment>
+    </unit>
+    <unit id="wizardSteps">
+      <segment>
+        <source>Steps</source>
+        <target>Passos</target>
+      </segment>
+    </unit>
+    <unit id="wizardSkinFailed">
+      <segment>
+        <source>Your trainer is saved, but the skin was not. You can try again, or continue and change the skin on your trainer page.</source>
+        <target>O treinador ficou guardado, mas a skin não. Pode tentar outra vez, ou continuar e mudar a skin na página do treinador.</target>
+      </segment>
+    </unit>
+    <unit id="wizardRetrySkin">
+      <segment>
+        <source>Try the skin again</source>
+        <target>Tentar a skin outra vez</target>
+      </segment>
+    </unit>
+    <unit id="wizardSkipSkin">
+      <segment>
+        <source>Continue without the skin</source>
+        <target>Continuar sem a skin</target>
+      </segment>
+    </unit>
+    <unit id="wizardPrevious">
+      <segment>
+        <source>Back</source>
+        <target>Anterior</target>
+      </segment>
+    </unit>
+    <unit id="wizardNext">
+      <segment>
+        <source>Next</source>
+        <target>Seguinte</target>
+      </segment>
+    </unit>
+    <unit id="wizardCreateTitle">
+      <segment>
+        <source>Make your trainer</source>
+        <target>Crie o seu treinador</target>
+      </segment>
+    </unit>
+    <unit id="wizardEditTitle">
+      <segment>
+        <source>Change your trainer</source>
+        <target>Altere o seu treinador</target>
+      </segment>
+    </unit>
+    <unit id="wizardCreate">
+      <segment>
+        <source>Create the trainer</source>
+        <target>Criar o treinador</target>
+      </segment>
+    </unit>
+    <unit id="wizardSave">
+      <segment>
+        <source>Save the changes</source>
+        <target>Guardar as alterações</target>
+      </segment>
+    </unit>
+    <unit id="wizardNotPlayer">
+      <segment>
+        <source>Only players make trainers. Ask the admin to accept you as a player.</source>
+        <target>Só os jogadores criam treinadores. Peça ao administrador que o aceite como jogador.</target>
+      </segment>
+    </unit>
+    <unit id="abilityStr">
+      <segment>
+        <source>Strength</source>
+        <target>Força</target>
+      </segment>
+    </unit>
+    <unit id="abilityDex">
+      <segment>
+        <source>Dexterity</source>
+        <target>Destreza</target>
+      </segment>
+    </unit>
+    <unit id="abilityCon">
+      <segment>
+        <source>Constitution</source>
+        <target>Constituição</target>
+      </segment>
+    </unit>
+    <unit id="abilityInt">
+      <segment>
+        <source>Intelligence</source>
+        <target>Inteligência</target>
+      </segment>
+    </unit>
+    <unit id="abilityWis">
+      <segment>
+        <source>Wisdom</source>
+        <target>Sabedoria</target>
+      </segment>
+    </unit>
+    <unit id="abilityCha">
+      <segment>
+        <source>Charisma</source>
+        <target>Carisma</target>
+      </segment>
+    </unit>
+    <unit id="abilityStrUse">
+      <segment>
+        <source>Athletics, carrying</source>
+        <target>Atletismo, carga</target>
+      </segment>
+    </unit>
+    <unit id="abilityDexUse">
+      <segment>
+        <source>Movement roll, Armor Class, fleeing</source>
+        <target>Lançamento de movimento, Classe de Armadura, fuga</target>
+      </segment>
+    </unit>
+    <unit id="abilityConUse">
+      <segment>
+        <source>Trainer HP</source>
+        <target>PV do treinador</target>
+      </segment>
+    </unit>
+    <unit id="abilityIntUse">
+      <segment>
+        <source>Pokémon Lore, Nature, Investigation</source>
+        <target>Saber sobre Pokémon, Natureza, Investigação</target>
+      </segment>
+    </unit>
+    <unit id="abilityWisUse">
+      <segment>
+        <source>Pokémon Handling: accuracy and catching</source>
+        <target>Trato com Pokémon: pontaria e captura</target>
+      </segment>
+    </unit>
+    <unit id="abilityChaUse">
+      <segment>
+        <source>Persuasion, Performance, shop prices</source>
+        <target>Persuasão, Atuação, preços das lojas</target>
+      </segment>
+    </unit>
+    <unit id="methodPointBuy">
+      <segment>
+        <source>Point buy</source>
+        <target>Compra de pontos</target>
+      </segment>
+    </unit>
+    <unit id="methodStandardArray">
+      <segment>
+        <source>Standard array</source>
+        <target>Conjunto padrão</target>
+      </segment>
+    </unit>
+    <unit id="methodRoll">
+      <segment>
+        <source>Roll 4d6, drop the lowest</source>
+        <target>Lançar 4d6 e descartar o mais baixo</target>
+      </segment>
+    </unit>
+    <unit id="stepClass">
+      <segment>
+        <source>Class</source>
+        <target>Classe</target>
+      </segment>
+    </unit>
+    <unit id="stepScores">
+      <segment>
+        <source>Ability scores</source>
+        <target>Atributos</target>
+      </segment>
+    </unit>
+    <unit id="stepSkills">
+      <segment>
+        <source>Skills</source>
+        <target>Perícias</target>
+      </segment>
+    </unit>
+    <unit id="stepStarter">
+      <segment>
+        <source>Starter Pokémon</source>
+        <target>Pokémon inicial</target>
+      </segment>
+    </unit>
+    <unit id="stepIdentity">
+      <segment>
+        <source>Name and skin</source>
+        <target>Nome e skin</target>
+      </segment>
+    </unit>
+    <unit id="stepReview">
+      <segment>
+        <source>Summary</source>
+        <target>Resumo</target>
+      </segment>
+    </unit>
+    <unit id="wzScoresMissing">
+      <segment>
+        <source>Set all six ability scores.</source>
+        <target>Defina os seis valores de atributo.</target>
+      </segment>
+    </unit>
+    <unit id="wzScoreRange">
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> is <ph id="1" equiv="score" disp="s"/>, but with point buy a score is <ph id="2" equiv="min" disp="min"/> to <ph id="3" equiv="max" disp="max"/>.</source>
+        <target><ph id="0" equiv="ability" disp="abilityName(a)"/> é <ph id="1" equiv="score" disp="s"/>, mas na compra de pontos um valor vai de <ph id="2" equiv="min" disp="min"/> a <ph id="3" equiv="max" disp="max"/>.</target>
+      </segment>
+    </unit>
+    <unit id="wzTooManyPoints">
+      <segment>
+        <source>These scores cost <ph id="0" equiv="spent" disp="spent"/> points, but you only have <ph id="1" equiv="budget" disp="o.pointBuyBudget"/>.</source>
+        <target>Estes valores custam <ph id="0" equiv="spent" disp="spent"/> pontos, mas só tem <ph id="1" equiv="budget" disp="o.pointBuyBudget"/>.</target>
+      </segment>
+    </unit>
+    <unit id="wzNotArray">
+      <segment>
+        <source>Use each number of the standard array (<ph id="0" equiv="numbers" disp="o.standardArray.join(&apos;, &apos;)"/>) once.</source>
+        <target>Use cada número do conjunto padrão (<ph id="0" equiv="numbers" disp="o.standardArray.join(&apos;, &apos;)"/>) uma só vez.</target>
+      </segment>
+    </unit>
+    <unit id="wzRollRange">
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> is <ph id="1" equiv="score" disp="s"/>, but 4d6 drop the lowest gives 3 to 18.</source>
+        <target><ph id="0" equiv="ability" disp="abilityName(a)"/> é <ph id="1" equiv="score" disp="s"/>, mas 4d6 descartando o mais baixo dá de 3 a 18.</target>
+      </segment>
+    </unit>
+    <unit id="wzImprovementPoints">
+      <segment>
+        <source>Spend exactly <ph id="0" equiv="owed" disp="owed"/> improvement points (<ph id="1" equiv="given" disp="given"/> so far).</source>
+        <target>Gaste exatamente <ph id="0" equiv="owed" disp="owed"/> pontos de melhoria (até agora <ph id="1" equiv="given" disp="given"/>).</target>
+      </segment>
+    </unit>
+    <unit id="wzScoreCap">
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> would be <ph id="1" equiv="score" disp="after"/>, but no score goes above 20.</source>
+        <target><ph id="0" equiv="ability" disp="abilityName(a)"/> ficaria <ph id="1" equiv="score" disp="after"/>, mas nenhum valor passa de 20.</target>
+      </segment>
+    </unit>
+    <unit id="wzSkillCount">
+      <segment>
+        <source>Pick <ph id="0" equiv="pick" disp="pick"/> skills (<ph id="1" equiv="picked" disp="picked.length"/> chosen).</source>
+        <target>Escolha <ph id="0" equiv="pick" disp="pick"/> perícias (<ph id="1" equiv="picked" disp="picked.length"/> escolhidas).</target>
+      </segment>
+    </unit>
+    <unit id="wzNameMissing">
+      <segment>
+        <source>The trainer needs a name.</source>
+        <target>O treinador precisa de um nome.</target>
+      </segment>
+    </unit>
+    <unit id="wzNameLength">
+      <segment>
+        <source>The name must be <ph id="0" equiv="min" disp="o.nameMinLength"/> to <ph id="1" equiv="max" disp="o.nameMaxLength"/> characters long.</source>
+        <target>O nome tem de ter de <ph id="0" equiv="min" disp="o.nameMinLength"/> a <ph id="1" equiv="max" disp="o.nameMaxLength"/> caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="wzNameCharacters">
+      <segment>
+        <source>The name may only use letters, digits and underscores (like a Minecraft username).</source>
+        <target>O nome só pode ter letras, algarismos e sublinhados (como um nome de utilizador do Minecraft).</target>
+      </segment>
+    </unit>
+    <unit id="wzNameTaken">
+      <segment>
+        <source>Another trainer in this game is already called <ph id="0" equiv="name" disp="name"/>.</source>
+        <target>Outro treinador deste jogo já se chama <ph id="0" equiv="name" disp="name"/>.</target>
+      </segment>
+    </unit>
+    <unit id="wzStarterMissing">
+      <segment>
+        <source>Choose a starter Pokémon.</source>
+        <target>Escolha um Pokémon inicial.</target>
+      </segment>
+    </unit>
+    <unit id="srvNameTaken">
+      <segment>
+        <source>Another trainer in this game has this name already.</source>
+        <target>Outro treinador deste jogo já tem este nome.</target>
+      </segment>
+    </unit>
+    <unit id="srvUnknownClass">
+      <segment>
+        <source>This game does not have that class (the admin may have changed the class list). Choose another.</source>
+        <target>Este jogo não tem essa classe (o administrador pode ter mudado a lista de classes). Escolha outra.</target>
+      </segment>
+    </unit>
+    <unit id="srvTooManyPoints">
+      <segment>
+        <source>These scores cost more points than the game allows.</source>
+        <target>Estes valores custam mais pontos do que o jogo permite.</target>
+      </segment>
+    </unit>
+    <unit id="srvMethodNotAllowed">
+      <segment>
+        <source>This game does not allow that way of making ability scores.</source>
+        <target>Este jogo não permite esta forma de fazer os valores de atributo.</target>
+      </segment>
+    </unit>
+    <unit id="srvSkills">
+      <segment>
+        <source>The skills do not fit the class. Choose them again.</source>
+        <target>As perícias não servem a esta classe. Escolha-as de novo.</target>
+      </segment>
+    </unit>
+    <unit id="srvStarterNotAllowed">
+      <segment>
+        <source>That Pokémon is not one of the starters of this game.</source>
+        <target>Esse Pokémon não é um dos iniciais deste jogo.</target>
+      </segment>
+    </unit>
+    <unit id="wzClassMissing">
+      <segment>
+        <source>Choose a class.</source>
+        <target>Escolha uma classe.</target>
+      </segment>
+    </unit>
+    <unit id="stepClassTitle">
+      <segment>
+        <source>Choose a class</source>
+        <target>Escolha uma classe</target>
+      </segment>
+    </unit>
+    <unit id="stepClassHelp">
+      <segment>
+        <source>Your class decides your hit die, the skills you can pick and the features you get as you level up.</source>
+        <target>A sua classe decide o dado de vida, as perícias que pode escolher e as características que ganha ao subir de nível.</target>
+      </segment>
+    </unit>
+    <unit id="classFacts">
+      <segment>
+        <source>Hit die d<ph id="0" equiv="INTERPOLATION" disp="{{ c.hitDie }}"/> · best at <ph id="1" equiv="INTERPOLATION_1" disp="{{ abilityName(c.primaryAbility) }}"/></source>
+        <target>Dado de vida d<ph id="0" equiv="INTERPOLATION" disp="{{ c.hitDie }}"/> · melhor em <ph id="1" equiv="INTERPOLATION_1" disp="{{ abilityName(c.primaryAbility) }}"/></target>
+      </segment>
+    </unit>
+    <unit id="stepScoresTitle">
+      <segment>
+        <source>Ability scores</source>
+        <target>Atributos</target>
+      </segment>
+    </unit>
+    <unit id="methodGroup">
+      <segment>
+        <source>Method</source>
+        <target>Método</target>
+      </segment>
+    </unit>
+    <unit id="pointsLeft">
+      <segment>
+        <source>Points left: <ph id="0" equiv="INTERPOLATION" disp="{{ o.pointBuyBudget - spent() }}"/> of <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.pointBuyBudget }}"/></source>
+        <target>Pontos por gastar: <ph id="0" equiv="INTERPOLATION" disp="{{ o.pointBuyBudget - spent() }}"/> de <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.pointBuyBudget }}"/></target>
+      </segment>
+    </unit>
+    <unit id="arrayHelp">
+      <segment>
+        <source>Give each number to one ability: <ph id="0" equiv="INTERPOLATION" disp="{{ o.standardArray.join(&apos;, &apos;) }}"/>.</source>
+        <target>Dê cada número a um atributo: <ph id="0" equiv="INTERPOLATION" disp="{{ o.standardArray.join(&apos;, &apos;) }}"/>.</target>
+      </segment>
+    </unit>
+    <unit id="rollHelp">
+      <segment>
+        <source>Roll four six-sided dice for each ability and drop the lowest one. Type your results, or let the app roll for you.</source>
+        <target>Lance quatro dados de seis faces para cada atributo e descarte o mais baixo. Escreva os resultados, ou deixe a aplicação lançar por si.</target>
+      </segment>
+    </unit>
+    <unit id="rollAll">
+      <segment>
+        <source>Roll for me</source>
+        <target>Lançar por mim</target>
+      </segment>
+    </unit>
+    <unit id="improvementTitle">
+      <segment>
+        <source>Ability improvements</source>
+        <target>Melhorias de atributos</target>
+      </segment>
+    </unit>
+    <unit id="improvementHelp">
+      <segment>
+        <source>This game starts at level <ph id="0" equiv="INTERPOLATION" disp="{{ o.startLevel }}"/>, so you have <ph id="1" equiv="INTERPOLATION_1" disp="{{ owed() }}"/> points to add to your scores (no score above 20).</source>
+        <target>Este jogo começa no nível <ph id="0" equiv="INTERPOLATION" disp="{{ o.startLevel }}"/>, por isso tem <ph id="1" equiv="INTERPOLATION_1" disp="{{ owed() }}"/> pontos para somar aos seus valores (nenhum valor acima de 20).</target>
+      </segment>
+    </unit>
+    <unit id="lessOf">
+      <segment>
+        <source>Less <ph id="0" equiv="ability" disp="abilityName(a)"/></source>
+        <target>Menos <ph id="0" equiv="ability" disp="abilityName(a)"/></target>
+      </segment>
+    </unit>
+    <unit id="moreOf">
+      <segment>
+        <source>More <ph id="0" equiv="ability" disp="abilityName(a)"/></source>
+        <target>Mais <ph id="0" equiv="ability" disp="abilityName(a)"/></target>
+      </segment>
+    </unit>
+    <unit id="stepSkillsTitle">
+      <segment>
+        <source>Skills</source>
+        <target>Perícias</target>
+      </segment>
+    </unit>
+    <unit id="skillsHelp">
+      <segment>
+        <source>Pick <ph id="0" equiv="INTERPOLATION" disp="{{ cls.skillChoices.pick }}"/> of the skills of the <ph id="1" equiv="INTERPOLATION_1" disp="{{ cls.name }}"/>. Picked: <ph id="2" equiv="INTERPOLATION_2" disp="{{ state.skills().length }}"/>.</source>
+        <target>Escolha <ph id="0" equiv="INTERPOLATION" disp="{{ cls.skillChoices.pick }}"/> das perícias do <ph id="1" equiv="INTERPOLATION_1" disp="{{ cls.name }}"/>. Escolhidas: <ph id="2" equiv="INTERPOLATION_2" disp="{{ state.skills().length }}"/>.</target>
+      </segment>
+    </unit>
+    <unit id="stepStarterTitle">
+      <segment>
+        <source>Starter Pokémon</source>
+        <target>Pokémon inicial</target>
+      </segment>
+    </unit>
+    <unit id="starterPick">
+      <segment>
+        <source>Choose your first Pokémon. It starts at level <ph id="0" equiv="INTERPOLATION" disp="{{ o.starters.level }}"/>.</source>
+        <target>Escolha o seu primeiro Pokémon. Começa no nível <ph id="0" equiv="INTERPOLATION" disp="{{ o.starters.level }}"/>.</target>
+      </segment>
+    </unit>
+    <unit id="noStarters">
+      <segment>
+        <source>This game has no starter Pokémon to choose from. Ask the admin.</source>
+        <target>Este jogo não tem Pokémon iniciais para escolher. Fale com o administrador.</target>
+      </segment>
+    </unit>
+    <unit id="starterAssign">
+      <segment>
+        <source>The admin will give you your first Pokémon. Nothing to choose here.</source>
+        <target>O administrador dar-lhe-á o seu primeiro Pokémon. Aqui não há nada a escolher.</target>
+      </segment>
+    </unit>
+    <unit id="starterRandom">
+      <segment>
+        <source>The game picks your first Pokémon at random when you save your trainer.</source>
+        <target>O jogo escolhe o seu primeiro Pokémon ao acaso quando guardar o treinador.</target>
+      </segment>
+    </unit>
+    <unit id="stepIdentityTitle">
+      <segment>
+        <source>Name and skin</source>
+        <target>Nome e skin</target>
+      </segment>
+    </unit>
+    <unit id="nameFromAccount">
+      <segment>
+        <source>In this game your trainer is called after your linked Minecraft account. Link one on the account page if you have not.</source>
+        <target>Neste jogo o seu treinador tem o nome da sua conta de Minecraft associada. Associe uma na página da conta, se ainda não o fez.</target>
+      </segment>
+    </unit>
+    <unit id="trainerName">
+      <segment>
+        <source>Trainer name</source>
+        <target>Nome do treinador</target>
+      </segment>
+    </unit>
+    <unit id="trainerNameHint">
+      <segment>
+        <source><ph id="0" equiv="INTERPOLATION" disp="{{ o.nameMinLength }}"/> to <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.nameMaxLength }}"/> letters, digits or underscores. It must be free in this game.</source>
+        <target><ph id="0" equiv="INTERPOLATION" disp="{{ o.nameMinLength }}"/> a <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.nameMaxLength }}"/> letras, algarismos ou sublinhados. Tem de estar livre neste jogo.</target>
+      </segment>
+    </unit>
+    <unit id="skinsOff">
+      <segment>
+        <source>This game does not allow custom skins.</source>
+        <target>Este jogo não permite skins personalizadas.</target>
+      </segment>
+    </unit>
+    <unit id="stepReviewTitle">
+      <segment>
+        <source>Summary</source>
+        <target>Resumo</target>
+      </segment>
+    </unit>
+    <unit id="sumName">
+      <segment>
+        <source>Name</source>
+        <target>Nome</target>
+      </segment>
+    </unit>
+    <unit id="sumClass">
+      <segment>
+        <source>Class</source>
+        <target>Classe</target>
+      </segment>
+    </unit>
+    <unit id="sumScores">
+      <segment>
+        <source>Ability scores</source>
+        <target>Atributos</target>
+      </segment>
+    </unit>
+    <unit id="sumSkills">
+      <segment>
+        <source>Skills</source>
+        <target>Perícias</target>
+      </segment>
+    </unit>
+    <unit id="sumStarter">
+      <segment>
+        <source>Starter Pokémon</source>
+        <target>Pokémon inicial</target>
+      </segment>
+    </unit>
+    <unit id="sumSkin">
+      <segment>
+        <source>Skin</source>
+        <target>Skin</target>
+      </segment>
+    </unit>
+    <unit id="sumNameAccount">
+      <segment>
+        <source>Your Minecraft name</source>
+        <target>O seu nome de Minecraft</target>
+      </segment>
+    </unit>
+    <unit id="sumStarterRandom">
+      <segment>
+        <source>Picked at random</source>
+        <target>Escolhido ao acaso</target>
+      </segment>
+    </unit>
+    <unit id="sumStarterAssign">
+      <segment>
+        <source>Given by the admin</source>
+        <target>Dado pelo administrador</target>
+      </segment>
+    </unit>
+    <unit id="sumSkinUpload">
+      <segment>
+        <source>Upload: <ph id="0" equiv="file" disp="s.file.name"/></source>
+        <target>Carregada: <ph id="0" equiv="file" disp="s.file.name"/></target>
+      </segment>
+    </unit>
+    <unit id="sumSkinUsername">
+      <segment>
+        <source>Copied from <ph id="0" equiv="name" disp="s.username"/></source>
+        <target>Copiada de <ph id="0" equiv="name" disp="s.username"/></target>
+      </segment>
+    </unit>
+    <unit id="sumSkinNone">
+      <segment>
+        <source>None</source>
+        <target>Nenhuma</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

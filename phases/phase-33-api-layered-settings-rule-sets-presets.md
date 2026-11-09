@@ -21,18 +21,18 @@ Every rule of the game is a setting with a default, and the admin can change all
 
 ## Tasks
 
-- [ ] A registry of all keys of Appendix A: type, default, allowed values, chapter. Generate it from `project_v2.md` Appendix A with a script so the two cannot drift, and commit the result.
-- [ ] Layering (12.2): defaults, rule set, game; the effective value and where it came from.
-- [ ] Rule sets (12.3) and presets (12.1) as bundles of settings; endpoints to read and change settings with validation.
-- [ ] Every change goes to the audit log (the log itself is finished later).
+- [x] A registry of all keys of Appendix A: type, default, allowed values, chapter. Generate it from `project_v2.md` Appendix A with a script so the two cannot drift, and commit the result.
+- [x] Layering (12.2): defaults, rule set, game; the effective value and where it came from.
+- [x] Rule sets (12.3) and presets (12.1) as bundles of settings; endpoints to read and change settings with validation.
+- [x] Every change goes to the audit log (the log itself is finished later).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The registry has exactly the keys of Appendix A, with the same defaults (a test parses the document).
-- [ ] Layering: a game value beats a rule-set value beats the default.
-- [ ] Invalid values are refused with a clear message; presets apply and can be undone.
+- [x] The registry has exactly the keys of Appendix A, with the same defaults (a test parses the document).
+- [x] Layering: a game value beats a rule-set value beats the default.
+- [x] Invalid values are refused with a clear message; presets apply and can be undone.
 
 ## Done when
 

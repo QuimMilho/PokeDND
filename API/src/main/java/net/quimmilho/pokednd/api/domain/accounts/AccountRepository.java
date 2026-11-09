@@ -90,6 +90,9 @@ public interface AccountRepository {
 
     void setSiteRole(UUID userId, String siteRole);
 
+    /** Changes the display name, language and theme of the account; a null value leaves that field as it was. */
+    void updateProfile(UUID userId, String displayName, String locale, String theme);
+
     void saveEmailToken(EmailToken token);
 
     Optional<EmailToken> findEmailToken(String tokenHash);

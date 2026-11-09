@@ -174,7 +174,9 @@ test('CLI: running twice gives byte-identical files', () => {
 
 // ---------- part 2: the real resources ----------
 const real = path.join(repo, 'resources');
-const haveReal = fs.existsSync(path.join(real, 'pokedex.csv')) && fs.existsSync(path.join(real, 'icons'));
+// extract --no-icons (CI) still writes icons/items and icons/tm, so look for the Pokemon icon folders (icons/0001_bulbasaur, ...)
+const hasPokemonIcons = fs.existsSync(path.join(real, 'icons')) && fs.readdirSync(path.join(real, 'icons')).some((d) => /^\d{4}_/.test(d));
+const haveReal = fs.existsSync(path.join(real, 'pokedex.csv')) && hasPokemonIcons;
 const skipReal = haveReal ? false : 'resources/ (with icons) not built: run node tools/extract.mjs';
 
 test('real resources: the numbers of Appendix C', { skip: skipReal }, () => {

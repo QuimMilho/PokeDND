@@ -21,14 +21,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.UUID;
-import javax.sql.DataSource;
 import net.quimmilho.pokednd.api.TestAccounts;
 import net.quimmilho.pokednd.api.TestAccounts.Login;
+import net.quimmilho.pokednd.api.persistence.TestDb;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -49,7 +46,7 @@ class AuthFlowTest {
     RateLimiter limiter;
 
     @Inject
-    DataSource dataSource;
+    TestDb db;
 
     @ConfigProperty(name = "pokednd.auth.jwt-private-key")
     String privateKeyPem;
@@ -91,6 +88,27 @@ class AuthFlowTest {
 
         given().header("Authorization", "Bearer " + r.path("accessToken")).get("/api/v1/me").then().statusCode(200)
                 .body("email", equalTo(email.toLowerCase())).body("id", equalTo(r.path("user.id")));
+    }
+
+    @Test
+    void theProfileAndPreferencesCanBeChanged() {
+        Login me = TestAccounts.newUser();
+        given().header("Authorization", me.bearer()).contentType(ContentType.JSON).body(Map.of("theme", "dark", "locale", "pt"))
+                .patch("/api/v1/me").then().statusCode(200).body("theme", equalTo("dark")).body("locale", equalTo("pt"));
+        // what was left out stayed; the change is kept
+        given().header("Authorization", me.bearer()).contentType(ContentType.JSON).body(Map.of("displayName", "  Ana Maria "))
+                .patch("/api/v1/me").then().statusCode(200).body("displayName", equalTo("Ana Maria")).body("theme", equalTo("dark"));
+        given().header("Authorization", me.bearer()).get("/api/v1/me").then().statusCode(200).body("displayName", equalTo("Ana Maria"))
+                .body("theme", equalTo("dark")).body("locale", equalTo("pt"));
+
+        // values that make no sense are refused
+        given().header("Authorization", me.bearer()).contentType(ContentType.JSON).body(Map.of("theme", "neon")).patch("/api/v1/me").then()
+                .statusCode(400).body("code", equalTo("INVALID_THEME"));
+        given().header("Authorization", me.bearer()).contentType(ContentType.JSON).body(Map.of("locale", "xx")).patch("/api/v1/me").then()
+                .statusCode(400).body("code", equalTo("INVALID_LOCALE"));
+        given().header("Authorization", me.bearer()).contentType(ContentType.JSON).body(Map.of("displayName", "x".repeat(41))).patch("/api/v1/me")
+                .then().statusCode(400).body("code", equalTo("INVALID_NAME"));
+        given().contentType(ContentType.JSON).body(Map.of("theme", "dark")).patch("/api/v1/me").then().statusCode(401);
     }
 
     @Test
@@ -192,25 +210,13 @@ class AuthFlowTest {
     @Test
     void passwordsAreStoredOnlyAsArgon2idHashes() throws Exception {
         Login me = TestAccounts.newUser();
-        try (Connection c = dataSource.getConnection(); Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery("select password_hash from app_user where lower(email) = '" + me.email().toLowerCase() + "'")) {
-            assertTrue(rs.next());
-            String stored = rs.getString(1);
-            assertTrue(stored.startsWith("$argon2id$v=19$"), stored);
-            assertTrue(!stored.contains(TestAccounts.PASSWORD));
-        }
+        String stored = db.passwordHashOf(me.email());
+        assertTrue(stored != null && stored.startsWith("$argon2id$v=19$"), stored);
+        assertTrue(!stored.contains(TestAccounts.PASSWORD));
         // no column anywhere holds the plain password
-        try (Connection c = dataSource.getConnection(); Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery("select count(*) from app_user where password_hash = '" + TestAccounts.PASSWORD + "' or display_name = '"
-                     + TestAccounts.PASSWORD + "' or email = '" + TestAccounts.PASSWORD + "'")) {
-            rs.next();
-            assertEquals(0, rs.getInt(1));
-        }
+        assertEquals(0, db.accountsHolding(TestAccounts.PASSWORD));
         // refresh tokens are stored as 64 hex characters (a hash), never as the token that the browser holds
-        try (Connection c = dataSource.getConnection(); Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery("select token_hash from refresh_token where token_hash = '" + me.refreshCookie() + "'")) {
-            assertTrue(!rs.next(), "the refresh token itself must not be in the table");
-        }
+        assertTrue(!db.hasRefreshTokenWithHash(me.refreshCookie()), "the refresh token itself must not be in the table");
     }
 
     // ---------------------------------------------------------------- access tokens

@@ -21,17 +21,17 @@ The screens that let an admin create a game and open a lobby, and players join i
 
 ## Tasks
 
-- [ ] Create game (choose server, name, preset), game page with its state and buttons for the transitions the user is allowed to do.
-- [ ] Lobby: the join code, requests to accept or reject, members list; join by code for players; spectators.
-- [ ] Settings screen with every key grouped as in Appendix A, search, default markers, preset and rule-set pickers, and "reset to default".
+- [x] Create game (choose server, name, preset), game page with its state and buttons for the transitions the user is allowed to do.
+- [x] Lobby: the join code, requests to accept or reject, members list; join by code for players; spectators.
+- [x] Settings screen with every key grouped as in Appendix A, search, default markers, preset and rule-set pickers, and "reset to default".
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Component tests for the settings groups and the reset button.
-- [ ] Playwright: create a game, open the lobby, join with a second user, accept.
-- [ ] The settings screen shows exactly the keys of the registry.
+- [x] Component tests for the settings groups and the reset button.
+- [x] Playwright: create a game, open the lobby, join with a second user, accept.
+- [x] The settings screen shows exactly the keys of the registry.
 
 ## Done when
 

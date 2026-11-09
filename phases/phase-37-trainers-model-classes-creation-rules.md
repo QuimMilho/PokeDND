@@ -25,18 +25,18 @@ The rules of a trainer as code and data: ability scores, skills, classes, levell
 
 ## Tasks
 
-- [ ] The trainer sheet (4.1) and the conversion of ability scores into effects on Pokémon (4.2: the small conversion rates).
-- [ ] Creation rules (4.3) and the default class list as editable data (4.4), including features and numbers.
-- [ ] Levelling and the XP table (4.5) and trainer health, being attacked and knock-out (4.6). Settings with defaults (4.7).
-- [ ] Validation: a created trainer must obey the rules, and the errors are readable.
+- [x] The trainer sheet (4.1) and the conversion of ability scores into effects on Pokémon (4.2: the small conversion rates).
+- [x] Creation rules (4.3) and the default class list as editable data (4.4), including features and numbers.
+- [x] Levelling and the XP table (4.5) and trainer health, being attacked and knock-out (4.6). Settings with defaults (4.7).
+- [x] Validation: a created trainer must obey the rules, and the errors are readable.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Each class can be created and reaches level 20 following 4.5; the numbers match the tables in the spec.
-- [ ] The conversion rates of 4.2 are tested with examples.
-- [ ] Invalid trainers (too many points, unknown class) are refused with clear messages.
+- [x] Each class can be created and reaches level 20 following 4.5; the numbers match the tables in the spec.
+- [x] The conversion rates of 4.2 are tested with examples.
+- [x] Invalid trainers (too many points, unknown class) are refused with clear messages.
 
 ## Done when
 

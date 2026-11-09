@@ -134,6 +134,24 @@ public class SqlAccountRepository implements AccountRepository {
 
     @Override
     @Transactional
+    public void updateProfile(UUID userId, String displayName, String locale, String theme) {
+        AppUser u = em.find(AppUser.class, userId);
+        if (u != null) {
+            if (displayName != null) {
+                u.displayName = displayName;
+            }
+            if (locale != null) {
+                u.locale = locale;
+            }
+            if (theme != null) {
+                u.theme = theme;
+            }
+            u.updatedAt = Instant.now();
+        }
+    }
+
+    @Override
+    @Transactional
     public long countUsers() {
         return em.createQuery("select count(u) from AppUser u where u.deletedAt is null", Long.class).getSingleResult();
     }

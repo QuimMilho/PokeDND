@@ -35,6 +35,9 @@ import net.quimmilho.pokednd.api.domain.games.GameState;
 import net.quimmilho.pokednd.api.error.ApiException;
 import net.quimmilho.pokednd.api.minecraft.MinecraftLinkService;
 import net.quimmilho.pokednd.api.servers.ServerService;
+import net.quimmilho.pokednd.api.settings.BuiltinRuleSets;
+import net.quimmilho.pokednd.api.settings.RuleSetService;
+import net.quimmilho.pokednd.api.settings.SettingsService;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
@@ -46,8 +49,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class GameService {
 
-    /** The length of a join code until the setting {@code game.lobby.codeLength} exists (phase 33). */
-    public static final int JOIN_CODE_LENGTH = 6;
     public static final int NAME_MAX = 80;
     private static final Duration JOIN_WINDOW = Duration.ofMinutes(10);
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -67,6 +68,12 @@ public class GameService {
 
     @Inject
     RateLimiter limiter;
+
+    @Inject
+    SettingsService settings;
+
+    @Inject
+    RuleSetService ruleSets;
 
     @Inject
     net.quimmilho.pokednd.api.domain.accounts.AccountRepository accounts;
@@ -102,13 +109,9 @@ public class GameService {
         if (roles.isEmpty() && current.siteRoles().isEmpty()) {
             throw ApiException.notFound("This game");
         }
-        current.require(action, roles, adminPlays(game));
+        // only the right to play a trainer depends on a setting, so the settings are read only then
+        current.require(action, roles, action == Action.PLAY_TRAINER && settings.bool(game, "game.admin.plays"));
         return game;
-    }
-
-    /** The setting {@code game.admin.plays}. The settings registry (phase 33) replaces this; until then it has its default, off. */
-    boolean adminPlays(Game game) {
-        return false;
     }
 
     /** Does this person run the game: a game admin, or the site admin? Only they see the join code. */
@@ -119,16 +122,23 @@ public class GameService {
     // ------------------------------------------------------------------ creating and reading
 
     /**
-     * Creates a game in the draft state; the signed-in person becomes its owner.
+     * Creates a game in the draft state; the signed-in person becomes its owner. The game starts with the rule set {@code ruleSetId}
+     * (a built-in one such as {@code builtin:casual}, or a saved one the person may use), or with the plain defaults when that is null.
      *
-     * @throws ApiException 403 unless a site admin or an admin of that server; 404 if the server does not exist; 400 INVALID_NAME
+     * @throws ApiException 403 unless a site admin or an admin of that server; 404 if the server or the rule set does not exist; 400 INVALID_NAME
      */
     @Transactional
-    public Game create(UUID serverId, String name) {
+    public Game create(UUID serverId, String name, String ruleSetId) {
         UUID me = current.id();
         current.require(Action.CREATE_GAME, servers.isAdmin(serverId, me) ? EnumSet.of(Role.SERVER_ADMIN) : EnumSet.noneOf(Role.class), false);
         servers.get(serverId);
-        Game game = new Game(Ids.newId(), serverId, me, cleanName(name), GameState.DRAFT, null, null, JsonNodeFactory.instance.objectNode(), Instant.now());
+        String cleaned = cleanName(name);
+        String ruleSet = null;
+        if (ruleSetId != null && !ruleSetId.isBlank()) {
+            RuleSetService.Found found = ruleSets.requireUsable(ruleSetId);
+            ruleSet = BuiltinRuleSets.DEFAULTS.equals(found.id()) ? null : found.id();
+        }
+        Game game = new Game(Ids.newId(), serverId, me, cleaned, GameState.DRAFT, null, ruleSet, JsonNodeFactory.instance.objectNode(), 0, Instant.now());
         games.create(game);
         games.addAdmin(game.id(), me, GameRepository.ADMIN_OWNER);
         return game;
@@ -184,7 +194,7 @@ public class GameService {
                 throw activeGame(other.get());
             }
         }
-        String code = to.lobbyOpen() ? newUniqueCode() : null;
+        String code = to.lobbyOpen() ? newUniqueCode(settings.integer(game, "game.lobby.codeLength")) : null;
         boolean moved;
         try {
             moved = games.transition(gameId, from, to, code, Instant.now());
@@ -355,12 +365,12 @@ public class GameService {
         return accounts.findUser(id);
     }
 
-    /** A new code of {@link #JOIN_CODE_LENGTH} characters that no open lobby has. */
-    private String newUniqueCode() {
+    /** A new code of {@code length} characters that no open lobby has. */
+    private String newUniqueCode(int length) {
         String alphabet = MinecraftLinkService.ALPHABET;
         for (int attempt = 0; attempt < 20; attempt++) {
-            StringBuilder sb = new StringBuilder(JOIN_CODE_LENGTH);
-            for (int i = 0; i < JOIN_CODE_LENGTH; i++) {
+            StringBuilder sb = new StringBuilder(length);
+            for (int i = 0; i < length; i++) {
                 sb.append(alphabet.charAt(RANDOM.nextInt(alphabet.length())));
             }
             if (games.findByJoinCode(sb.toString()).isEmpty()) {

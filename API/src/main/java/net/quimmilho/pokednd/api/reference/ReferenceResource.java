@@ -250,7 +250,7 @@ public class ReferenceResource {
     private static <T> T page(java.util.function.Supplier<T> query) {
         try {
             return query.get();
-        } catch (IllegalArgumentException | jakarta.persistence.PersistenceException e) {
+        } catch (RuntimeException e) {
             if (e instanceof IllegalArgumentException || e.getCause() instanceof NumberFormatException) {
                 throw ApiException.badRequest("BAD_CURSOR", "The cursor is not valid.");
             }

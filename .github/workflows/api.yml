@@ -1,5 +1,6 @@
-# API: build and test against the Core in Maven local (spec 13.4, 13.6).
-# Later phases add the integration tests against each database (Testcontainers) and the image builds.
+# API: build and test against the Core in Maven local, once per database, then build and start the image of each database
+# (spec 13.4, 13.6, 16.3). The tests use Quarkus Dev Services (Testcontainers) to start each database; Docker is on the runner.
+# The data bundle and the card art are not built here, so the tests that need them skip themselves (see README.md, "When a run fails").
 name: api
 
 on:
@@ -7,11 +8,17 @@ on:
     paths:
       - "API/**"
       - "Core/**" # the API builds against Core
+      - "deploy/api.Dockerfile"
+      - "tools/check-api-images.mjs"
+      - "project_v2.md" # a test compares the settings registry with Appendix A
       - ".github/workflows/api.yml"
   pull_request:
     paths:
       - "API/**"
       - "Core/**"
+      - "deploy/api.Dockerfile"
+      - "tools/check-api-images.mjs"
+      - "project_v2.md"
       - ".github/workflows/api.yml"
   workflow_dispatch:
 
@@ -23,10 +30,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  api:
-    name: Build and test the API
+  test:
+    name: Build and test the API on ${{ matrix.flavour }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        flavour: [postgres, mysql, mariadb, mongo]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
@@ -40,8 +51,26 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew publishToMavenLocal
+      # -PdbFlavour picks the database extensions, the adapter and the migrations; Dev Services start the matching database
       - name: Build and test the API
         working-directory: API
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew build -PdbFlavour=${{ matrix.flavour }}
+
+  images:
+    name: Build the ${{ matrix.flavour }} image and ask /q/health
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        flavour: [postgres, mysql, mariadb, mongo]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      # Builds deploy/api.Dockerfile with FLAVOUR, starts it next to its database with environment variables only, waits for /q/health
+      - name: Image starts and answers /q/health
+        run: node tools/check-api-images.mjs ${{ matrix.flavour }}

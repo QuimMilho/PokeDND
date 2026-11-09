@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 31 of 86 phases done · 1 of 6 stage gates passed
+**Progress:** 36 of 86 phases done · 1 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -129,22 +129,22 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 32 — API: games** · API · [prompt](phases/phase-32-api-games.md)
   Create games and move them through draft, lobby, running, paused and ended; members, co-admins and join codes.
   *Depends on:* Phase 31
-- [ ] **Phase 33 — API: layered settings, rule sets, presets** · API · [prompt](phases/phase-33-api-layered-settings-rule-sets-presets.md)
+- [x] **Phase 33 — API: layered settings, rule sets, presets** · API · [prompt](phases/phase-33-api-layered-settings-rule-sets-presets.md)
   A settings registry of every key in Appendix A with defaults, layered per game, plus rule sets and the Fast/Detailed presets.
   *Depends on:* Phase 32
 - [ ] **Phase 34 — API: database flavours** · API · [prompt](phases/phase-34-api-database-flavours.md)
   Make the API run on MySQL, MariaDB and MongoDB as well as PostgreSQL, with the same tests on each and one image per flavour.
   *Depends on:* Phase 33
-- [ ] **Phase 35 — App: shell, themes, translations** · App · [prompt](phases/phase-35-app-shell-themes-translations.md)
+- [x] **Phase 35 — App: shell, themes, translations** · App · [prompt](phases/phase-35-app-shell-themes-translations.md)
   Navigation, light/dark themes, the account page, and English/Portuguese strings with an automatic completeness test.
   *Depends on:* Phase 25
-- [ ] **Phase 36 — App: games, lobby and the settings screen** · App · [prompt](phases/phase-36-app-games-lobby-and-the-settings-screen.md)
+- [x] **Phase 36 — App: games, lobby and the settings screen** · App · [prompt](phases/phase-36-app-games-lobby-and-the-settings-screen.md)
   Create and join games, run the lobby, and change every setting of Appendix A with presets and rule sets.
   *Depends on:* Phase 35, Phase 32, Phase 33
-- [ ] **Phase 37 — Trainers: model, classes, creation rules** · Core · [prompt](phases/phase-37-trainers-model-classes-creation-rules.md)
+- [x] **Phase 37 — Trainers: model, classes, creation rules** · Core · [prompt](phases/phase-37-trainers-model-classes-creation-rules.md)
   The trainer sheet, the default classes, how a trainer is created and levels up, and how it affects its Pokémon.
   *Depends on:* Phase 14, Phase 17
-- [ ] **Phase 38 — App: trainer wizard** · App · [prompt](phases/phase-38-app-trainer-wizard.md)
+- [x] **Phase 38 — App: trainer wizard** · App · [prompt](phases/phase-38-app-trainer-wizard.md)
   A step-by-step wizard to create a trainer: class, skills, ability scores, starter Pokémon and skin upload.
   *Depends on:* Phase 36, Phase 37
 - [ ] **Phase 39 — tools/fake-mod** · tools · [prompt](phases/phase-39-tools-fake-mod.md)

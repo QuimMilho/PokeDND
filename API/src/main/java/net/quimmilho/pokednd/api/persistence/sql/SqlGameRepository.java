@@ -42,7 +42,8 @@ public class SqlGameRepository implements GameRepository {
         row.ownerId = g.ownerId();
         row.name = g.name();
         row.state = g.state().id();
-        row.ruleSetId = g.ruleSetId();
+        setRuleSet(row, g.ruleSet());
+        row.settingsVersion = g.settingsVersion();
         row.settings = g.settings() == null ? JsonNodeFactory.instance.objectNode() : g.settings();
         row.joinCode = g.joinCode();
         row.createdAt = g.createdAt();
@@ -107,6 +108,43 @@ public class SqlGameRepository implements GameRepository {
                 .setParameter("t", Instant.now()).setParameter("id", id).executeUpdate();
         em.clear();
         return n == 1;
+    }
+
+    @Override
+    @Transactional
+    public boolean replaceSettings(UUID id, long expectedVersion, String ruleSet, JsonNode overrides, Instant at) {
+        UUID saved = null;
+        String builtin = null;
+        if (ruleSet != null) {
+            if (ruleSet.startsWith("builtin:")) {
+                builtin = ruleSet;
+            } else {
+                saved = UUID.fromString(ruleSet);
+            }
+        }
+        int n = em.createQuery("update GameRow g set g.ruleSetId = :rs, g.builtinRuleSet = :b, g.settings = :s, g.settingsVersion = g.settingsVersion + 1, "
+                + "g.updatedAt = :t where g.id = :id and g.settingsVersion = :v").setParameter("rs", saved).setParameter("b", builtin).setParameter("s", overrides)
+                .setParameter("t", at).setParameter("id", id).setParameter("v", expectedVersion).executeUpdate();
+        em.clear();
+        return n == 1;
+    }
+
+    @Override
+    @Transactional
+    public long countUsingRuleSet(UUID ruleSetId) {
+        return em.createQuery("select count(g) from GameRow g where g.ruleSetId = :r", Long.class).setParameter("r", ruleSetId).getSingleResult();
+    }
+
+    private static void setRuleSet(GameRow row, String ruleSet) {
+        row.ruleSetId = null;
+        row.builtinRuleSet = null;
+        if (ruleSet != null) {
+            if (ruleSet.startsWith("builtin:")) {
+                row.builtinRuleSet = ruleSet;
+            } else {
+                row.ruleSetId = UUID.fromString(ruleSet);
+            }
+        }
     }
 
     @Override
@@ -267,7 +305,8 @@ public class SqlGameRepository implements GameRepository {
     }
 
     private static Game toGame(GameRow r) {
-        return new Game(r.id, r.serverId, r.ownerId, r.name, GameState.ofId(r.state), r.joinCode, r.ruleSetId, r.settings, r.createdAt);
+        return new Game(r.id, r.serverId, r.ownerId, r.name, GameState.ofId(r.state), r.joinCode,
+                r.ruleSetId != null ? r.ruleSetId.toString() : r.builtinRuleSet, r.settings, r.settingsVersion, r.createdAt);
     }
 
     private static Membership toMembership(MembershipRow m) {

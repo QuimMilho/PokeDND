@@ -21,18 +21,18 @@ The frame of the app: menus, themes and language, built for phones first.
 
 ## Tasks
 
-- [ ] Navigation for each role (11.2), responsive layout, and the themes `system`, `light`, `dark`.
-- [ ] The account page: language, theme, sessions, linked Minecraft accounts (with the link-by-code form) and the Discord link.
-- [ ] A "Sign in with Discord" button on the login screen.
-- [ ] A test that fails if any translation key exists in English but not in Portuguese, or the other way round.
+- [x] Navigation for each role (11.2), responsive layout, and the themes `system`, `light`, `dark`.
+- [x] The account page: language, theme, sessions, linked Minecraft accounts (with the link-by-code form) and the Discord link.
+- [x] A "Sign in with Discord" button on the login screen.
+- [x] A test that fails if any translation key exists in English but not in Portuguese, or the other way round.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Unit tests for navigation by role and the theme switch.
-- [ ] The translation completeness test passes (and fails when one key is removed from a copy).
-- [ ] Playwright smoke: change language and theme, link a Minecraft account with a code from the fake mod or the API.
+- [x] Unit tests for navigation by role and the theme switch.
+- [x] The translation completeness test passes (and fails when one key is removed from a copy).
+- [x] Playwright smoke: change language and theme, link a Minecraft account with a code from the fake mod or the API.
 
 ## Done when
 

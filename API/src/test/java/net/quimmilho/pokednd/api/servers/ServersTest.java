@@ -15,15 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.agroal.api.AgroalDataSource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import jakarta.inject.Inject;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +29,7 @@ import net.quimmilho.pokednd.api.TestWorld;
 import net.quimmilho.pokednd.api.TestWorld.Server;
 import net.quimmilho.pokednd.api.auth.RateLimiter;
 import net.quimmilho.pokednd.api.auth.TokenService;
+import net.quimmilho.pokednd.api.persistence.TestDb;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -50,7 +46,7 @@ class ServersTest {
     RateLimiter limiter;
 
     @Inject
-    AgroalDataSource dataSource;
+    TestDb db;
 
     @BeforeEach
     void freshLimits() {
@@ -204,7 +200,7 @@ class ServersTest {
     }
 
     @Test
-    void theDatabaseNeverContainsTheToken() throws SQLException {
+    void theDatabaseNeverContainsTheToken() {
         Login admin = TestAccounts.admin();
         Response r = register(admin, uniqueName(), null);
         String token = r.path("token");
@@ -213,36 +209,23 @@ class ServersTest {
         // the first token was replaced; both must be absent, and so must their middle parts
         List<String> secrets = List.of(token, rotated, token.substring(4), rotated.substring(4));
 
-        List<String> tables = new ArrayList<>();
-        try (Connection c = dataSource.getConnection(); Statement st = c.createStatement();
-             ResultSet rs = st.executeQuery("select tablename from pg_tables where schemaname = 'public'")) {
-            while (rs.next()) {
-                tables.add(rs.getString(1));
-            }
-        }
-        assertTrue(tables.contains("server"), tables.toString());
+        Map<String, List<String>> tables = db.everyRowAsText();
+        assertTrue(tables.containsKey("server"), tables.keySet().toString());
         int rows = 0;
-        for (String table : tables) {
-            try (Connection c = dataSource.getConnection(); Statement st = c.createStatement();
-                 ResultSet rs = st.executeQuery("select t::text from \"" + table + "\" t")) {
-                while (rs.next()) {
-                    String row = rs.getString(1);
-                    rows++;
-                    for (String secret : secrets) {
-                        assertFalse(row.contains(secret), "the token is in table " + table + ": " + row);
-                    }
+        for (Map.Entry<String, List<String>> table : tables.entrySet()) {
+            for (String row : table.getValue()) {
+                rows++;
+                for (String secret : secrets) {
+                    assertFalse(row.contains(secret), "the token is in table " + table.getKey() + ": " + row);
                 }
             }
         }
         assertTrue(rows > 0);
 
         // what is stored is the hash and the short prefix
-        try (Connection c = dataSource.getConnection(); Statement st = c.createStatement();
-             ResultSet rs = st.executeQuery("select token_hash, token_prefix from server where id = '" + id + "'")) {
-            assertTrue(rs.next());
-            assertEquals(TokenService.hash(rotated), rs.getString(1));
-            assertEquals(rotated.substring(0, 8), rs.getString(2));
-        }
+        List<String> fields = db.serverTokenFields(id);
+        assertEquals(TokenService.hash(rotated), fields.get(0));
+        assertEquals(rotated.substring(0, 8), fields.get(1));
     }
 
     // ---------------------------------------------------------------- registering, editing, deleting

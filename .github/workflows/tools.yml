@@ -84,6 +84,8 @@ jobs:
           node-version: 24
       - name: Check .env.example against the spec
         run: node tools/check-deploy.mjs
+      - name: Check the API settings registry against Appendix A
+        run: node tools/gen-settings.mjs --check
       - name: Validate docker-compose.yml with every database profile
         run: |
           cp deploy/.env.example deploy/.env

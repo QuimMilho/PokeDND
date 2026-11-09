@@ -50,7 +50,7 @@ public class GamesResource {
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public record GameDto(String id, String serverId, String name, String state, boolean lobbyOpen, String joinCode, String ownerId, List<String> myRoles,
-                          String myMembership, List<AdminDto> admins, Instant createdAt) {
+                          String myMembership, List<AdminDto> admins, String ruleSet, Instant createdAt) {
     }
 
     /** A person in the game or asking to be. */
@@ -61,7 +61,7 @@ public class GamesResource {
     public record JoinedDto(String gameId, String gameName, String role, String status) {
     }
 
-    public record CreateRequest(String serverId, String name) {
+    public record CreateRequest(String serverId, String name, String ruleSetId) {
     }
 
     public record UpdateRequest(String name) {
@@ -97,7 +97,7 @@ public class GamesResource {
         } catch (IllegalArgumentException e) {
             throw ApiException.notFound("This server");
         }
-        return Response.status(201).entity(dto(service.create(server, body.name()), true)).build();
+        return Response.status(201).entity(dto(service.create(server, body.name(), body.ruleSetId()), true)).build();
     }
 
     @GET
@@ -250,7 +250,8 @@ public class GamesResource {
         }
         String membership = service.membershipOf(g.id(), me).map(Membership::status).orElse(null);
         return new GameDto(g.id().toString(), g.serverId().toString(), g.name(), g.state().id(), g.state().lobbyOpen(), runs ? g.joinCode() : null,
-                g.ownerId().toString(), service.roleNames(g, me), membership, admins, g.createdAt());
+                g.ownerId().toString(), service.roleNames(g, me), membership, admins,
+                g.ruleSet() == null ? "builtin:defaults" : g.ruleSet(), g.createdAt());
     }
 
     private AdminDto admin(GameAdmin a) {

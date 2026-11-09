@@ -21,17 +21,17 @@ Players create their trainer in the app; the API stores it and validates the ski
 
 ## Tasks
 
-- [ ] API: trainer endpoints, the skin upload (PNG only, 64x64, size-limited, re-encoded to strip metadata, classic or slim) and the trainer name rules (3.6: 3 to 16 characters, unique in the game).
-- [ ] App wizard: class, ability scores, skills, starter Pokémon (5.11), name and skin (upload, or copy from a Minecraft username if the server allows).
-- [ ] A summary page and a way to edit before the game starts.
+- [x] API: trainer endpoints, the skin upload (PNG only, 64x64, size-limited, re-encoded to strip metadata, classic or slim) and the trainer name rules (3.6: 3 to 16 characters, unique in the game).
+- [x] App wizard: class, ability scores, skills, starter Pokémon (5.11), name and skin (upload, or copy from a Minecraft username if the server allows).
+- [x] A summary page and a way to edit before the game starts.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] API tests: valid and invalid skins (wrong size, metadata, not a PNG), name rules, duplicates.
-- [ ] Component tests for each wizard step and the validation messages in both languages.
-- [ ] Playwright: three users create three trainers in one game.
+- [x] API tests: valid and invalid skins (wrong size, metadata, not a PNG), name rules, duplicates.
+- [x] Component tests for each wizard step and the validation messages in both languages.
+- [x] Playwright: three users create three trainers in one game.
 
 ## Done when
 

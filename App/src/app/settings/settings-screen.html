@@ -1,0 +1,122 @@
+<main class="settings">
+  <header class="head">
+    <h1 i18n="@@settingsTitle">Settings</h1>
+    @if (game(); as g) {
+      <a mat-button [routerLink]="['/games', g.id]" data-testid="to-game">{{ g.name }}</a>
+    }
+  </header>
+
+  @if (failure(); as text) {
+    <p class="error" role="alert" data-testid="failure">{{ text }}</p>
+  }
+
+  @if (!loaded()) {
+    <p class="muted" i18n="@@settingsLoading">Loading…</p>
+  } @else if (game() && !runs()) {
+    <p data-testid="not-admin" i18n="@@settingsNotAdmin">Only the people who run the game can change its settings.</p>
+  } @else if (game()) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title i18n="@@settingsStartTitle">Starting point</mat-card-title>
+        <mat-card-subtitle>
+          <span i18n="@@settingsRuleSetNow">Rule set in use:</span> <strong class="spaced" data-testid="rule-set-name">{{ ruleSetName() }}</strong>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="start">
+        @if (presetsEnabled() && presets().length) {
+          <label class="pick">
+            <span i18n="@@settingsPreset">Preset</span>
+            <select data-testid="preset-picker" (change)="choose($any($event.target).value, presetName($any($event.target).value))">
+              <option value="" [selected]="presetValue() === ''" i18n="@@settingsPickNone">Choose…</option>
+              @for (p of presets(); track p.id) {
+                <option [value]="p.id" [selected]="presetValue() === p.id" [attr.data-testid]="'preset-' + p.id">{{ p.name }}</option>
+              }
+            </select>
+          </label>
+        }
+        @if (ruleSets().length) {
+          <label class="pick">
+            <span i18n="@@settingsRuleSet">Saved rule set</span>
+            <select data-testid="ruleset-picker" (change)="choose($any($event.target).value, ruleSetPickName($any($event.target).value))">
+              <option value="" [selected]="ruleSetValue() === ''" i18n="@@settingsPickNone2">Choose…</option>
+              @for (r of ruleSets(); track r.id) {
+                <option [value]="r.id" [selected]="ruleSetValue() === r.id">{{ r.name }}</option>
+              }
+            </select>
+          </label>
+        }
+
+        @if (preview(); as p) {
+          <section class="preview" data-testid="preview" aria-live="polite">
+            <h2 i18n="@@settingsPreviewTitle">Loading “{{ p.ruleSet.name }}” would change:</h2>
+            @if (p.changes.length) {
+              <ul>
+                @for (c of p.changes; track c.key) {
+                  <li [attr.data-testid]="'change-' + c.key">
+                    <code>{{ c.key }}</code>: {{ showValue(c.from) }} → <strong>{{ showValue(c.to) }}</strong>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p data-testid="no-changes" i18n="@@settingsNoChanges">Nothing would change.</p>
+            }
+            <mat-checkbox [checked]="discardOwn()" (change)="setDiscardOwn($event.checked)" data-testid="discard-own" i18n="@@settingsDiscardOwn">Also discard the changes made in this game</mat-checkbox>
+            <div class="buttons">
+              <button mat-flat-button type="button" (click)="apply()" data-testid="apply" i18n="@@settingsApply">Load it</button>
+              <button mat-stroked-button type="button" (click)="cancelPreview()" data-testid="cancel-preview" i18n="@@settingsCancel">Cancel</button>
+            </div>
+          </section>
+        }
+        @if (applied(); as name) {
+          <p role="status" data-testid="applied" i18n="@@settingsApplied">“{{ name }}” was loaded.</p>
+        }
+
+        <div class="save-as">
+          <label class="pick">
+            <span i18n="@@settingsSaveAs">Save these rules as a rule set</span>
+            <input type="text" maxlength="80" [ngModel]="saveName()" (ngModelChange)="saveName.set($event)" data-testid="save-name" />
+          </label>
+          <button mat-stroked-button type="button" (click)="saveAsRuleSet()" [disabled]="!saveName().trim()" data-testid="save-rule-set" i18n="@@settingsSave">Save</button>
+        </div>
+        @if (saved(); as name) {
+          <p role="status" data-testid="saved" i18n="@@settingsSaved">Saved as “{{ name }}”.</p>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <section class="tools" aria-label="Find settings" i18n-aria-label="@@settingsToolsLabel">
+      <label class="pick grow">
+        <span i18n="@@settingsSearch">Search settings</span>
+        <input type="search" [ngModel]="search()" (ngModelChange)="search.set($event)" autocomplete="off" data-testid="search" />
+      </label>
+      <mat-slide-toggle [checked]="changedOnly()" (change)="changedOnly.set($event.checked)" data-testid="changed-only" i18n="@@settingsChangedOnly">Changed only</mat-slide-toggle>
+    </section>
+
+    <p class="count muted" data-testid="count">{{ countText() }}</p>
+
+    <div class="buttons">
+      <button mat-stroked-button type="button" (click)="openAll(true)" data-testid="open-all" i18n="@@settingsOpenAll">Open all groups</button>
+      <button mat-stroked-button type="button" (click)="openAll(false)" data-testid="close-all" i18n="@@settingsCloseAll">Close all groups</button>
+      <button mat-stroked-button type="button" (click)="undo()" data-testid="undo" i18n="@@settingsUndo">Take back the last change</button>
+      <app-confirm-button [label]="resetAllLabel" testId="reset-all" [disabled]="changedCount() === 0" (confirmed)="resetAll()" />
+    </div>
+
+    <mat-accordion multi class="groups" data-testid="groups">
+      @for (g of visible(); track g.name) {
+        <mat-expansion-panel [expanded]="isOpen(g.name)" (opened)="setOpen(g.name, true)" (closed)="setOpen(g.name, false)" [attr.data-testid]="'group-' + g.name">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ g.name }}</mat-panel-title>
+            <mat-panel-description>{{ g.settings.length }}</mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            @for (s of g.settings; track s.key) {
+              <app-setting-row [setting]="s" [problem]="problems()[s.key] ?? null" (save)="save($event)" (reset)="reset($event)" />
+            }
+          </ng-template>
+        </mat-expansion-panel>
+      } @empty {
+        <p class="muted" data-testid="no-match" i18n="@@settingsNoMatch">No setting matches.</p>
+      }
+    </mat-accordion>
+  }
+</main>

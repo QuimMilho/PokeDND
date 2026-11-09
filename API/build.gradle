@@ -16,6 +16,48 @@ repositories {
     mavenCentral()
 }
 
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Database flavours (chapter 16.3). Quarkus fixes the kind of database when the application is built, so one build makes one flavour:
+//     ./gradlew build -PdbFlavour=mysql          postgres (the default) | mysql | mariadb | mongo
+// The flavour decides which database extensions are on the class path, which adapter is compiled (persistence/sql or
+// persistence/mongo), which migrations are packed, and the build-time settings below. The same settings go to the tests, so
+// `./gradlew test -PdbFlavour=mongo` runs the whole suite on MongoDB.
+// ---------------------------------------------------------------------------------------------------------------------------------
+def flavours = [
+        postgres: [sql: true, kind: 'postgresql', migrations: 'postgresql', driver: 'io.quarkus:quarkus-jdbc-postgresql', flyway: 'org.flywaydb:flyway-database-postgresql'],
+        mysql   : [sql: true, kind: 'mysql', migrations: 'mysql', driver: 'io.quarkus:quarkus-jdbc-mysql', flyway: 'org.flywaydb:flyway-mysql'],
+        // Flyway's MySQL module also speaks MariaDB. The migrations are copies of MySQL's except where MariaDB refuses the same SQL
+        mariadb : [sql: true, kind: 'mariadb', migrations: 'mariadb', driver: 'io.quarkus:quarkus-jdbc-mariadb', flyway: 'org.flywaydb:flyway-mysql'],
+        mongo   : [sql: false],
+]
+String flavourName = (project.findProperty('dbFlavour') ?: System.getenv('POKEDND_DB_FLAVOUR') ?: 'postgres').toString().toLowerCase()
+if (!flavours.containsKey(flavourName)) {
+    throw new GradleException("Unknown database flavour '${flavourName}'. Use one of: ${flavours.keySet().join(', ')} (-PdbFlavour=...)")
+}
+def flavour = flavours[flavourName]
+boolean sqlFlavour = flavour.sql
+
+/** Settings that depend on the flavour; they are build-time settings of Quarkus, so they go to the build and to the tests alike. */
+Map<String, String> flavourSettings = [:]
+if (sqlFlavour) {
+    flavourSettings['quarkus.datasource.db-kind'] = flavour.kind
+    flavourSettings['quarkus.flyway.locations'] = "classpath:db/migration/${flavour.migrations}".toString()
+    // Instants are stored in UTC whatever the time zone of the machine or of the database
+    flavourSettings['quarkus.hibernate-orm.jdbc.timezone'] = 'UTC'
+    // Every SQL flavour works in READ COMMITTED, as PostgreSQL does by default. (MariaDB 11.6.2 and later refuse an update of a row that
+    // another transaction changed since the snapshot in REPEATABLE READ, "Record has changed since last read", and the compare-and-set
+    // updates of this API expect to see the newest row.)
+    flavourSettings['quarkus.datasource.jdbc.transaction-isolation-level'] = 'read-committed'
+    if (flavourName != 'postgres') {
+        // MySQL and MariaDB have no good UUID type for every version: the ids are CHAR(36) there
+        flavourSettings['quarkus.hibernate-orm.unsupported-properties."hibernate.type.preferred_uuid_jdbc_type"'] = 'CHAR'
+    }
+} else {
+    // MongoDB: ids are written as standard UUIDs (binary subtype 4); the connection string comes from QUARKUS_MONGODB_CONNECTION_STRING
+    flavourSettings['quarkus.mongodb.uuid-representation'] = 'standard'
+    flavourSettings['quarkus.mongodb.database'] = 'pokednd'
+}
+
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
 
@@ -28,12 +70,18 @@ dependencies {
     implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
     implementation 'io.quarkus:quarkus-scheduler'
 
-    // Database: PostgreSQL by default (the other flavours come in phase 34).
-    // Hibernate ORM with Panache is the SQL adapter (16.3); Flyway runs the migrations.
-    implementation 'io.quarkus:quarkus-jdbc-postgresql'
-    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
-    implementation 'io.quarkus:quarkus-flyway'
-    implementation 'org.flywaydb:flyway-database-postgresql'
+    if (sqlFlavour) {
+        // The SQL adapter: Hibernate ORM with Panache, and Flyway for the migrations (one folder per dialect)
+        implementation flavour.driver
+        implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+        implementation 'io.quarkus:quarkus-flyway'
+        implementation flavour.flyway
+    } else {
+        // The MongoDB adapter: MongoDB with Panache. The transaction extension is there only for @Transactional on the services
+        // (it does nothing for MongoDB); the schema is made by the versioned scripts in persistence/mongo.
+        implementation 'io.quarkus:quarkus-mongodb-panache'
+        implementation 'io.quarkus:quarkus-narayana-jta'
+    }
 
     // Accounts (phase 22): Argon2id from Bouncy Castle (pure Java), signed access tokens with jose4j
     implementation 'org.bouncycastle:bcprov-jdk18on'
@@ -50,6 +98,27 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
 }
 
+// Only the adapter of the chosen flavour is compiled, and only its migrations are packed.
+sourceSets {
+    main {
+        java {
+            exclude sqlFlavour ? '**/persistence/mongo/**' : '**/persistence/sql/**'
+        }
+        resources {
+            if (sqlFlavour) {
+                (['postgresql', 'mysql', 'mariadb'] - [flavour.migrations]).each { exclude "db/migration/${it}/**" }
+            } else {
+                exclude 'db/**'
+            }
+        }
+    }
+    test {
+        java {
+            exclude sqlFlavour ? '**/persistence/MongoTestDb.java' : '**/persistence/SqlTestDb.java'
+        }
+    }
+}
+
 def targetJavaVersion = 25
 
 tasks.withType(JavaCompile).configureEach {
@@ -63,15 +132,28 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
 }
 
+quarkus {
+    quarkusBuildProperties.putAll(flavourSettings)
+}
+
+tasks.register('printFlavour') {
+    doLast { println "database flavour: ${flavourName}" }
+}
+
 test {
     systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
+    systemProperty 'pokednd.test.flavour', flavourName
+    flavourSettings.each { k, v -> systemProperty k, v }
     useJUnitPlatform()
     // Docker Engine 29 refuses the port binding of Testcontainers' clean-up helper (Ryuk: "invalid IP"), and the container
     // never starts. Quarkus Dev Services stops its own containers at the end, so the helper is not needed.
     environment 'TESTCONTAINERS_RYUK_DISABLED', 'true'
-    // The tests that start the API need a database, and Quarkus Dev Services starts PostgreSQL through Docker (Testcontainers).
-    // Without Docker those tests (tagged 'database') are skipped, with a clear message; the other tests still run.
+    // The tests that start the API need a database. Quarkus Dev Services starts one through Docker (Testcontainers) unless the
+    // connection is given in the environment (QUARKUS_DATASOURCE_JDBC_URL, or QUARKUS_MONGODB_CONNECTION_STRING for MongoDB);
+    // `node tools/test-api-flavours.mjs` starts a database for every flavour and runs the suite on each.
+    // Without Docker (and without such a variable) those tests (tagged 'database') are skipped, with a clear message.
     doFirst {
+        boolean given = System.getenv(sqlFlavour ? 'QUARKUS_DATASOURCE_JDBC_URL' : 'QUARKUS_MONGODB_CONNECTION_STRING') != null
         boolean docker
         try {
             def p = ['docker', 'info'].execute()
@@ -80,9 +162,10 @@ test {
         } catch (Exception ignored) {
             docker = false
         }
-        if (!docker) {
+        if (!docker && !given) {
             logger.warn('WARNING: Docker is not available, so the tests tagged "database" are SKIPPED. Start Docker to run them.')
             options.excludeTags 'database'
         }
+        logger.lifecycle("Running the tests on the ${flavourName} flavour")
     }
 }

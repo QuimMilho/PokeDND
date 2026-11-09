@@ -31,6 +31,8 @@ public final class GameTables {
         public String name;
         public String state;
         public UUID ruleSetId;
+        public String builtinRuleSet;
+        public long settingsVersion;
         @JdbcTypeCode(SqlTypes.JSON)
         @Column(columnDefinition = "jsonb")
         public JsonNode settings;

@@ -6,7 +6,7 @@ Spec: [`project_v2.md`](../project_v2.md), chapters 13.3 and 13.4.
 
 ## Status
 
-Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) and the **signature moves** of the cards (phase 20). Trainers, game state and the battle engine come next (see [`todo.md`](../todo.md)).
+Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) the **signature moves** of the cards (phase 20) and the **trainers** (phase 37: sheet, classes, creation, levelling, knock-out). Game state and the battle engine come next (see [`todo.md`](../todo.md)).
 
 ## The importer (`net.quimmilho.pokednd.core.importer`)
 
@@ -55,6 +55,25 @@ The importer tests also read the real `resources/` and `build/roster.json`. If t
 | `CombatSettings` | `combat.crit.*`, `combat.stab.multiplier`, `combat.accuracy.stageEffects`, `combat.damage.*`, `combat.multihit.damageDice` with their defaults |
 | `CatchCalculator`, `BallTable` | The catch chance from catch rate, HP, status, ball and Handling bonus, as a smart-dice roll; the table of all 48 balls |
 | `FleeCalculator` | The flee chance from Speed, tries and the DEX bonus, as a smart-dice roll |
+
+## Trainers (`net.quimmilho.pokednd.core.trainer`)
+
+Chapter 4 as code and data. A game's rules are one `TrainerRulebook` (its `TrainerClasses`, its list of `SkillDef`s and its `TrainerSettings`); `TrainerRulebook.defaults()` is the plain game. A rulebook makes trainers and levels them up, and every refusal is a list of plain sentences (`TrainerProblem`: a stable `code` the app can translate, the `field` and an English `message`), thrown together as `InvalidTrainerException`.
+
+| Class | What it does |
+|---|---|
+| `Ability`, `AbilityScores`, `Difficulty` | The six abilities and the modifier `floor((score − 10) / 2)`; the DC guide (5 to 30) |
+| `AbilityScoreRules`, `ScoreMethod` | Point buy (27 points, 8 to 15, cost 0/1/2/3/4/5/7/9), the standard array, 4d6 drop the lowest, and the checks for each |
+| `TrainerClasses`, `TrainerClass`, `ClassFeature`, `FeatureEffect`, `EffectKeys` | The class list as data (`src/main/resources/trainer/classes.json`, the nine classes of 4.4), read and written as JSON; the fixed vocabulary of feature effects, so an admin can build a feature without code |
+| `SkillDef` | The seventeen skills and the ability each uses |
+| `TrainerSettings`, `KoMode` | The keys of 4.7 with their defaults (the XP keys are in `rules/TrainerXp`) |
+| `Trainer`, `TrainerRulebook`, `Sheet` | The stored trainer; creation, the sheet (proficiency, AC, saves, skills, features), XP, level-ups with the Ability Score Improvement at 4, 8, 12, 16 and 19, and HP |
+| `EffectTotals` | What the features of a level add up to (sums, multipliers, flags, skills with expertise or advantage) |
+| `TrainerBonuses` | 4.2: the Handling bonus to accuracy (+1 pp per point, at most +10), to catching (×(1 + 0.05 × Handling)) and the DEX bonus to fleeing (+2 pp per point) |
+| `KnockOut` | 4.6: the three knock-out modes, the money lost, and the death saving throws |
+| `TrainerNames` | 3 to 16 letters, digits and underscores; unique in the game |
+
+Level-ups are confirmed by the player: XP only raises `pendingLevels`, and `levelUp(trainer, improvement)` takes one level at a time. The starter Pokémon and the skin are chosen in the same wizard but belong to the API (phase 38).
 
 ## Cards (`net.quimmilho.pokednd.core.cards`)
 

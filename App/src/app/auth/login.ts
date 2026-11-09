@@ -5,8 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { problemText, toProblem } from '../core/api-error';
+import { oauthText, problemText, toProblem } from '../core/api-error';
+import { API_BASE } from '../core/api-config';
 import { AuthService } from '../core/auth.service';
 import { emailMessage, passwordMessage } from './field-errors';
 import { safeReturnUrl } from './return-url';
@@ -28,7 +30,13 @@ export class Login {
     password: ['', [Validators.required]],
   });
   protected readonly busy = signal(false);
-  protected readonly failure = signal<string | null>(null);
+  protected readonly failure = signal<string | null>(
+    oauthText(this.route.snapshot.queryParamMap.get('oauth'), this.route.snapshot.queryParamMap.get('code')),
+  );
+
+  /** The "sign in with" buttons of this site (Discord, when it is set up). */
+  protected readonly providers = toSignal(this.auth.providers(), { initialValue: [] as string[] });
+  protected readonly discordUrl = `${inject(API_BASE)}/auth/oauth/discord/start`;
 
   protected readonly emailMessage = emailMessage;
   protected readonly passwordMessage = passwordMessage;

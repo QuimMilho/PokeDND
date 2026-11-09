@@ -107,12 +107,16 @@ class CardDataFactoryTest {
 
     @Test
     void missingCardArtFallsBackToTheIconWithAWarning(@TempDir Path tmp) throws IOException {
+        var repository = RealData.repository(); // skips the test when the bundle and resources are not built
+        // the icons are not rendered in CI (extract --no-icons), so this test needs a machine that has them
+        Path icon = RealData.RESOURCES.resolve("icons/0001_bulbasaur/bulbasaur.png");
+        org.junit.jupiter.api.Assumptions.assumeTrue(Files.isRegularFile(icon), "the icons are not rendered (node tools/extract.mjs)");
         // a resources folder that has only the 128 px icon of Bulbasaur
         Path icons = Files.createDirectories(tmp.resolve("icons/0001_bulbasaur"));
-        Files.copy(RealData.RESOURCES.resolve("icons/0001_bulbasaur/bulbasaur.png"), icons.resolve("bulbasaur.png"));
+        Files.copy(icon, icons.resolve("bulbasaur.png"));
         Path lang = Files.createDirectories(tmp.resolve("assets/cobblemon/lang"));
         Files.copy(RealData.RESOURCES.resolve("assets/cobblemon/lang/en_us.json"), lang.resolve("en_us.json"));
-        var builder = new CardDataFactory.Builder(RealData.repository(), new GameText(tmp, new ObjectMapper()), tmp,
+        var builder = new CardDataFactory.Builder(repository, new GameText(tmp, new ObjectMapper()), tmp,
                 net.quimmilho.pokednd.core.combat.CombatSettings.defaults());
 
         CardData c = builder.build(List.of(new CardRef("bulbasaur", "bulbasaur_base")), "en").get(0);

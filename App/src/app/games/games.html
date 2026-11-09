@@ -1,0 +1,69 @@
+<main class="games">
+  <header class="games-head">
+    <h1 i18n="@@gamesTitle">Games</h1>
+    @if (canCreate()) {
+      <a mat-flat-button routerLink="/games/new" data-testid="new-game" i18n="@@gamesNew">New game</a>
+    }
+  </header>
+
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title i18n="@@joinTitle">Join a game</mat-card-title>
+      <mat-card-subtitle i18n="@@joinSubtitle">Ask the admin for the code shown in the lobby.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="join()" class="join-form" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@joinCodeField">Join code</mat-label>
+          <input matInput formControlName="code" autocomplete="off" autocapitalize="characters" maxlength="12" data-testid="join-code" />
+        </mat-form-field>
+        <mat-button-toggle-group formControlName="role" aria-label="Join as" i18n-aria-label="@@joinAs" data-testid="join-role">
+          <mat-button-toggle value="player" data-testid="role-player" i18n="@@joinPlayer">Player</mat-button-toggle>
+          <mat-button-toggle value="spectator" data-testid="role-spectator" i18n="@@joinSpectator">Spectator</mat-button-toggle>
+        </mat-button-toggle-group>
+        <button mat-flat-button type="submit" data-testid="join" i18n="@@joinButton">Ask to join</button>
+      </form>
+      @if (joined(); as name) {
+        <p role="status" data-testid="joined" i18n="@@joinSent">Your request to join “{{ name }}” was sent. The admin will answer it.</p>
+      }
+      @if (failure(); as text) {
+        <p class="error" role="alert" data-testid="failure">{{ text }}</p>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  @if (listFailure(); as text) {
+    <p class="error" role="alert" data-testid="list-failure">{{ text }}</p>
+  }
+  @if (games(); as list) {
+    @if (list.length) {
+      <ul class="game-list" data-testid="games">
+        @for (g of list; track g.id) {
+          <li>
+            <mat-card appearance="outlined" [attr.data-testid]="'game-' + g.name">
+              <mat-card-header>
+                <mat-card-title>
+                  @if (open(g)) {
+                    <a [routerLink]="['/games', g.id]" data-testid="open-game">{{ g.name }}</a>
+                  } @else {
+                    {{ g.name }}
+                  }
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <span data-testid="state">{{ stateLabel(g.state) }}</span>
+                  @if (waiting(g); as text) {
+                    · <span data-testid="waiting">{{ text }}</span>
+                  } @else {
+                    · {{ role(g) }}
+                  }
+                </mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="muted" data-testid="no-games" i18n="@@gamesNone">You are not in any game yet. Join one with a code, or ask an admin to make one.</p>
+    }
+  }
+</main>

@@ -31,9 +31,11 @@ public interface GameRepository {
      * A game.
      *
      * @param joinCode     the code players type to join; only while the lobby is open, otherwise null
-     * @param settings     the game's own setting overrides, a JSON object (layered settings come in phase 33)
+     * @param ruleSet      the rule set the game uses: {@code builtin:<name>}, the id of a saved rule set, or null for the plain defaults
+     * @param settings     the game's own setting overrides, a JSON object of key to value (chapter 12.2)
+     * @param settingsVersion how many times the rule set or the overrides changed; a change is only kept if it saw the latest one
      */
-    record Game(UUID id, UUID serverId, UUID ownerId, String name, GameState state, String joinCode, UUID ruleSetId, JsonNode settings,
+    record Game(UUID id, UUID serverId, UUID ownerId, String name, GameState state, String joinCode, String ruleSet, JsonNode settings, long settingsVersion,
                 Instant createdAt) {
     }
 
@@ -85,6 +87,15 @@ public interface GameRepository {
     boolean transition(UUID id, GameState from, GameState to, String joinCode, Instant at);
 
     boolean rename(UUID id, String name);
+
+    /**
+     * Sets the game's rule set and its own setting overrides, but only if the settings still are at {@code expectedVersion}; the version
+     * then goes up by one. Returns false if someone else changed them first.
+     */
+    boolean replaceSettings(UUID id, long expectedVersion, String ruleSet, JsonNode overrides, Instant at);
+
+    /** How many games (whatever their state) use this saved rule set. */
+    long countUsingRuleSet(UUID ruleSetId);
 
     /** Every game that is not archived. */
     List<Game> allNotArchived();

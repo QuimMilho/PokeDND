@@ -6,14 +6,18 @@ Spec: [`project_v2.md`](../project_v2.md), chapters 13.3 and 14.
 
 ## Status
 
-What exists (phases 25 to 27):
+What exists (phases 25 to 27, 35 and 36):
 
 | Area | What |
 |---|---|
 | Accounts | Sign-up, login and log-out screens (English and Portuguese). The access token lives in memory only; the HTTP-only refresh cookie continues the session when the page opens, and a call that fails with 401 is repeated once after one refresh. Route guards for public and signed-in pages. |
 | Card browser | `/cards`: playable species with art, name, Dex number and types, filtered by generation, type and name, 60 at a time. `/cards/:id`: the card preview with its four moves and its alternate forms. |
 | Card export | `/cards/export`: choose cards by generation, type or by hand; size, paper, bleed, gap, copies, backs, language, colour; start the job, watch it, download the PDF. `/cards/jobs`: earlier exports. |
-| Not yet | Games, the trainer wizard, play screens and the rest come in later phases; see [`todo.md`](../todo.md). |
+| Shell | The main menu (a bar at the bottom on a phone, in the top bar from 600 px; "New game" only for server admins and the site admin), light/dark/system themes, and the English/Portuguese switch. |
+| Account | `/account`: display name, language, theme (saved on the account with `PATCH /me`), the logins of the account with a button to end the others, linked Minecraft accounts (link with a code from the mod, or show a code to type in Minecraft) and the Discord link. The login screen has a "Sign in with Discord" button when Discord is set up. |
+| Games | `/games` (my games, join with a code, as player or spectator), `/games/new`, `/games/:id` (state and the buttons the state allows), `/games/:id/lobby` (join code, requests to accept or reject, members; asks the API every 3 seconds until phase 40), `/games/:id/admin/settings` (every setting of Appendix A in its group, with search, default markers, reset, presets and rule sets with a preview). |
+| Trainers | `/games/:id/trainer/create` (and `/trainer/edit`): the wizard in six steps (class, ability scores by point buy, standard array or 4d6, skills, starter Pokémon, name and skin, summary). Every step is checked in the browser and again by the API; *Next* shows what is missing. `/games/:id/trainer`: the sheet (HP, Armor Class, abilities with modifiers and saves, skills, class features, bag, skin), change and remove while the game has not started, and the other trainers of the game. The skin is a 64×64 PNG from the computer or the skin of a Minecraft name; it is checked here and cleaned by the API. |
+| Not yet | The play screens and the rest come in later phases; see [`todo.md`](../todo.md). |
 
 ## Commands
 
@@ -42,17 +46,17 @@ npm run e2e:stack       # start that stack alone, to try the app by hand (Ctrl+C
 2. a PostgreSQL server that is already running. The default is `postgres://test:test@127.0.0.1:55432/postgres`, the throw-away container of the API README; set `POKEDND_E2E_PG` to use another. Each run makes a **new, empty database** in it and drops it at the end;
 3. Java on the path.
 
-`e2e/stack.mjs` starts the API and a small web server that serves the built app and passes `/api` to the API (as Caddy does). The API log is `test-results/api.log`. The main test, `e2e/m1.e2e.ts`, registers, logs in, exports Generation 1 with backs, downloads the PDF, counts its pages and decodes every QR code from the drawn pages (about 90 seconds).
+`e2e/stack.mjs` starts the API and a small web server that serves the built app and passes `/api` to the API (as Caddy does). The API log is `test-results/api.log`. `e2e/shell.e2e.ts` (theme, language, Minecraft linking, sessions, phone layout) and `e2e/games.e2e.ts` (create a game, lobby, join, accept, the states, the settings screen against the real registry) need a site admin: the stack creates one (`admin@example.test`). The main test, `e2e/m1.e2e.ts`, registers, logs in, exports Generation 1 with backs, downloads the PDF, counts its pages and decodes every QR code from the drawn pages (about 90 seconds).
 
 ## Languages
 
-Texts are marked with Angular's `i18n` attribute (`$localize` in code). English is the source; Portuguese is `src/locale/messages.pt.xlf`. After you add or change a text, run `npm run extract-i18n` and translate the new entries in `messages.pt.xlf`. The build makes one folder per language.
+Texts are marked with Angular's `i18n` attribute (`$localize` in code). English is the source; Portuguese is `src/locale/messages.pt.xlf`. After you add or change a text, run `npm run extract-i18n` and translate the new entries in `messages.pt.xlf`. A unit test (`src/app/locale.spec.ts`) fails when a text exists in one catalogue and not in the other, and the production build fails when a text has no translation. The build makes one folder per language.
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `src/app/` | Components, routes, configuration (`core/` API client and guards, `auth/` login and register, `cards/` browser, preview, export) |
+| `src/app/` | Components, routes, configuration (`core/` API client, guards, menu, theme; `auth/` login and register; `account/`; `games/` list, lobby and game page; `settings/` the settings screen; `trainers/` the wizard (`wizard-model.ts` holds the rules of each step, `wizard-steps.ts` the steps), the trainer page and the skin picker; `cards/` browser, preview, export; `shared/`) |
 | `e2e/` | End-to-end tests and the stack they start |
 | `src/locale/` | Translation files |
 | `public/` | Icons and the web manifest |

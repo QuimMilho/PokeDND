@@ -1,0 +1,62 @@
+{
+  "formatVersion": 1,
+  "about": "The presets of chapter 12.1 as built-in rule sets. They are Suggested (Appendix D #16 and #69). Each lists every setting its row names, even where the default already has that value, so the preset still holds if a layer between the default and the rule set changes it.",
+  "ruleSets": [
+    {
+      "id": "builtin:defaults",
+      "name": "Defaults",
+      "description": "Nothing changes from the defaults.",
+      "settings": {}
+    },
+    {
+      "id": "builtin:casual",
+      "name": "Casual",
+      "description": "Digital rolls only and no approvals, easy enemy AI, no money penalty when you white out, fog of war off.",
+      "settings": {
+        "dice.input.modes": "digital",
+        "dice.approval.required": false,
+        "combat.ai.level": "easy",
+        "combat.whiteout.moneyLossPct": 0,
+        "world.fogOfWar": false
+      }
+    },
+    {
+      "id": "builtin:hardcore",
+      "name": "Hardcore",
+      "description": "Physical rolls with approvals, 60-second turn timer, death saves, 50 % money loss, hard AI, bosses 1 in 30, healers cost ₽100.",
+      "settings": {
+        "dice.input.modes": "playerSubmit,adminEnter",
+        "dice.approval.required": true,
+        "combat.turnTimer.enabled": true,
+        "combat.turnTimer.seconds": 60,
+        "trainer.ko.mode": "deathSaves",
+        "combat.whiteout.moneyLossPct": 50,
+        "combat.ai.level": "hard",
+        "world.boss.oneIn": 30,
+        "economy.healer.price": 100
+      }
+    },
+    {
+      "id": "builtin:atTheTable",
+      "name": "At the table",
+      "description": "Physical cards, player-submitted rolls with approval, no digital rolls.",
+      "settings": {
+        "cards.mode": "physical",
+        "dice.input.modes": "playerSubmit,adminEnter",
+        "dice.approval.required": true
+      }
+    },
+    {
+      "id": "builtin:remote",
+      "name": "Remote",
+      "description": "Digital rolls allowed with approvals for typed ones, turn timer 120 s, push notifications on.",
+      "settings": {
+        "dice.input.modes": "playerSubmit,digital,adminEnter",
+        "dice.approval.required": true,
+        "combat.turnTimer.enabled": true,
+        "combat.turnTimer.seconds": 120,
+        "app.push.enabled": true
+      }
+    }
+  ]
+}

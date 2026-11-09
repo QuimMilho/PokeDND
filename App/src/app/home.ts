@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { AuthService } from './core/auth.service';
 
-/** The signed-in home screen. "My games" takes its place in a later phase (chapter 11.2); for now it leads to the card tools. */
+/** The signed-in home screen: a short welcome and the ways into the games and the card tools. */
 @Component({
   selector: 'app-home',
   imports: [MatCardModule, MatButtonModule, RouterLink],
@@ -17,10 +17,12 @@ import { AuthService } from './core/auth.service';
         </mat-card-header>
         <mat-card-content>
           <p data-testid="greeting" i18n="@@homeGreeting">Hello, {{ auth.user()?.displayName }}! You are signed in.</p>
+          <p i18n="@@homeGamesText">Create a game or join one with a code.</p>
           <p i18n="@@homeCardsText">Browse the Pokémon cards, or print a whole set of them.</p>
         </mat-card-content>
         <mat-card-actions>
-          <a mat-flat-button routerLink="/cards" i18n="@@homeBrowse">Browse cards</a>
+          <a mat-flat-button routerLink="/games" data-testid="home-games" i18n="@@homeGames">My games</a>
+          <a mat-stroked-button routerLink="/cards" i18n="@@homeBrowse">Browse cards</a>
           <a mat-stroked-button routerLink="/cards/export" i18n="@@homeExport">Export cards</a>
         </mat-card-actions>
       </mat-card>

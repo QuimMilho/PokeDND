@@ -183,6 +183,9 @@ export async function startStack({ log = () => {} } = {}) {
         POKEDND_AUTH_COOKIE_SECURE: 'false',
         // The tests register and log in at once; there is no mail server (the verification mail just fails to send and is logged)
         POKEDND_AUTH_REQUIRE_EMAIL_VERIFICATION: 'false',
+        // the first site admin, for tests that need to register Minecraft servers (e2e/helpers.ts: ADMIN_EMAIL)
+        POKEDND_BOOTSTRAP_ADMIN_EMAIL: 'admin@example.test',
+        POKEDND_BOOTSTRAP_ADMIN_PASSWORD: 'a long enough password',
         POKEDND_BUNDLE_DIR: join(repoDir, 'build', 'bundle'),
         POKEDND_RESOURCES_DIR: join(repoDir, 'resources'),
         POKEDND_DATA_DIR: dataDir,

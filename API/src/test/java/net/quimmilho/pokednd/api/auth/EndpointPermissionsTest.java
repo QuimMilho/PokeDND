@@ -89,6 +89,24 @@ class EndpointPermissionsTest {
         add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/requests", 401, 404, 404);
         add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/members", 401, 404, 404);
         add(all, "DELETE", "/api/v1/games/00000000-0000-0000-0000-000000000000", 401, 404, 404);
+        // settings and rule sets (phase 33)
+        add(all, "GET", "/api/v1/settings/registry", 401, 200, 200);
+        add(all, "GET", "/api/v1/rulesets", 401, 200, 200);
+        add(all, "GET", "/api/v1/rulesets/builtin:casual", 401, 200, 200);
+        add(all, "GET", "/api/v1/rulesets/builtin:casual/export", 401, 200, 200);
+        add(all, "GET", "/api/v1/rulesets/00000000-0000-0000-0000-000000000000", 401, 404, 404);
+        add(all, "DELETE", "/api/v1/rulesets/00000000-0000-0000-0000-000000000000", 401, 404, 404);
+        add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/settings", 401, 404, 404);
+        add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/presets", 401, 404, 404);
+        add(all, "POST", "/api/v1/games/00000000-0000-0000-0000-000000000000/settings/undo", 401, 404, 404);
+        // trainers (phase 38)
+        add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/classes", 401, 404, 404);
+        add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/trainer-options", 401, 404, 404);
+        add(all, "GET", "/api/v1/games/00000000-0000-0000-0000-000000000000/trainers", 401, 404, 404);
+        add(all, "GET", "/api/v1/trainers/00000000-0000-0000-0000-000000000000", 401, 404, 404);
+        add(all, "DELETE", "/api/v1/trainers/00000000-0000-0000-0000-000000000000", 401, 404, 404);
+        add(all, "GET", "/api/v1/trainers/00000000-0000-0000-0000-000000000000/skin", 401, 404, 404);
+        add(all, "DELETE", "/api/v1/trainers/00000000-0000-0000-0000-000000000000/skin", 401, 404, 404);
         return all.stream();
     }
 

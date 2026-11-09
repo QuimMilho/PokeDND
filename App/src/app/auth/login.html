@@ -33,6 +33,12 @@
           <span i18n="@@loginSubmit">Log in</span>
         </button>
       </form>
+      @if (providers().includes('discord')) {
+        <div class="auth-alt">
+          <p class="auth-or" i18n="@@loginOr">or</p>
+          <a mat-stroked-button [href]="discordUrl" data-testid="discord" i18n="@@loginDiscord">Sign in with Discord</a>
+        </div>
+      }
     </mat-card-content>
     <mat-card-actions>
       <a mat-button routerLink="/register" i18n="@@loginToRegister">No account yet? Sign up</a>

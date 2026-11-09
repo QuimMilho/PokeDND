@@ -1,0 +1,2484 @@
+{
+ "source": "project_v2.md, Appendix A",
+ "count": 234,
+ "settings": [
+  {
+   "key": "game.admin.plays",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 3,
+   "description": "The admin also has a trainer."
+  },
+  {
+   "key": "game.admin.coAdminsAllowed",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "The owner can add co-admins."
+  },
+  {
+   "key": "game.lobby.lateJoin",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "Players can join after the game started (admin accepts)."
+  },
+  {
+   "key": "game.lobby.codeLength",
+   "group": "Game, lobby and accounts",
+   "type": "int",
+   "default": 6,
+   "defaultText": "6",
+   "chapter": 3,
+   "description": "Length of the join code.",
+   "min": 4,
+   "max": 12
+  },
+  {
+   "key": "game.lobby.autoAccept",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 3,
+   "description": "Accept every join request automatically."
+  },
+  {
+   "key": "game.players.max",
+   "group": "Game, lobby and accounts",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 3,
+   "description": "Maximum number of players (0 = no limit)."
+  },
+  {
+   "key": "game.spectators.enabled",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "Spectators may join."
+  },
+  {
+   "key": "game.spectators.allowUnlinked",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "Minecraft accounts that are not linked to the app may join as spectators."
+  },
+  {
+   "key": "game.trainerNames.mode",
+   "group": "Game, lobby and accounts",
+   "type": "enum",
+   "default": "perGame",
+   "defaultText": "perGame",
+   "chapter": 3,
+   "description": "Trainer name chosen per game (alternatives: `accountName`).",
+   "allowed": [
+    "perGame",
+    "accountName"
+   ]
+  },
+  {
+   "key": "game.skins.allowUpload",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "Players may upload PNG skins."
+  },
+  {
+   "key": "game.skins.allowCopyFromUsername",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "Players may copy a skin from a Minecraft username."
+  },
+  {
+   "key": "game.disconnect.behaviour",
+   "group": "Game, lobby and accounts",
+   "type": "enum",
+   "default": "idle",
+   "defaultText": "idle",
+   "chapter": 3,
+   "description": "Disconnected player's trainer stays in the world (`idle`) or is removed until return (`hide`).",
+   "allowed": [
+    "idle",
+    "hide"
+   ]
+  },
+  {
+   "key": "game.import.allow",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 3,
+   "description": "Players may import a trainer and team from another game."
+  },
+  {
+   "key": "game.import.copy",
+   "group": "Game, lobby and accounts",
+   "type": "csv",
+   "default": "trainer,pokemon,bag,money",
+   "defaultText": "trainer,pokemon,bag,money",
+   "chapter": 3,
+   "description": "What an import copies.",
+   "allowed": [
+    "trainer",
+    "pokemon",
+    "bag",
+    "money"
+   ]
+  },
+  {
+   "key": "game.import.requireApproval",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 3,
+   "description": "The admin must approve each import."
+  },
+  {
+   "key": "game.ruleset.default",
+   "group": "Game, lobby and accounts",
+   "type": "string",
+   "default": "builtin:defaults",
+   "defaultText": "builtin:defaults",
+   "chapter": 12,
+   "description": "Rule set used by new games.",
+   "pattern": "^(builtin:[A-Za-z]+|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$",
+   "patternHint": "builtin:<name> or the id of a rule set"
+  },
+  {
+   "key": "game.autosave.everyRounds",
+   "group": "Game, lobby and accounts",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 12,
+   "description": "Snapshot frequency.",
+   "min": 1
+  },
+  {
+   "key": "game.presets.enabled",
+   "group": "Game, lobby and accounts",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 12,
+   "description": "Show presets in the wizard."
+  },
+  {
+   "key": "trainer.abilityScores.method",
+   "group": "Trainers",
+   "type": "enum",
+   "default": "pointBuy",
+   "defaultText": "pointBuy",
+   "chapter": 4,
+   "description": "Allowed method: `pointBuy`, `standardArray`, `roll4d6DropLowest`, or `any`.",
+   "allowed": [
+    "pointBuy",
+    "standardArray",
+    "roll4d6DropLowest",
+    "any"
+   ]
+  },
+  {
+   "key": "trainer.abilityScores.pointBuyBudget",
+   "group": "Trainers",
+   "type": "int",
+   "default": 27,
+   "defaultText": "27",
+   "chapter": 4,
+   "description": "Points for point buy."
+  },
+  {
+   "key": "trainer.level.start",
+   "group": "Trainers",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 4,
+   "description": "Starting trainer level.",
+   "min": 1,
+   "max": 100
+  },
+  {
+   "key": "trainer.level.cap",
+   "group": "Trainers",
+   "type": "int",
+   "default": 20,
+   "defaultText": "20",
+   "chapter": 4,
+   "description": "Maximum trainer level.",
+   "min": 1,
+   "max": 100
+  },
+  {
+   "key": "trainer.xp.multiplier",
+   "group": "Trainers",
+   "type": "decimal",
+   "default": 1,
+   "defaultText": "1.0",
+   "chapter": 4,
+   "description": "Scales all trainer XP."
+  },
+  {
+   "key": "trainer.xp.table",
+   "group": "Trainers",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(table in 4.5)*",
+   "chapter": 4,
+   "description": "XP awarded per event."
+  },
+  {
+   "key": "trainer.xp.curveFactor",
+   "group": "Trainers",
+   "type": "int",
+   "default": 25,
+   "defaultText": "25",
+   "chapter": 4,
+   "description": "Total XP to reach L is `factor × L × (L − 1)`."
+  },
+  {
+   "key": "trainer.start.money",
+   "group": "Trainers",
+   "type": "int",
+   "default": 3000,
+   "defaultText": "3000",
+   "chapter": 4,
+   "description": "Starting ₽."
+  },
+  {
+   "key": "trainer.start.items",
+   "group": "Trainers",
+   "type": "csv",
+   "default": "pokeBall×5,potion×3",
+   "defaultText": "pokeBall×5, potion×3",
+   "chapter": 4,
+   "description": "Common starting kit.",
+   "tokenPattern": "^[A-Za-z0-9_.:-]+(×[0-9]+)?$",
+   "tokenHint": "an item id, optionally followed by × and a count"
+  },
+  {
+   "key": "trainer.classes.set",
+   "group": "Trainers",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(the nine defaults)*",
+   "chapter": 4,
+   "description": "Class list used by the game; fully editable."
+  },
+  {
+   "key": "trainer.skills.set",
+   "group": "Trainers",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(the 17 skills)*",
+   "chapter": 4,
+   "description": "Skill list; fully editable."
+  },
+  {
+   "key": "trainer.hp.recoverPerRoundPct",
+   "group": "Trainers",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 4,
+   "description": "Trainer HP regained per overworld round.",
+   "max": 100
+  },
+  {
+   "key": "trainer.ko.mode",
+   "group": "Trainers",
+   "type": "enum",
+   "default": "faintRespawn",
+   "defaultText": "faintRespawn",
+   "chapter": 4,
+   "description": "`faintRespawn`, `deathSaves` or `admin`.",
+   "allowed": [
+    "faintRespawn",
+    "deathSaves",
+    "admin"
+   ]
+  },
+  {
+   "key": "trainer.ko.deathAllowed",
+   "group": "Trainers",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 4,
+   "description": "With `deathSaves`: third failure kills the trainer."
+  },
+  {
+   "key": "dice.skillChecks.natural20And1",
+   "group": "Dice",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 4,
+   "description": "Natural 20 always passes and natural 1 always fails on skill checks."
+  },
+  {
+   "key": "dice.available",
+   "group": "Dice",
+   "type": "intList",
+   "default": [
+    4,
+    6,
+    8,
+    10,
+    12,
+    20,
+    100
+   ],
+   "defaultText": "4, 6, 8, 10, 12, 20, 100",
+   "chapter": 6,
+   "description": "The dice the table owns",
+   "minItems": 1,
+   "itemMin": 2,
+   "itemMax": 1000,
+   "unique": true
+  },
+  {
+   "key": "dice.tolerance.absolutePp",
+   "group": "Dice",
+   "type": "decimal",
+   "default": 2.5,
+   "defaultText": "2.5",
+   "chapter": 6,
+   "description": "A band may be off by at most this many percentage points",
+   "max": 100
+  },
+  {
+   "key": "dice.tolerance.relativePct",
+   "group": "Dice",
+   "type": "int",
+   "default": 15,
+   "defaultText": "15",
+   "chapter": 6,
+   "description": "…and by at most this share of its own size",
+   "max": 100
+  },
+  {
+   "key": "dice.d100Below",
+   "group": "Dice",
+   "type": "int",
+   "default": 5,
+   "defaultText": "5",
+   "chapter": 6,
+   "description": "If the rarest band is rarer than this %, use a d100",
+   "max": 100
+  },
+  {
+   "key": "dice.style",
+   "group": "Dice",
+   "type": "enum",
+   "default": "smart",
+   "defaultText": "smart",
+   "chapter": 6,
+   "description": "`smart`, or `classic` (d20 for most things, d100 for rare ones).",
+   "allowed": [
+    "smart",
+    "classic"
+   ]
+  },
+  {
+   "key": "dice.percentile.method",
+   "group": "Dice",
+   "type": "enum",
+   "default": "d100",
+   "defaultText": "d100",
+   "chapter": 6,
+   "description": "`d100` or `2d10`.",
+   "allowed": [
+    "d100",
+    "2d10"
+   ]
+  },
+  {
+   "key": "dice.direction",
+   "group": "Dice",
+   "type": "enum",
+   "default": "high",
+   "defaultText": "high",
+   "chapter": 6,
+   "description": "Roll high to succeed (`high`) or low (`low`).",
+   "allowed": [
+    "high",
+    "low"
+   ]
+  },
+  {
+   "key": "dice.forceDie",
+   "group": "Dice",
+   "type": "json",
+   "default": {},
+   "defaultText": "{}",
+   "chapter": 6,
+   "description": "Force a die per roll type, e.g. `{ \"catch\": 20 }`."
+  },
+  {
+   "key": "dice.skillChecks.style",
+   "group": "Dice",
+   "type": "enum",
+   "default": "classic",
+   "defaultText": "classic",
+   "chapter": 6,
+   "description": "`classic` (d20 + mod vs DC) or `smart`.",
+   "allowed": [
+    "classic",
+    "smart"
+   ]
+  },
+  {
+   "key": "dice.initiative.style",
+   "group": "Dice",
+   "type": "enum",
+   "default": "classic",
+   "defaultText": "classic",
+   "chapter": 6,
+   "description": "`classic` or `smart`.",
+   "allowed": [
+    "classic",
+    "smart"
+   ]
+  },
+  {
+   "key": "dice.defence.style",
+   "group": "Dice",
+   "type": "enum",
+   "default": "classic",
+   "defaultText": "classic",
+   "chapter": 6,
+   "description": "Trainer defence roll style.",
+   "allowed": [
+    "classic",
+    "smart"
+   ]
+  },
+  {
+   "key": "dice.input.modes",
+   "group": "Dice",
+   "type": "csv",
+   "default": "playerSubmit,digital,adminEnter",
+   "defaultText": "playerSubmit,digital,adminEnter",
+   "chapter": 6,
+   "description": "Allowed ways to answer a roll request.",
+   "allowed": [
+    "playerSubmit",
+    "digital",
+    "adminEnter"
+   ],
+   "minItems": 1,
+   "unique": true
+  },
+  {
+   "key": "dice.approval.required",
+   "group": "Dice",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 6,
+   "description": "Player-submitted physical rolls need the admin's approval."
+  },
+  {
+   "key": "dice.approval.autoSeconds",
+   "group": "Dice",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 6,
+   "description": "Auto-approve after this many seconds (0 = never)."
+  },
+  {
+   "key": "dice.entry.perDie",
+   "group": "Dice",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 6,
+   "description": "Enter each die separately (otherwise the total)."
+  },
+  {
+   "key": "dice.batch.attackRolls",
+   "group": "Dice",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 6,
+   "description": "Ask for hit, damage and effect dice together."
+  },
+  {
+   "key": "dice.prompt.showTrueChance",
+   "group": "Dice",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 6,
+   "description": "Show the exact chance in the prompt."
+  },
+  {
+   "key": "dice.prompt.timeoutSeconds",
+   "group": "Dice",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 6,
+   "description": "Time limit for a roll request (0 = none)."
+  },
+  {
+   "key": "dice.enemy.mode",
+   "group": "Dice",
+   "type": "enum",
+   "default": "auto",
+   "defaultText": "auto",
+   "chapter": 6,
+   "description": "`auto`, or `adminPhysical` (admin rolls real dice for enemies).",
+   "allowed": [
+    "auto",
+    "adminPhysical"
+   ]
+  },
+  {
+   "key": "dice.secret.mode",
+   "group": "Dice",
+   "type": "enum",
+   "default": "auto",
+   "defaultText": "auto",
+   "chapter": 6,
+   "description": "`auto`, or `adminPhysical` for encounter, shiny, boss and loot rolls.",
+   "allowed": [
+    "auto",
+    "adminPhysical"
+   ]
+  },
+  {
+   "key": "dice.rng.source",
+   "group": "Dice",
+   "type": "enum",
+   "default": "secure",
+   "defaultText": "secure",
+   "chapter": 6,
+   "description": "Random generator used for digital rolls.",
+   "allowed": [
+    "secure",
+    "seeded"
+   ]
+  },
+  {
+   "key": "dice.advantage.enabled",
+   "group": "Dice",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 6,
+   "description": "Advantage/disadvantage on classic d20 rolls."
+  },
+  {
+   "key": "combat.command.accuracyPpPerPoint",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 4,
+   "description": "Accuracy bonus per Handling point.",
+   "max": 100
+  },
+  {
+   "key": "combat.command.accuracyCapPp",
+   "group": "Combat",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 4,
+   "description": "Cap on the command accuracy bonus.",
+   "max": 100
+  },
+  {
+   "key": "combat.catch.bonusPerPoint",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 0.05,
+   "defaultText": "0.05",
+   "chapter": 4,
+   "description": "Relative catch bonus per Handling point.",
+   "max": 1
+  },
+  {
+   "key": "combat.catch.allowPenalty",
+   "group": "Combat",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 4,
+   "description": "Negative Handling modifiers also reduce the catch chance."
+  },
+  {
+   "key": "combat.flee.bonusPpPerPoint",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 2,
+   "defaultText": "2",
+   "chapter": 4,
+   "description": "Flee bonus per DEX modifier point.",
+   "max": 100
+  },
+  {
+   "key": "combat.joinRadius",
+   "group": "Combat",
+   "type": "int",
+   "default": 16,
+   "defaultText": "16",
+   "chapter": 7,
+   "description": "Blocks around the encounter in which trainers join."
+  },
+  {
+   "key": "combat.joinRadius.adminOverride",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "The admin can add/remove participants."
+  },
+  {
+   "key": "combat.activePerTrainer",
+   "group": "Combat",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 7,
+   "description": "Active Pokémon per trainer.",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "key": "combat.declare.hidden",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Hide declared actions from other players."
+  },
+  {
+   "key": "combat.initiative.speedDivisor",
+   "group": "Combat",
+   "type": "int",
+   "default": 20,
+   "defaultText": "20",
+   "chapter": 7,
+   "description": "Initiative modifier is `floor(Speed / divisor)`.",
+   "min": 1
+  },
+  {
+   "key": "combat.initiative.rerollEachRound",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Roll initiative every round (otherwise once per battle)."
+  },
+  {
+   "key": "combat.order.trainerActionsFirst",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Switch/item/ball/flee resolve before moves."
+  },
+  {
+   "key": "combat.turnTimer.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 7,
+   "description": "Use a turn timer."
+  },
+  {
+   "key": "combat.turnTimer.seconds",
+   "group": "Combat",
+   "type": "int",
+   "default": 90,
+   "defaultText": "90",
+   "chapter": 7,
+   "description": "Length of the timer.",
+   "min": 5
+  },
+  {
+   "key": "combat.turnTimer.onTimeout",
+   "group": "Combat",
+   "type": "enum",
+   "default": "skip",
+   "defaultText": "skip",
+   "chapter": 7,
+   "description": "`skip` or `autoMove`.",
+   "allowed": [
+    "skip",
+    "autoMove"
+   ]
+  },
+  {
+   "key": "combat.crit.chancesPct",
+   "group": "Combat",
+   "type": "intList",
+   "default": [
+    5,
+    10,
+    15,
+    25
+   ],
+   "defaultText": "5,10,15,25",
+   "chapter": 7,
+   "description": "Crit chance for stages 0, +1, +2, +3 or more.",
+   "minItems": 4,
+   "maxItems": 4,
+   "itemMax": 100
+  },
+  {
+   "key": "combat.crit.multiplier",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 1.5,
+   "defaultText": "1.5",
+   "chapter": 7,
+   "description": "Critical damage multiplier."
+  },
+  {
+   "key": "combat.stab.multiplier",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 1.5,
+   "defaultText": "1.5",
+   "chapter": 7,
+   "description": "Same-type attack bonus."
+  },
+  {
+   "key": "combat.accuracy.stageEffects",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Accuracy/evasion stages change hit chance."
+  },
+  {
+   "key": "combat.damage.dicePowerFactor",
+   "group": "Combat",
+   "type": "int",
+   "default": 5,
+   "defaultText": "5",
+   "chapter": 7,
+   "description": "Effective power = dice total × this.",
+   "min": 1
+  },
+  {
+   "key": "combat.damage.powerTable",
+   "group": "Combat",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(table in 7.6)*",
+   "chapter": 7,
+   "description": "Move power → damage dice."
+  },
+  {
+   "key": "combat.multihit.damageDice",
+   "group": "Combat",
+   "type": "enum",
+   "default": "once",
+   "defaultText": "once",
+   "chapter": 7,
+   "description": "Roll damage once or per hit.",
+   "allowed": [
+    "once",
+    "perHit"
+   ]
+  },
+  {
+   "key": "combat.spread.rollPerTarget",
+   "group": "Combat",
+   "type": "enum",
+   "default": "whenDifferent",
+   "defaultText": "whenDifferent",
+   "chapter": 7,
+   "description": "`always`, `never`, `whenDifferent`.",
+   "allowed": [
+    "always",
+    "never",
+    "whenDifferent"
+   ]
+  },
+  {
+   "key": "combat.typeChart",
+   "group": "Combat",
+   "type": "data",
+   "default": "official",
+   "defaultText": "official",
+   "chapter": 7,
+   "description": "Type chart data (editable)."
+  },
+  {
+   "key": "combat.pp.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Moves use PP."
+  },
+  {
+   "key": "combat.abilities.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Abilities have effects."
+  },
+  {
+   "key": "combat.heldItems.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Held items have effects."
+  },
+  {
+   "key": "combat.catch.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Catching allowed."
+  },
+  {
+   "key": "combat.catch.allowTrainerOwned",
+   "group": "Combat",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 7,
+   "description": "Allow catching NPC Pokémon."
+  },
+  {
+   "key": "combat.flee.allowTrainerBattles",
+   "group": "Combat",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 7,
+   "description": "Flee from NPC/PvP battles."
+  },
+  {
+   "key": "combat.flee.allowBoss",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "Flee from bosses."
+  },
+  {
+   "key": "combat.ai.level",
+   "group": "Combat",
+   "type": "enum",
+   "default": "normal",
+   "defaultText": "normal",
+   "chapter": 7,
+   "description": "`easy`, `normal`, `hard`.",
+   "allowed": [
+    "easy",
+    "normal",
+    "hard"
+   ]
+  },
+  {
+   "key": "combat.ai.targetTrainerPct",
+   "group": "Combat",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 7,
+   "description": "Chance per enemy action to target a trainer.",
+   "max": 100
+  },
+  {
+   "key": "combat.trainer.damageScale",
+   "group": "Combat",
+   "type": "decimal",
+   "default": 0.25,
+   "defaultText": "0.25",
+   "chapter": 7,
+   "description": "Scales damage dealt to trainers.",
+   "max": 10
+  },
+  {
+   "key": "combat.trainer.defenseBase",
+   "group": "Combat",
+   "type": "int",
+   "default": 20,
+   "defaultText": "20",
+   "chapter": 7,
+   "description": "Trainer Defense value, base."
+  },
+  {
+   "key": "combat.trainer.defensePerLevel",
+   "group": "Combat",
+   "type": "int",
+   "default": 4,
+   "defaultText": "4",
+   "chapter": 7,
+   "description": "Trainer Defense value, per trainer level."
+  },
+  {
+   "key": "combat.trainer.attackLevelDivisor",
+   "group": "Combat",
+   "type": "int",
+   "default": 8,
+   "defaultText": "8",
+   "chapter": 7,
+   "description": "Enemy attack bonus is `level / divisor`.",
+   "min": 1
+  },
+  {
+   "key": "combat.pvp.enabled",
+   "group": "Combat",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 7,
+   "description": "PvP battles allowed."
+  },
+  {
+   "key": "combat.pvp.wagerAllowed",
+   "group": "Combat",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 7,
+   "description": "Players may wager money."
+  },
+  {
+   "key": "combat.prize.perLevel",
+   "group": "Combat",
+   "type": "int",
+   "default": 40,
+   "defaultText": "40",
+   "chapter": 7,
+   "description": "₽ per level of the opponent's highest Pokémon."
+  },
+  {
+   "key": "combat.whiteout.moneyLossPct",
+   "group": "Combat",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 7,
+   "description": "Money lost on a whiteout or trainer knock-out.",
+   "max": 100
+  },
+  {
+   "key": "pokemon.party.size",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 6,
+   "defaultText": "6",
+   "chapter": 5,
+   "description": "Maximum Pokémon in the party.",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "key": "pokemon.pc.boxes",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 5,
+   "description": "Number of PC boxes (0 = unlimited)."
+  },
+  {
+   "key": "pokemon.pc.boxSize",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 30,
+   "defaultText": "30",
+   "chapter": 5,
+   "description": "Pokémon per box."
+  },
+  {
+   "key": "pokemon.pc.access",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "healerNpc",
+   "defaultText": "healerNpc",
+   "chapter": 5,
+   "description": "Where the PC can be used: `healerNpc`, `anywhere`.",
+   "allowed": [
+    "healerNpc",
+    "anywhere"
+   ]
+  },
+  {
+   "key": "pokemon.starter.method",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "pick",
+   "defaultText": "pick",
+   "chapter": 5,
+   "description": "`pick`, `assign` or `random`.",
+   "allowed": [
+    "pick",
+    "assign",
+    "random"
+   ]
+  },
+  {
+   "key": "pokemon.starter.list",
+   "group": "Pokémon",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(all modelled starters, Gen 1–9)*",
+   "chapter": 5,
+   "description": "Species a player may pick from."
+  },
+  {
+   "key": "pokemon.starter.level",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 5,
+   "defaultText": "5",
+   "chapter": 5,
+   "description": "Starting level of the starter.",
+   "min": 1,
+   "max": 100
+  },
+  {
+   "key": "pokemon.level.cap",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 100,
+   "defaultText": "100",
+   "chapter": 5,
+   "description": "Maximum Pokémon level.",
+   "min": 1,
+   "max": 100
+  },
+  {
+   "key": "pokemon.xp.share",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "gen6",
+   "defaultText": "gen6",
+   "chapter": 5,
+   "description": "`gen6` (non-participants get half), `participantsOnly`, `all`.",
+   "allowed": [
+    "gen6",
+    "participantsOnly",
+    "all"
+   ]
+  },
+  {
+   "key": "pokemon.xp.multiplier",
+   "group": "Pokémon",
+   "type": "decimal",
+   "default": 1,
+   "defaultText": "1.0",
+   "chapter": 5,
+   "description": "Scales all Pokémon XP."
+  },
+  {
+   "key": "pokemon.evolution.mode",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "askPlayer",
+   "defaultText": "askPlayer",
+   "chapter": 5,
+   "description": "`askPlayer`, `askAdmin`, `automatic`.",
+   "allowed": [
+    "askPlayer",
+    "askAdmin",
+    "automatic"
+   ]
+  },
+  {
+   "key": "pokemon.evolution.unknownFallback",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "askAdmin",
+   "defaultText": "askAdmin",
+   "chapter": 5,
+   "description": "What to do with evolutions the game can't evaluate.",
+   "allowed": [
+    "askAdmin",
+    "askPlayer",
+    "skip"
+   ]
+  },
+  {
+   "key": "pokemon.friendship.evolveAt",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 220,
+   "defaultText": "220",
+   "chapter": 5,
+   "description": "Friendship needed for friendship evolutions.",
+   "max": 255
+  },
+  {
+   "key": "pokemon.friendship.levelUpGain",
+   "group": "Pokémon",
+   "type": "intList",
+   "default": [
+    5,
+    4,
+    3
+   ],
+   "defaultText": "5,4,3",
+   "chapter": 5,
+   "description": "Gain per level-up by friendship band (<100, 100–199, ≥200).",
+   "minItems": 3,
+   "maxItems": 3,
+   "itemMax": 255
+  },
+  {
+   "key": "pokemon.friendship.faintLoss",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 5,
+   "description": "Friendship lost when fainting.",
+   "max": 255
+  },
+  {
+   "key": "pokemon.friendship.pointsPerGain",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 5,
+   "description": "Movement points travelled per +1 friendship."
+  },
+  {
+   "key": "pokemon.ivs.mode",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "random",
+   "defaultText": "random",
+   "chapter": 5,
+   "description": "`random` (0–31 each) or `fixed`.",
+   "allowed": [
+    "random",
+    "fixed"
+   ]
+  },
+  {
+   "key": "pokemon.ivs.fixedValue",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 15,
+   "defaultText": "15",
+   "chapter": 5,
+   "description": "The IV used for every stat when the mode is `fixed`.",
+   "max": 31
+  },
+  {
+   "key": "pokemon.natures.enabled",
+   "group": "Pokémon",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 5,
+   "description": "Use natures."
+  },
+  {
+   "key": "pokemon.breeding.enabled",
+   "group": "Pokémon",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 5,
+   "description": "Turn breeding on."
+  },
+  {
+   "key": "pokemon.breeding.pointsPerCycle",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 2,
+   "defaultText": "2",
+   "chapter": 5,
+   "description": "Movement points per egg cycle."
+  },
+  {
+   "key": "pokemon.moves.max",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 4,
+   "defaultText": "4",
+   "chapter": 5,
+   "description": "Moves a Pokémon can know.",
+   "min": 1,
+   "max": 8
+  },
+  {
+   "key": "pokemon.pp.recoverPerRound",
+   "group": "Pokémon",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 5,
+   "description": "PP recovered per overworld round (0 = off)."
+  },
+  {
+   "key": "pokemon.moves.tutorLegacyAllowed",
+   "group": "Pokémon",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 5,
+   "description": "Tutors may teach `legacy` moves."
+  },
+  {
+   "key": "pokemon.fainting.rule",
+   "group": "Pokémon",
+   "type": "enum",
+   "default": "classic",
+   "defaultText": "classic",
+   "chapter": 5,
+   "description": "`classic` only in this version.",
+   "allowed": [
+    "classic"
+   ]
+  },
+  {
+   "key": "world.movement.mode",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "freeParties",
+   "defaultText": "freeParties",
+   "chapter": 8,
+   "description": "`freeParties`, `soloOnly`, `singleParty`.",
+   "allowed": [
+    "freeParties",
+    "soloOnly",
+    "singleParty"
+   ]
+  },
+  {
+   "key": "world.movement.formula",
+   "group": "World, movement, encounters, bosses",
+   "type": "string",
+   "default": "1d6+DEX",
+   "defaultText": "1d6+DEX",
+   "chapter": 8,
+   "description": "The movement roll.",
+   "pattern": "^[0-9]+d[0-9]+([+-]([0-9]+|[A-Za-z]{3}))*$",
+   "patternHint": "a dice formula such as 1d6+DEX"
+  },
+  {
+   "key": "world.movement.minPoints",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 8,
+   "description": "Minimum points from a roll."
+  },
+  {
+   "key": "world.movement.blocksPerPoint",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 8,
+   "defaultText": "8",
+   "chapter": 8,
+   "description": "Blocks per movement point (for edge lengths)."
+  },
+  {
+   "key": "world.movement.partyModifier",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "lowest",
+   "defaultText": "lowest",
+   "chapter": 8,
+   "description": "Which member's modifier a party uses: `lowest`, `highest`, `roller`, `average`.",
+   "allowed": [
+    "lowest",
+    "highest",
+    "roller",
+    "average"
+   ]
+  },
+  {
+   "key": "world.movement.carryOver",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 8,
+   "description": "Keep unused points for the next turn."
+  },
+  {
+   "key": "world.movement.allowReverse",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 8,
+   "description": "A party may turn back mid-edge."
+  },
+  {
+   "key": "world.party.maxSize",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 4,
+   "defaultText": "4",
+   "chapter": 8,
+   "description": "Trainers per party.",
+   "min": 1
+  },
+  {
+   "key": "world.party.branchChoice",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "leader",
+   "defaultText": "leader",
+   "chapter": 8,
+   "description": "Who picks at a junction: `leader`, `vote`, `roller`.",
+   "allowed": [
+    "leader",
+    "vote",
+    "roller"
+   ]
+  },
+  {
+   "key": "world.round.order",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "sequential",
+   "defaultText": "sequential",
+   "chapter": 8,
+   "description": "`sequential` or `free`.",
+   "allowed": [
+    "sequential",
+    "free"
+   ]
+  },
+  {
+   "key": "world.round.autoAdvance",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 8,
+   "description": "Advance the round automatically when everyone has moved."
+  },
+  {
+   "key": "world.walk.speedBlocksPerSecond",
+   "group": "World, movement, encounters, bosses",
+   "type": "decimal",
+   "default": 4.3,
+   "defaultText": "4.3",
+   "chapter": 8,
+   "description": "Speed of fake players on the road.",
+   "min": 0.1,
+   "max": 20
+  },
+  {
+   "key": "world.nodes.arrivalRadius",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 3,
+   "defaultText": "3",
+   "chapter": 8,
+   "description": "Arrival radius of a node, in blocks.",
+   "min": 1
+  },
+  {
+   "key": "world.npc.interactRadius",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 6,
+   "defaultText": "6",
+   "chapter": 8,
+   "description": "Distance at which a party can talk to an NPC.",
+   "min": 1
+  },
+  {
+   "key": "world.npc.rematch",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 8,
+   "description": "Beaten NPC trainers can be fought again."
+  },
+  {
+   "key": "world.gates.retry",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "nextRound",
+   "defaultText": "nextRound",
+   "chapter": 8,
+   "description": "When a failed gate check can be retried.",
+   "allowed": [
+    "nextRound",
+    "immediately",
+    "never"
+   ]
+  },
+  {
+   "key": "world.encounter.stopChancePct",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 60,
+   "defaultText": "60",
+   "chapter": 8,
+   "description": "Chance when stopping on an encounter node.",
+   "max": 100
+  },
+  {
+   "key": "world.encounter.passChancePct",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 30,
+   "defaultText": "30",
+   "chapter": 8,
+   "description": "Chance when passing through an encounter node.",
+   "max": 100
+  },
+  {
+   "key": "world.encounter.edgeChancePct",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 15,
+   "defaultText": "15",
+   "chapter": 8,
+   "description": "Chance per checkpoint along an edge in a region.",
+   "max": 100
+  },
+  {
+   "key": "world.encounter.edgeBlocks",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 24,
+   "defaultText": "24",
+   "chapter": 8,
+   "description": "Blocks between edge checkpoints.",
+   "min": 1
+  },
+  {
+   "key": "world.encounter.defaultCount",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 8,
+   "description": "Wild Pokémon per encounter (regions override).",
+   "min": 1,
+   "max": 6
+  },
+  {
+   "key": "world.encounter.spawnDistance",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 12,
+   "defaultText": "12",
+   "chapter": 8,
+   "description": "Blocks ahead of the party where wild Pokémon appear."
+  },
+  {
+   "key": "world.wildLevel.mode",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "party",
+   "defaultText": "party",
+   "chapter": 8,
+   "description": "`party` (near the party's level), `uniform`, `fixed`.",
+   "allowed": [
+    "party",
+    "uniform",
+    "fixed"
+   ]
+  },
+  {
+   "key": "world.wildLevel.spread",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 2,
+   "defaultText": "2",
+   "chapter": 8,
+   "description": "± levels around the party level."
+  },
+  {
+   "key": "world.ambient.enabled",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 8,
+   "description": "Ambient roaming Pokémon."
+  },
+  {
+   "key": "world.ambient.maxPerRegion",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 6,
+   "defaultText": "6",
+   "chapter": 8,
+   "description": "Limit per region."
+  },
+  {
+   "key": "world.shiny.oneIn",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 512,
+   "defaultText": "512",
+   "chapter": 8,
+   "description": "Shiny chance is 1 in this number.",
+   "min": 1
+  },
+  {
+   "key": "world.boss.oneIn",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 50,
+   "defaultText": "50",
+   "chapter": 8,
+   "description": "Boss chance is 1 in this number.",
+   "min": 1
+  },
+  {
+   "key": "world.boss.levelBonus",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 5,
+   "defaultText": "5",
+   "chapter": 8,
+   "description": "Boss level above the region maximum."
+  },
+  {
+   "key": "world.boss.statMultiplier",
+   "group": "World, movement, encounters, bosses",
+   "type": "decimal",
+   "default": 1.5,
+   "defaultText": "1.5",
+   "chapter": 8,
+   "description": "Boss stat multiplier.",
+   "min": 0.1,
+   "max": 10
+  },
+  {
+   "key": "world.boss.scale",
+   "group": "World, movement, encounters, bosses",
+   "type": "decimal",
+   "default": 2.5,
+   "defaultText": "2.5",
+   "chapter": 8,
+   "description": "Boss model scale.",
+   "min": 0.1,
+   "max": 10
+  },
+  {
+   "key": "world.boss.moneyPerLevel",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 100,
+   "defaultText": "100",
+   "chapter": 8,
+   "description": "₽ per boss level, split between participants."
+  },
+  {
+   "key": "world.boss.lootRecipients",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "allParticipants",
+   "defaultText": "allParticipants",
+   "chapter": 8,
+   "description": "`allParticipants`, `lastHit`, `byDamage`.",
+   "allowed": [
+    "allParticipants",
+    "lastHit",
+    "byDamage"
+   ]
+  },
+  {
+   "key": "world.boss.lootRolls",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 3,
+   "defaultText": "3",
+   "chapter": 8,
+   "description": "Loot rolls per recipient."
+  },
+  {
+   "key": "world.fogOfWar",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 8,
+   "description": "Players only see what they have discovered."
+  },
+  {
+   "key": "world.fogOfWar.revealRadiusBlocks",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 64,
+   "defaultText": "64",
+   "chapter": 8,
+   "description": "How far around visited places is revealed."
+  },
+  {
+   "key": "world.time.mode",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "admin",
+   "defaultText": "admin",
+   "chapter": 8,
+   "description": "`admin`, `rounds`, `vanilla`.",
+   "allowed": [
+    "admin",
+    "rounds",
+    "vanilla"
+   ]
+  },
+  {
+   "key": "world.time.start",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "noon",
+   "defaultText": "noon",
+   "chapter": 8,
+   "description": "Starting time of day.",
+   "allowed": [
+    "dawn",
+    "day",
+    "noon",
+    "dusk",
+    "night",
+    "midnight"
+   ]
+  },
+  {
+   "key": "world.time.ticksPerRound",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 1000,
+   "defaultText": "1000",
+   "chapter": 8,
+   "description": "Time advanced per round in `rounds` mode.",
+   "min": 1
+  },
+  {
+   "key": "world.weather.mode",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "admin",
+   "defaultText": "admin",
+   "chapter": 8,
+   "description": "`admin`, `rounds`, `vanilla`.",
+   "allowed": [
+    "admin",
+    "rounds",
+    "vanilla"
+   ]
+  },
+  {
+   "key": "world.weather.start",
+   "group": "World, movement, encounters, bosses",
+   "type": "enum",
+   "default": "clear",
+   "defaultText": "clear",
+   "chapter": 8,
+   "description": "Starting weather.",
+   "allowed": [
+    "clear",
+    "rain",
+    "thunder"
+   ]
+  },
+  {
+   "key": "world.protect.blocks",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "Block breaking/placing is blocked (except admin build mode)."
+  },
+  {
+   "key": "world.protect.hostileMobs",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "No hostile mob spawning."
+  },
+  {
+   "key": "world.protect.hunger",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "Hunger disabled."
+  },
+  {
+   "key": "world.protect.damage",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "Vanilla damage disabled."
+  },
+  {
+   "key": "world.fakePlayers.keepChunksLoaded",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "Keep chunks loaded around fake players."
+  },
+  {
+   "key": "world.fakePlayers.stuckSeconds",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 3,
+   "defaultText": "3",
+   "chapter": 15,
+   "description": "Seconds before the stuck teleport fallback."
+  },
+  {
+   "key": "world.positions.reportHz",
+   "group": "World, movement, encounters, bosses",
+   "type": "int",
+   "default": 2,
+   "defaultText": "2",
+   "chapter": 15,
+   "description": "Position reports per second.",
+   "min": 1,
+   "max": 20
+  },
+  {
+   "key": "world.followers.enabled",
+   "group": "World, movement, encounters, bosses",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 15,
+   "description": "Lead Pokémon follows its trainer."
+  },
+  {
+   "key": "economy.currency.symbol",
+   "group": "Money, shops and trading",
+   "type": "string",
+   "default": "₽",
+   "defaultText": "₽",
+   "chapter": 8,
+   "description": "Currency symbol.",
+   "minLength": 1,
+   "maxLength": 4
+  },
+  {
+   "key": "economy.prices.table",
+   "group": "Money, shops and trading",
+   "type": "data",
+   "default": null,
+   "defaultText": "*(table in 8.8)*",
+   "chapter": 8,
+   "description": "Default buy prices."
+  },
+  {
+   "key": "economy.prices.tm",
+   "group": "Money, shops and trading",
+   "type": "int",
+   "default": 3000,
+   "defaultText": "3000",
+   "chapter": 8,
+   "description": "Default buy price of every TM."
+  },
+  {
+   "key": "economy.sellRatio",
+   "group": "Money, shops and trading",
+   "type": "decimal",
+   "default": 0.5,
+   "defaultText": "0.5",
+   "chapter": 8,
+   "description": "Sell price as a fraction of the buy price.",
+   "max": 1
+  },
+  {
+   "key": "economy.healer.price",
+   "group": "Money, shops and trading",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 8,
+   "description": "Default healing price (NPCs override)."
+  },
+  {
+   "key": "economy.tutor.price",
+   "group": "Money, shops and trading",
+   "type": "int",
+   "default": 1000,
+   "defaultText": "1000",
+   "chapter": 8,
+   "description": "Default move-tutor price per move."
+  },
+  {
+   "key": "economy.merchant.restockRounds",
+   "group": "Money, shops and trading",
+   "type": "int",
+   "default": 10,
+   "defaultText": "10",
+   "chapter": 8,
+   "description": "Rounds between merchant restocks (0 = never)."
+  },
+  {
+   "key": "economy.trade.requireApproval",
+   "group": "Money, shops and trading",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 8,
+   "description": "Trades need admin approval."
+  },
+  {
+   "key": "economy.trade.location",
+   "group": "Money, shops and trading",
+   "type": "enum",
+   "default": "tradeCentre",
+   "defaultText": "tradeCentre",
+   "chapter": 8,
+   "description": "Where trading is allowed: `tradeCentre` or `anywhere`.",
+   "allowed": [
+    "tradeCentre",
+    "anywhere"
+   ]
+  },
+  {
+   "key": "bag.limit.slotsPerPocket",
+   "group": "Bag",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 8,
+   "description": "Slots per pocket (0 = unlimited)."
+  },
+  {
+   "key": "bag.limit.stackSize",
+   "group": "Bag",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 8,
+   "description": "Maximum per stack (0 = unlimited)."
+  },
+  {
+   "key": "items.ivCandy.step",
+   "group": "Bag",
+   "type": "int",
+   "default": 1,
+   "defaultText": "1",
+   "chapter": 8,
+   "description": "How much one IV candy raises or lowers an IV (the IV stays within 0–31). It changes that Pokémon's stored IV, so it works in every `pokemon.ivs.mode`.",
+   "min": 1,
+   "max": 31
+  },
+  {
+   "key": "quests.autoTrack",
+   "group": "Quests",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 8,
+   "description": "Track structured objectives automatically."
+  },
+  {
+   "key": "quests.allowFreeForm",
+   "group": "Quests",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 8,
+   "description": "Allow admin-tracked quests."
+  },
+  {
+   "key": "cards.mode",
+   "group": "Cards",
+   "type": "enum",
+   "default": "digital",
+   "defaultText": "digital",
+   "chapter": 9,
+   "description": "`digital` or `physical`.",
+   "allowed": [
+    "digital",
+    "physical"
+   ]
+  },
+  {
+   "key": "cards.physical.unboundBehaviour",
+   "group": "Cards",
+   "type": "enum",
+   "default": "block",
+   "defaultText": "block",
+   "chapter": 9,
+   "description": "`block` or `digitalMoves`.",
+   "allowed": [
+    "block",
+    "digitalMoves"
+   ]
+  },
+  {
+   "key": "cards.physical.evolutionRequiresScan",
+   "group": "Cards",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 9,
+   "description": "Evolution completes when the new card is scanned."
+  },
+  {
+   "key": "cards.physical.rescanAfterTrade",
+   "group": "Cards",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 9,
+   "description": "The new owner must scan the card again."
+  },
+  {
+   "key": "cards.cosmetics.enabled",
+   "group": "Cards",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 9,
+   "description": "Virtual card cosmetics."
+  },
+  {
+   "key": "cards.back.showId",
+   "group": "Cards",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 9,
+   "description": "Print the card ID text next to the QR code."
+  },
+  {
+   "key": "cards.export.defaultSizeMm",
+   "group": "Cards",
+   "type": "string",
+   "default": "63x88",
+   "defaultText": "63x88",
+   "chapter": 9,
+   "description": "Default export card size.",
+   "pattern": "^[0-9]+x[0-9]+$",
+   "patternHint": "width x height in millimetres, such as 63x88"
+  },
+  {
+   "key": "cards.export.defaultPaper",
+   "group": "Cards",
+   "type": "enum",
+   "default": "A4",
+   "defaultText": "A4",
+   "chapter": 9,
+   "description": "Default paper.",
+   "allowed": [
+    "A4",
+    "Letter",
+    "Tarot",
+    "Mini"
+   ]
+  },
+  {
+   "key": "cards.export.bleedMm",
+   "group": "Cards",
+   "type": "decimal",
+   "default": 3,
+   "defaultText": "3",
+   "chapter": 9,
+   "description": "Bleed.",
+   "max": 10
+  },
+  {
+   "key": "cards.export.gapMm",
+   "group": "Cards",
+   "type": "decimal",
+   "default": 2,
+   "defaultText": "2",
+   "chapter": 9,
+   "description": "Gap between cards.",
+   "max": 20
+  },
+  {
+   "key": "cards.export.maxCardsPerJob",
+   "group": "Cards",
+   "type": "int",
+   "default": 1500,
+   "defaultText": "1500",
+   "chapter": 9,
+   "description": "Limit per export job.",
+   "min": 1
+  },
+  {
+   "key": "cards.export.fileTtlHours",
+   "group": "Cards",
+   "type": "int",
+   "default": 24,
+   "defaultText": "24",
+   "chapter": 9,
+   "description": "How long finished exports stay downloadable.",
+   "min": 1
+  },
+  {
+   "key": "cards.signature.stageLevelCaps",
+   "group": "Cards",
+   "type": "intList",
+   "default": [
+    25,
+    40,
+    100
+   ],
+   "defaultText": "25,40,100",
+   "chapter": 9,
+   "description": "Level cap for signature moves by stage.",
+   "minItems": 3,
+   "maxItems": 3,
+   "itemMin": 1,
+   "itemMax": 100
+  },
+  {
+   "key": "cards.signature.overridesFile",
+   "group": "Cards",
+   "type": "string",
+   "default": "cards/signature-overrides.json",
+   "defaultText": "cards/signature-overrides.json",
+   "chapter": 9,
+   "description": "Manual overrides."
+  },
+  {
+   "key": "camera.director.enabled",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Use the automatic director."
+  },
+  {
+   "key": "camera.director.cutSeconds",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "int",
+   "default": 3,
+   "defaultText": "3",
+   "chapter": 10,
+   "description": "Time between cuts in battle shots.",
+   "min": 1
+  },
+  {
+   "key": "camera.director.smoothing",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "decimal",
+   "default": 0.15,
+   "defaultText": "0.15",
+   "chapter": 10,
+   "description": "Camera smoothing (0 = none, 1 = very slow).",
+   "max": 1
+  },
+  {
+   "key": "camera.director.followScope",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "enum",
+   "default": "activeParty",
+   "defaultText": "activeParty",
+   "chapter": 10,
+   "description": "`activeParty`, `ownParty`, `fixed`.",
+   "allowed": [
+    "activeParty",
+    "ownParty",
+    "fixed"
+   ]
+  },
+  {
+   "key": "camera.player.followOwnPartyOnly",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Players' auto camera sticks to their own party."
+  },
+  {
+   "key": "camera.player.allowTrainerView",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Players may switch to trainer view."
+  },
+  {
+   "key": "camera.player.trainerView.perspective",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "enum",
+   "default": "first",
+   "defaultText": "first",
+   "chapter": 10,
+   "description": "`first` or `third`.",
+   "allowed": [
+    "first",
+    "third"
+   ]
+  },
+  {
+   "key": "camera.player.switchKeyMode",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "enum",
+   "default": "toggle",
+   "defaultText": "toggle",
+   "chapter": 10,
+   "description": "`toggle` or `hold` (client option).",
+   "allowed": [
+    "toggle",
+    "hold"
+   ]
+  },
+  {
+   "key": "camera.admin.default",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "enum",
+   "default": "free",
+   "defaultText": "free",
+   "chapter": 10,
+   "description": "Admin's starting view: `free`, `auto`, `trainer`.",
+   "allowed": [
+    "free",
+    "auto",
+    "trainer"
+   ]
+  },
+  {
+   "key": "camera.admin.buildModeWhileRunning",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Build mode is allowed while the game runs."
+  },
+  {
+   "key": "camera.spectators.allowUnlinked",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Unlinked Minecraft accounts may join as spectators."
+  },
+  {
+   "key": "camera.keys.camera",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "K",
+   "defaultText": "K",
+   "chapter": 10,
+   "description": "Default key for the camera switch (rebindable in Controls).",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.nextParty",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "]",
+   "defaultText": "]",
+   "chapter": 10,
+   "description": "Admin party cycling keys.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.prevParty",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "[",
+   "defaultText": "[",
+   "chapter": 10,
+   "description": "Admin party cycling keys.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.jump",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "G",
+   "defaultText": "G",
+   "chapter": 10,
+   "description": "Jump to active turn or battle.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.build",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "B",
+   "defaultText": "B",
+   "chapter": 10,
+   "description": "Build mode.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.teleportMenu",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "U",
+   "defaultText": "U",
+   "chapter": 10,
+   "description": "Teleport menu.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.hud",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "H",
+   "defaultText": "H",
+   "chapter": 10,
+   "description": "HUD and path overlay toggles.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.keys.pathOverlay",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "string",
+   "default": "N",
+   "defaultText": "N",
+   "chapter": 10,
+   "description": "HUD and path overlay toggles.",
+   "minLength": 1,
+   "maxLength": 16
+  },
+  {
+   "key": "camera.hud.enabled",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Show the HUD by default."
+  },
+  {
+   "key": "camera.hud.scale",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "decimal",
+   "default": 1,
+   "defaultText": "1.0",
+   "chapter": 10,
+   "description": "HUD scale (client option).",
+   "min": 0.5,
+   "max": 3
+  },
+  {
+   "key": "camera.sound.cries",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Play cries."
+  },
+  {
+   "key": "camera.sound.ambient",
+   "group": "Minecraft cameras, keys and HUD",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 10,
+   "description": "Play ambient sounds."
+  },
+  {
+   "key": "app.language.default",
+   "group": "The App",
+   "type": "enum",
+   "default": "browser",
+   "defaultText": "browser",
+   "chapter": 11,
+   "description": "Starting language.",
+   "allowed": [
+    "browser",
+    "en",
+    "pt"
+   ]
+  },
+  {
+   "key": "app.language.gameTextFallback",
+   "group": "The App",
+   "type": "csv",
+   "default": "pt_pt,pt_br,en_us",
+   "defaultText": "pt_pt,pt_br,en_us",
+   "chapter": 11,
+   "description": "Order in which Cobblemon's language files are tried for game texts (Pokédex text, move and item descriptions).",
+   "tokenPattern": "^[a-z]{2}_[a-z]{2}$",
+   "tokenHint": "a Cobblemon language code such as pt_pt",
+   "minItems": 1,
+   "unique": true
+  },
+  {
+   "key": "app.theme.default",
+   "group": "The App",
+   "type": "enum",
+   "default": "system",
+   "defaultText": "system",
+   "chapter": 11,
+   "description": "`system`, `light`, `dark`.",
+   "allowed": [
+    "system",
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "key": "app.push.enabled",
+   "group": "The App",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 11,
+   "description": "Web Push available to users."
+  },
+  {
+   "key": "app.push.events",
+   "group": "The App",
+   "type": "csv",
+   "default": "turn,approvals,gameState",
+   "defaultText": "turn,approvals,gameState",
+   "chapter": 11,
+   "description": "Events that notify.",
+   "allowed": [
+    "turn",
+    "approvals",
+    "gameState"
+   ],
+   "unique": true
+  },
+  {
+   "key": "app.map.layers.default",
+   "group": "The App",
+   "type": "csv",
+   "default": "trainers,paths,npcs",
+   "defaultText": "trainers,paths,npcs",
+   "chapter": 11,
+   "description": "Layers on by default.",
+   "allowed": [
+    "trainers",
+    "paths",
+    "npcs",
+    "regions"
+   ],
+   "unique": true
+  },
+  {
+   "key": "app.map.layers.regions",
+   "group": "The App",
+   "type": "bool",
+   "default": false,
+   "defaultText": "false",
+   "chapter": 11,
+   "description": "Region layer (admins only)."
+  },
+  {
+   "key": "app.spectators.seeTeams",
+   "group": "The App",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 11,
+   "description": "Spectators can see teams and cards."
+  },
+  {
+   "key": "app.log.visibility",
+   "group": "The App",
+   "type": "enum",
+   "default": "allPlayers",
+   "defaultText": "allPlayers",
+   "chapter": 11,
+   "description": "Who sees the battle log: `allPlayers`, `participants`, `adminOnly`.",
+   "allowed": [
+    "allPlayers",
+    "participants",
+    "adminOnly"
+   ]
+  },
+  {
+   "key": "app.scanner.manualBindFallback",
+   "group": "The App",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 11,
+   "description": "Admin can bind cards by hand."
+  },
+  {
+   "key": "admin.undo.depth",
+   "group": "Admin tools",
+   "type": "int",
+   "default": 20,
+   "defaultText": "20",
+   "chapter": 12,
+   "description": "How many recent actions can be undone.",
+   "min": 1,
+   "max": 1000
+  },
+  {
+   "key": "admin.confirmDestructive",
+   "group": "Admin tools",
+   "type": "bool",
+   "default": true,
+   "defaultText": "true",
+   "chapter": 12,
+   "description": "Ask before destructive actions."
+  },
+  {
+   "key": "admin.audit.retentionDays",
+   "group": "Admin tools",
+   "type": "int",
+   "default": 0,
+   "defaultText": "0",
+   "chapter": 12,
+   "description": "Days to keep the audit log (0 = forever)."
+  }
+ ]
+}

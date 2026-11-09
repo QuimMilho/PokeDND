@@ -95,6 +95,19 @@ export class AuthService {
       .pipe(switchMap(() => this.login(email, password)));
   }
 
+  /** Changes the display name, language or theme of the account (`PATCH /me`); what is left out stays as it is. */
+  updateProfile(changes: Partial<Pick<User, 'displayName' | 'locale' | 'theme'>>): Observable<User> {
+    return this.http.patch<User>(`${this.base}/me`, changes).pipe(tap((user) => this.userSignal.set(user)));
+  }
+
+  /** Which "sign in with" buttons the login screen shows (`['discord']`, or nothing when no provider is set up). */
+  providers(): Observable<string[]> {
+    return this.http.get<{ providers: string[] }>(`${this.base}/auth/oauth/providers`).pipe(
+      map((r) => r.providers),
+      catchError(() => of([] as string[])),
+    );
+  }
+
   /** Closes the login on the server and forgets it here. The app is signed out even when the server cannot be reached. */
   logout(): Observable<void> {
     return this.http.post<void>(`${this.base}/auth/logout`, null).pipe(

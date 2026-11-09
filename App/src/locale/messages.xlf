@@ -1,6 +1,287 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en">
   <file id="ngi18n" original="ng.template">
+    <unit id="accountTitle">
+      <notes>
+        <note category="location">src/app/account/account.ts:15,16</note>
+      </notes>
+      <segment>
+        <source>Your account</source>
+      </segment>
+    </unit>
+    <unit id="discordTitle">
+      <notes>
+        <note category="location">src/app/account/discord.ts:18,19</note>
+      </notes>
+      <segment>
+        <source>Discord</source>
+      </segment>
+    </unit>
+    <unit id="discordSubtitle">
+      <notes>
+        <note category="location">src/app/account/discord.ts:19,20</note>
+      </notes>
+      <segment>
+        <source>Use Discord as another way to log in.</source>
+      </segment>
+    </unit>
+    <unit id="discordIsLinked">
+      <notes>
+        <note category="location">src/app/account/discord.ts:23,25</note>
+      </notes>
+      <segment>
+        <source>Your Discord account is linked.</source>
+      </segment>
+    </unit>
+    <unit id="discordUnlink">
+      <notes>
+        <note category="location">src/app/account/discord.ts:25,26</note>
+      </notes>
+      <segment>
+        <source>Unlink Discord</source>
+      </segment>
+    </unit>
+    <unit id="discordIsNotLinked">
+      <notes>
+        <note category="location">src/app/account/discord.ts:28,30</note>
+      </notes>
+      <segment>
+        <source>Discord is not linked.</source>
+      </segment>
+    </unit>
+    <unit id="discordLink">
+      <notes>
+        <note category="location">src/app/account/discord.ts:30,31</note>
+      </notes>
+      <segment>
+        <source>Link Discord</source>
+      </segment>
+    </unit>
+    <unit id="minecraftTitle">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:21,22</note>
+      </notes>
+      <segment>
+        <source>Minecraft accounts</source>
+      </segment>
+    </unit>
+    <unit id="minecraftSubtitle">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:22,23</note>
+      </notes>
+      <segment>
+        <source>Link your Minecraft account so the game knows who you are.</source>
+      </segment>
+    </unit>
+    <unit id="minecraftLinkedOn">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:31,32</note>
+      </notes>
+      <segment>
+        <source>Linked <ph id="0" equiv="INTERPOLATION" disp="{{ a.linkedAt | date: &apos;mediumDate&apos; }}"/></source>
+      </segment>
+    </unit>
+    <unit id="minecraftUnlink">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:33,35</note>
+      </notes>
+      <segment>
+        <source>Unlink</source>
+      </segment>
+    </unit>
+    <unit id="minecraftNone">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:38,41</note>
+      </notes>
+      <segment>
+        <source>No Minecraft account is linked yet.</source>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeField">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:43,44</note>
+      </notes>
+      <segment>
+        <source>Code from Minecraft</source>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeHint">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:45,46</note>
+      </notes>
+      <segment>
+        <source>Type /pokednd link in Minecraft, then enter the code here.</source>
+      </segment>
+    </unit>
+    <unit id="minecraftLink">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:47,50</note>
+      </notes>
+      <segment>
+        <source>Link</source>
+      </segment>
+    </unit>
+    <unit id="minecraftNewCode">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:51,52</note>
+      </notes>
+      <segment>
+        <source>Show me a code to type in Minecraft</source>
+      </segment>
+    </unit>
+    <unit id="minecraftCodeUntil">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:55,56</note>
+      </notes>
+      <segment>
+        <source>Valid until <ph id="0" equiv="INTERPOLATION" disp="{{ c.expiresAt | date: &apos;shortTime&apos; }}"/>. Enter this code in Minecraft with the /pokednd link command.</source>
+      </segment>
+    </unit>
+    <unit id="minecraftLinkedNow">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:61,63</note>
+      </notes>
+      <segment>
+        <source>Linked: <ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>.</source>
+      </segment>
+    </unit>
+    <unit id="errCodeRequired">
+      <notes>
+        <note category="location">src/app/account/minecraft.ts:96</note>
+      </notes>
+      <segment>
+        <source>Enter the code that Minecraft showed.</source>
+      </segment>
+    </unit>
+    <unit id="themeLight">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:18</note>
+      </notes>
+      <segment>
+        <source>Light</source>
+      </segment>
+    </unit>
+    <unit id="themeDark">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:20</note>
+      </notes>
+      <segment>
+        <source>Dark</source>
+      </segment>
+    </unit>
+    <unit id="themeSystem">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:22</note>
+      </notes>
+      <segment>
+        <source>Same as the device</source>
+      </segment>
+    </unit>
+    <unit id="accountProfileTitle">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:33,34</note>
+      </notes>
+      <segment>
+        <source>Profile and preferences</source>
+      </segment>
+    </unit>
+    <unit id="fieldDisplayName">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:39,40</note>
+        <note category="location">src/app/auth/register.html:10,11</note>
+      </notes>
+      <segment>
+        <source>Display name</source>
+      </segment>
+    </unit>
+    <unit id="fieldDisplayNameRequired">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:42,44</note>
+      </notes>
+      <segment>
+        <source>Enter a name of up to 40 characters.</source>
+      </segment>
+    </unit>
+    <unit id="save">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:45,46</note>
+      </notes>
+      <segment>
+        <source>Save</source>
+      </segment>
+    </unit>
+    <unit id="accountLanguage">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:49,50</note>
+      </notes>
+      <segment>
+        <source>Language</source>
+      </segment>
+    </unit>
+    <unit id="accountTheme">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:57,58</note>
+      </notes>
+      <segment>
+        <source>Theme</source>
+      </segment>
+    </unit>
+    <unit id="saved">
+      <notes>
+        <note category="location">src/app/account/preferences.ts:66,68</note>
+      </notes>
+      <segment>
+        <source>Saved.</source>
+      </segment>
+    </unit>
+    <unit id="sessionsTitle">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:15,16</note>
+      </notes>
+      <segment>
+        <source>Where you are logged in</source>
+      </segment>
+    </unit>
+    <unit id="sessionsSubtitle">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:16,17</note>
+      </notes>
+      <segment>
+        <source>End a login you do not recognise.</source>
+      </segment>
+    </unit>
+    <unit id="sessionThis">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:28,29</note>
+      </notes>
+      <segment>
+        <source> (this device)</source>
+      </segment>
+    </unit>
+    <unit id="sessionSince">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:31,32</note>
+      </notes>
+      <segment>
+        <source>Since <ph id="0" equiv="INTERPOLATION" disp="{{ s.createdAt | date: &apos;medium&apos; }}"/></source>
+      </segment>
+    </unit>
+    <unit id="sessionEnd">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:34,35</note>
+      </notes>
+      <segment>
+        <source>End this login</source>
+      </segment>
+    </unit>
+    <unit id="sessionUnknown">
+      <notes>
+        <note category="location">src/app/account/sessions.ts:49</note>
+      </notes>
+      <segment>
+        <source>Unknown device</source>
+      </segment>
+    </unit>
     <unit id="appName">
       <notes>
         <note category="location">src/app/app.html:2,3</note>
@@ -17,25 +298,9 @@
         <source>Main</source>
       </segment>
     </unit>
-    <unit id="navCards">
-      <notes>
-        <note category="location">src/app/app.html:5,6</note>
-      </notes>
-      <segment>
-        <source>Cards</source>
-      </segment>
-    </unit>
-    <unit id="navExport">
-      <notes>
-        <note category="location">src/app/app.html:6,9</note>
-      </notes>
-      <segment>
-        <source>Export</source>
-      </segment>
-    </unit>
     <unit id="languageLabel">
       <notes>
-        <note category="location">src/app/app.html:10</note>
+        <note category="location">src/app/app.html:18</note>
       </notes>
       <segment>
         <source>Language</source>
@@ -43,7 +308,7 @@
     </unit>
     <unit id="logout">
       <notes>
-        <note category="location">src/app/app.html:16,18</note>
+        <note category="location">src/app/app.html:24,26</note>
       </notes>
       <segment>
         <source>Log out</source>
@@ -147,9 +412,25 @@
         <source>Log in</source>
       </segment>
     </unit>
+    <unit id="loginOr">
+      <notes>
+        <note category="location">src/app/auth/login.html:39</note>
+      </notes>
+      <segment>
+        <source>or</source>
+      </segment>
+    </unit>
+    <unit id="loginDiscord">
+      <notes>
+        <note category="location">src/app/auth/login.html:39,41</note>
+      </notes>
+      <segment>
+        <source>Sign in with Discord</source>
+      </segment>
+    </unit>
     <unit id="loginToRegister">
       <notes>
-        <note category="location">src/app/auth/login.html:38,40</note>
+        <note category="location">src/app/auth/login.html:44,46</note>
       </notes>
       <segment>
         <source>No account yet? Sign up</source>
@@ -169,14 +450,6 @@
       </notes>
       <segment>
         <source>Make an account to browse and print Pokémon cards.</source>
-      </segment>
-    </unit>
-    <unit id="fieldDisplayName">
-      <notes>
-        <note category="location">src/app/auth/register.html:10,11</note>
-      </notes>
-      <segment>
-        <source>Display name</source>
       </segment>
     </unit>
     <unit id="fieldPasswordHint">
@@ -1095,12 +1368,914 @@
         <source>The card data is not loaded on the server yet. Ask the administrator.</source>
       </segment>
     </unit>
+    <unit id="errPreference">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:68</note>
+      </notes>
+      <segment>
+        <source>That choice is not available.</source>
+      </segment>
+    </unit>
+    <unit id="errInvalidCode">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:70</note>
+      </notes>
+      <segment>
+        <source>This code is not right, or it was used already.</source>
+      </segment>
+    </unit>
+    <unit id="errCodeExpired">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:72</note>
+      </notes>
+      <segment>
+        <source>This code has expired. Ask for a new one.</source>
+      </segment>
+    </unit>
+    <unit id="errMcLinked">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:74</note>
+      </notes>
+      <segment>
+        <source>This Minecraft account is linked to an account already.</source>
+      </segment>
+    </unit>
+    <unit id="errMcInvalid">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:76</note>
+      </notes>
+      <segment>
+        <source>This is not a valid Minecraft account.</source>
+      </segment>
+    </unit>
+    <unit id="errLastLogin">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:78</note>
+      </notes>
+      <segment>
+        <source>This is the only way you can log in. Set a password first (use &quot;forgot password&quot;), then unlink Discord.</source>
+      </segment>
+    </unit>
+    <unit id="errDiscordLinked">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:80</note>
+      </notes>
+      <segment>
+        <source>This Discord account is linked to an account already, or another Discord account is linked to yours.</source>
+      </segment>
+    </unit>
+    <unit id="errAlreadyMember">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:82</note>
+      </notes>
+      <segment>
+        <source>You are in this game already.</source>
+      </segment>
+    </unit>
+    <unit id="errKicked">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:84</note>
+      </notes>
+      <segment>
+        <source>The admin removed you from this game.</source>
+      </segment>
+    </unit>
+    <unit id="errJoinCode">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:86</note>
+      </notes>
+      <segment>
+        <source>This code is not right, or the lobby is closed.</source>
+      </segment>
+    </unit>
+    <unit id="errJoinRole">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:88</note>
+      </notes>
+      <segment>
+        <source>Join as a player or as a spectator.</source>
+      </segment>
+    </unit>
+    <unit id="errTransition">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:90</note>
+      </notes>
+      <segment>
+        <source>The game cannot do that in its present state.</source>
+      </segment>
+    </unit>
+    <unit id="errServerBusy">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:92</note>
+      </notes>
+      <segment>
+        <source>This server already has an active game. Pause or end it first.</source>
+      </segment>
+    </unit>
+    <unit id="errNotPending">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:94</note>
+      </notes>
+      <segment>
+        <source>This request was answered already.</source>
+      </segment>
+    </unit>
+    <unit id="errArchived">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:96</note>
+      </notes>
+      <segment>
+        <source>This game is archived.</source>
+      </segment>
+    </unit>
+    <unit id="errSetting">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:98</note>
+      </notes>
+      <segment>
+        <source>This value is not allowed for this setting.</source>
+      </segment>
+    </unit>
+    <unit id="errNothingToUndo">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:100</note>
+      </notes>
+      <segment>
+        <source>There is no settings change to take back.</source>
+      </segment>
+    </unit>
+    <unit id="errTrainerExists">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:102</note>
+      </notes>
+      <segment>
+        <source>You have a trainer in this game already. Change or remove it instead.</source>
+      </segment>
+    </unit>
+    <unit id="errGameStarted">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:104</note>
+      </notes>
+      <segment>
+        <source>The game has started, so only the admin can change this trainer now.</source>
+      </segment>
+    </unit>
+    <unit id="errTrainerProgressed">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:106</note>
+      </notes>
+      <segment>
+        <source>This trainer has played already, so its sheet can no longer be remade.</source>
+      </segment>
+    </unit>
+    <unit id="errInvalidState">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:108</note>
+      </notes>
+      <segment>
+        <source>Trainers cannot be made or changed in a game that is over.</source>
+      </segment>
+    </unit>
+    <unit id="errNoMinecraft">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:110</note>
+      </notes>
+      <segment>
+        <source>This game uses your Minecraft name as the trainer name. Link a Minecraft account first (on the account page).</source>
+      </segment>
+    </unit>
+    <unit id="srvInvalid">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:112</note>
+        <note category="location">src/app/trainers/wizard-model.ts:262</note>
+      </notes>
+      <segment>
+        <source>The trainer does not follow the rules of this game. Check each step.</source>
+      </segment>
+    </unit>
+    <unit id="errTrainerRules">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:114</note>
+      </notes>
+      <segment>
+        <source>The trainer settings of this game are not valid. Ask the admin.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinTooLarge">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:116</note>
+      </notes>
+      <segment>
+        <source>This skin file is too big.</source>
+      </segment>
+    </unit>
+    <unit id="skinNotPng">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:118</note>
+        <note category="location">src/app/trainers/skin-picker.ts:19</note>
+      </notes>
+      <segment>
+        <source>The skin must be a PNG picture.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinWrongSize">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:120</note>
+      </notes>
+      <segment>
+        <source>The skin must be 64×64 pixels.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinUnreadable">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:123</note>
+      </notes>
+      <segment>
+        <source>This skin file could not be read as a PNG picture.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinModel">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:125</note>
+      </notes>
+      <segment>
+        <source>Choose classic or slim arms.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinUploadOff">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:127</note>
+      </notes>
+      <segment>
+        <source>This game does not allow uploaded skins.</source>
+      </segment>
+    </unit>
+    <unit id="errSkinCopyOff">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:129</note>
+      </notes>
+      <segment>
+        <source>This game does not allow copying a skin from a Minecraft name.</source>
+      </segment>
+    </unit>
+    <unit id="skinBadName">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:131</note>
+        <note category="location">src/app/trainers/skin-picker.ts:178</note>
+      </notes>
+      <segment>
+        <source>A Minecraft name has 3 to 16 letters, digits or underscores.</source>
+      </segment>
+    </unit>
+    <unit id="errMcUserNotFound">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:133</note>
+      </notes>
+      <segment>
+        <source>There is no Minecraft account with that name.</source>
+      </segment>
+    </unit>
+    <unit id="errMcNoSkin">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:135</note>
+      </notes>
+      <segment>
+        <source>That account has no custom skin.</source>
+      </segment>
+    </unit>
+    <unit id="errMojang">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:137</note>
+      </notes>
+      <segment>
+        <source>Mojang could not be reached. Try again later, or upload a skin.</source>
+      </segment>
+    </unit>
+    <unit id="errForbidden">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:139</note>
+      </notes>
+      <segment>
+        <source>You are not allowed to do that.</source>
+      </segment>
+    </unit>
+    <unit id="errNotFound">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:141</note>
+      </notes>
+      <segment>
+        <source>This does not exist, or you cannot see it.</source>
+      </segment>
+    </unit>
     <unit id="errUnknown">
       <notes>
-        <note category="location">src/app/core/api-error.ts:67</note>
+        <note category="location">src/app/core/api-error.ts:143</note>
       </notes>
       <segment>
         <source>Something went wrong. Try again.</source>
+      </segment>
+    </unit>
+    <unit id="oauthLinked">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:153</note>
+      </notes>
+      <segment>
+        <source>Discord is linked to your account.</source>
+      </segment>
+    </unit>
+    <unit id="oauthDenied">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:160</note>
+      </notes>
+      <segment>
+        <source>You did not allow PokeDnD to use your Discord account.</source>
+      </segment>
+    </unit>
+    <unit id="oauthAlreadyLinked">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:162</note>
+      </notes>
+      <segment>
+        <source>This Discord account belongs to another PokeDnD account.</source>
+      </segment>
+    </unit>
+    <unit id="oauthEmailUnverified">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:164</note>
+      </notes>
+      <segment>
+        <source>Discord has no verified e-mail address for this account. Verify it at Discord and try again.</source>
+      </segment>
+    </unit>
+    <unit id="oauthState">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:166</note>
+      </notes>
+      <segment>
+        <source>The sign-in took too long or came from another browser. Try again.</source>
+      </segment>
+    </unit>
+    <unit id="oauthFailed">
+      <notes>
+        <note category="location">src/app/core/api-error.ts:168</note>
+      </notes>
+      <segment>
+        <source>Signing in with Discord did not work. Try again.</source>
+      </segment>
+    </unit>
+    <unit id="navGames">
+      <notes>
+        <note category="location">src/app/core/navigation.ts:29</note>
+      </notes>
+      <segment>
+        <source>Games</source>
+      </segment>
+    </unit>
+    <unit id="navNewGame">
+      <notes>
+        <note category="location">src/app/core/navigation.ts:30</note>
+      </notes>
+      <segment>
+        <source>New game</source>
+      </segment>
+    </unit>
+    <unit id="navCards">
+      <notes>
+        <note category="location">src/app/core/navigation.ts:31</note>
+      </notes>
+      <segment>
+        <source>Cards</source>
+      </segment>
+    </unit>
+    <unit id="navExport">
+      <notes>
+        <note category="location">src/app/core/navigation.ts:32</note>
+      </notes>
+      <segment>
+        <source>Export</source>
+      </segment>
+    </unit>
+    <unit id="navAccount">
+      <notes>
+        <note category="location">src/app/core/navigation.ts:33</note>
+      </notes>
+      <segment>
+        <source>Account</source>
+      </segment>
+    </unit>
+    <unit id="gameAdmins">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:26,27</note>
+      </notes>
+      <segment>
+        <source>Run by <ph id="0" equiv="INTERPOLATION" disp="{{ adminNames() }}"/>.</source>
+      </segment>
+    </unit>
+    <unit id="gameDraftAdmin">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:30,32</note>
+      </notes>
+      <segment>
+        <source>This game is a draft. Nobody can join yet. Change its settings, then open the lobby.</source>
+      </segment>
+    </unit>
+    <unit id="gameDraftPlayer">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:32,34</note>
+      </notes>
+      <segment>
+        <source>The admin is still preparing this game.</source>
+      </segment>
+    </unit>
+    <unit id="gameOver">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:36,38</note>
+      </notes>
+      <segment>
+        <source>This game is over.</source>
+      </segment>
+    </unit>
+    <unit id="gameLobbyOpen">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:39,41</note>
+      </notes>
+      <segment>
+        <source>The lobby is open.</source>
+      </segment>
+    </unit>
+    <unit id="gameToLobby">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:44,46</note>
+      </notes>
+      <segment>
+        <source>Lobby and members</source>
+      </segment>
+    </unit>
+    <unit id="gameToTrainer">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:47,49</note>
+        <note category="location">src/app/games/lobby.ts:26,28</note>
+      </notes>
+      <segment>
+        <source>Your trainer</source>
+      </segment>
+    </unit>
+    <unit id="gameToSettings">
+      <notes>
+        <note category="location">src/app/games/game-home.ts:50,51</note>
+      </notes>
+      <segment>
+        <source>Settings</source>
+      </segment>
+    </unit>
+    <unit id="actionReopenLobby">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:48</note>
+      </notes>
+      <segment>
+        <source>Reopen the lobby (late joiners)</source>
+      </segment>
+    </unit>
+    <unit id="actionOpenLobby">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:48</note>
+      </notes>
+      <segment>
+        <source>Open the lobby</source>
+      </segment>
+    </unit>
+    <unit id="actionStart">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:50</note>
+      </notes>
+      <segment>
+        <source>Start the game</source>
+      </segment>
+    </unit>
+    <unit id="actionPause">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:52</note>
+      </notes>
+      <segment>
+        <source>Pause</source>
+      </segment>
+    </unit>
+    <unit id="actionResume">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:54</note>
+      </notes>
+      <segment>
+        <source>Resume</source>
+      </segment>
+    </unit>
+    <unit id="actionEnd">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:56</note>
+      </notes>
+      <segment>
+        <source>End the game</source>
+      </segment>
+    </unit>
+    <unit id="actionDiscard">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:58</note>
+      </notes>
+      <segment>
+        <source>Discard this game</source>
+      </segment>
+    </unit>
+    <unit id="actionArchive">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:58</note>
+      </notes>
+      <segment>
+        <source>Archive</source>
+      </segment>
+    </unit>
+    <unit id="stateDraft">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:66</note>
+      </notes>
+      <segment>
+        <source>Draft</source>
+      </segment>
+    </unit>
+    <unit id="stateLobby">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:68</note>
+      </notes>
+      <segment>
+        <source>Lobby open</source>
+      </segment>
+    </unit>
+    <unit id="stateRunning">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:70</note>
+      </notes>
+      <segment>
+        <source>Running</source>
+      </segment>
+    </unit>
+    <unit id="statePaused">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:72</note>
+      </notes>
+      <segment>
+        <source>Paused</source>
+      </segment>
+    </unit>
+    <unit id="stateEnded">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:74</note>
+      </notes>
+      <segment>
+        <source>Ended</source>
+      </segment>
+    </unit>
+    <unit id="stateArchived">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:76</note>
+      </notes>
+      <segment>
+        <source>Archived</source>
+      </segment>
+    </unit>
+    <unit id="membershipRequested">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:89</note>
+      </notes>
+      <segment>
+        <source>Waiting for the admin to accept you</source>
+      </segment>
+    </unit>
+    <unit id="membershipRejected">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:91</note>
+      </notes>
+      <segment>
+        <source>The admin did not accept your request</source>
+      </segment>
+    </unit>
+    <unit id="membershipKicked">
+      <notes>
+        <note category="location">src/app/games/game-state.ts:93</note>
+      </notes>
+      <segment>
+        <source>The admin removed you</source>
+      </segment>
+    </unit>
+    <unit id="gamesTitle">
+      <notes>
+        <note category="location">src/app/games/games.html:3,4</note>
+      </notes>
+      <segment>
+        <source>Games</source>
+      </segment>
+    </unit>
+    <unit id="gamesNew">
+      <notes>
+        <note category="location">src/app/games/games.html:5,8</note>
+      </notes>
+      <segment>
+        <source>New game</source>
+      </segment>
+    </unit>
+    <unit id="joinTitle">
+      <notes>
+        <note category="location">src/app/games/games.html:11,12</note>
+      </notes>
+      <segment>
+        <source>Join a game</source>
+      </segment>
+    </unit>
+    <unit id="joinSubtitle">
+      <notes>
+        <note category="location">src/app/games/games.html:12,13</note>
+      </notes>
+      <segment>
+        <source>Ask the admin for the code shown in the lobby.</source>
+      </segment>
+    </unit>
+    <unit id="joinCodeField">
+      <notes>
+        <note category="location">src/app/games/games.html:17,18</note>
+      </notes>
+      <segment>
+        <source>Join code</source>
+      </segment>
+    </unit>
+    <unit id="joinAs">
+      <notes>
+        <note category="location">src/app/games/games.html:20</note>
+      </notes>
+      <segment>
+        <source>Join as</source>
+      </segment>
+    </unit>
+    <unit id="joinPlayer">
+      <notes>
+        <note category="location">src/app/games/games.html:21,22</note>
+      </notes>
+      <segment>
+        <source>Player</source>
+      </segment>
+    </unit>
+    <unit id="joinSpectator">
+      <notes>
+        <note category="location">src/app/games/games.html:22,23</note>
+      </notes>
+      <segment>
+        <source>Spectator</source>
+      </segment>
+    </unit>
+    <unit id="joinButton">
+      <notes>
+        <note category="location">src/app/games/games.html:24,26</note>
+      </notes>
+      <segment>
+        <source>Ask to join</source>
+      </segment>
+    </unit>
+    <unit id="joinSent">
+      <notes>
+        <note category="location">src/app/games/games.html:27,29</note>
+      </notes>
+      <segment>
+        <source>Your request to join “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” was sent. The admin will answer it.</source>
+      </segment>
+    </unit>
+    <unit id="gamesNone">
+      <notes>
+        <note category="location">src/app/games/games.html:66,70</note>
+      </notes>
+      <segment>
+        <source>You are not in any game yet. Join one with a code, or ask an admin to make one.</source>
+      </segment>
+    </unit>
+    <unit id="roleAdmin">
+      <notes>
+        <note category="location">src/app/games/games.ts:65</note>
+      </notes>
+      <segment>
+        <source>You run this game</source>
+      </segment>
+    </unit>
+    <unit id="rolePlayer">
+      <notes>
+        <note category="location">src/app/games/games.ts:68</note>
+        <note category="location">src/app/games/lobby.ts:227</note>
+      </notes>
+      <segment>
+        <source>Player</source>
+      </segment>
+    </unit>
+    <unit id="roleSpectator">
+      <notes>
+        <note category="location">src/app/games/games.ts:71</note>
+        <note category="location">src/app/games/lobby.ts:227</note>
+      </notes>
+      <segment>
+        <source>Spectator</source>
+      </segment>
+    </unit>
+    <unit id="roleServerAdmin">
+      <notes>
+        <note category="location">src/app/games/games.ts:73</note>
+      </notes>
+      <segment>
+        <source>Server admin</source>
+      </segment>
+    </unit>
+    <unit id="errJoinCodeRequired">
+      <notes>
+        <note category="location">src/app/games/games.ts:81</note>
+      </notes>
+      <segment>
+        <source>Enter the code from the lobby.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyBack">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:28,30</note>
+      </notes>
+      <segment>
+        <source>Back to the game</source>
+      </segment>
+    </unit>
+    <unit id="lobbyCodeLabel">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:36,37</note>
+      </notes>
+      <segment>
+        <source>Join code</source>
+      </segment>
+    </unit>
+    <unit id="lobbyCodeHelp">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:38,39</note>
+      </notes>
+      <segment>
+        <source>Players type this code in the app. It is also shown in Minecraft.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyWaiting">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:40,42</note>
+      </notes>
+      <segment>
+        <source>The lobby is open. Waiting for the admin to start the game.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyRequests">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:50,51</note>
+      </notes>
+      <segment>
+        <source>Requests to join</source>
+      </segment>
+    </unit>
+    <unit id="lobbyAccept">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:60,61</note>
+      </notes>
+      <segment>
+        <source>Accept</source>
+      </segment>
+    </unit>
+    <unit id="lobbyReject">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:61,62</note>
+      </notes>
+      <segment>
+        <source>Reject</source>
+      </segment>
+    </unit>
+    <unit id="lobbyNoRequests">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:67,69</note>
+      </notes>
+      <segment>
+        <source>Nobody is waiting.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyMembers">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:73,74</note>
+      </notes>
+      <segment>
+        <source>In the game</source>
+      </segment>
+    </unit>
+    <unit id="lobbyNoMembers">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:86,88</note>
+      </notes>
+      <segment>
+        <source>Nobody has joined yet.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyKick">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:175</note>
+      </notes>
+      <segment>
+        <source>Remove</source>
+      </segment>
+    </unit>
+    <unit id="lobbyDraft">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:217</note>
+      </notes>
+      <segment>
+        <source>The lobby is not open yet. The admin opens it when the game is ready.</source>
+      </segment>
+    </unit>
+    <unit id="lobbyOver">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:220</note>
+      </notes>
+      <segment>
+        <source>This game is over (<ph id="0" equiv="state" disp="stateLabel(game.state)"/>).</source>
+      </segment>
+    </unit>
+    <unit id="lobbyClosed">
+      <notes>
+        <note category="location">src/app/games/lobby.ts:222</note>
+      </notes>
+      <segment>
+        <source>The lobby is closed. The game is <ph id="0" equiv="state" disp="stateLabel(game.state)"/>.</source>
+      </segment>
+    </unit>
+    <unit id="newGameTitle">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:26,27</note>
+      </notes>
+      <segment>
+        <source>New game</source>
+      </segment>
+    </unit>
+    <unit id="newGameSubtitle">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:27,28</note>
+      </notes>
+      <segment>
+        <source>Everything can be changed later, also during the game.</source>
+      </segment>
+    </unit>
+    <unit id="newGameNoServers">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:32,34</note>
+      </notes>
+      <segment>
+        <source>There is no Minecraft server you can run a game on. Ask the site admin to make you an admin of one.</source>
+      </segment>
+    </unit>
+    <unit id="newGameServer">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:36,37</note>
+      </notes>
+      <segment>
+        <source>Minecraft server</source>
+      </segment>
+    </unit>
+    <unit id="newGameName">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:44,45</note>
+      </notes>
+      <segment>
+        <source>Name of the game</source>
+      </segment>
+    </unit>
+    <unit id="newGameNameRequired">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:47,49</note>
+      </notes>
+      <segment>
+        <source>Give the game a name.</source>
+      </segment>
+    </unit>
+    <unit id="newGamePreset">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:51,52</note>
+      </notes>
+      <segment>
+        <source>Starting point</source>
+      </segment>
+    </unit>
+    <unit id="newGamePresetHint">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:57,58</note>
+      </notes>
+      <segment>
+        <source>A preset or a saved rule set. “Defaults” changes nothing.</source>
+      </segment>
+    </unit>
+    <unit id="newGameCreate">
+      <notes>
+        <note category="location">src/app/games/new-game.ts:63,64</note>
+      </notes>
+      <segment>
+        <source>Create the game</source>
       </segment>
     </unit>
     <unit id="homeTitle">
@@ -1127,17 +2302,33 @@
         <source>Hello, <ph id="0" equiv="INTERPOLATION" disp="{{ auth.user()?.displayName }}"/>! You are signed in.</source>
       </segment>
     </unit>
-    <unit id="homeCardsText">
+    <unit id="homeGamesText">
       <notes>
         <note category="location">src/app/home.ts:20,21</note>
+      </notes>
+      <segment>
+        <source>Create a game or join one with a code.</source>
+      </segment>
+    </unit>
+    <unit id="homeCardsText">
+      <notes>
+        <note category="location">src/app/home.ts:21,22</note>
       </notes>
       <segment>
         <source>Browse the Pokémon cards, or print a whole set of them.</source>
       </segment>
     </unit>
+    <unit id="homeGames">
+      <notes>
+        <note category="location">src/app/home.ts:24,25</note>
+      </notes>
+      <segment>
+        <source>My games</source>
+      </segment>
+    </unit>
     <unit id="homeBrowse">
       <notes>
-        <note category="location">src/app/home.ts:23,24</note>
+        <note category="location">src/app/home.ts:25,26</note>
       </notes>
       <segment>
         <source>Browse cards</source>
@@ -1145,10 +2336,1452 @@
     </unit>
     <unit id="homeExport">
       <notes>
-        <note category="location">src/app/home.ts:24,25</note>
+        <note category="location">src/app/home.ts:26,27</note>
       </notes>
       <segment>
         <source>Export cards</source>
+      </segment>
+    </unit>
+    <unit id="errNotWhole">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:73</note>
+      </notes>
+      <segment>
+        <source>Enter a whole number.</source>
+      </segment>
+    </unit>
+    <unit id="errNotNumber">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:73</note>
+      </notes>
+      <segment>
+        <source>Enter a number.</source>
+      </segment>
+    </unit>
+    <unit id="errTooSmall">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:76</note>
+      </notes>
+      <segment>
+        <source>The smallest value is <ph id="0" equiv="min" disp="setting.min"/>.</source>
+      </segment>
+    </unit>
+    <unit id="errTooBig">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:79</note>
+      </notes>
+      <segment>
+        <source>The largest value is <ph id="0" equiv="max" disp="setting.max"/>.</source>
+      </segment>
+    </unit>
+    <unit id="errNotWholeList">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:86</note>
+      </notes>
+      <segment>
+        <source>Enter whole numbers separated by commas.</source>
+      </segment>
+    </unit>
+    <unit id="errNotJson">
+      <notes>
+        <note category="location">src/app/settings/setting-model.ts:95</note>
+      </notes>
+      <segment>
+        <source>This is not valid JSON.</source>
+      </segment>
+    </unit>
+    <unit id="sourceGame">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:18</note>
+      </notes>
+      <segment>
+        <source>Changed in this game</source>
+      </segment>
+    </unit>
+    <unit id="sourceRuleSet">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:20</note>
+      </notes>
+      <segment>
+        <source>From the rule set</source>
+      </segment>
+    </unit>
+    <unit id="sourceDefault">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:22</note>
+      </notes>
+      <segment>
+        <source>Default</source>
+      </segment>
+    </unit>
+    <unit id="settingDefault">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:40</note>
+      </notes>
+      <segment>
+        <source>Default:</source>
+      </segment>
+    </unit>
+    <unit id="settingReset">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:88,90</note>
+      </notes>
+      <segment>
+        <source>Reset to default</source>
+      </segment>
+    </unit>
+    <unit id="settingBuiltInData">
+      <notes>
+        <note category="location">src/app/settings/setting-row.ts:115</note>
+      </notes>
+      <segment>
+        <source>built-in data</source>
+      </segment>
+    </unit>
+    <unit id="settingsTitle">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:3,4</note>
+      </notes>
+      <segment>
+        <source>Settings</source>
+      </segment>
+    </unit>
+    <unit id="settingsLoading">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:14,15</note>
+      </notes>
+      <segment>
+        <source>Loading…</source>
+      </segment>
+    </unit>
+    <unit id="settingsNotAdmin">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:16,18</note>
+      </notes>
+      <segment>
+        <source>Only the people who run the game can change its settings.</source>
+      </segment>
+    </unit>
+    <unit id="settingsStartTitle">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:20,21</note>
+      </notes>
+      <segment>
+        <source>Starting point</source>
+      </segment>
+    </unit>
+    <unit id="settingsRuleSetNow">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:22</note>
+      </notes>
+      <segment>
+        <source>Rule set in use:</source>
+      </segment>
+    </unit>
+    <unit id="settingsPreset">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:28,29</note>
+      </notes>
+      <segment>
+        <source>Preset</source>
+      </segment>
+    </unit>
+    <unit id="settingsPickNone">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:30,31</note>
+      </notes>
+      <segment>
+        <source>Choose…</source>
+      </segment>
+    </unit>
+    <unit id="settingsRuleSet">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:39,40</note>
+      </notes>
+      <segment>
+        <source>Saved rule set</source>
+      </segment>
+    </unit>
+    <unit id="settingsPickNone2">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:41,42</note>
+      </notes>
+      <segment>
+        <source>Choose…</source>
+      </segment>
+    </unit>
+    <unit id="settingsPreviewTitle">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:51,52</note>
+      </notes>
+      <segment>
+        <source>Loading “<ph id="0" equiv="INTERPOLATION" disp="{{ p.ruleSet.name }}"/>” would change:</source>
+      </segment>
+    </unit>
+    <unit id="settingsNoChanges">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:61,63</note>
+      </notes>
+      <segment>
+        <source>Nothing would change.</source>
+      </segment>
+    </unit>
+    <unit id="settingsDiscardOwn">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:63,64</note>
+      </notes>
+      <segment>
+        <source>Also discard the changes made in this game</source>
+      </segment>
+    </unit>
+    <unit id="settingsApply">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:65,66</note>
+      </notes>
+      <segment>
+        <source>Load it</source>
+      </segment>
+    </unit>
+    <unit id="settingsCancel">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:66,68</note>
+      </notes>
+      <segment>
+        <source>Cancel</source>
+      </segment>
+    </unit>
+    <unit id="settingsApplied">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:71,74</note>
+      </notes>
+      <segment>
+        <source>“<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>” was loaded.</source>
+      </segment>
+    </unit>
+    <unit id="settingsSaveAs">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:76,77</note>
+      </notes>
+      <segment>
+        <source>Save these rules as a rule set</source>
+      </segment>
+    </unit>
+    <unit id="settingsSave">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:79,81</note>
+      </notes>
+      <segment>
+        <source>Save</source>
+      </segment>
+    </unit>
+    <unit id="settingsSaved">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:82,84</note>
+      </notes>
+      <segment>
+        <source>Saved as “<ph id="0" equiv="INTERPOLATION" disp="{{ name }}"/>”.</source>
+      </segment>
+    </unit>
+    <unit id="settingsToolsLabel">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:87</note>
+      </notes>
+      <segment>
+        <source>Find settings</source>
+      </segment>
+    </unit>
+    <unit id="settingsSearch">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:89,90</note>
+      </notes>
+      <segment>
+        <source>Search settings</source>
+      </segment>
+    </unit>
+    <unit id="settingsChangedOnly">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:92,93</note>
+      </notes>
+      <segment>
+        <source>Changed only</source>
+      </segment>
+    </unit>
+    <unit id="settingsOpenAll">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:98,99</note>
+      </notes>
+      <segment>
+        <source>Open all groups</source>
+      </segment>
+    </unit>
+    <unit id="settingsCloseAll">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:99,100</note>
+      </notes>
+      <segment>
+        <source>Close all groups</source>
+      </segment>
+    </unit>
+    <unit id="settingsUndo">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:100,101</note>
+      </notes>
+      <segment>
+        <source>Take back the last change</source>
+      </segment>
+    </unit>
+    <unit id="settingsNoMatch">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.html:118,120</note>
+      </notes>
+      <segment>
+        <source>No setting matches.</source>
+      </segment>
+    </unit>
+    <unit id="settingsResetAll">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.ts:70</note>
+      </notes>
+      <segment>
+        <source>Reset all to default</source>
+      </segment>
+    </unit>
+    <unit id="settingsCount">
+      <notes>
+        <note category="location">src/app/settings/settings-screen.ts:115</note>
+      </notes>
+      <segment>
+        <source><ph id="0" equiv="shown" disp="this.shownCount()"/> of <ph id="1" equiv="total" disp="this.settings().length"/> settings shown · <ph id="2" equiv="changed" disp="this.changedCount()"/> changed</source>
+      </segment>
+    </unit>
+    <unit id="confirmQuestion">
+      <notes>
+        <note category="location">src/app/shared/confirm-button.ts:14,15</note>
+      </notes>
+      <segment>
+        <source>Are you sure?</source>
+      </segment>
+    </unit>
+    <unit id="confirmYes">
+      <notes>
+        <note category="location">src/app/shared/confirm-button.ts:15,16</note>
+      </notes>
+      <segment>
+        <source>Yes</source>
+      </segment>
+    </unit>
+    <unit id="confirmNo">
+      <notes>
+        <note category="location">src/app/shared/confirm-button.ts:16,18</note>
+      </notes>
+      <segment>
+        <source>No</source>
+      </segment>
+    </unit>
+    <unit id="skinTooLarge">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:16</note>
+      </notes>
+      <segment>
+        <source>This file is too big (<ph id="0" equiv="size" disp="size"/> bytes, the limit is <ph id="1" equiv="max" disp="maxBytes"/> bytes).</source>
+      </segment>
+    </unit>
+    <unit id="skinWrongSize">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:25</note>
+      </notes>
+      <segment>
+        <source>The skin must be <ph id="0" equiv="px" disp="pixels"/>×<ph id="1" equiv="px2" disp="pixels"/> pixels, not <ph id="2" equiv="w" disp="width"/>×<ph id="3" equiv="h" disp="height"/>.</source>
+      </segment>
+    </unit>
+    <unit id="skinLegend">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:44,45</note>
+      </notes>
+      <segment>
+        <source>Skin</source>
+      </segment>
+    </unit>
+    <unit id="skinNone">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:46,47</note>
+      </notes>
+      <segment>
+        <source>No skin (the default)</source>
+      </segment>
+    </unit>
+    <unit id="skinUpload">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:48,49</note>
+      </notes>
+      <segment>
+        <source>Upload a PNG</source>
+      </segment>
+    </unit>
+    <unit id="skinCopy">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:51,52</note>
+      </notes>
+      <segment>
+        <source>Copy from a Minecraft name</source>
+      </segment>
+    </unit>
+    <unit id="skinHelp">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:54,56</note>
+      </notes>
+      <segment>
+        <source>A skin is a 64×64 PNG. It is checked and cleaned by the server.</source>
+      </segment>
+    </unit>
+    <unit id="skinFile">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:58,59</note>
+      </notes>
+      <segment>
+        <source>PNG file</source>
+      </segment>
+    </unit>
+    <unit id="skinArmsLabel">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:61</note>
+      </notes>
+      <segment>
+        <source>Arms</source>
+      </segment>
+    </unit>
+    <unit id="skinClassic">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:62,63</note>
+      </notes>
+      <segment>
+        <source>Classic arms (Steve)</source>
+      </segment>
+    </unit>
+    <unit id="skinSlim">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:63,64</note>
+      </notes>
+      <segment>
+        <source>Slim arms (Alex)</source>
+      </segment>
+    </unit>
+    <unit id="skinUsername">
+      <notes>
+        <note category="location">src/app/trainers/skin-picker.ts:68,69</note>
+      </notes>
+      <segment>
+        <source>Minecraft name</source>
+      </segment>
+    </unit>
+    <unit id="trainerPageTitle">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:25,26</note>
+      </notes>
+      <segment>
+        <source>Your trainer</source>
+      </segment>
+    </unit>
+    <unit id="wizardBack">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:26,29</note>
+        <note category="location">src/app/trainers/trainer-wizard.ts:25,28</note>
+      </notes>
+      <segment>
+        <source>Back to the game</source>
+      </segment>
+    </unit>
+    <unit id="wizardLoading">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:30,32</note>
+        <note category="location">src/app/trainers/trainer-wizard.ts:29,30</note>
+      </notes>
+      <segment>
+        <source>Loading…</source>
+      </segment>
+    </unit>
+    <unit id="levelN">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:40</note>
+        <note category="location">src/app/trainers/trainer-page.ts:71,72</note>
+        <note category="location">src/app/trainers/trainer-page.ts:114</note>
+        <note category="location">src/app/trainers/trainer-page.ts:166</note>
+      </notes>
+      <segment>
+        <source>Level <ph id="0" equiv="INTERPOLATION" disp="{{ t.level }}"/></source>
+      </segment>
+    </unit>
+    <unit id="skinAlt">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:46</note>
+      </notes>
+      <segment>
+        <source>Skin of the trainer</source>
+      </segment>
+    </unit>
+    <unit id="noSkin">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:48,49</note>
+      </notes>
+      <segment>
+        <source>No skin yet.</source>
+      </segment>
+    </unit>
+    <unit id="vitalHp">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:56</note>
+      </notes>
+      <segment>
+        <source>HP</source>
+      </segment>
+    </unit>
+    <unit id="vitalAc">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:58,59</note>
+      </notes>
+      <segment>
+        <source>Armor Class</source>
+      </segment>
+    </unit>
+    <unit id="vitalProficiency">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:60,61</note>
+      </notes>
+      <segment>
+        <source>Proficiency</source>
+      </segment>
+    </unit>
+    <unit id="vitalHandling">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:62,63</note>
+      </notes>
+      <segment>
+        <source>Pokémon Handling</source>
+      </segment>
+    </unit>
+    <unit id="vitalXp">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:66</note>
+      </notes>
+      <segment>
+        <source>XP</source>
+      </segment>
+    </unit>
+    <unit id="vitalMoney">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:67,68</note>
+      </notes>
+      <segment>
+        <source>Money</source>
+      </segment>
+    </unit>
+    <unit id="vitalStarter">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:70,71</note>
+      </notes>
+      <segment>
+        <source>Starter Pokémon</source>
+      </segment>
+    </unit>
+    <unit id="sheetAbilities">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:77,78</note>
+      </notes>
+      <segment>
+        <source>Abilities</source>
+      </segment>
+    </unit>
+    <unit id="colAbility">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:81,82</note>
+      </notes>
+      <segment>
+        <source>Ability</source>
+      </segment>
+    </unit>
+    <unit id="colScore">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:82,83</note>
+      </notes>
+      <segment>
+        <source>Score</source>
+      </segment>
+    </unit>
+    <unit id="colModifier">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:83,84</note>
+      </notes>
+      <segment>
+        <source>Modifier</source>
+      </segment>
+    </unit>
+    <unit id="colSave">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:84,85</note>
+      </notes>
+      <segment>
+        <source>Saving throw</source>
+      </segment>
+    </unit>
+    <unit id="sheetSkills">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:99,100</note>
+      </notes>
+      <segment>
+        <source>Skills</source>
+      </segment>
+    </unit>
+    <unit id="proficientMark">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:105,106</note>
+      </notes>
+      <segment>
+        <source>(proficient)</source>
+      </segment>
+    </unit>
+    <unit id="sheetFeatures">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:111,112</note>
+      </notes>
+      <segment>
+        <source>Class features</source>
+      </segment>
+    </unit>
+    <unit id="noSheet">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:118,121</note>
+      </notes>
+      <segment>
+        <source>The class of this trainer is not in the game&apos;s class list any more, so the sheet cannot be shown.</source>
+      </segment>
+    </unit>
+    <unit id="sheetBag">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:122</note>
+      </notes>
+      <segment>
+        <source>Bag</source>
+      </segment>
+    </unit>
+    <unit id="bagEmpty">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:126,128</note>
+      </notes>
+      <segment>
+        <source>Nothing yet.</source>
+      </segment>
+    </unit>
+    <unit id="trainerEdit">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:132,133</note>
+      </notes>
+      <segment>
+        <source>Change the trainer</source>
+      </segment>
+    </unit>
+    <unit id="trainerLocked">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:135,137</note>
+      </notes>
+      <segment>
+        <source>The game has started, so only the admin can change this trainer now.</source>
+      </segment>
+    </unit>
+    <unit id="skinSectionTitle">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:143</note>
+      </notes>
+      <segment>
+        <source>Change the skin</source>
+      </segment>
+    </unit>
+    <unit id="skinSave">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:151,152</note>
+      </notes>
+      <segment>
+        <source>Use this skin</source>
+      </segment>
+    </unit>
+    <unit id="othersTitle">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:163,164</note>
+      </notes>
+      <segment>
+        <source>Other trainers in this game</source>
+      </segment>
+    </unit>
+    <unit id="trainerRemove">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:253</note>
+      </notes>
+      <segment>
+        <source>Remove the trainer</source>
+      </segment>
+    </unit>
+    <unit id="skinRemove">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:254</note>
+      </notes>
+      <segment>
+        <source>Remove the skin</source>
+      </segment>
+    </unit>
+    <unit id="armsSlim">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:291</note>
+      </notes>
+      <segment>
+        <source>slim arms</source>
+      </segment>
+    </unit>
+    <unit id="armsClassic">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:291</note>
+      </notes>
+      <segment>
+        <source>classic arms</source>
+      </segment>
+    </unit>
+    <unit id="skinInfoCopy">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:292</note>
+      </notes>
+      <segment>
+        <source>Copied from <ph id="0" equiv="name" disp="s.username ?? &apos;&apos;"/>, <ph id="1" equiv="arms" disp="arms"/></source>
+      </segment>
+    </unit>
+    <unit id="skinInfoUpload">
+      <notes>
+        <note category="location">src/app/trainers/trainer-page.ts:292</note>
+      </notes>
+      <segment>
+        <source>Uploaded, <ph id="0" equiv="arms" disp="arms"/></source>
+      </segment>
+    </unit>
+    <unit id="wizardSteps">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:33</note>
+      </notes>
+      <segment>
+        <source>Steps</source>
+      </segment>
+    </unit>
+    <unit id="wizardSkinFailed">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:81,82</note>
+      </notes>
+      <segment>
+        <source>Your trainer is saved, but the skin was not. You can try again, or continue and change the skin on your trainer page.</source>
+      </segment>
+    </unit>
+    <unit id="wizardRetrySkin">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:83,84</note>
+      </notes>
+      <segment>
+        <source>Try the skin again</source>
+      </segment>
+    </unit>
+    <unit id="wizardSkipSkin">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:84,86</note>
+      </notes>
+      <segment>
+        <source>Continue without the skin</source>
+      </segment>
+    </unit>
+    <unit id="wizardPrevious">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:89,90</note>
+      </notes>
+      <segment>
+        <source>Back</source>
+      </segment>
+    </unit>
+    <unit id="wizardNext">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:91,92</note>
+      </notes>
+      <segment>
+        <source>Next</source>
+      </segment>
+    </unit>
+    <unit id="wizardCreateTitle">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:162</note>
+      </notes>
+      <segment>
+        <source>Make your trainer</source>
+      </segment>
+    </unit>
+    <unit id="wizardEditTitle">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:163</note>
+      </notes>
+      <segment>
+        <source>Change your trainer</source>
+      </segment>
+    </unit>
+    <unit id="wizardCreate">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:164</note>
+      </notes>
+      <segment>
+        <source>Create the trainer</source>
+      </segment>
+    </unit>
+    <unit id="wizardSave">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:165</note>
+      </notes>
+      <segment>
+        <source>Save the changes</source>
+      </segment>
+    </unit>
+    <unit id="wizardNotPlayer">
+      <notes>
+        <note category="location">src/app/trainers/trainer-wizard.ts:183</note>
+      </notes>
+      <segment>
+        <source>Only players make trainers. Ask the admin to accept you as a player.</source>
+      </segment>
+    </unit>
+    <unit id="abilityStr">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:43</note>
+      </notes>
+      <segment>
+        <source>Strength</source>
+      </segment>
+    </unit>
+    <unit id="abilityDex">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:45</note>
+      </notes>
+      <segment>
+        <source>Dexterity</source>
+      </segment>
+    </unit>
+    <unit id="abilityCon">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:47</note>
+      </notes>
+      <segment>
+        <source>Constitution</source>
+      </segment>
+    </unit>
+    <unit id="abilityInt">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:49</note>
+      </notes>
+      <segment>
+        <source>Intelligence</source>
+      </segment>
+    </unit>
+    <unit id="abilityWis">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:51</note>
+      </notes>
+      <segment>
+        <source>Wisdom</source>
+      </segment>
+    </unit>
+    <unit id="abilityCha">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:53</note>
+      </notes>
+      <segment>
+        <source>Charisma</source>
+      </segment>
+    </unit>
+    <unit id="abilityStrUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:61</note>
+      </notes>
+      <segment>
+        <source>Athletics, carrying</source>
+      </segment>
+    </unit>
+    <unit id="abilityDexUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:63</note>
+      </notes>
+      <segment>
+        <source>Movement roll, Armor Class, fleeing</source>
+      </segment>
+    </unit>
+    <unit id="abilityConUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:65</note>
+      </notes>
+      <segment>
+        <source>Trainer HP</source>
+      </segment>
+    </unit>
+    <unit id="abilityIntUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:67</note>
+      </notes>
+      <segment>
+        <source>Pokémon Lore, Nature, Investigation</source>
+      </segment>
+    </unit>
+    <unit id="abilityWisUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:69</note>
+      </notes>
+      <segment>
+        <source>Pokémon Handling: accuracy and catching</source>
+      </segment>
+    </unit>
+    <unit id="abilityChaUse">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:71</note>
+      </notes>
+      <segment>
+        <source>Persuasion, Performance, shop prices</source>
+      </segment>
+    </unit>
+    <unit id="methodPointBuy">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:78</note>
+      </notes>
+      <segment>
+        <source>Point buy</source>
+      </segment>
+    </unit>
+    <unit id="methodStandardArray">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:80</note>
+      </notes>
+      <segment>
+        <source>Standard array</source>
+      </segment>
+    </unit>
+    <unit id="methodRoll">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:82</note>
+      </notes>
+      <segment>
+        <source>Roll 4d6, drop the lowest</source>
+      </segment>
+    </unit>
+    <unit id="stepClass">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:89</note>
+      </notes>
+      <segment>
+        <source>Class</source>
+      </segment>
+    </unit>
+    <unit id="stepScores">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:91</note>
+      </notes>
+      <segment>
+        <source>Ability scores</source>
+      </segment>
+    </unit>
+    <unit id="stepSkills">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:93</note>
+      </notes>
+      <segment>
+        <source>Skills</source>
+      </segment>
+    </unit>
+    <unit id="stepStarter">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:95</note>
+      </notes>
+      <segment>
+        <source>Starter Pokémon</source>
+      </segment>
+    </unit>
+    <unit id="stepIdentity">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:97</note>
+      </notes>
+      <segment>
+        <source>Name and skin</source>
+      </segment>
+    </unit>
+    <unit id="stepReview">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:99</note>
+      </notes>
+      <segment>
+        <source>Summary</source>
+      </segment>
+    </unit>
+    <unit id="wzScoresMissing">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:134</note>
+        <note category="location">src/app/trainers/wizard-model.ts:248</note>
+      </notes>
+      <segment>
+        <source>Set all six ability scores.</source>
+      </segment>
+    </unit>
+    <unit id="wzScoreRange">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:144</note>
+      </notes>
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> is <ph id="1" equiv="score" disp="s"/>, but with point buy a score is <ph id="2" equiv="min" disp="min"/> to <ph id="3" equiv="max" disp="max"/>.</source>
+      </segment>
+    </unit>
+    <unit id="wzTooManyPoints">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:150</note>
+      </notes>
+      <segment>
+        <source>These scores cost <ph id="0" equiv="spent" disp="spent"/> points, but you only have <ph id="1" equiv="budget" disp="o.pointBuyBudget"/>.</source>
+      </segment>
+    </unit>
+    <unit id="wzNotArray">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:158</note>
+      </notes>
+      <segment>
+        <source>Use each number of the standard array (<ph id="0" equiv="numbers" disp="o.standardArray.join(&apos;, &apos;)"/>) once.</source>
+      </segment>
+    </unit>
+    <unit id="wzRollRange">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:166</note>
+      </notes>
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> is <ph id="1" equiv="score" disp="s"/>, but 4d6 drop the lowest gives 3 to 18.</source>
+      </segment>
+    </unit>
+    <unit id="wzImprovementPoints">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:181</note>
+      </notes>
+      <segment>
+        <source>Spend exactly <ph id="0" equiv="owed" disp="owed"/> improvement points (<ph id="1" equiv="given" disp="given"/> so far).</source>
+      </segment>
+    </unit>
+    <unit id="wzScoreCap">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:187</note>
+      </notes>
+      <segment>
+        <source><ph id="0" equiv="ability" disp="abilityName(a)"/> would be <ph id="1" equiv="score" disp="after"/>, but no score goes above 20.</source>
+      </segment>
+    </unit>
+    <unit id="wzSkillCount">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:199</note>
+      </notes>
+      <segment>
+        <source>Pick <ph id="0" equiv="pick" disp="pick"/> skills (<ph id="1" equiv="picked" disp="picked.length"/> chosen).</source>
+      </segment>
+    </unit>
+    <unit id="wzNameMissing">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:210</note>
+        <note category="location">src/app/trainers/wizard-model.ts:240</note>
+      </notes>
+      <segment>
+        <source>The trainer needs a name.</source>
+      </segment>
+    </unit>
+    <unit id="wzNameLength">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:213</note>
+        <note category="location">src/app/trainers/wizard-model.ts:242</note>
+      </notes>
+      <segment>
+        <source>The name must be <ph id="0" equiv="min" disp="o.nameMinLength"/> to <ph id="1" equiv="max" disp="o.nameMaxLength"/> characters long.</source>
+      </segment>
+    </unit>
+    <unit id="wzNameCharacters">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:216</note>
+        <note category="location">src/app/trainers/wizard-model.ts:244</note>
+      </notes>
+      <segment>
+        <source>The name may only use letters, digits and underscores (like a Minecraft username).</source>
+      </segment>
+    </unit>
+    <unit id="wzNameTaken">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:219</note>
+      </notes>
+      <segment>
+        <source>Another trainer in this game is already called <ph id="0" equiv="name" disp="name"/>.</source>
+      </segment>
+    </unit>
+    <unit id="wzStarterMissing">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:226</note>
+        <note category="location">src/app/trainers/wizard-model.ts:258</note>
+      </notes>
+      <segment>
+        <source>Choose a starter Pokémon.</source>
+      </segment>
+    </unit>
+    <unit id="srvNameTaken">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:238</note>
+      </notes>
+      <segment>
+        <source>Another trainer in this game has this name already.</source>
+      </segment>
+    </unit>
+    <unit id="srvUnknownClass">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:246</note>
+      </notes>
+      <segment>
+        <source>This game does not have that class (the admin may have changed the class list). Choose another.</source>
+      </segment>
+    </unit>
+    <unit id="srvTooManyPoints">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:250</note>
+      </notes>
+      <segment>
+        <source>These scores cost more points than the game allows.</source>
+      </segment>
+    </unit>
+    <unit id="srvMethodNotAllowed">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:252</note>
+      </notes>
+      <segment>
+        <source>This game does not allow that way of making ability scores.</source>
+      </segment>
+    </unit>
+    <unit id="srvSkills">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:256</note>
+      </notes>
+      <segment>
+        <source>The skills do not fit the class. Choose them again.</source>
+      </segment>
+    </unit>
+    <unit id="srvStarterNotAllowed">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:260</note>
+      </notes>
+      <segment>
+        <source>That Pokémon is not one of the starters of this game.</source>
+      </segment>
+    </unit>
+    <unit id="wzClassMissing">
+      <notes>
+        <note category="location">src/app/trainers/wizard-model.ts:371</note>
+      </notes>
+      <segment>
+        <source>Choose a class.</source>
+      </segment>
+    </unit>
+    <unit id="stepClassTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:49,50</note>
+      </notes>
+      <segment>
+        <source>Choose a class</source>
+      </segment>
+    </unit>
+    <unit id="stepClassHelp">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:50,51</note>
+      </notes>
+      <segment>
+        <source>Your class decides your hit die, the skills you can pick and the features you get as you level up.</source>
+      </segment>
+    </unit>
+    <unit id="classFacts">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:57,58</note>
+      </notes>
+      <segment>
+        <source>Hit die d<ph id="0" equiv="INTERPOLATION" disp="{{ c.hitDie }}"/> · best at <ph id="1" equiv="INTERPOLATION_1" disp="{{ abilityName(c.primaryAbility) }}"/></source>
+      </segment>
+    </unit>
+    <unit id="stepScoresTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:83,84</note>
+      </notes>
+      <segment>
+        <source>Ability scores</source>
+      </segment>
+    </unit>
+    <unit id="methodGroup">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:85</note>
+      </notes>
+      <segment>
+        <source>Method</source>
+      </segment>
+    </unit>
+    <unit id="pointsLeft">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:96,98</note>
+      </notes>
+      <segment>
+        <source>Points left: <ph id="0" equiv="INTERPOLATION" disp="{{ o.pointBuyBudget - spent() }}"/> of <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.pointBuyBudget }}"/></source>
+      </segment>
+    </unit>
+    <unit id="arrayHelp">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:99,101</note>
+      </notes>
+      <segment>
+        <source>Give each number to one ability: <ph id="0" equiv="INTERPOLATION" disp="{{ o.standardArray.join(&apos;, &apos;) }}"/>.</source>
+      </segment>
+    </unit>
+    <unit id="rollHelp">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:103,104</note>
+      </notes>
+      <segment>
+        <source>Roll four six-sided dice for each ability and drop the lowest one. Type your results, or let the app roll for you.</source>
+      </segment>
+    </unit>
+    <unit id="rollAll">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:104,105</note>
+      </notes>
+      <segment>
+        <source>Roll for me</source>
+      </segment>
+    </unit>
+    <unit id="improvementTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:143,144</note>
+      </notes>
+      <segment>
+        <source>Ability improvements</source>
+      </segment>
+    </unit>
+    <unit id="improvementHelp">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:144,145</note>
+      </notes>
+      <segment>
+        <source>This game starts at level <ph id="0" equiv="INTERPOLATION" disp="{{ o.startLevel }}"/>, so you have <ph id="1" equiv="INTERPOLATION_1" disp="{{ owed() }}"/> points to add to your scores (no score above 20).</source>
+      </segment>
+    </unit>
+    <unit id="lessOf">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:182</note>
+      </notes>
+      <segment>
+        <source>Less <ph id="0" equiv="ability" disp="abilityName(a)"/></source>
+      </segment>
+    </unit>
+    <unit id="moreOf">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:186</note>
+      </notes>
+      <segment>
+        <source>More <ph id="0" equiv="ability" disp="abilityName(a)"/></source>
+      </segment>
+    </unit>
+    <unit id="stepSkillsTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:236,237</note>
+      </notes>
+      <segment>
+        <source>Skills</source>
+      </segment>
+    </unit>
+    <unit id="skillsHelp">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:237,238</note>
+      </notes>
+      <segment>
+        <source>Pick <ph id="0" equiv="INTERPOLATION" disp="{{ cls.skillChoices.pick }}"/> of the skills of the <ph id="1" equiv="INTERPOLATION_1" disp="{{ cls.name }}"/>. Picked: <ph id="2" equiv="INTERPOLATION_2" disp="{{ state.skills().length }}"/>.</source>
+      </segment>
+    </unit>
+    <unit id="stepStarterTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:281,282</note>
+      </notes>
+      <segment>
+        <source>Starter Pokémon</source>
+      </segment>
+    </unit>
+    <unit id="starterPick">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:284,285</note>
+      </notes>
+      <segment>
+        <source>Choose your first Pokémon. It starts at level <ph id="0" equiv="INTERPOLATION" disp="{{ o.starters.level }}"/>.</source>
+      </segment>
+    </unit>
+    <unit id="noStarters">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:295,297</note>
+      </notes>
+      <segment>
+        <source>This game has no starter Pokémon to choose from. Ask the admin.</source>
+      </segment>
+    </unit>
+    <unit id="starterAssign">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:300,302</note>
+      </notes>
+      <segment>
+        <source>The admin will give you your first Pokémon. Nothing to choose here.</source>
+      </segment>
+    </unit>
+    <unit id="starterRandom">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:303,306</note>
+      </notes>
+      <segment>
+        <source>The game picks your first Pokémon at random when you save your trainer.</source>
+      </segment>
+    </unit>
+    <unit id="stepIdentityTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:328,329</note>
+      </notes>
+      <segment>
+        <source>Name and skin</source>
+      </segment>
+    </unit>
+    <unit id="nameFromAccount">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:330,332</note>
+      </notes>
+      <segment>
+        <source>In this game your trainer is called after your linked Minecraft account. Link one on the account page if you have not.</source>
+      </segment>
+    </unit>
+    <unit id="trainerName">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:333,334</note>
+      </notes>
+      <segment>
+        <source>Trainer name</source>
+      </segment>
+    </unit>
+    <unit id="trainerNameHint">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:335,336</note>
+      </notes>
+      <segment>
+        <source><ph id="0" equiv="INTERPOLATION" disp="{{ o.nameMinLength }}"/> to <ph id="1" equiv="INTERPOLATION_1" disp="{{ o.nameMaxLength }}"/> letters, digits or underscores. It must be free in this game.</source>
+      </segment>
+    </unit>
+    <unit id="skinsOff">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:341,343</note>
+      </notes>
+      <segment>
+        <source>This game does not allow custom skins.</source>
+      </segment>
+    </unit>
+    <unit id="stepReviewTitle">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:359,360</note>
+      </notes>
+      <segment>
+        <source>Summary</source>
+      </segment>
+    </unit>
+    <unit id="sumName">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:361,362</note>
+      </notes>
+      <segment>
+        <source>Name</source>
+      </segment>
+    </unit>
+    <unit id="sumClass">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:363,364</note>
+      </notes>
+      <segment>
+        <source>Class</source>
+      </segment>
+    </unit>
+    <unit id="sumScores">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:365,366</note>
+      </notes>
+      <segment>
+        <source>Ability scores</source>
+      </segment>
+    </unit>
+    <unit id="sumSkills">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:367,368</note>
+      </notes>
+      <segment>
+        <source>Skills</source>
+      </segment>
+    </unit>
+    <unit id="sumStarter">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:369,370</note>
+      </notes>
+      <segment>
+        <source>Starter Pokémon</source>
+      </segment>
+    </unit>
+    <unit id="sumSkin">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:371,372</note>
+      </notes>
+      <segment>
+        <source>Skin</source>
+      </segment>
+    </unit>
+    <unit id="sumNameAccount">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:382</note>
+      </notes>
+      <segment>
+        <source>Your Minecraft name</source>
+      </segment>
+    </unit>
+    <unit id="sumStarterRandom">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:404</note>
+      </notes>
+      <segment>
+        <source>Picked at random</source>
+      </segment>
+    </unit>
+    <unit id="sumStarterAssign">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:406</note>
+      </notes>
+      <segment>
+        <source>Given by the admin</source>
+      </segment>
+    </unit>
+    <unit id="sumSkinUpload">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:414</note>
+      </notes>
+      <segment>
+        <source>Upload: <ph id="0" equiv="file" disp="s.file.name"/></source>
+      </segment>
+    </unit>
+    <unit id="sumSkinUsername">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:416</note>
+      </notes>
+      <segment>
+        <source>Copied from <ph id="0" equiv="name" disp="s.username"/></source>
+      </segment>
+    </unit>
+    <unit id="sumSkinNone">
+      <notes>
+        <note category="location">src/app/trainers/wizard-steps.ts:418</note>
+      </notes>
+      <segment>
+        <source>None</source>
       </segment>
     </unit>
   </file>

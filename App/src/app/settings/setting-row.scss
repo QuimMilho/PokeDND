@@ -1,0 +1,101 @@
+// One setting: on a phone the information is above its control; on a wide window they sit side by side.
+:host {
+  display: block;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  &.changed .key {
+    font-weight: 700;
+  }
+}
+
+.info p {
+  margin: 4px 0 0;
+}
+
+.key {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.marker {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font: var(--mat-sys-label-small);
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.changed .marker {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.muted {
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-small);
+}
+
+.control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  input,
+  select,
+  textarea {
+    box-sizing: border-box;
+    min-height: 40px;
+    min-width: 12em;
+    max-width: 100%;
+    padding: 6px 10px;
+    font: inherit;
+    color: var(--mat-sys-on-surface);
+    background: var(--mat-sys-surface);
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 4px;
+  }
+
+  textarea {
+    width: 100%;
+    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  }
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+}
+
+.error {
+  flex: 1 1 100%;
+  margin: 0;
+  color: var(--mat-sys-error);
+}
+
+@media (min-width: 900px) {
+  .row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .info {
+    flex: 1 1 55%;
+  }
+
+  .control {
+    flex: 1 1 40%;
+    justify-content: flex-end;
+  }
+}
