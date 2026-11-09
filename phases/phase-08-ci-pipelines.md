@@ -21,7 +21,7 @@ Make a clean machine prove, on every push, that the whole repository builds and 
 
 **Ask the user first:**
 
-- Is there a GitHub remote to test the workflows on?
+- Is there a GitHub remote to test the workflows on? (Answered: yes, `origin` is the public repository `QuimMilho/PokeDND`; runs on `main` happen after each push. A throw-away branch has not been used.)
 
 ## Tasks
 

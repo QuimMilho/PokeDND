@@ -21,18 +21,18 @@ A stand-in for the Minecraft mod. Every automated test of the API and app that n
 
 ## Tasks
 
-- [ ] Write `tools/fake-mod/` in Node (the built-in WebSocket client of Node 22 is enough; no dependencies). It connects with a server token, sends `hello`, and handles the commands in 18.5.
-- [ ] Behaviours: show the join code, spawn and remove fake players, confirm skins, accept walk commands and report arrival after a delay, answer config sync.
-- [ ] A scriptable mode (a JSON scenario) for tests and an interactive mode that prints what it receives.
-- [ ] Document the protocol version it speaks.
+- [x] Write `tools/fake-mod/` in Node (the built-in WebSocket client of Node 22 is enough; no dependencies). It connects with a server token, sends `hello`, and handles the commands in 18.5.
+- [x] Behaviours: show the join code, spawn and remove fake players, confirm skins, accept walk commands and report arrival after a delay, answer config sync.
+- [x] A scriptable mode (a JSON scenario) for tests and an interactive mode that prints what it receives.
+- [x] Document the protocol version it speaks.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Unit tests for each message handler.
-- [ ] A test against a small stub server proves the hello and a spawn/walk/arrive cycle.
-- [ ] It refuses to run against an incompatible protocol version with a clear message.
+- [x] Unit tests for each message handler.
+- [x] A test against a small stub server proves the hello and a spawn/walk/arrive cycle.
+- [x] It refuses to run against an incompatible protocol version with a clear message.
 
 ## Done when
 

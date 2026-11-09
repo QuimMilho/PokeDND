@@ -21,18 +21,18 @@ Live communication: the app and the mod keep a connection to the API and exchang
 
 ## Tasks
 
-- [ ] WebSockets Next endpoints. Users authenticate with the access token in the first message; servers with the server token (18.2).
-- [ ] The message envelope (18.3), with version, id and type, plus the app-to-API events (18.4) and the mod-to-API events (18.5) needed so far: hello, config sync, lobby and spawn commands.
-- [ ] Presence: the server shows online or offline; protocol version check (refuse with a clear reason).
-- [ ] Reconnection and message loss rules from 14.7.
+- [x] WebSockets Next endpoints. Users authenticate with the access token in the first message; servers with the server token (18.2).
+- [x] The message envelope (18.3), with version, id and type, plus the app-to-API events (18.4) and the mod-to-API events (18.5) needed so far: hello, config sync, lobby and spawn commands.
+- [x] Presence: the server shows online or offline; protocol version check (refuse with a clear reason).
+- [x] Reconnection and message loss rules from 14.7.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Integration tests with the fake mod: hello, config sync, lobby, spawn, disconnect and reconnect.
-- [ ] A bad token or version is refused; a user cannot receive events of a game they are not in.
-- [ ] Message order and duplicates are handled (a test replays a duplicate).
+- [x] Integration tests with the fake mod: hello, config sync, lobby, spawn, disconnect and reconnect.
+- [x] A bad token or version is refused; a user cannot receive events of a game they are not in.
+- [x] Message order and duplicates are handled (a test replays a duplicate).
 
 ## Done when
 

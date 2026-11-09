@@ -62,7 +62,8 @@ async function startDatabase(flavour) {
 
 function gradle(flavour, env) {
   return new Promise((resolve) => {
-    const cmd = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
+    // the full path: a shell that does not search the current folder (Git Bash sets NoDefaultCurrentDirectoryInExePath) cannot find a bare gradlew.bat
+    const cmd = process.platform === 'win32' ? `"${path.join(api, 'gradlew.bat')}"` : './gradlew';
     const p = spawn(cmd, ['test', `-PdbFlavour=${flavour}`], { cwd: api, env: { ...process.env, ...env }, stdio: 'inherit', shell: process.platform === 'win32' });
     p.on('exit', (code) => resolve(code));
   });

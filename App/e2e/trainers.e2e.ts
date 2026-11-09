@@ -1,18 +1,7 @@
 // Phase 38: three players join one game and each makes a trainer with the wizard (one of them in Portuguese, one with a skin).
-import { APIRequestContext, Page, expect, test } from '@playwright/test';
-import { createCanvas } from '@napi-rs/canvas';
+import { APIRequestContext, expect, test } from '@playwright/test';
 import { ADMIN_EMAIL, accessToken, createAccount, createServer, logIn, newEmail, site } from './helpers';
-
-/** A real 64x64 PNG skin (the API reads it again and keeps only the pixels). */
-function skinPng(): Buffer {
-  const canvas = createCanvas(64, 64);
-  const g = canvas.getContext('2d');
-  g.fillStyle = '#3366cc';
-  g.fillRect(8, 8, 48, 48);
-  g.fillStyle = '#ffcc00';
-  g.fillRect(24, 24, 16, 16);
-  return canvas.toBuffer('image/png');
-}
+import { makeTrainer, skinPng } from './flow';
 
 interface Player {
   email: string;
@@ -45,43 +34,6 @@ async function joinedPlayer(request: APIRequestContext, game: { gameId: string; 
   const accepted = await request.post(`${site()}/api/v1/games/${game.gameId}/requests/${mine.id}/accept`, { headers: admin });
   expect(accepted.status()).toBe(200);
   return { email, name, id: me.id };
-}
-
-/** Walks the wizard: class, scores (point buy: the cheapest spread that costs 27), two skills, the starter, the name and maybe a skin. */
-async function makeTrainer(page: Page, gameId: string, wanted: { trainer: string; classId: string; skills: string[]; starter: string; skin?: Buffer; language?: string }): Promise<void> {
-  const language = wanted.language ?? 'en';
-  await page.goto(`${site()}/${language}/games/${gameId}`);
-  await page.getByTestId('to-trainer').click();
-  await expect(page).toHaveURL(new RegExp(`/${language}/games/${gameId}/trainer/create$`));
-
-  await page.getByTestId(`class-${wanted.classId}`).click();
-  await page.getByTestId('next').click();
-
-  // 15 14 13 11 10 9 costs 27 points
-  for (const [ability, clicks] of [['str', 7], ['dex', 6], ['con', 5], ['int', 3], ['wis', 2], ['cha', 1]] as const) {
-    for (let i = 0; i < clicks; i++) await page.getByTestId(`inc-${ability}`).click();
-  }
-  await expect(page.getByTestId('points-left')).toContainText('0');
-  await page.getByTestId('next').click();
-
-  for (const skill of wanted.skills) await page.getByTestId(`skill-${skill}`).check();
-  await page.getByTestId('next').click();
-
-  await page.getByTestId(`starter-${wanted.starter}`).click();
-  await page.getByTestId('next').click();
-
-  await page.getByTestId('name').fill(wanted.trainer);
-  if (wanted.skin) {
-    await page.getByTestId('skin-mode-upload').locator('input').check();
-    await page.getByTestId('skin-file').setInputFiles({ name: 'skin.png', mimeType: 'image/png', buffer: wanted.skin });
-    await expect(page.getByTestId('skin-chosen')).toHaveText('skin.png');
-    await page.getByTestId('skin-slim').locator('input').check();
-  }
-  await page.getByTestId('next').click();
-
-  await expect(page.getByTestId('sum-name')).toHaveText(wanted.trainer);
-  await page.getByTestId('submit').click();
-  await expect(page).toHaveURL(new RegExp(`/${language}/games/${gameId}/trainer$`));
 }
 
 test('three players make three trainers in one game', async ({ request, browser }) => {

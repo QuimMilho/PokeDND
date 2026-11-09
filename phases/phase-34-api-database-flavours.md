@@ -21,19 +21,19 @@ The database is chosen by configuration: PostgreSQL, MySQL, MariaDB or MongoDB. 
 
 ## Tasks
 
-- [ ] MySQL and MariaDB through the SQL adapter: dialect differences, Flyway folders per dialect where needed, JSON columns.
-- [ ] The MongoDB adapter behind the repository interfaces (MongoDB with Panache) and versioned migration scripts.
-- [ ] Build one API image per flavour: `-postgres`, `-mysql`, `-mariadb`, `-mongo` (Quarkus fixes the database kind at build time).
-- [ ] Run the whole API test suite once per flavour with Testcontainers; make the flavour a test parameter.
-- [ ] Add the compose profiles for each database in `deploy/`.
+- [x] MySQL and MariaDB through the SQL adapter: dialect differences, Flyway folders per dialect where needed, JSON columns.
+- [x] The MongoDB adapter behind the repository interfaces (MongoDB with Panache) and versioned migration scripts.
+- [x] Build one API image per flavour: `-postgres`, `-mysql`, `-mariadb`, `-mongo` (Quarkus fixes the database kind at build time).
+- [x] Run the whole API test suite once per flavour; make the flavour a test parameter. CI uses Testcontainers (Quarkus Dev Services); on a machine where Testcontainers hangs (Docker Engine 29) `node tools/test-api-flavours.mjs` starts the containers itself.
+- [x] Add the compose profiles for each database in `deploy/`.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The full API integration suite passes on all four flavours.
-- [ ] Each image starts and answers `/q/health` (if Docker is available).
-- [ ] Switching flavour needs only configuration (a test starts each image with its own environment).
+- [x] The full API integration suite passes on all four flavours.
+- [x] Each image starts and answers `/q/health` (if Docker is available).
+- [x] Switching flavour needs only configuration (a test starts each image with its own environment).
 
 ## Done when
 

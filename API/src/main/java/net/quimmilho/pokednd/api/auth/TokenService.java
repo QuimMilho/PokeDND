@@ -41,7 +41,7 @@ public class TokenService {
     private static final Logger LOG = Logger.getLogger(TokenService.class);
 
     /** What an access token says about its owner. */
-    public record Claims(UUID userId, String siteRole, UUID sessionId) {
+    public record Claims(UUID userId, String siteRole, UUID sessionId, java.time.Instant expiresAt) {
     }
 
     @Inject
@@ -115,7 +115,8 @@ public class TokenService {
         try {
             JwtClaims claims = consumer.processToClaims(token);
             String sid = claims.getStringClaimValue("sid");
-            return Optional.of(new Claims(UUID.fromString(claims.getSubject()), claims.getStringClaimValue("role"), sid == null ? null : UUID.fromString(sid)));
+            return Optional.of(new Claims(UUID.fromString(claims.getSubject()), claims.getStringClaimValue("role"), sid == null ? null : UUID.fromString(sid),
+                    java.time.Instant.ofEpochSecond(claims.getExpirationTime().getValue())));
         } catch (InvalidJwtException | org.jose4j.jwt.MalformedClaimException | IllegalArgumentException e) {
             return Optional.empty();
         }

@@ -30,6 +30,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 | `test-api-flavours.mjs` | Runs the API test suite on PostgreSQL, MySQL, MariaDB and MongoDB, one throw-away database container each (no Testcontainers). `--keep` leaves the containers |
 | `check-api-images.mjs` | Builds the API image of every database flavour, starts it against its database with environment variables only, and asks `/q/health` |
 | `check-docs.mjs` | Checks the licence text, the credits table and every link in README, CREDITS and CONTRIBUTING (`--offline` skips the web) |
+| `fake-mod/` | The fake mod: a stand-in for the Minecraft mod that speaks the mod protocol (version 1) over a WebSocket, with an interactive and a scripted (JSON scenario) mode. See [`fake-mod/README.md`](fake-mod/README.md) |
 | `check-deploy.mjs` | Checks `deploy/.env.example` against the spec and `docker-compose.yml` |
 
 ## Folders
@@ -44,7 +45,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 ## Tests
 
 ```sh
-node --test "tools/test/*.test.mjs"   # fixtures for the asset check, plus the real resources/ when they have icons
+node --test "tools/test/*.test.mjs"   # fixtures for the asset check, plus the real resources/ when they have icons; the fake mod against a stub server
 ```
 
 The Cobblemon jar, `resources/`, `build/` and `vendor/` are generated and **ignored by git**.
