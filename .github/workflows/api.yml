@@ -81,4 +81,7 @@ jobs:
           node-version: 24
       # Builds deploy/api.Dockerfile with FLAVOUR, starts it next to its database with environment variables only, waits for /q/health
       - name: Image starts and answers /q/health
+        env:
+          # mongo:8 does not start on the runners' Linux kernel (6.19 or newer, SERVER-121912); the API runs on MongoDB 7 as well
+          POKEDND_MONGO_IMAGE: mongo:7.0
         run: bash tools/ci-annotate.sh "API image ${{ matrix.flavour }}" node tools/check-api-images.mjs ${{ matrix.flavour }} # a failure also shows as a public annotation

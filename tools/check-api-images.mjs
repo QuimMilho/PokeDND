@@ -3,6 +3,7 @@
 //
 // Usage: node tools/check-api-images.mjs [postgres] [mysql] [mariadb] [mongo] [--no-build]
 //
+// POKEDND_MONGO_IMAGE chooses the MongoDB image (default mongo:8). CI uses mongo:7.0: MongoDB 8 refuses to start on Linux kernels 6.19 and newer (SERVER-121912).
 // --no-build uses the images pokednd-api:test-<flavour> that an earlier run left. Containers and the network are removed at the end.
 // Exits with 0 only if every image answered /q/health with UP.
 import { spawnSync } from 'node:child_process';
@@ -26,7 +27,7 @@ const specs = {
     api: { QUARKUS_DATASOURCE_JDBC_URL: 'jdbc:mysql://db:3306/pokednd', QUARKUS_DATASOURCE_USERNAME: 'test', QUARKUS_DATASOURCE_PASSWORD: 'test' } },
   mariadb: { image: 'mariadb:11', env: ['MARIADB_ROOT_PASSWORD=test', 'MARIADB_DATABASE=pokednd', 'MARIADB_USER=test', 'MARIADB_PASSWORD=test'], ready: ['healthcheck.sh', '--connect', '--innodb_initialized'],
     api: { QUARKUS_DATASOURCE_JDBC_URL: 'jdbc:mariadb://db:3306/pokednd', QUARKUS_DATASOURCE_USERNAME: 'test', QUARKUS_DATASOURCE_PASSWORD: 'test' } },
-  mongo: { image: 'mongo:8', env: [], ready: ['mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok'],
+  mongo: { image: process.env.POKEDND_MONGO_IMAGE || 'mongo:8', env: [], ready: ['mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok'],
     api: { QUARKUS_MONGODB_CONNECTION_STRING: 'mongodb://db:27017' } },
 };
 
