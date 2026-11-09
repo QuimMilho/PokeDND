@@ -14,7 +14,7 @@ Write the data bundle. It needs `resources/` (from `node tools/extract.mjs`) and
 
 ```sh
 ./gradlew importBundle      # writes ../build/bundle: species, evolutions, learnsets, moves, abilities, items,
-                            # natures, typechart, roster, derived, reports/*.md and MANIFEST.json
+                            # natures, typechart, roster, derived, forms, reports/*.md and MANIFEST.json
 ```
 
 `importBundle` also reads the hand-written `cards/signature-overrides.json`. From code: `Bundle.build(resources, rosterJson, overridesJson).write(outDir)` (pass `null`, or use the two-argument `build`, for no overrides). The same inputs always give the same files (the hash is in `MANIFEST.json`), and nothing is written if an id dangles.

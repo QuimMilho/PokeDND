@@ -28,8 +28,23 @@ dependencies {
     implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
     implementation 'io.quarkus:quarkus-scheduler'
 
-    // Database: PostgreSQL by default (the other flavours come in phase 34)
+    // Database: PostgreSQL by default (the other flavours come in phase 34).
+    // Hibernate ORM with Panache is the SQL adapter (16.3); Flyway runs the migrations.
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+    implementation 'io.quarkus:quarkus-flyway'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+
+    // Accounts (phase 22): Argon2id from Bouncy Castle (pure Java), signed access tokens with jose4j
+    implementation 'org.bouncycastle:bcprov-jdk18on'
+    implementation 'org.bitbucket.b_c:jose4j'
+
+    // E-mail (phase 29): verification and password-reset mails over SMTP (Mailpit in development)
+    implementation 'io.quarkus:quarkus-mailer'
+
+    // Cards (phase 23): PDFBox writes and renders PDFs, ZXing makes and reads QR codes
+    implementation "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
+    implementation "com.google.zxing:core:${zxingVersion}"
 
     testImplementation 'io.quarkus:quarkus-junit'
     testImplementation 'io.rest-assured:rest-assured'
@@ -51,4 +66,23 @@ java {
 test {
     systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
     useJUnitPlatform()
+    // Docker Engine 29 refuses the port binding of Testcontainers' clean-up helper (Ryuk: "invalid IP"), and the container
+    // never starts. Quarkus Dev Services stops its own containers at the end, so the helper is not needed.
+    environment 'TESTCONTAINERS_RYUK_DISABLED', 'true'
+    // The tests that start the API need a database, and Quarkus Dev Services starts PostgreSQL through Docker (Testcontainers).
+    // Without Docker those tests (tagged 'database') are skipped, with a clear message; the other tests still run.
+    doFirst {
+        boolean docker
+        try {
+            def p = ['docker', 'info'].execute()
+            p.consumeProcessOutput()
+            docker = p.waitFor(30, java.util.concurrent.TimeUnit.SECONDS) && p.exitValue() == 0
+        } catch (Exception ignored) {
+            docker = false
+        }
+        if (!docker) {
+            logger.warn('WARNING: Docker is not available, so the tests tagged "database" are SKIPPED. Start Docker to run them.')
+            options.excludeTags 'database'
+        }
+    }
 }

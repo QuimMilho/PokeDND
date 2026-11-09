@@ -1,5 +1,5 @@
 // Serves the built app (dist/pokednd-app/browser) and checks, over real HTTP, that:
-//  - the home page of each language is served and shows its own placeholder text,
+//  - the home page of each language is served and its bundle holds that language's texts,
 //  - the web manifest and the service worker file are served.
 // Run after `npm run build`:  npm run test:smoke
 import { createServer } from 'node:http';
@@ -36,12 +36,12 @@ const get = async (path) => {
 };
 
 try {
-  for (const [lang, bundleText] of [['en', 'placeholder home screen'], ['pt', 'ecrã inicial provisório']]) {
+  for (const [lang, bundleText] of [['en', 'Welcome to PokeDnD'], ['pt', 'Bem-vindo ao PokeDnD']]) {
     const home = await get(`/${lang}/`);
     check(`/${lang}/ home page is served`, home.status === 200 && home.text.includes(`<base href="/${lang}/">`), `status ${home.status}`);
     const js = home.text.match(/src="(main-[^"]+\.js)"/)?.[1];
     const main = js ? await get(`/${lang}/${js}`) : { status: 0, text: '' };
-    check(`/${lang}/ bundle has the ${lang} placeholder text`, main.text.includes(bundleText));
+    check(`/${lang}/ bundle has the ${lang} texts`, main.text.includes(bundleText));
     const manifest = await get(`/${lang}/manifest.webmanifest`);
     check(`/${lang}/ manifest is served and valid`, manifest.status === 200 && JSON.parse(manifest.text).name === 'PokeDnD');
     const sw = await get(`/${lang}/ngsw-worker.js`);

@@ -1,0 +1,16 @@
+BASIC HP 45Caterpie
+#010 · Bug
+PP 202d10Bug Bite
+d20 · hit 1–19 · crit 20 The user attacks by biting the target.
+PP 352d8Tackle
+d20 · hit 1–19 · crit 20 A physical attack in which the user charges and slams…
+PP 40—String Shot
+d20 · miss 1 · hit 2–20 The user blows silk from its mouth that binds opposin…
+Ability: Shield Dust · Hidden: Run Away
+Weak: Fire, Flying, Rock ×2
+Resist: Fighting, Grass, Ground ×½
+ATK 30 · DEF 35 · SPA 20 · SPD 20 · SPE 45
+“Caterpie has a voracious appetite. It can devour leaves bigger than its body right
+before your eyes. From its antenna, this Pokémon releases a terrifically strong
+odor.”
+Fan project · not for sale · art based on Cobblemon models, CC BY-NC 3.0, modified

@@ -1922,12 +1922,14 @@ Anyone with an account can export species cards (decided). The **export screen**
 | **Type filter** | Matches either type (default) or only the primary type |
 | **Card size** | 63 × 88 mm (trading-card size, default), 70 × 120 mm (tarot), 44 × 63 mm (mini), or custom — set **at export** (decided) |
 | **Paper** | A4 or US Letter |
-| **Layout** | Cards per sheet fitted automatically, gap between cards, 3 mm bleed, crop marks |
+| **Layout** | Cards per sheet fitted automatically, gap between cards (default 2 mm), bleed (default 3 mm), crop marks. Bleed (0 to 10 mm) and gap (0 to 20 mm) can be changed at export *(Suggested, Appendix D #52)* |
 | **Backs** | Also produce the backs, with the columns mirrored for double-sided printing (long-edge flip) |
 | **Language** | English or Portuguese |
 | **Rule set** | Which rule set to take dice info from |
 | **Colour** | Full colour or ink-saving |
 | **Copies** | Copies of each card |
+
+**How the selection is made** *(Suggested, Appendix D #46)*: a card is included when it matches the generation filter **and** the type filter (a filter left out does not restrict), and every card named by hand is added on top. Alternate forms count as cards except the purely cosmetic female variants (their stats, types and moves are the same). The limit `cards.export.maxCardsPerJob` counts printed cards, that is cards times copies.
 
 Output (decided): **print-ready PDF sheets plus card backs**. A big export (a whole generation has up to 150 cards; everything is about 1,300 with forms) runs as a **background job**; the app shows progress and gives a download link when it is done (kept 24 hours).
 
@@ -2499,12 +2501,14 @@ volumes: { caddy_data: {}, api_data: {}, db_data: {} }
 |---|---|
 | `POKEDND_BASE_URL` | Public URL of the app, used for links and OAuth callbacks |
 | `QUARKUS_DATASOURCE_JDBC_URL`, `…_USERNAME`, `…_PASSWORD` (or `QUARKUS_MONGODB_CONNECTION_STRING`) | Database connection |
-| `POKEDND_JWT_PRIVATE_KEY`, `POKEDND_JWT_PUBLIC_KEY` | Token signing keys |
-| `POKEDND_BOOTSTRAP_ADMIN_EMAIL`, `…_PASSWORD` | Creates the first site admin on first start |
+| `POKEDND_JWT_PRIVATE_KEY`, `POKEDND_JWT_PUBLIC_KEY` | Token signing keys: an RSA pair as PEM text (the private key as PKCS#8, `-----BEGIN PRIVATE KEY-----`), each written as one line with the line breaks as `\n`. The public key may be left out; it is then derived from the private one. In production the API refuses to start without a private key |
+| `POKEDND_BOOTSTRAP_ADMIN_EMAIL`, `…_PASSWORD` | Creates the first site admin on first start, when the site has no admin yet (the password needs at least 10 characters and must not be `CHANGE_ME`); an existing account with that address is promoted instead |
 | `POKEDND_OAUTH_DISCORD_*` | Discord OAuth client id and secret |
 | `POKEDND_SMTP_*` | Mail server for verification and password reset |
 | `POKEDND_VAPID_PUBLIC`, `…_PRIVATE`, `…_SUBJECT` | Web Push keys |
-| `POKEDND_DATA_DIR` | Where skins, card art and export files live (a volume) |
+| `POKEDND_DATA_DIR` | Where skins and export files live (a volume) |
+| `POKEDND_BUNDLE_DIR` | The data bundle written by the importer (default `../build/bundle`; in Compose `/data/bundle`) |
+| `POKEDND_RESOURCES_DIR` | The extracted `resources/` folder, for card art, icons and language files (default `../resources`; in Compose `/data/resources`) |
 
 **Mod configuration** (`config/pokednd.json` on the Minecraft server)
 
@@ -2779,7 +2783,7 @@ stateDiagram-v2
 | **User tokens** | Short-lived signed access token (15 minutes) + rotating refresh token in an HTTP-only, same-site cookie. WebSocket authenticates with the access token in its first message |
 | **Server tokens** | 256-bit random secret; only a hash is stored; shown once at creation; rotatable; bound to one server |
 | **Passwords** | Argon2id; email verification; password-reset tokens expire |
-| **OAuth** | Authorization-code flow for Discord (a small custom client; use PKCE if Discord supports it for this kind of app, to be checked when it is built) |
+| **OAuth** | Authorization-code flow for Discord (a small custom client). **No PKCE:** Discord's documentation (checked 2026-11-08) describes none for this grant; the client is confidential (it has a secret) and a random `state` value, tied to the browser by a cookie, protects the redirect |
 | **Authorisation** | Checked on every request and WebSocket message: role per scope (site / server / game) |
 | **Uploads** | Skins: PNG only, 64×64, size-limited, re-encoded to strip metadata |
 | **Rate limits** | Login, sign-up, roll submissions, exports, WebSocket messages |
@@ -3124,7 +3128,7 @@ The database is **configurable** *(decided)*: **PostgreSQL, MySQL, MariaDB or Mo
 #### 16.4 Authentication details
 
 - **Email + password:** Argon2id; email verification; reset by email.
-- **Discord:** authorization-code flow. Discord is plain OAuth 2 (no discovery document); it needs a small custom client. *(Google and Microsoft sign-in were considered and cut on 2026-11-08, so no OIDC library is needed.)*
+- **Discord:** authorization-code flow. Discord is plain OAuth 2 (no discovery document); it needs a small custom client. *(Google and Microsoft sign-in were considered and cut on 2026-11-08, so no OIDC library is needed.)* A new Discord account needs an e-mail address that Discord has verified. If an account with that address exists, Discord is linked to it **automatically** (decided); if that account never verified its address, its password is removed and its logins are ended, so a stranger who signed up with somebody else's address does not keep access. The last remaining way to log in cannot be removed.
 - **Minecraft linking is by code only:** 8-character code, valid 10 minutes, single use. The automatic Microsoft → Minecraft link (Xbox Live and Minecraft services, which needs Mojang's approval of the app) was cut together with Microsoft sign-in, so **no Mojang application is needed**.
 - **Tokens and sessions:** see chapter 14.6.
 
@@ -3159,7 +3163,7 @@ Fonts must be licensed for embedding. Both languages (EN, PT) need the accented 
 
 #### 17.1 The map of entities
 
-Static **reference data** (species, moves, items, abilities, natures, types) comes from the data bundle built by the importer (chapter 19) and is **not** stored in the database. The tables below hold *game state*.
+Static **reference data** (species, moves, items, abilities, natures, types) comes from the data bundle built by the importer (chapter 19). It is **loaded into read-only reference tables** when the API starts (decided 2026-11-08, phase 21): the tables are a cache that is replaced whenever the bundle's hash in `MANIFEST.json` changes, and the bundle stays the source of truth. The tables in the diagram below hold *game state*.
 
 ```mermaid
 erDiagram
@@ -3273,6 +3277,8 @@ All ids are UUIDs (time-ordered). All rows have `created_at` and `updated_at`. "
 | **User** | `email`, `email_verified`, `password_hash` (null for OAuth-only), `display_name`, `locale`, `theme`, `site_role` (`none` or `siteAdmin`), `deleted_at` |
 | **Identity** | `user_id`, `provider` (`password`, `discord`), `provider_user_id` |
 | **McLink** | `user_id`, `mc_uuid` (unique), `mc_name`, `source` (`code`), `linked_at` |
+| **LinkCode** | `code` (8 characters, unique), `direction` (`mc`: made for a Minecraft account and typed in the app; `app`: made for an app account and typed in Minecraft), `user_id`, `mc_uuid`, `mc_name`, `expires_at`, `used_at` |
+| **EmailToken** | `user_id`, `purpose` (`verify`, `reset`), `token_hash`, `expires_at`, `used_at` |
 | **RefreshToken** | `user_id`, `token_hash`, `expires_at`, `revoked_at`, `user_agent` |
 | **PushSubscription** | `user_id`, `endpoint`, `keys`, `prefs` |
 | **Server** | `name`, `token_hash`, `token_prefix`, `bluemap_url`, `status`, `last_seen_at`, `mod_version`, `mc_version` |
@@ -3360,10 +3366,14 @@ Base path: `/api/v1`. JSON bodies. Errors use a single shape: `{ "code": "…", 
 |---|---|---|
 | `POST /auth/register` · `/auth/login` · `/auth/refresh` · `/auth/logout` | any / user | Sign-up, login, rotate tokens, logout |
 | `POST /auth/verify-email` · `/auth/forgot` · `/auth/reset` | any | Email verification and password reset |
+| `POST /auth/resend-verification` | any | *Suggested:* send the verification mail again (always answers 204, so it does not reveal which addresses have an account) |
 | `GET /auth/oauth/{provider}/start` · `/callback` | any | Discord login (the provider is a path parameter, so another one could be added later) |
+| `GET /auth/oauth/providers` | any | *Suggested:* which sign-in buttons to show (`["discord"]`, or empty when Discord is not set up) |
+| `GET /me/identities` · `POST /me/identities/discord/link` · `DELETE /me/identities/discord` | user | *Suggested paths:* the ways to log in; link Discord (answers the address to send the browser to) or unlink it |
 | `GET /me` · `PATCH /me` · `DELETE /me` | user | Profile, preferences, delete account |
 | `GET /me/sessions` · `DELETE /me/sessions/{id}` | user | Manage sessions |
 | `POST /me/minecraft/link` | user | Complete linking with a code |
+| `POST /me/minecraft/link-code` | user | *Suggested:* the other direction: the app shows a code and the player types it in Minecraft |
 | `GET /me/minecraft` · `DELETE /me/minecraft/{uuid}` | user | List or unlink Minecraft accounts |
 | `POST /me/push/subscribe` · `DELETE /me/push/{id}` · `GET/PATCH /me/notification-prefs` | user | Web Push |
 
@@ -3376,6 +3386,7 @@ Base path: `/api/v1`. JSON bodies. Errors use a single shape: `{ "code": "…", 
 | `POST /servers/{id}/token/rotate` | siteAdmin | New token |
 | `PUT/DELETE /servers/{id}/admins/{userId}` | siteAdmin | Assign / remove server admin |
 | `GET /servers/{id}/status` | server admin | Online state, versions |
+| `GET /me/servers` | user | *Suggested (Appendix D #64):* the servers the person administers |
 | `GET /servers/{id}/map/**` | member | BlueMap proxy (filtered) |
 
 **Games and settings**
@@ -3482,6 +3493,7 @@ Base path: `/api/v1`. JSON bodies. Errors use a single shape: `{ "code": "…", 
 | `GET /data/species` · `/data/species/{id}` | Species data (stats, abilities, evolutions…) |
 | `GET /data/moves` · `/data/items` · `/data/abilities` · `/data/types` · `/data/natures` | The rest |
 | `GET /data/learnsets/{species}` | Learnset by form and method |
+| `GET /art/{folder}/{file}` | The picture of a species card for the app's preview: card art, or the 128 px icon (`?size=icon`, also used when there is no card art). Public, cached for a day *(Suggested, Appendix D #51)* |
 
 **Site administration**
 
@@ -3496,6 +3508,7 @@ Base path: `/api/v1`. JSON bodies. Errors use a single shape: `{ "code": "…", 
 |---|---|
 | `GET /mod/games/active` | The server's active game |
 | `POST /mod/link-code` | Create an account-linking code |
+| `POST /mod/link-complete` | *Suggested (phase 31):* the player typed an app-made code in Minecraft; the body holds the code and the Minecraft id and name |
 | `GET /mod/world/manifest` | World-file manifest |
 
 #### 18.2 Realtime: connection
@@ -3634,6 +3647,7 @@ The importer (in `Core`) turns the raw files in `resources/` into one clean **da
 | `natures.json`, `typechart.json` | Reference tables |
 | `roster.json` | The playable species and forms (assets complete) |
 | `derived.json` | Computed values: stage badges, weaknesses/resistances, default hit bands per move, default damage dice per move, signature moves |
+| `forms.json` | What differs between forms (only forms with a resolver file): types, abilities, and the weaknesses and resistances worked out from those types. The API merges it into the forms of each species |
 | `reports/*.md` | Conflicts, coverage, and asset reports |
 | `MANIFEST.json` | Version, input hashes, output hash |
 
@@ -4452,7 +4466,33 @@ Everything below was proposed by me because it was not decided. Change anything:
 | 41 | 7.10 and 7.11, `Core/…/combat/` | Small rules the text leaves open (phase 19). A fainted Pokémon cannot be caught (the throw is refused, even with a Master Ball), and HP above the maximum counts as full. Rounds count from 1, so a Quick Ball works in round 1 and a Timer Ball is ×1.3 in round 1. The ball table has a rule for all 48 balls: the 10 common ones and the 3 Ancient copies as in 7.10, the **Ancient Origin Ball catches like a Master Ball**, and the other 34 are marked *special* (not for sale, ×1 until edited). The first flee try is attempt 1 (that gives the 49 % of the example), and the DEX bonus can also be negative (−2 points per point of modifier). The asleep-Bulbasaur row of 6.5 uses the rounded 40 %; the exact 40.3 % of 7.10 is a d10. |
 | 42 | 9.3, `Core/…/cards/` and `importer/Signature.java` | How the signature rule is applied (phase 20). The same-type bonus (+25) and the accuracy bonus (+10) count for damaging moves only. A damaging move with no power number (fixed damage, one-hit KO) scores as power 50. Ties go to the later level, then to the move id. "Another type" means a type other than the first pick's; if the two-moves-per-type limit would leave a place empty it is relaxed. The useless moves are Splash, Celebrate, Struggle, Hold Hands and Happy Hour. A Basic Pokémon that does not evolve counts as single-stage (level cap 100). Cards exist for the roster only (1,089 species and forms), and 22 of them have fewer than four moves. The three example overrides (Venusaur, Charizard, Blastoise) are the classic sets and may be changed freely. |
 
-*42 items.* In addition, **every default value in Appendix A** is a suggestion.
+| 43 | 18.1 Reference data, `API/…/reference/` | The reference-data endpoints need no login (they carry no personal or game data). Lists answer `{ "items": [...], "next": "…" }` with `limit` (default 100, at most 500) and `cursor`; a species list is a short form of each species (Dex number, name, types, base stats, stage, forms), the species page is the whole record plus its evolution rules and derived values. Answers carry an ETag, which is the bundle hash, so a browser gets `304` until the data changes. |
+| 44 | 14.6 and 16.4 accounts, `API/…/auth/` | The account details the text leaves open (phase 22). Passwords have 10 to 128 characters and are hashed with Argon2id at 19 MiB, 2 passes, 1 lane (the OWASP minimum; the cost is stored in each hash, so it can be raised later). The refresh token lasts 30 days, is a random 256-bit value kept only as a SHA-256 hash, **works once**, and showing a used one again revokes every token of that login. It lives in the cookie `pokednd_refresh` (HttpOnly, SameSite=Strict, path `/api/v1/auth`). Display names have at most 40 characters. Rate limits: 20 login attempts per minute per address, 5 wrong passwords per e-mail per 10 minutes (a good login forgets them), 10 sign-ups per hour per address; they live in memory of the one API process. The access token carries the site role, so a role change takes effect when the token is renewed (at most 15 minutes). Until phase 29 every new account is active at once (`pokednd.auth.require-email-verification`). |
+| 45 | 16.2 permissions, `API/…/auth/` | One more action, **site administration** (reloading the data bundle, system information), for site admins only: the table in 16.2 has no row for it. Every REST method must carry a `@Requires(action)` annotation and a test fails if one does not, so no endpoint is open by accident. Anonymous callers get `401`, a wrong role `403`. |
+| 46 | 9.6 exports, `API/…/cards/` | The selection rule written above (filters are *and*, hand-picked cards are *added*; cosmetic female variants are not cards), and the rest of what the text leaves open (phase 24): one person may start 20 exports per hour; a job is `queued`, `running`, `done`, `failed` or `expired`; jobs are built one at a time; the result is **one PDF plus a manifest CSV** (the ZIP of several PDFs mentioned in 16.5 is not built, a whole generation with backs is about 8 MB); the files are in `POKEDND_DATA_DIR/exports`; people see only their own jobs (other people's look like missing ones, even for the site admin); an unfinished job is marked failed when the API restarts; only the default rule set can be used until phase 33 (`rulesetId`). Both the scheduler and a late download remove an expired file; the download then answers `404`. |
+| 47 | 9.5 card IDs, `API/…/cards/CardIds.java` | The opaque ID in the QR code of a species card: `PKC1-` and 16 characters of Crockford base 32 taken from the SHA-256 of `pokednd.species-card.v1:<card key>`. The same card always gets the same ID, and it says nothing about the card. |
+| 48 | 9.2, 9.7 and 16.5 card layout, `API/…/cards/` | How the card and the sheet are drawn (phase 23). Font: **Noto Sans** (regular, bold, italic; SIL Open Font License, licence text bundled in `API/src/main/resources/fonts`). The sheet has no extra margin beyond what bleed (3 mm), crop marks and the credit line need, and the grid is centred: A4 holds 3 x 3 cards of 63 x 88 mm, US Letter 3 x 2, tarot 2 x 2, mini 4 x 4. Crop marks sit outside the grid at every cut line. Bleed is full on the outside edges and only half the gap between two neighbours. The credit line of 21.3 closes every page. The back of a sheet comes right after its front with the columns mirrored (long-edge flip). Move lines show the damage dice and hit bands of the default rule set, and the first sentence of the move's description as the effect line (cut with "…" if it does not fit). Weaknesses and resistances are grouped by multiplier (`Fire, Ice ×2`). The art is cut to 700 px, laid on the colour of the art box and embedded as a JPEG (quality 90), because PNGs with transparency would make a generation about 50 MB. |
+| 49 | 19.2 and 19.3, `Core/…/importer/FormDetails.java` | The new bundle file `forms.json` (phase 23): Alolan Marowak is Fire/Ghost with its own abilities and weaknesses, which `species.json` and `derived.json` do not say (item 37). A form that the species file does not describe takes its species' types and abilities. Form-specific **base stats** are not carried because the species files have none for the playable forms. |
+| 50 | 20.3 tests, `API/build.gradle` | How the API tests get PostgreSQL: Quarkus Dev Services starts it with Testcontainers; without Docker the tests tagged `database` are skipped with a warning. On **Docker Engine 29** Testcontainers' start of the container hangs, so the tests can be pointed at any PostgreSQL with `QUARKUS_DATASOURCE_JDBC_URL`, `…_USERNAME` and `…_PASSWORD` (the throw-away container used while building phases 21 to 24 was started by hand). The helper container Ryuk is turned off in the Gradle test task for the same reason. |
+| 51 | 9.9 and 18.1 card art over HTTP, `API/…/reference/ArtResource.java` | The app cannot read `resources/`, so the API serves the card pictures: `GET /api/v1/art/{folder}/{file}` with the folder and file names of `resources/card-art` (for example `0105_marowak/marowak_alolan.png`). It gives the high-resolution card art when it exists and the 128 px icon otherwise; `?size=icon` always gives the icon (the species list shows 60 at a time and must not load 60 big pictures). Public (no login), `Cache-Control: max-age=86400`, only names that look like card-art names are accepted. |
+| 52 | 9.6 export options, `API/…/cards/ExportRequest.java` | The export request may carry `bleedMm` (0 to 10) and `gapMm` (0 to 20) so the export screen can offer them; when left out, the settings `cards.export.bleedMm` (3) and `gapMm` (2) apply. |
+| 53 | 11.2 and 14.6 the app's login, `App/src/app/core/` | The access token is kept **in memory only** (never in `localStorage`); the refresh cookie (HTTP-only) gives a new one when the page opens and after any `401`. A call that fails with `401` is repeated **once** after one refresh; several calls that fail together share that one refresh (the refresh token can be used only once). When the refresh fails the person is sent to `/login?returnUrl=…` and comes back after logging in. After sign-up the app logs in at once (the API's register call gives no token). Until "My games" exists, the signed-in home screen links to the card tools. Routes added: `/login`, `/register`, `/cards` (browser), `/cards/:id` (preview), `/cards/export`, `/cards/jobs`. The Portuguese texts use European Portuguese (*palavra-passe*, *ecrã*, *descarregar*). The language links in the toolbar keep the current page (`/en/cards` ↔ `/pt/cards`). |
+| 54 | 9.9 card browser and preview, `App/src/app/cards/` | The list shows **playable species only**, 60 at a time ("Show more"), filtered on the server by generation, type (either type, or only the first) and a name search sent 250 ms after typing stops. The preview is the app's own layout (frame in the primary type's colour, art, stage, HP, five stats, the four signature moves with their power, abilities, weaknesses); it shows English species and move names in both languages for now, because the translated names live in Cobblemon's language files that only the API reads. Alternate forms are chosen with buttons on the preview. "Export this card" opens the export screen with that card already chosen. |
+| 55 | 20.4 end-to-end tests, `App/e2e/` | Playwright with the Chrome that is installed (no browser download). `npm run test:e2e` starts a **new, empty database** inside a PostgreSQL that is already running (default `postgres://test:test@127.0.0.1:55432/postgres`, or `POKEDND_E2E_PG`), the built API jar, and a small web server that serves the built app and passes `/api/*` to the API, as Caddy does. Starting a container from the test is not used: on Docker Engine 29 `docker start` of a new container can hang (see #50). The PDF is checked from outside: pdf.js draws every page and jsQR reads the QR codes from the picture (through a sliding window, because jsQR cannot read a small code on a big dark page); the codes found on each back page must be exactly the ones the manifest lists for that page, and the page count must equal twice the number of sheets that the sheet size gives (A4 holds 9 cards of 63 x 88 mm). |
+| 56 | 14.6 and 16.4 Discord, `API/…/auth/OAuthService.java` | **Where the browser goes** after Discord: `<POKEDND_BASE_URL>/login?oauth=ok` (the app then calls `/auth/refresh` to get its access token), or `…/login?oauth=error&code=…`; for linking, `…/account?oauth=linked` or `…/account?oauth=error&code=…`. Codes: `INVALID_STATE`, `OAUTH_DENIED`, `OAUTH_FAILED`, `DISCORD_EMAIL_UNVERIFIED`, `DISCORD_ALREADY_LINKED`. The `state` value is kept in memory (10 minutes, once) and in a `Lax` cookie, so it works for one API process (a single-server installation, like the rate limits). The new account takes its name from the Discord display name and its language from Discord (`pt…` becomes Portuguese, anything else English). |
+| 57 | 16.4 pre-hijack safeguard | You decided to link Discord to an account with the same address automatically. I added one safeguard: if that account **never verified its address**, its password is removed, its logins end and the address counts as verified. Without it, a stranger could sign up with your address, wait for you to use Discord, and keep their password. The real owner can set a new password with "forgot password". |
+| 58 | 14.6 and 16.4 e-mail flows, `API/…/auth/EmailFlowService.java` | **Verification links last 24 hours; reset links 1 hour.** Links point to `<POKEDND_BASE_URL>/verify-email?token=…` and `…/reset-password?token=…`, so the app needs those two pages (phase 35). Asking again makes the earlier link useless. At most **3 mails of each kind per address per hour** (more are skipped without telling the caller); verify, resend, forgot and reset together are limited to **30 calls per hour per address**. A password reset also counts as verifying the address and **ends every login** of the account (an access token already issued still works for up to 15 minutes). |
+| 59 | 3.2 and 18.1 "must verify" | **Sign-up now needs the mail.** With `pokednd.auth.require-email-verification` on (the default), an account with a password cannot log in until its address is verified (`403 EMAIL_NOT_VERIFIED`). The app (phase 25) logs in right after sign-up, so its sign-up page must change to "check your mail" and offer "send again" (phase 35). The end-to-end tests of the app switch the rule off. Accounts made with Discord are verified at once. |
+| 60 | 18.1 sessions, `API/…/auth/SessionService.java` | A **session is one login** (one family of refresh tokens), its id is the family id. `GET /me/sessions` shows the user agent, when it started, when it was last used and when it ends, and marks the **current** one (the access token carries a `sid` claim for that). Ending a session stops its refresh token; its access token still works for up to 15 minutes. |
+| 61 | 18.1 Minecraft linking, `API/…/minecraft/` | **Codes** are 8 characters from a 24-character alphabet without look-alikes (no 0 O Q, 1 I L, 2 Z, 5 S, 8 B), accepted in any case and with a dash or spaces, valid 10 minutes, single use. Limits: 10 tries per account while a code lives, 5 new codes per account (or Minecraft account) per 10 minutes. Every Minecraft account can be linked by one app account only; typing a code for an account you already own is harmless. |
+| 62 | 18.1 mod endpoints, phases 30 and 31 | Phase 30 builds the **linking service and the app side** and tests them. The two **mod-facing endpoints** (`POST /mod/link-code` and the new `POST /mod/link-complete`) need a server token, which only exists in phase 31, so **phase 31 adds them**. No unauthenticated way to make a code exists. |
+| 63 | 13.5 `POKEDND_SMTP_TLS` | `true` connects with TLS from the start (port 465); `false` (the default) lets the connection upgrade to TLS by itself when the server offers it (port 587), which also suits Mailpit. |
+| 64 | 18.1 servers, `API/…/servers/` | *Suggested:* **`GET /me/servers`** lists the servers the signed-in person administers (empty for everyone else). The table gives `GET /servers` to the site admin only, and a server admin needs to pick a server when creating a game. A server admin can read only the **status** of their own server (`GET /servers/{id}/status`); registering, editing, deleting, rotating tokens and assigning admins stay with the site admin. A server that has games cannot be deleted (archive the games, keep the server). |
+| 65 | 14.6 server token, `API/…/servers/ServerService.java` | *Suggested format:* `pds_` followed by 43 URL-safe characters (256 random bits). The first 8 characters are kept in the clear (`token_prefix`) so a person can tell tokens apart; the rest exists only as a SHA-256 hash. The mod sends it as `Authorization: Bearer <token>`. A wrong, missing or replaced token is answered `401 INVALID_SERVER_TOKEN`. When the API starts, every server is marked offline until its mod says hello. |
+| 66 | 3.4, 17.2 `Game`, `API/…/domain/games/GameState.java` | **Start game** and **close lobby** are two names for the one step from Lobby to Running; the app shows the one that fits. A game's **lobby is open exactly when its state is `lobby`**, so `lobby_open` is not stored; it is shown as `lobbyOpen`. The **join code is stored only while the lobby is open** and is shown only to the people who run the game. The columns `round`, `phase`, `time_of_day` and `weather` are added by the phases that use them. The code length is fixed at 6 until the setting `game.lobby.codeLength` exists (phase 33). |
+| 67 | 3.8 one active game | **Lobby, running and paused** count as active; a draft, an ended and an archived game do not. Opening a lobby while another game of the server is active is **refused** (`409 SERVER_HAS_ACTIVE_GAME`, with the other game in the details), not solved by pausing it for the admin. The database enforces it with a unique index, so two requests at the same moment cannot both win. The import of a trainer from another game waits for the trainer phases (37 and 38). |
+| 68 | 3.5, 18.1 joining | *Suggested:* a person asks to join as `player` (the default) or `spectator`. Asking again while waiting changes nothing. **A rejected person may ask again; a removed (kicked) person may not.** A person may try 10 codes in 10 minutes. A person who has no role in a game is told it does not exist (`404`) instead of `403`, so games cannot be found by guessing ids. A co-admin must be an admin of the game's server, and stops being a co-admin when removed from that server. |
+*63 items.* In addition, **every default value in Appendix A** is a suggestion.
 
 
 ### Appendix E — Gaps found while writing

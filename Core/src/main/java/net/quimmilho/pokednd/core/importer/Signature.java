@@ -129,7 +129,7 @@ public record Signature(SortedMap<String, SortedMap<String, Card>> cards, List<S
      * The types of a form. A regional or typed form has its own types in the species file; other forms use the species' types.
      * The species file's form is found by its aspects.
      */
-    private static Set<PokemonType> formTypes(Raw raw, MergedSpecies species, Roster.Form form) {
+    static Set<PokemonType> formTypes(Raw raw, MergedSpecies species, Roster.Form form) {
         List<String> names = new ArrayList<>(species.types());
         Raw.SpeciesFile file = raw.species().get(species.dex());
         if (file != null && !form.aspects().isEmpty()) {
@@ -146,7 +146,7 @@ public record Signature(SortedMap<String, SortedMap<String, Card>> cards, List<S
                 }
             }
         }
-        Set<PokemonType> types = EnumSet.noneOf(PokemonType.class);
+        Set<PokemonType> types = new java.util.LinkedHashSet<>();
         for (String n : names) {
             PokemonType.parse(n).ifPresent(types::add);
         }

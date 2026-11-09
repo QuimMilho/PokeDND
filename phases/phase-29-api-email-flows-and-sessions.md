@@ -21,18 +21,18 @@ Make accounts trustworthy: verified emails, password reset, and the ability to s
 
 ## Tasks
 
-- [ ] Send mail through SMTP (Mailpit in development). Templates in English and Portuguese.
-- [ ] `POST /auth/verify-email`, `/auth/forgot`, `/auth/reset` with single-use tokens that expire (14.6). Turn on the "must verify" setting.
-- [ ] `GET /me/sessions` and `DELETE /me/sessions/{id}`; detect a reused rotated refresh token and end that session family.
-- [ ] Rate limits for these endpoints.
+- [x] Send mail through SMTP (Mailpit in development). Templates in English and Portuguese.
+- [x] `POST /auth/verify-email`, `/auth/forgot`, `/auth/reset` with single-use tokens that expire (14.6). Turn on the "must verify" setting.
+- [x] `GET /me/sessions` and `DELETE /me/sessions/{id}`; detect a reused rotated refresh token and end that session family.
+- [x] Rate limits for these endpoints.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Integration tests with a fake SMTP server: the mail arrives, the link works once, expires, and cannot be reused.
-- [ ] A reused refresh token ends the whole session family.
-- [ ] Reset invalidates old sessions.
+- [x] Integration tests with a fake SMTP server: the mail arrives, the link works once, expires, and cannot be reused.
+- [x] A reused refresh token ends the whole session family.
+- [x] Reset invalidates old sessions.
 
 ## Done when
 

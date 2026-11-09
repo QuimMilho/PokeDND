@@ -1,0 +1,18 @@
+STAGE 1 HP 60Marowak (Alola)
+#105 · Fire / Ghost
+PP 103d10Shadow Bone
+d20 · hit 1–19 · crit 20 The user attacks by beating the target with a bone tha…
+PP 252d10Flame Wheel
+d20 · hit 1–19 · crit 20 The user attacks by cloaking itself in fire and charging…
+PP 102d12Hex
+d20 · hit 1–19 · crit 20 This relentless attack does massive damage to a targe…
+PP 154d10Double-Edge
+d20 · hit 1–19 · crit 20 A reckless life-risking tackle in which the user rushes t…
+Ability: Cursed Body / Lightning Rod · Hidden: Rock Head
+Weak: Dark, Ghost, Ground, Rock, Water ×2
+Resist: Fairy, Fire, Grass, Ice, Poison, Steel ×½ · Bug ×¼ · Immune: Normal, Fighting
+ATK 80 · DEF 110 · SPA 50 · SPD 80 · SPE 45
+“Marowak is the evolved form of a Cubone that has overcome its sadness at the loss
+of its mother and grown tough. This Pokémon's tempered and hardened spirit is not
+easily broken.”
+Fan project · not for sale · art based on Cobblemon models, CC BY-NC 3.0, modified

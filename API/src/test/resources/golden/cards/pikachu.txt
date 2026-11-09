@@ -1,0 +1,18 @@
+STAGE 1 HP 35Pikachu
+#025 · Electric
+PP 153d10Thunderbolt
+d20 · hit 1–19 · crit 20 The user attacks the target with a strong electric blast.
+PP 153d12Iron Tail
+d20 · miss 1–5 · hit 6–19 · crit 20 The target is slammed with a steel-hard tail.
+PP 153d10Discharge
+d20 · hit 1–19 · crit 20 The user strikes everything around it by letting loose a…
+PP 203d10Slam
+d20 · miss 1–5 · hit 6–19 · crit 20 The target is slammed with a long tail, vin…
+Ability: Static · Hidden: Lightning Rod
+Weak: Ground ×2
+Resist: Electric, Flying, Steel ×½
+ATK 55 · DEF 40 · SPA 50 · SPD 50 · SPE 90
+“This Pokémon has electricity-storing pouches on its cheeks. These appear to
+become electrically charged during the night while Pikachu sleeps. It occasionally
+discharges electricity when it is dozy after waking up.”
+Fan project · not for sale · art based on Cobblemon models, CC BY-NC 3.0, modified

@@ -24,6 +24,8 @@ Cobblemon-fabric-1.8.4+1.21.1.jar
 node_modules/
 .angular/
 /App/dist/
+/App/test-results/
+/App/playwright-report/
 
 # Secrets and logs (deploy/.env.example stays tracked)
 .env

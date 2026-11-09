@@ -21,18 +21,23 @@ Give the API a database and let it serve the Pokémon reference data (species, m
 
 ## Tasks
 
-- [ ] Repository interfaces in the domain layer, and the SQL adapter with Hibernate ORM + Panache (16.3).
-- [ ] Flyway migrations for the reference-data tables; flexible data as JSON columns.
-- [ ] A loader that reads the data bundle and fills the reference tables (idempotent: the manifest hash decides).
-- [ ] Read-only endpoints for species, forms, moves, items, types (see 18.1 for names).
+- [x] Repository interfaces in the domain layer, and the SQL adapter with Hibernate ORM + Panache (16.3).
+- [x] Flyway migrations for the reference-data tables; flexible data as JSON columns.
+- [x] A loader that reads the data bundle and fills the reference tables (idempotent: the manifest hash decides).
+- [x] Read-only endpoints for species, forms, moves, items, types (see 18.1 for names).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Integration tests against PostgreSQL with Testcontainers (skip with a clear message only if Docker is missing).
-- [ ] The loader run twice does not duplicate rows; a changed hash reloads.
-- [ ] Each endpoint returns the expected shape for a few known species.
+- [x] Integration tests against PostgreSQL with Testcontainers (skip with a clear message only if Docker is missing).
+- [x] The loader run twice does not duplicate rows; a changed hash reloads.
+- [x] Each endpoint returns the expected shape for a few known species.
+
+## Notes from the work
+
+- **Reference data in tables.** Chapter 17.1 used to say reference data is not stored in the database; the owner decided (phase 21) that it is loaded into tables (a cache of the bundle), and 17.1 now says so.
+- **Testcontainers.** The tests use Quarkus Dev Services (Testcontainers). On Docker Engine 29 the container start hangs, so they were run against a PostgreSQL started by hand and pointed at with `QUARKUS_DATASOURCE_JDBC_URL` (see `API/README.md`, Appendix D #50). The tests themselves are the same either way.
 
 ## Done when
 

@@ -21,17 +21,17 @@ Finish milestone M1: from the app, export a print-ready PDF of Generation 1 card
 
 ## Tasks
 
-- [ ] The export screen: pick by generation, type or by hand; options for size, paper, bleed, gap and backs; start the job, show progress, download.
-- [ ] Set up Playwright with a real API and database (docker compose or Testcontainers).
-- [ ] Write the end-to-end test: register, log in, export Generation 1 with backs, download the PDF.
+- [x] The export screen: pick by generation, type or by hand; options for size, paper, bleed, gap and backs; start the job, show progress, download.
+- [x] Set up Playwright with a real API and database: the stack (`App/e2e/stack.mjs`) makes a new, empty database inside a PostgreSQL that is already running, starts the built API jar and a web server that serves the app and passes `/api` to the API. *(Changed from "docker compose or Testcontainers": starting a new container from the test hangs on Docker Engine 29, Appendix D #50 and #55.)*
+- [x] Write the end-to-end test: register, log in, export Generation 1 with backs, download the PDF.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The Playwright test passes from a clean database.
-- [ ] The downloaded PDF is valid, has the expected page count, and its QR codes decode (checked inside the test).
-- [ ] All unit tests of the earlier M1 phases still pass.
+- [x] The Playwright test passes from a clean database (a new empty database for every run).
+- [x] The downloaded PDF is valid, has the expected page count, and its QR codes decode (checked inside the test).
+- [x] All unit tests of the earlier M1 phases still pass.
 
 ## Done when
 

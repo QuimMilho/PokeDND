@@ -21,17 +21,17 @@ Let a logged-in user ask for a card export and download the PDF later.
 
 ## Tasks
 
-- [ ] Endpoints to start an export job (selection by generation, type, or an explicit list; with or without backs; size and paper options) and to poll and download it.
-- [ ] Enforce `cards.export.maxCardsPerJob` (1,500) and `cards.export.fileTtlHours` (24); a scheduler deletes expired files.
-- [ ] Any logged-in user may export species cards (16.2).
+- [x] Endpoints to start an export job (selection by generation, type, or an explicit list; with or without backs; size and paper options) and to poll and download it.
+- [x] Enforce `cards.export.maxCardsPerJob` (1,500) and `cards.export.fileTtlHours` (24); a scheduler deletes expired files.
+- [x] Any logged-in user may export species cards (16.2).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] A job for Generation 1 gives a valid PDF with the right number of pages.
-- [ ] A job over the limit is refused with a clear message.
-- [ ] An expired file is gone and answers 404; anonymous users are refused.
+- [x] A job for Generation 1 gives a valid PDF with the right number of pages.
+- [x] A job over the limit is refused with a clear message.
+- [x] An expired file is gone and answers 404; anonymous users are refused.
 
 ## Done when
 

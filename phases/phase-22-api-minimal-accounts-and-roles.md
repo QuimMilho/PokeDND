@@ -21,18 +21,18 @@ The first accounts: people can sign up and log in with email and password, and t
 
 ## Tasks
 
-- [ ] Entities `User` and `Identity` (17.2) and migrations.
-- [ ] Register, login, refresh, logout (`/auth/*`, 18.1) with Argon2id, a 15-minute signed access token and a rotating refresh token in an HTTP-only cookie (14.6).
-- [ ] The role model (site admin, server admin, player, spectator) and a permission check helper used by every endpoint (16.2).
-- [ ] Rate limits on login and sign-up. Email verification itself comes in Phase 29: for now accounts are active (a setting).
+- [x] Entities `User` and `Identity` (17.2) and migrations.
+- [x] Register, login, refresh, logout (`/auth/*`, 18.1) with Argon2id, a 15-minute signed access token and a rotating refresh token in an HTTP-only cookie (14.6).
+- [x] The role model (site admin, server admin, player, spectator) and a permission check helper used by every endpoint (16.2).
+- [x] Rate limits on login and sign-up. Email verification itself comes in Phase 29: for now accounts are active (a setting).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Sign up, log in, refresh, log out: success and failure paths (wrong password, reused refresh token).
-- [ ] Passwords are stored only as Argon2id hashes (a test reads the table).
-- [ ] The permission table in 16.2 is a parametrised test: every role x endpoint pair.
+- [x] Sign up, log in, refresh, log out: success and failure paths (wrong password, reused refresh token).
+- [x] Passwords are stored only as Argon2id hashes (a test reads the table).
+- [x] The permission table in 16.2 is a parametrised test: every role x endpoint pair.
 
 ## Done when
 

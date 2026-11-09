@@ -1,0 +1,84 @@
+<main class="browser">
+  <h1 i18n="@@browserTitle">Pokémon cards</h1>
+
+  <section class="filters" aria-label="Filters" i18n-aria-label="@@browserFilters">
+    <mat-form-field appearance="outline" class="search">
+      <mat-label i18n="@@browserSearch">Search by name</mat-label>
+      <input matInput type="search" [ngModel]="query()" (ngModelChange)="query.set($event)" data-testid="search" autocomplete="off" />
+    </mat-form-field>
+
+    <div class="group">
+      <h2 i18n="@@browserGeneration">Generation</h2>
+      <mat-chip-set multiple aria-label="Generation" i18n-aria-label="@@browserGeneration">
+        @for (g of generations; track g.number) {
+          <mat-chip-option
+            [selected]="selectedGenerations().has(g.number)"
+            (selectionChange)="chooseGeneration(g.number, $event)"
+            [attr.data-testid]="'generation-' + g.number"
+            >{{ g.number }}</mat-chip-option
+          >
+        }
+      </mat-chip-set>
+    </div>
+
+    <div class="group">
+      <h2 i18n="@@browserType">Type</h2>
+      <mat-chip-set multiple aria-label="Type" i18n-aria-label="@@browserType">
+        @for (t of types; track t) {
+          <mat-chip-option
+            [selected]="selectedTypes().has(t)"
+            (selectionChange)="chooseType(t, $event)"
+            [attr.data-testid]="'type-' + t"
+            [style.--type-colour]="typeColour(t)"
+            class="type-chip"
+            >{{ typeName(t) }}</mat-chip-option
+          >
+        }
+      </mat-chip-set>
+      @if (selectedTypes().size) {
+        <mat-slide-toggle [checked]="primaryTypeOnly()" (change)="primaryTypeOnly.set($event.checked)" i18n="@@browserPrimaryOnly"
+          >Only the first type</mat-slide-toggle
+        >
+      }
+    </div>
+
+    @if (filtered()) {
+      <button mat-button type="button" (click)="clear()" data-testid="clear" i18n="@@browserClear">Clear filters</button>
+    }
+  </section>
+
+  @if (failure(); as text) {
+    <p class="problem" role="alert" data-testid="failure">{{ text }}</p>
+  }
+
+  @if (loading()) {
+    <div class="loading"><mat-spinner diameter="36" /></div>
+  } @else if (items().length === 0 && !failure()) {
+    <p class="empty" data-testid="empty" i18n="@@browserEmpty">No Pokémon match these filters. Try fewer filters or another name.</p>
+  } @else {
+    <p class="count" data-testid="count" i18n="@@browserCount">{items().length, plural, =1 {1 Pokémon shown} other {{{ items().length }} Pokémon shown}}</p>
+    <ul class="grid" data-testid="species-list">
+      @for (s of items(); track s.id) {
+        <li>
+          <a class="tile" [routerLink]="['/cards', s.id]" [attr.data-testid]="'species-' + s.id">
+            <img [src]="icon(s)" [alt]="s.name" width="96" height="96" loading="lazy" />
+            <span class="dex">#{{ s.dex }}</span>
+            <span class="name">{{ s.name }}</span>
+            <span class="types">
+              @for (t of s.types; track t) {
+                <span class="type" [style.background]="typeColour(t)">{{ typeName(t) }}</span>
+              }
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+    @if (next()) {
+      <div class="more">
+        <button mat-stroked-button type="button" (click)="loadMore()" [disabled]="loadingMore()" data-testid="more" i18n="@@browserMore">
+          Show more
+        </button>
+      </div>
+    }
+  }
+</main>

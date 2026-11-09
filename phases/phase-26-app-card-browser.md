@@ -21,17 +21,17 @@ A screen where people can find species and see how the card will look.
 
 ## Tasks
 
-- [ ] Paged list of species with art, name, Dex number and types; filters for generation and type; search by name.
-- [ ] A detail view showing the card preview with its four moves (from the reference-data endpoints).
-- [ ] Phone-first layout, usable on a PC too.
+- [x] Paged list of species with art, name, Dex number and types; filters for generation and type; search by name.
+- [x] A detail view showing the card preview with its four moves (from the reference-data endpoints).
+- [x] Phone-first layout, usable on a PC too.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Unit tests for the filter and search logic.
-- [ ] Component tests: filters change the list; the empty state shows a message.
-- [ ] The list loads Generation 1 (151 species) from the real API in a smoke test.
+- [x] Unit tests for the filter and search logic.
+- [x] Component tests: filters change the list; the empty state shows a message.
+- [x] The list loads Generation 1 (151 species) from the real API in a smoke test.
 
 ## Done when
 

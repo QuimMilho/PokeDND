@@ -1,22 +1,20 @@
 <mat-toolbar color="primary" class="app-toolbar">
-  <span class="app-name" i18n="@@appName">PokeDnD</span>
+  <a class="app-name" routerLink="/" i18n="@@appName">PokeDnD</a>
+  @if (auth.signedIn()) {
+    <nav class="main-nav" aria-label="Main" i18n-aria-label="@@mainNavLabel">
+      <a mat-button routerLink="/cards" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" i18n="@@navCards">Cards</a>
+      <a mat-button routerLink="/cards/export" routerLinkActive="active" i18n="@@navExport">Export</a>
+    </nav>
+  }
   <span class="spacer"></span>
   <nav class="lang-switch" aria-label="Language" i18n-aria-label="@@languageLabel">
-    <a mat-button href="/en/" [attr.aria-current]="language === 'en' ? 'true' : null">EN</a>
-    <a mat-button href="/pt/" [attr.aria-current]="language === 'pt' ? 'true' : null">PT</a>
+    <a mat-button [href]="languageLink('en')" [attr.aria-current]="language === 'en' ? 'true' : null">EN</a>
+    <a mat-button [href]="languageLink('pt')" [attr.aria-current]="language === 'pt' ? 'true' : null">PT</a>
   </nav>
+  @if (auth.user(); as user) {
+    <span class="user-name" data-testid="user-name">{{ user.displayName }}</span>
+    <button mat-button type="button" (click)="logout()" data-testid="logout" i18n="@@logout">Log out</button>
+  }
 </mat-toolbar>
-
-<main class="home">
-  <mat-card appearance="outlined" class="home-card">
-    <mat-card-header>
-      <mat-card-title i18n="@@homeTitle">Welcome to PokeDnD</mat-card-title>
-      <mat-card-subtitle i18n="@@homeSubtitle">Pokémon adventures with dice, played with friends.</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p i18n="@@homePlaceholder">This is a placeholder home screen. The real app is coming soon.</p>
-    </mat-card-content>
-  </mat-card>
-</main>
 
 <router-outlet />

@@ -1,0 +1,221 @@
+<main class="export">
+  <h1 i18n="@@exportTitle">Export cards</h1>
+  <p class="intro" i18n="@@exportIntro">
+    Choose the cards, then the print settings. The PDF has print-ready sheets with crop marks, and the backs if you ask for them.
+  </p>
+
+  <section class="step" aria-labelledby="what-title">
+    <h2 id="what-title" i18n="@@exportWhat">1. Which cards</h2>
+
+    <h3 i18n="@@browserGeneration">Generation</h3>
+    <mat-chip-set multiple aria-label="Generation" i18n-aria-label="@@browserGeneration">
+      @for (g of generations; track g.number) {
+        <mat-chip-option
+          [selected]="selectedGenerations().has(g.number)"
+          (selectionChange)="chooseGeneration(g.number, $event)"
+          [attr.data-testid]="'generation-' + g.number"
+          >{{ g.number }}</mat-chip-option
+        >
+      }
+    </mat-chip-set>
+    <button mat-button type="button" (click)="selectAllGenerations()" i18n="@@exportAllGenerations">All generations</button>
+
+    <h3 i18n="@@browserType">Type</h3>
+    <mat-chip-set multiple aria-label="Type" i18n-aria-label="@@browserType">
+      @for (t of types; track t) {
+        <mat-chip-option
+          [selected]="selectedTypes().has(t)"
+          (selectionChange)="chooseType(t, $event)"
+          [attr.data-testid]="'type-' + t"
+          [style.--type-colour]="typeColour(t)"
+          class="type-chip"
+          >{{ typeName(t) }}</mat-chip-option
+        >
+      }
+    </mat-chip-set>
+    @if (selectedTypes().size) {
+      <mat-slide-toggle [checked]="primaryTypeOnly()" (change)="primaryTypeOnly.set($event.checked)" i18n="@@browserPrimaryOnly"
+        >Only the first type</mat-slide-toggle
+      >
+    }
+
+    <div class="switch">
+      <mat-slide-toggle [checked]="includeForms()" (change)="includeForms.set($event.checked)" data-testid="include-forms" i18n="@@exportForms"
+        >Include alternate forms (Alolan, Galarian, Mega…)</mat-slide-toggle
+      >
+    </div>
+
+    <h3 i18n="@@exportByHand">Cards by hand</h3>
+    <mat-form-field appearance="outline" class="search">
+      <mat-label i18n="@@browserSearch">Search by name</mat-label>
+      <input matInput type="search" [ngModel]="search()" (ngModelChange)="search.set($event)" data-testid="hand-search" autocomplete="off" />
+      <mat-hint i18n="@@exportSearchHint">Type at least two letters, then add the cards you want.</mat-hint>
+    </mat-form-field>
+    @if (found().length) {
+      <ul class="found" data-testid="hand-results">
+        @for (c of found(); track c.key) {
+          <li>
+            <span>{{ cardLabel(c) }} <small>#{{ c.species.dex }}</small></span>
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="add(c)"
+              [disabled]="byHand().has(c.key)"
+              [attr.data-testid]="'add-' + c.key"
+              i18n="@@exportAdd"
+            >
+              Add
+            </button>
+          </li>
+        }
+      </ul>
+    }
+    @if (chosenCards().length) {
+      <mat-chip-set aria-label="Chosen cards" i18n-aria-label="@@exportChosen" data-testid="hand-chosen">
+        @for (c of chosenCards(); track c.key) {
+          <mat-chip (removed)="remove(c.key)">
+            {{ cardLabel(c) }}
+            <button matChipRemove type="button" aria-label="Remove" i18n-aria-label="@@exportRemove">×</button>
+          </mat-chip>
+        }
+      </mat-chip-set>
+    }
+    @if (listFailure(); as text) {
+      <p class="problem" role="alert">{{ text }}</p>
+    }
+  </section>
+
+  <section class="step" aria-labelledby="options-title">
+    <h2 id="options-title" i18n="@@exportOptions">2. Print settings</h2>
+
+    <h3 i18n="@@exportSize">Card size</h3>
+    <mat-button-toggle-group [value]="size()" (change)="size.set($event.value)" aria-label="Card size" i18n-aria-label="@@exportSize" data-testid="size">
+      <mat-button-toggle value="63x88" i18n="@@exportSizeTrading">63 × 88 mm</mat-button-toggle>
+      <mat-button-toggle value="70x120" i18n="@@exportSizeTarot">70 × 120 mm</mat-button-toggle>
+      <mat-button-toggle value="44x63" i18n="@@exportSizeMini">44 × 63 mm</mat-button-toggle>
+      <mat-button-toggle value="custom" i18n="@@exportSizeCustom">Custom</mat-button-toggle>
+    </mat-button-toggle-group>
+    @if (size() === 'custom') {
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@exportWidth">Width (mm)</mat-label>
+          <input matInput type="number" min="30" max="150" [ngModel]="customWidth()" (ngModelChange)="customWidth.set($event)" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label i18n="@@exportHeight">Height (mm)</mat-label>
+          <input matInput type="number" min="40" max="220" [ngModel]="customHeight()" (ngModelChange)="customHeight.set($event)" />
+        </mat-form-field>
+      </div>
+    }
+
+    <h3 i18n="@@exportPaper">Paper</h3>
+    <mat-button-toggle-group [value]="paper()" (change)="paper.set($event.value)" aria-label="Paper" i18n-aria-label="@@exportPaper" data-testid="paper">
+      <mat-button-toggle value="A4">A4</mat-button-toggle>
+      <mat-button-toggle value="LETTER" i18n="@@exportLetter">US Letter</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label i18n="@@exportBleed">Bleed (mm)</mat-label>
+        <input matInput type="number" min="0" max="10" step="0.5" [ngModel]="bleed()" (ngModelChange)="bleed.set($event)" data-testid="bleed" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label i18n="@@exportGap">Gap between cards (mm)</mat-label>
+        <input matInput type="number" min="0" max="20" step="0.5" [ngModel]="gap()" (ngModelChange)="gap.set($event)" data-testid="gap" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label i18n="@@exportCopies">Copies of each card</mat-label>
+        <input matInput type="number" min="1" max="20" [ngModel]="copies()" (ngModelChange)="copies.set($event)" data-testid="copies" />
+      </mat-form-field>
+    </div>
+
+    <div class="switch">
+      <mat-slide-toggle [checked]="backs()" (change)="backs.set($event.checked)" data-testid="backs" i18n="@@exportBacks"
+        >Also print the backs (for double-sided printing, flip on the long edge)</mat-slide-toggle
+      >
+    </div>
+
+    <h3 i18n="@@exportLanguage">Language of the cards</h3>
+    <mat-button-toggle-group [value]="language()" (change)="language.set($event.value)" aria-label="Language of the cards" i18n-aria-label="@@exportLanguage" data-testid="language">
+      <mat-button-toggle value="en" i18n="@@exportEnglish">English</mat-button-toggle>
+      <mat-button-toggle value="pt" i18n="@@exportPortuguese">Portuguese</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <h3 i18n="@@exportColour">Colour</h3>
+    <mat-button-toggle-group [value]="colour()" (change)="colour.set($event.value)" aria-label="Colour" i18n-aria-label="@@exportColour" data-testid="colour">
+      <mat-button-toggle value="full" i18n="@@exportColourFull">Full colour</mat-button-toggle>
+      <mat-button-toggle value="ink-saving" i18n="@@exportColourInk">Ink-saving</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
+
+  <section class="step" aria-labelledby="go-title">
+    <h2 id="go-title" i18n="@@exportGo">3. Make the PDF</h2>
+
+    @if (selection(); as cards) {
+      <p data-testid="summary">
+        <span i18n="@@exportCount">{cards.length, plural, =0 {No cards chosen yet.} =1 {1 card} other {{{ cards.length }} cards}}</span>
+        ·
+        <span i18n="@@exportPrinted">{{ printed() }} printed</span>
+      </p>
+      @if (printed() > maxPrinted) {
+        <p class="problem" role="alert" i18n="@@exportTooMany">
+          That is more than the {{ maxPrinted }} cards one export may have. Choose fewer cards or fewer copies.
+        </p>
+      }
+    }
+
+    @if (failure(); as text) {
+      <p class="problem" role="alert" data-testid="failure">{{ text }}</p>
+    }
+
+    <button
+      mat-flat-button
+      type="button"
+      (click)="start()"
+      [disabled]="starting() || running() || nothingChosen() || printed() > maxPrinted"
+      data-testid="start"
+      i18n="@@exportStart"
+    >
+      Start export
+    </button>
+
+    @if (job(); as j) {
+      <div class="job" data-testid="job" [attr.data-state]="j.state">
+        @switch (j.state) {
+          @case ('done') {
+            <p data-testid="job-done" i18n="@@exportDone">The PDF is ready: {{ j.pages }} pages. It stays here for 24 hours.</p>
+            <button mat-flat-button type="button" (click)="download()" [disabled]="downloading()" data-testid="download" i18n="@@exportDownload">
+              Download the PDF
+            </button>
+            @if (j.warnings.length) {
+              <details class="warnings">
+                <summary i18n="@@exportWarnings">{j.warnings.length, plural, =1 {1 note} other {{{ j.warnings.length }} notes}}</summary>
+                <ul>
+                  @for (w of j.warnings; track $index) {
+                    <li>{{ w }}</li>
+                  }
+                </ul>
+              </details>
+            }
+          }
+          @case ('failed') {
+            <p class="problem" role="alert" data-testid="job-failed" i18n="@@exportFailed">The export failed. Try again.</p>
+            @if (j.message) {
+              <p class="problem">{{ j.message }}</p>
+            }
+          }
+          @case ('expired') {
+            <p i18n="@@exportExpired">This export has expired. Start it again.</p>
+          }
+          @default {
+            <p data-testid="job-progress" i18n="@@exportProgress">Making the PDF… {{ j.progress }} of {{ j.total }} cards</p>
+            <mat-progress-bar mode="determinate" [value]="percent()" aria-label="Progress" i18n-aria-label="@@exportProgressLabel" />
+          }
+        }
+      </div>
+    }
+    <p class="more">
+      <a mat-button routerLink="/cards/jobs" i18n="@@exportEarlier">Earlier exports</a>
+    </p>
+  </section>
+</main>

@@ -26,20 +26,20 @@ The card engine: one species in, a print-ready card out; many cards in, a PDF wi
 
 ## Tasks
 
-- [ ] Choose the PDF library (OpenPDF or Apache PDFBox, as the spec allows) and ZXing for QR codes; ask the user if unsure.
-- [ ] Front: art (the 1,024 px card art, falling back to the 128 px icon with a warning), name, Dex number, types, stage badge, HP and stats, four moves with dice and bands, ability, weaknesses, flavour text (language fallback pt_pt, pt_br, en_us), frame colour by type, and the credit footer line.
-- [ ] Back: QR code and the optional ID text.
-- [ ] Page layout: card size (default 63x88 mm), paper (A4), bleed 3 mm, gap 2 mm, crop marks; fonts must allow bundling.
-- [ ] Deterministic output: the same input gives the same bytes (fixed dates and ids).
+- [x] Choose the PDF library (OpenPDF or Apache PDFBox, as the spec allows) and ZXing for QR codes; ask the user if unsure.
+- [x] Front: art (the 1,024 px card art, falling back to the 128 px icon with a warning), name, Dex number, types, stage badge, HP and stats, four moves with dice and bands, ability, weaknesses, flavour text (language fallback pt_pt, pt_br, en_us), frame colour by type, and the credit footer line.
+- [x] Back: QR code and the optional ID text.
+- [x] Page layout: card size (default 63x88 mm), paper (A4), bleed 3 mm, gap 2 mm, crop marks; fonts must allow bundling.
+- [x] Deterministic output: the same input gives the same bytes (fixed dates and ids).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Golden-file tests: the PDF text and the page images of a few cards equal stored references (allow a small pixel tolerance).
-- [ ] The QR codes decode to the expected card ids.
-- [ ] N cards give the right page count for the chosen paper and size.
-- [ ] Missing art falls back to the icon with a warning in the result.
+- [x] Golden-file tests: the PDF text and the page images of a few cards equal stored references (allow a small pixel tolerance).
+- [x] The QR codes decode to the expected card ids.
+- [x] N cards give the right page count for the chosen paper and size.
+- [x] Missing art falls back to the icon with a warning in the result.
 
 ## Done when
 

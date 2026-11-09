@@ -21,17 +21,19 @@ A Minecraft server can be registered and trusted by the API, and has admins.
 
 ## Tasks
 
-- [ ] Entities and endpoints to register a server (a site admin does it), list servers, and assign server admins.
-- [ ] Server token: 256-bit random, only a hash stored, shown once, rotatable, bound to one server (14.6).
-- [ ] Online status is stored here and updated by the realtime phase; add the field and the endpoint now.
+- [x] Entities and endpoints to register a server (a site admin does it), list servers, and assign server admins.
+- [x] Server token: 256-bit random, only a hash stored, shown once, rotatable, bound to one server (14.6).
+- [x] Online status is stored here and updated by the realtime phase; add the field and the endpoint now.
+- [x] The two mod endpoints of the Minecraft linking, left over from phase 30 because they need the server token: `POST /mod/link-code` (body: Minecraft id and name; answers a code made by `MinecraftLinkService.codeForMinecraft`) and `POST /mod/link-complete` (body: the code, the Minecraft id and name; calls `completeInMinecraft`). Both are authenticated by the server token only (18.1).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Only a site admin can register; a server admin can manage only their own server (permission table, 16.2).
-- [ ] The token is shown once; after rotation the old one fails.
-- [ ] The database never contains the token itself (a test reads the table).
+- [x] Only a site admin can register; a server admin can manage only their own server (permission table, 16.2).
+- [x] The token is shown once; after rotation the old one fails.
+- [x] The database never contains the token itself (a test reads the table).
+- [x] The two mod linking endpoints refuse a missing, wrong or rotated server token, and work with a good one (a code made through `/mod/link-code` links an app account; a code made in the app is completed through `/mod/link-complete`).
 
 ## Done when
 
@@ -45,3 +47,10 @@ Servers can be registered, secured and administered.
 4. Add anything this phase generated (build output, downloads, reports) to `.gitignore`. Generated files never go into git.
 5. Do **not** run `git commit`; the user commits when they want to.
 6. Tell the user in a few lines: what changed, what was tested, and what is still open.
+
+## Notes from doing the phase
+
+- The mod authenticates with `Authorization: Bearer pds_…` on endpoints marked `@Requires(Action.SERVER_TOKEN)`; `AuthFilters` checks the token. A wrong, missing or rotated token gives `401 INVALID_SERVER_TOKEN`.
+- Suggested additions are in Appendix D #64 and #65: `GET /me/servers`, and the token format.
+- A server with games cannot be deleted (phase 32 adds the games); removing a server admin also removes them as co-admin of that server's games.
+- Tests: `servers/ServersTest`, `servers/ModLinkEndpointsTest`, and new rows in `PermissionsTest` and `EndpointPermissionsTest`.

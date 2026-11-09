@@ -1,0 +1,29 @@
+<main class="detail">
+  <a mat-button routerLink="/cards" data-testid="back" i18n="@@detailBack">← All cards</a>
+
+  @if (loading()) {
+    <div class="loading"><mat-spinner diameter="36" /></div>
+  } @else if (notFound()) {
+    <p data-testid="not-found" i18n="@@detailNotFound">This Pokémon was not found.</p>
+  } @else if (failure(); as text) {
+    <p class="problem" role="alert" data-testid="failure">{{ text }}</p>
+  } @else if (species(); as s) {
+    @if (cards().length > 1) {
+      <mat-chip-listbox aria-label="Form" i18n-aria-label="@@detailForms" class="forms">
+        @for (c of cards(); track c.key) {
+          <mat-chip-option [selected]="c.form.id === formId()" (click)="choose(c.form.id)" [attr.data-testid]="'form-' + c.form.id">{{
+            formLabel(c)
+          }}</mat-chip-option>
+        }
+      </mat-chip-listbox>
+    }
+
+    <app-card-preview [species]="s" [formId]="formId()" [moves]="moves()" [art]="art()" />
+
+    <p class="actions">
+      <a mat-flat-button routerLink="/cards/export" [queryParams]="{ card: card()?.key }" data-testid="export-this" i18n="@@detailExport"
+        >Export this card</a
+      >
+    </p>
+  }
+</main>

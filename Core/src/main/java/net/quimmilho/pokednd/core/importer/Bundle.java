@@ -53,10 +53,12 @@ import net.quimmilho.pokednd.core.rules.TypeChart;
  * @param derived     stage badges, weaknesses and resistances, and the signature moves of every card
  * @param signature   how the signature moves were chosen (for the report and the tests)
  * @param overrides   the hand-written signature overrides that were applied (empty if none were given)
+ * @param forms       types, abilities and weaknesses of each form (`forms.json`)
  * @param inputHashes SHA-256 of every input, by name
  */
 public record Bundle(Roster roster, Merged merged, Evolutions.Built evolutions, Learnsets learnsets, Catalog.Built catalog,
-                     Derived derived, Signature signature, SignatureOverrides overrides, Map<String, String> inputHashes) {
+                     Derived derived, Signature signature, SignatureOverrides overrides, FormDetails forms,
+                     Map<String, String> inputHashes) {
 
     /** Changes when the shape of the bundle files changes. */
     public static final int FORMAT = 1;
@@ -87,11 +89,12 @@ public record Bundle(Roster roster, Merged merged, Evolutions.Built evolutions, 
         Derived plain = Derived.build(merged.species(), evolutions.rules(), TypeChart.standard());
         SignatureOverrides overrides = overridesFile == null ? SignatureOverrides.none() : SignatureOverrides.read(overridesFile);
         Signature signature = Signature.build(raw, roster, merged, learnsets, catalog, plain, overrides);
+        FormDetails forms = FormDetails.build(raw, roster, merged, TypeChart.standard());
         Map<String, String> hashes = inputHashes(resources, rosterFile);
         if (overridesFile != null) {
             hashes.put("cards/signature-overrides.json", sha256(overridesFile));
         }
-        return new Bundle(roster, merged, evolutions, learnsets, catalog, plain.withSignature(signature), signature, overrides, hashes);
+        return new Bundle(roster, merged, evolutions, learnsets, catalog, plain.withSignature(signature), signature, overrides, forms, hashes);
     }
 
     // ---------------------------------------------------------------- validation
@@ -229,6 +232,7 @@ public record Bundle(Roster roster, Merged merged, Evolutions.Built evolutions, 
         files.put("typechart.json", json(typeChart()));
         files.put("roster.json", json(roster));
         files.put("derived.json", json(derived));
+        files.put("forms.json", json(Map.of("forms", forms.bySpecies())));
         files.put("reports/conflicts.md", text(Reports.conflicts(merged.conflicts())));
         files.put("reports/forms.md", text(Reports.forms(merged.formUses(), merged.unmapped())));
         files.put("reports/evolutions.md", text(Evolutions.report(evolutions)));
@@ -384,7 +388,7 @@ public record Bundle(Roster roster, Merged merged, Evolutions.Built evolutions, 
 
     /** A copy with a different catalog (used by tests that break something on purpose). */
     public Bundle withCatalog(Catalog.Built other) {
-        return new Bundle(roster, merged, evolutions, learnsets, other, derived, signature, overrides, inputHashes);
+        return new Bundle(roster, merged, evolutions, learnsets, other, derived, signature, overrides, forms, inputHashes);
     }
 
     /** The moves table without one move (used by tests that break something on purpose). */

@@ -21,18 +21,18 @@ The only way to connect a Minecraft account: a short code, typed on one side and
 
 ## Tasks
 
-- [ ] Entity `McLink` (17.2): `mc_uuid` unique, so each Minecraft account belongs to one app account; one user may link several.
-- [ ] Code creation endpoint used by the mod (`/pokednd link` prints it) and `POST /me/minecraft/link` used by the app; also the other direction (the app shows a code and the player types it in Minecraft).
-- [ ] 8 characters without look-alikes, valid 10 minutes, single use, rate limited.
-- [ ] `GET /me/minecraft` and `DELETE /me/minecraft/{uuid}`.
+- [x] Entity `McLink` (17.2): `mc_uuid` unique, so each Minecraft account belongs to one app account; one user may link several.
+- [x] The code service for both directions, `POST /me/minecraft/link` and `POST /me/minecraft/link-code` for the app. **The two endpoints the mod calls (`POST /mod/link-code`, `POST /mod/link-complete`) need a server token, so phase 31 adds them** (decided with the owner on 2026-11-08); the service methods they will call, `codeForMinecraft` and `completeInMinecraft`, are built and tested here.
+- [x] 8 characters without look-alikes, valid 10 minutes, single use, rate limited.
+- [x] `GET /me/minecraft` and `DELETE /me/minecraft/{uuid}`.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] A valid code links once; reuse, expiry and a wrong code are refused.
-- [ ] Linking an account that already belongs to someone else is refused.
-- [ ] Codes contain no characters from the look-alike set (property test).
+- [x] A valid code links once; reuse, expiry and a wrong code are refused.
+- [x] Linking an account that already belongs to someone else is refused.
+- [x] Codes contain no characters from the look-alike set (property test).
 
 ## Done when
 

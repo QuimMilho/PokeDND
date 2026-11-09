@@ -1,0 +1,18 @@
+FASE 2 HP 78Charizard
+#006 · Fogo / Voador
+PP 153d10Lança-chamas
+d20 · acerto 1–19 · crítico 20 O alvo é chamuscado com uma explosão inten…
+PP 153d8Corte Aéreo
+d20 · falha 1 · acerto 2–19 · crítico 20 O utilizador ataca com uma lâmina d…
+PP 153d10Garra de Dragão
+d20 · acerto 1–19 · crítico 20 O utilizador corta o alvo com garras enormes…
+PP 5—Poleiro
+acerto automático O utilizador aterra e descansa o seu corpo.
+Habilidade: Labareda · Oculta: Poder Solar
+Fraqueza: Rocha ×4 · Elétrico, Água ×2
+Resiste: Fada, Lutador, Fogo, Aço ×½ · Inseto, Planta ×¼ · Imune: Terra
+ATK 84 · DEF 78 · SPA 109 · SPD 85 · SPE 100
+“Charizard voa pelo céu em busca de oponentes poderosos. Ele cospe fogo com um
+calor tão intenso que derrete qualquer coisa. No entanto, nunca lança seu sopro de
+fogo contra oponentes mais fracos do que ele.”
+Projeto de fãs · não é para venda · arte baseada em modelos do Cobblemon, CC BY-NC 3.0, modificada

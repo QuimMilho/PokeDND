@@ -1,0 +1,27 @@
+.detail {
+  box-sizing: border-box;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.problem {
+  color: var(--mat-sys-error);
+}
+
+.forms {
+  display: block;
+  margin: 8px 0 16px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}

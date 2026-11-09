@@ -7,10 +7,814 @@
         <target>PokeDnD</target>
       </segment>
     </unit>
+    <unit id="mainNavLabel">
+      <segment>
+        <source>Main</source>
+        <target>Principal</target>
+      </segment>
+    </unit>
+    <unit id="navCards">
+      <segment>
+        <source>Cards</source>
+        <target>Cartas</target>
+      </segment>
+    </unit>
+    <unit id="navExport">
+      <segment>
+        <source>Export</source>
+        <target>Exportar</target>
+      </segment>
+    </unit>
     <unit id="languageLabel">
       <segment>
         <source>Language</source>
         <target>Idioma</target>
+      </segment>
+    </unit>
+    <unit id="logout">
+      <segment>
+        <source>Log out</source>
+        <target>Terminar sessão</target>
+      </segment>
+    </unit>
+    <unit id="fieldEmailRequired">
+      <segment>
+        <source>Enter your e-mail address.</source>
+        <target>Introduza o seu endereço de e-mail.</target>
+      </segment>
+    </unit>
+    <unit id="fieldEmailInvalid">
+      <segment>
+        <source>This does not look like an e-mail address.</source>
+        <target>Isto não parece um endereço de e-mail.</target>
+      </segment>
+    </unit>
+    <unit id="fieldPasswordRequired">
+      <segment>
+        <source>Enter a password.</source>
+        <target>Introduza uma palavra-passe.</target>
+      </segment>
+    </unit>
+    <unit id="fieldPasswordShort">
+      <segment>
+        <source>The password needs at least <ph id="0" equiv="min" disp="PASSWORD_MIN"/> characters.</source>
+        <target>A palavra-passe precisa de pelo menos <ph id="0" equiv="min" disp="PASSWORD_MIN"/> caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="fieldPasswordLong">
+      <segment>
+        <source>The password can have at most <ph id="0" equiv="max" disp="PASSWORD_MAX"/> characters.</source>
+        <target>A palavra-passe pode ter no máximo <ph id="0" equiv="max" disp="PASSWORD_MAX"/> caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="fieldNameRequired">
+      <segment>
+        <source>Enter a display name.</source>
+        <target>Introduza um nome de apresentação.</target>
+      </segment>
+    </unit>
+    <unit id="fieldNameLong">
+      <segment>
+        <source>The display name can have at most <ph id="0" equiv="max" disp="NAME_MAX"/> characters.</source>
+        <target>O nome de apresentação pode ter no máximo <ph id="0" equiv="max" disp="NAME_MAX"/> caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="loginTitle">
+      <segment>
+        <source>Log in</source>
+        <target>Iniciar sessão</target>
+      </segment>
+    </unit>
+    <unit id="loginSubtitle">
+      <segment>
+        <source>Use your PokeDnD account.</source>
+        <target>Use a sua conta PokeDnD.</target>
+      </segment>
+    </unit>
+    <unit id="fieldEmail">
+      <segment>
+        <source>E-mail</source>
+        <target>E-mail</target>
+      </segment>
+    </unit>
+    <unit id="fieldPassword">
+      <segment>
+        <source>Password</source>
+        <target>Palavra-passe</target>
+      </segment>
+    </unit>
+    <unit id="loginSubmit">
+      <segment>
+        <source>Log in</source>
+        <target>Entrar</target>
+      </segment>
+    </unit>
+    <unit id="loginToRegister">
+      <segment>
+        <source>No account yet? Sign up</source>
+        <target>Ainda não tem conta? Registe-se</target>
+      </segment>
+    </unit>
+    <unit id="registerTitle">
+      <segment>
+        <source>Sign up</source>
+        <target>Criar conta</target>
+      </segment>
+    </unit>
+    <unit id="registerSubtitle">
+      <segment>
+        <source>Make an account to browse and print Pokémon cards.</source>
+        <target>Crie uma conta para ver e imprimir cartas Pokémon.</target>
+      </segment>
+    </unit>
+    <unit id="fieldDisplayName">
+      <segment>
+        <source>Display name</source>
+        <target>Nome de apresentação</target>
+      </segment>
+    </unit>
+    <unit id="fieldPasswordHint">
+      <segment>
+        <source>10 to 128 characters</source>
+        <target>10 a 128 caracteres</target>
+      </segment>
+    </unit>
+    <unit id="registerSubmit">
+      <segment>
+        <source>Sign up</source>
+        <target>Criar conta</target>
+      </segment>
+    </unit>
+    <unit id="registerToLogin">
+      <segment>
+        <source>Already have an account? Log in</source>
+        <target>Já tem conta? Inicie sessão</target>
+      </segment>
+    </unit>
+    <unit id="browserTitle">
+      <segment>
+        <source>Pokémon cards</source>
+        <target>Cartas Pokémon</target>
+      </segment>
+    </unit>
+    <unit id="browserFilters">
+      <segment>
+        <source>Filters</source>
+        <target>Filtros</target>
+      </segment>
+    </unit>
+    <unit id="browserSearch">
+      <segment>
+        <source>Search by name</source>
+        <target>Pesquisar por nome</target>
+      </segment>
+    </unit>
+    <unit id="browserGeneration">
+      <segment>
+        <source>Generation</source>
+        <target>Geração</target>
+      </segment>
+    </unit>
+    <unit id="browserType">
+      <segment>
+        <source>Type</source>
+        <target>Tipo</target>
+      </segment>
+    </unit>
+    <unit id="browserPrimaryOnly">
+      <segment>
+        <source>Only the first type</source>
+        <target>Só o primeiro tipo</target>
+      </segment>
+    </unit>
+    <unit id="browserClear">
+      <segment>
+        <source>Clear filters</source>
+        <target>Limpar filtros</target>
+      </segment>
+    </unit>
+    <unit id="browserEmpty">
+      <segment>
+        <source>No Pokémon match these filters. Try fewer filters or another name.</source>
+        <target>Nenhum Pokémon corresponde a estes filtros. Tente menos filtros ou outro nome.</target>
+      </segment>
+    </unit>
+    <unit id="browserCount">
+      <segment>
+        <source>{VAR_PLURAL, plural, =1 {1 Pokémon shown} other {<ph id="0" equiv="INTERPOLATION"/> Pokémon shown}}</source>
+        <target>{VAR_PLURAL, plural, =1 {1 Pokémon mostrado} other {<ph id="0" equiv="INTERPOLATION"/> Pokémon mostrados}}</target>
+      </segment>
+    </unit>
+    <unit id="browserMore">
+      <segment>
+        <source> Show more </source>
+        <target>Mostrar mais</target>
+      </segment>
+    </unit>
+    <unit id="detailBack">
+      <segment>
+        <source>← All cards</source>
+        <target>← Todas as cartas</target>
+      </segment>
+    </unit>
+    <unit id="detailNotFound">
+      <segment>
+        <source>This Pokémon was not found.</source>
+        <target>Este Pokémon não foi encontrado.</target>
+      </segment>
+    </unit>
+    <unit id="detailForms">
+      <segment>
+        <source>Form</source>
+        <target>Forma</target>
+      </segment>
+    </unit>
+    <unit id="detailExport">
+      <segment>
+        <source>Export this card</source>
+        <target>Exportar esta carta</target>
+      </segment>
+    </unit>
+    <unit id="formBase">
+      <segment>
+        <source>Normal</source>
+        <target>Normal</target>
+      </segment>
+    </unit>
+    <unit id="cardHp">
+      <segment>
+        <source>HP</source>
+        <target>PS</target>
+      </segment>
+    </unit>
+    <unit id="cardStatsLabel">
+      <segment>
+        <source>Stats</source>
+        <target>Atributos</target>
+      </segment>
+    </unit>
+    <unit id="cardMovesLabel">
+      <segment>
+        <source>Moves</source>
+        <target>Movimentos</target>
+      </segment>
+    </unit>
+    <unit id="cardNoMoves">
+      <segment>
+        <source>No signature moves are chosen for this card yet.</source>
+        <target>Esta carta ainda não tem movimentos principais escolhidos.</target>
+      </segment>
+    </unit>
+    <unit id="cardAbility">
+      <segment>
+        <source>Ability:</source>
+        <target>Habilidade:</target>
+      </segment>
+    </unit>
+    <unit id="cardWeakness">
+      <segment>
+        <source>Weak to:</source>
+        <target>Fraco contra:</target>
+      </segment>
+    </unit>
+    <unit id="stageOne">
+      <segment>
+        <source>Stage 1</source>
+        <target>Fase 1</target>
+      </segment>
+    </unit>
+    <unit id="stageTwo">
+      <segment>
+        <source>Stage 2</source>
+        <target>Fase 2</target>
+      </segment>
+    </unit>
+    <unit id="stageBasic">
+      <segment>
+        <source>Basic</source>
+        <target>Básico</target>
+      </segment>
+    </unit>
+    <unit id="statAttack">
+      <segment>
+        <source>Atk</source>
+        <target>Atq</target>
+      </segment>
+    </unit>
+    <unit id="statDefense">
+      <segment>
+        <source>Def</source>
+        <target>Def</target>
+      </segment>
+    </unit>
+    <unit id="statSpAttack">
+      <segment>
+        <source>SpA</source>
+        <target>AtqE</target>
+      </segment>
+    </unit>
+    <unit id="statSpDefense">
+      <segment>
+        <source>SpD</source>
+        <target>DefE</target>
+      </segment>
+    </unit>
+    <unit id="statSpeed">
+      <segment>
+        <source>Spe</source>
+        <target>Vel</target>
+      </segment>
+    </unit>
+    <unit id="exportTitle">
+      <segment>
+        <source>Export cards</source>
+        <target>Exportar cartas</target>
+      </segment>
+    </unit>
+    <unit id="exportIntro">
+      <segment>
+        <source> Choose the cards, then the print settings. The PDF has print-ready sheets with crop marks, and the backs if you ask for them. </source>
+        <target>Escolha as cartas e depois as definições de impressão. O PDF tem folhas prontas a imprimir, com marcas de corte, e os versos se os pedir.</target>
+      </segment>
+    </unit>
+    <unit id="exportWhat">
+      <segment>
+        <source>1. Which cards</source>
+        <target>1. Que cartas</target>
+      </segment>
+    </unit>
+    <unit id="exportAllGenerations">
+      <segment>
+        <source>All generations</source>
+        <target>Todas as gerações</target>
+      </segment>
+    </unit>
+    <unit id="exportForms">
+      <segment>
+        <source>Include alternate forms (Alolan, Galarian, Mega…)</source>
+        <target>Incluir formas alternativas (de Alola, de Galar, Mega…)</target>
+      </segment>
+    </unit>
+    <unit id="exportByHand">
+      <segment>
+        <source>Cards by hand</source>
+        <target>Cartas à mão</target>
+      </segment>
+    </unit>
+    <unit id="exportSearchHint">
+      <segment>
+        <source>Type at least two letters, then add the cards you want.</source>
+        <target>Escreva pelo menos duas letras e depois adicione as cartas que quer.</target>
+      </segment>
+    </unit>
+    <unit id="exportAdd">
+      <segment>
+        <source> Add </source>
+        <target>Adicionar</target>
+      </segment>
+    </unit>
+    <unit id="exportChosen">
+      <segment>
+        <source>Chosen cards</source>
+        <target>Cartas escolhidas</target>
+      </segment>
+    </unit>
+    <unit id="exportRemove">
+      <segment>
+        <source>Remove</source>
+        <target>Remover</target>
+      </segment>
+    </unit>
+    <unit id="exportOptions">
+      <segment>
+        <source>2. Print settings</source>
+        <target>2. Definições de impressão</target>
+      </segment>
+    </unit>
+    <unit id="exportSize">
+      <segment>
+        <source>Card size</source>
+        <target>Tamanho da carta</target>
+      </segment>
+    </unit>
+    <unit id="exportSizeTrading">
+      <segment>
+        <source>63 × 88 mm</source>
+        <target>63 × 88 mm</target>
+      </segment>
+    </unit>
+    <unit id="exportSizeTarot">
+      <segment>
+        <source>70 × 120 mm</source>
+        <target>70 × 120 mm</target>
+      </segment>
+    </unit>
+    <unit id="exportSizeMini">
+      <segment>
+        <source>44 × 63 mm</source>
+        <target>44 × 63 mm</target>
+      </segment>
+    </unit>
+    <unit id="exportSizeCustom">
+      <segment>
+        <source>Custom</source>
+        <target>Personalizado</target>
+      </segment>
+    </unit>
+    <unit id="exportWidth">
+      <segment>
+        <source>Width (mm)</source>
+        <target>Largura (mm)</target>
+      </segment>
+    </unit>
+    <unit id="exportHeight">
+      <segment>
+        <source>Height (mm)</source>
+        <target>Altura (mm)</target>
+      </segment>
+    </unit>
+    <unit id="exportPaper">
+      <segment>
+        <source>Paper</source>
+        <target>Papel</target>
+      </segment>
+    </unit>
+    <unit id="exportLetter">
+      <segment>
+        <source>US Letter</source>
+        <target>US Letter</target>
+      </segment>
+    </unit>
+    <unit id="exportBleed">
+      <segment>
+        <source>Bleed (mm)</source>
+        <target>Sangria (mm)</target>
+      </segment>
+    </unit>
+    <unit id="exportGap">
+      <segment>
+        <source>Gap between cards (mm)</source>
+        <target>Espaço entre cartas (mm)</target>
+      </segment>
+    </unit>
+    <unit id="exportCopies">
+      <segment>
+        <source>Copies of each card</source>
+        <target>Cópias de cada carta</target>
+      </segment>
+    </unit>
+    <unit id="exportBacks">
+      <segment>
+        <source>Also print the backs (for double-sided printing, flip on the long edge)</source>
+        <target>Imprimir também os versos (para impressão frente e verso, virar pelo lado maior)</target>
+      </segment>
+    </unit>
+    <unit id="exportLanguage">
+      <segment>
+        <source>Language of the cards</source>
+        <target>Idioma das cartas</target>
+      </segment>
+    </unit>
+    <unit id="exportEnglish">
+      <segment>
+        <source>English</source>
+        <target>Inglês</target>
+      </segment>
+    </unit>
+    <unit id="exportPortuguese">
+      <segment>
+        <source>Portuguese</source>
+        <target>Português</target>
+      </segment>
+    </unit>
+    <unit id="exportColour">
+      <segment>
+        <source>Colour</source>
+        <target>Cor</target>
+      </segment>
+    </unit>
+    <unit id="exportColourFull">
+      <segment>
+        <source>Full colour</source>
+        <target>Cor completa</target>
+      </segment>
+    </unit>
+    <unit id="exportColourInk">
+      <segment>
+        <source>Ink-saving</source>
+        <target>Poupança de tinta</target>
+      </segment>
+    </unit>
+    <unit id="exportGo">
+      <segment>
+        <source>3. Make the PDF</source>
+        <target>3. Fazer o PDF</target>
+      </segment>
+    </unit>
+    <unit id="exportCount">
+      <segment>
+        <source>{VAR_PLURAL, plural, =0 {No cards chosen yet.} =1 {1 card} other {<ph id="0" equiv="INTERPOLATION"/> cards}}</source>
+        <target>{VAR_PLURAL, plural, =0 {Ainda não há cartas escolhidas.} =1 {1 carta} other {<ph id="0" equiv="INTERPOLATION"/> cartas}}</target>
+      </segment>
+    </unit>
+    <unit id="exportPrinted">
+      <segment>
+        <source><ph id="0" equiv="INTERPOLATION" disp="{{ printed() }}"/> printed</source>
+        <target><ph id="0" equiv="INTERPOLATION" disp="{{ printed() }}"/> impressas</target>
+      </segment>
+    </unit>
+    <unit id="exportTooMany">
+      <segment>
+        <source> That is more than the <ph id="0" equiv="INTERPOLATION" disp="{{ maxPrinted }}"/> cards one export may have. Choose fewer cards or fewer copies. </source>
+        <target>Isso é mais do que as <ph id="0" equiv="INTERPOLATION" disp="{{ maxPrinted }}"/> cartas que uma exportação pode ter. Escolha menos cartas ou menos cópias.</target>
+      </segment>
+    </unit>
+    <unit id="exportStart">
+      <segment>
+        <source> Start export </source>
+        <target>Iniciar exportação</target>
+      </segment>
+    </unit>
+    <unit id="exportDone">
+      <segment>
+        <source>The PDF is ready: <ph id="0" equiv="INTERPOLATION" disp="{{ j.pages }}"/> pages. It stays here for 24 hours.</source>
+        <target>O PDF está pronto: <ph id="0" equiv="INTERPOLATION" disp="{{ j.pages }}"/> páginas. Fica aqui durante 24 horas.</target>
+      </segment>
+    </unit>
+    <unit id="exportDownload">
+      <segment>
+        <source> Download the PDF </source>
+        <target>Descarregar o PDF</target>
+      </segment>
+    </unit>
+    <unit id="exportWarnings">
+      <segment>
+        <source>{VAR_PLURAL, plural, =1 {1 note} other {<ph id="0" equiv="INTERPOLATION"/> notes}}</source>
+        <target>{VAR_PLURAL, plural, =1 {1 nota} other {<ph id="0" equiv="INTERPOLATION"/> notas}}</target>
+      </segment>
+    </unit>
+    <unit id="exportFailed">
+      <segment>
+        <source>The export failed. Try again.</source>
+        <target>A exportação falhou. Tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="exportExpired">
+      <segment>
+        <source>This export has expired. Start it again.</source>
+        <target>Esta exportação expirou. Inicie-a de novo.</target>
+      </segment>
+    </unit>
+    <unit id="exportProgress">
+      <segment>
+        <source>Making the PDF… <ph id="0" equiv="INTERPOLATION" disp="{{ j.progress }}"/> of <ph id="1" equiv="INTERPOLATION_1" disp="{{ j.total }}"/> cards</source>
+        <target>A fazer o PDF… <ph id="0" equiv="INTERPOLATION" disp="{{ j.progress }}"/> de <ph id="1" equiv="INTERPOLATION_1" disp="{{ j.total }}"/> cartas</target>
+      </segment>
+    </unit>
+    <unit id="exportProgressLabel">
+      <segment>
+        <source>Progress</source>
+        <target>Progresso</target>
+      </segment>
+    </unit>
+    <unit id="exportEarlier">
+      <segment>
+        <source>Earlier exports</source>
+        <target>Exportações anteriores</target>
+      </segment>
+    </unit>
+    <unit id="jobsTitle">
+      <segment>
+        <source>Earlier exports</source>
+        <target>Exportações anteriores</target>
+      </segment>
+    </unit>
+    <unit id="jobsEmpty">
+      <segment>
+        <source>You have not exported any cards yet.</source>
+        <target>Ainda não exportou nenhuma carta.</target>
+      </segment>
+    </unit>
+    <unit id="jobsDone">
+      <segment>
+        <source><ph id="0" equiv="INTERPOLATION" disp="{{ j.total }}"/> cards, <ph id="1" equiv="INTERPOLATION_1" disp="{{ j.pages }}"/> pages</source>
+        <target><ph id="0" equiv="INTERPOLATION" disp="{{ j.total }}"/> cartas, <ph id="1" equiv="INTERPOLATION_1" disp="{{ j.pages }}"/> páginas</target>
+      </segment>
+    </unit>
+    <unit id="jobsFailed">
+      <segment>
+        <source>failed</source>
+        <target>falhou</target>
+      </segment>
+    </unit>
+    <unit id="jobsExpired">
+      <segment>
+        <source>expired</source>
+        <target>expirada</target>
+      </segment>
+    </unit>
+    <unit id="jobsRunning">
+      <segment>
+        <source>in progress</source>
+        <target>em curso</target>
+      </segment>
+    </unit>
+    <unit id="jobsDownload">
+      <segment>
+        <source>Download</source>
+        <target>Descarregar</target>
+      </segment>
+    </unit>
+    <unit id="jobsNew">
+      <segment>
+        <source>New export</source>
+        <target>Nova exportação</target>
+      </segment>
+    </unit>
+    <unit id="typeNormal">
+      <segment>
+        <source>Normal</source>
+        <target>Normal</target>
+      </segment>
+    </unit>
+    <unit id="typeFire">
+      <segment>
+        <source>Fire</source>
+        <target>Fogo</target>
+      </segment>
+    </unit>
+    <unit id="typeWater">
+      <segment>
+        <source>Water</source>
+        <target>Água</target>
+      </segment>
+    </unit>
+    <unit id="typeElectric">
+      <segment>
+        <source>Electric</source>
+        <target>Elétrico</target>
+      </segment>
+    </unit>
+    <unit id="typeGrass">
+      <segment>
+        <source>Grass</source>
+        <target>Planta</target>
+      </segment>
+    </unit>
+    <unit id="typeIce">
+      <segment>
+        <source>Ice</source>
+        <target>Gelo</target>
+      </segment>
+    </unit>
+    <unit id="typeFighting">
+      <segment>
+        <source>Fighting</source>
+        <target>Lutador</target>
+      </segment>
+    </unit>
+    <unit id="typePoison">
+      <segment>
+        <source>Poison</source>
+        <target>Veneno</target>
+      </segment>
+    </unit>
+    <unit id="typeGround">
+      <segment>
+        <source>Ground</source>
+        <target>Terrestre</target>
+      </segment>
+    </unit>
+    <unit id="typeFlying">
+      <segment>
+        <source>Flying</source>
+        <target>Voador</target>
+      </segment>
+    </unit>
+    <unit id="typePsychic">
+      <segment>
+        <source>Psychic</source>
+        <target>Psíquico</target>
+      </segment>
+    </unit>
+    <unit id="typeBug">
+      <segment>
+        <source>Bug</source>
+        <target>Inseto</target>
+      </segment>
+    </unit>
+    <unit id="typeRock">
+      <segment>
+        <source>Rock</source>
+        <target>Pedra</target>
+      </segment>
+    </unit>
+    <unit id="typeGhost">
+      <segment>
+        <source>Ghost</source>
+        <target>Fantasma</target>
+      </segment>
+    </unit>
+    <unit id="typeDragon">
+      <segment>
+        <source>Dragon</source>
+        <target>Dragão</target>
+      </segment>
+    </unit>
+    <unit id="typeDark">
+      <segment>
+        <source>Dark</source>
+        <target>Sombrio</target>
+      </segment>
+    </unit>
+    <unit id="typeSteel">
+      <segment>
+        <source>Steel</source>
+        <target>Aço</target>
+      </segment>
+    </unit>
+    <unit id="typeFairy">
+      <segment>
+        <source>Fairy</source>
+        <target>Fada</target>
+      </segment>
+    </unit>
+    <unit id="errNetwork">
+      <segment>
+        <source>The server could not be reached. Check your connection and try again.</source>
+        <target>Não foi possível contactar o servidor. Verifique a ligação e tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="errInvalidCredentials">
+      <segment>
+        <source>The e-mail address or the password is wrong.</source>
+        <target>O endereço de e-mail ou a palavra-passe estão errados.</target>
+      </segment>
+    </unit>
+    <unit id="errEmailNotVerified">
+      <segment>
+        <source>Verify your e-mail address first.</source>
+        <target>Verifique primeiro o seu endereço de e-mail.</target>
+      </segment>
+    </unit>
+    <unit id="errEmailTaken">
+      <segment>
+        <source>There is already an account with this e-mail address.</source>
+        <target>Já existe uma conta com este endereço de e-mail.</target>
+      </segment>
+    </unit>
+    <unit id="errWeakPassword">
+      <segment>
+        <source>The password must have 10 to 128 characters.</source>
+        <target>A palavra-passe tem de ter entre 10 e 128 caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="errInvalidEmail">
+      <segment>
+        <source>This does not look like an e-mail address.</source>
+        <target>Isto não parece um endereço de e-mail.</target>
+      </segment>
+    </unit>
+    <unit id="errInvalidName">
+      <segment>
+        <source>The display name can have at most 40 characters.</source>
+        <target>O nome de apresentação pode ter no máximo 40 caracteres.</target>
+      </segment>
+    </unit>
+    <unit id="errRateLimited">
+      <segment>
+        <source>Too many attempts. Wait a little and try again.</source>
+        <target>Demasiadas tentativas. Espere um pouco e tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="errEmptySelection">
+      <segment>
+        <source>No card matches this selection. Choose a generation, a type or some cards.</source>
+        <target>Nenhuma carta corresponde a esta seleção. Escolha uma geração, um tipo ou algumas cartas.</target>
+      </segment>
+    </unit>
+    <unit id="errExportTooLarge">
+      <segment>
+        <source>This export has too many cards (<ph id="0" equiv="printed" disp="problem.details[&apos;printed&apos;]"/>, the limit is <ph id="1" equiv="limit" disp="problem.details[&apos;limit&apos;]"/>). Choose fewer cards or fewer copies.</source>
+        <target>Esta exportação tem demasiadas cartas (<ph id="0" equiv="printed" disp="problem.details[&apos;printed&apos;]"/>; o limite é <ph id="1" equiv="limit" disp="problem.details[&apos;limit&apos;]"/>). Escolha menos cartas ou menos cópias.</target>
+      </segment>
+    </unit>
+    <unit id="errExportOptions">
+      <segment>
+        <source>These options do not fit together (card size, paper, copies). Check them and try again.</source>
+        <target>Estas opções não combinam (tamanho da carta, papel, cópias). Verifique-as e tente de novo.</target>
+      </segment>
+    </unit>
+    <unit id="errNoData">
+      <segment>
+        <source>The card data is not loaded on the server yet. Ask the administrator.</source>
+        <target>Os dados das cartas ainda não estão carregados no servidor. Peça ao administrador.</target>
+      </segment>
+    </unit>
+    <unit id="errUnknown">
+      <segment>
+        <source>Something went wrong. Try again.</source>
+        <target>Algo correu mal. Tente de novo.</target>
       </segment>
     </unit>
     <unit id="homeTitle">
@@ -25,10 +829,28 @@
         <target>Aventuras Pokémon com dados, jogadas com amigos.</target>
       </segment>
     </unit>
-    <unit id="homePlaceholder">
+    <unit id="homeGreeting">
       <segment>
-        <source>This is a placeholder home screen. The real app is coming soon.</source>
-        <target>Este é um ecrã inicial provisório. A aplicação a sério chega em breve.</target>
+        <source>Hello, <ph id="0" equiv="INTERPOLATION" disp="{{ auth.user()?.displayName }}"/>! You are signed in.</source>
+        <target>Olá, <ph id="0" equiv="INTERPOLATION" disp="{{ auth.user()?.displayName }}"/>! A sua sessão está iniciada.</target>
+      </segment>
+    </unit>
+    <unit id="homeCardsText">
+      <segment>
+        <source>Browse the Pokémon cards, or print a whole set of them.</source>
+        <target>Veja as cartas Pokémon ou imprima um conjunto inteiro delas.</target>
+      </segment>
+    </unit>
+    <unit id="homeBrowse">
+      <segment>
+        <source>Browse cards</source>
+        <target>Ver cartas</target>
+      </segment>
+    </unit>
+    <unit id="homeExport">
+      <segment>
+        <source>Export cards</source>
+        <target>Exportar cartas</target>
       </segment>
     </unit>
   </file>

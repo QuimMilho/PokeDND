@@ -9,9 +9,11 @@ import static org.hamcrest.Matchers.is;
 
 import io.quarkus.test.junit.QuarkusTest;
 import net.quimmilho.pokednd.core.CoreVersion;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
+@Tag("database")
 class CoreLinkTest {
 
     @Test

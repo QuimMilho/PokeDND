@@ -21,17 +21,17 @@ The app can sign people in and talks to the API safely.
 
 ## Tasks
 
-- [ ] Login, register and logout screens using Angular Material, in English and Portuguese.
-- [ ] An API client service with the access token in memory, silent refresh through the cookie, and a clear "signed out" state.
-- [ ] Route guards (public, signed in) and a simple signed-in home screen.
+- [x] Login, register and logout screens using Angular Material, in English and Portuguese.
+- [x] An API client service with the access token in memory, silent refresh through the cookie, and a clear "signed out" state.
+- [x] Route guards (public, signed in) and a simple signed-in home screen.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Unit tests for the client (refresh on 401, one retry) and the guards.
-- [ ] Component tests for the forms (validation messages in both languages).
-- [ ] A manual or Playwright smoke test against the running API: register, log in, log out.
+- [x] Unit tests for the client (refresh on 401, one retry) and the guards.
+- [x] Component tests for the forms (validation messages in both languages).
+- [x] A manual or Playwright smoke test against the running API: register, log in, log out.
 
 ## Done when
 

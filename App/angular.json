@@ -44,7 +44,10 @@
             "polyfills": [
               "@angular/localize/init"
             ],
-            "localize": true
+            "localize": true,
+            "loader": {
+              ".xlf": "text"
+            }
           },
           "configurations": {
             "production": {
@@ -83,6 +86,9 @@
             "development": {
               "buildTarget": "pokednd-app:build:development"
             }
+          },
+          "options": {
+            "proxyConfig": "proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },

@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 19 of 86 phases done · 0 of 6 stage gates passed
+**Progress:** 31 of 86 phases done · 1 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -88,45 +88,45 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 20 — Signature moves for cards** · Core · [prompt](phases/phase-20-signature-moves-for-cards.md)
   Choose the four moves printed on each species card with the rule in 9.3, plus a manual overrides file.
   *Depends on:* Phase 14, Phase 18
-- [ ] **Phase 21 — API: database layer and reference data** · API · [prompt](phases/phase-21-api-database-layer-and-reference-data.md)
+- [x] **Phase 21 — API: database layer and reference data** · API · [prompt](phases/phase-21-api-database-layer-and-reference-data.md)
   The SQL adapter (Hibernate with Panache, Flyway migrations), loading the data bundle, and reference-data endpoints. Tested on PostgreSQL.
   *Depends on:* Phase 04, Phase 14
-- [ ] **Phase 22 — API: minimal accounts and roles** · API · [prompt](phases/phase-22-api-minimal-accounts-and-roles.md)
+- [x] **Phase 22 — API: minimal accounts and roles** · API · [prompt](phases/phase-22-api-minimal-accounts-and-roles.md)
   Email and password sign-up and login (Argon2id), access and refresh tokens, and the roles per scope.
   *Depends on:* Phase 21
-- [ ] **Phase 23 — API: card layout and PDF engine** · API · [prompt](phases/phase-23-api-card-layout-and-pdf-engine.md)
+- [x] **Phase 23 — API: card layout and PDF engine** · API · [prompt](phases/phase-23-api-card-layout-and-pdf-engine.md)
   Lay out species cards (front and back) and write a deterministic PDF with QR codes, bleed and cut gaps.
   *Depends on:* Phase 20, Phase 14, Phase 04
-- [ ] **Phase 24 — API: card export endpoints** · API · [prompt](phases/phase-24-api-card-export-endpoints.md)
+- [x] **Phase 24 — API: card export endpoints** · API · [prompt](phases/phase-24-api-card-export-endpoints.md)
   Export jobs for cards by generation, type or manual selection, with limits and expiring files.
   *Depends on:* Phase 23, Phase 22, Phase 21
-- [ ] **Phase 25 — App: login and API client** · App · [prompt](phases/phase-25-app-login-and-api-client.md)
+- [x] **Phase 25 — App: login and API client** · App · [prompt](phases/phase-25-app-login-and-api-client.md)
   Login and sign-up screens, the API client with token refresh, and route guards.
   *Depends on:* Phase 05, Phase 22
-- [ ] **Phase 26 — App: card browser** · App · [prompt](phases/phase-26-app-card-browser.md)
+- [x] **Phase 26 — App: card browser** · App · [prompt](phases/phase-26-app-card-browser.md)
   Browse species, filter by generation and type, search by name, and see a card preview.
   *Depends on:* Phase 25, Phase 21
-- [ ] **Phase 27 — App: export screen and the M1 end-to-end test** · App · [prompt](phases/phase-27-app-export-screen-and-the-m1-end-to-end-test.md)
+- [x] **Phase 27 — App: export screen and the M1 end-to-end test** · App · [prompt](phases/phase-27-app-export-screen-and-the-m1-end-to-end-test.md)
   The export screen (choose cards, size, paper, backs) and a Playwright test that logs in and exports Generation 1.
   *Depends on:* Phase 26, Phase 24
 
-- [ ] **M1 gate: a logged-in user exports Generation 1 species cards, with backs, as a print-ready PDF (checked by an automated end-to-end test).**
+- [x] **M1 gate: a logged-in user exports Generation 1 species cards, with backs, as a print-ready PDF (checked by an automated end-to-end test).**
 
 ## Stage 2 — Accounts, servers, lobby, settings (M2)
 
-- [ ] **Phase 28 — API: Discord sign-in and account linking** · API · [prompt](phases/phase-28-api-discord-sign-in-and-account-linking.md)
+- [x] **Phase 28 — API: Discord sign-in and account linking** · API · [prompt](phases/phase-28-api-discord-sign-in-and-account-linking.md)
   Sign in with Discord through a small custom OAuth 2 client, and link a Discord identity to an existing account.
   *Depends on:* Phase 22
-- [ ] **Phase 29 — API: email flows and sessions** · API · [prompt](phases/phase-29-api-email-flows-and-sessions.md)
+- [x] **Phase 29 — API: email flows and sessions** · API · [prompt](phases/phase-29-api-email-flows-and-sessions.md)
   Email verification, password reset by email, and managing sessions (refresh tokens).
   *Depends on:* Phase 22
-- [ ] **Phase 30 — API: Minecraft linking by code** · API · [prompt](phases/phase-30-api-minecraft-linking-by-code.md)
+- [x] **Phase 30 — API: Minecraft linking by code** · API · [prompt](phases/phase-30-api-minecraft-linking-by-code.md)
   Link Minecraft accounts to app accounts with an 8-character code (10 minutes, single use).
   *Depends on:* Phase 22
-- [ ] **Phase 31 — API: servers** · API · [prompt](phases/phase-31-api-servers.md)
+- [x] **Phase 31 — API: servers** · API · [prompt](phases/phase-31-api-servers.md)
   Register Minecraft servers, issue and rotate server tokens, assign server admins, and track online status.
   *Depends on:* Phase 22
-- [ ] **Phase 32 — API: games** · API · [prompt](phases/phase-32-api-games.md)
+- [x] **Phase 32 — API: games** · API · [prompt](phases/phase-32-api-games.md)
   Create games and move them through draft, lobby, running, paused and ended; members, co-admins and join codes.
   *Depends on:* Phase 31
 - [ ] **Phase 33 — API: layered settings, rule sets, presets** · API · [prompt](phases/phase-33-api-layered-settings-rule-sets-presets.md)
