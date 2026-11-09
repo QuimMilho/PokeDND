@@ -10,6 +10,7 @@ on:
       - "Core/**" # the API builds against Core
       - "deploy/api.Dockerfile"
       - "tools/check-api-images.mjs"
+      - "tools/ci-annotate.sh"
       - "tools/fake-mod/**" # the realtime tests run the fake mod
       - "project_v2.md" # a test compares the settings registry with Appendix A
       - ".github/workflows/api.yml"
@@ -19,6 +20,7 @@ on:
       - "Core/**"
       - "deploy/api.Dockerfile"
       - "tools/check-api-images.mjs"
+      - "tools/ci-annotate.sh"
       - "tools/fake-mod/**" # the realtime tests run the fake mod
       - "project_v2.md"
       - ".github/workflows/api.yml"
@@ -79,4 +81,4 @@ jobs:
           node-version: 24
       # Builds deploy/api.Dockerfile with FLAVOUR, starts it next to its database with environment variables only, waits for /q/health
       - name: Image starts and answers /q/health
-        run: node tools/check-api-images.mjs ${{ matrix.flavour }}
+        run: bash tools/ci-annotate.sh "API image ${{ matrix.flavour }}" node tools/check-api-images.mjs ${{ matrix.flavour }} # a failure also shows as a public annotation

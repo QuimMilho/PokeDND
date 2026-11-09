@@ -13,6 +13,7 @@ on:
       - "tools/extract.mjs"
       - "tools/check-assets.mjs"
       - "tools/lib/**"
+      - "tools/ci-annotate.sh"
       - "cards/**"
       - ".github/workflows/e2e.yml"
   pull_request:
@@ -24,6 +25,7 @@ on:
       - "tools/extract.mjs"
       - "tools/check-assets.mjs"
       - "tools/lib/**"
+      - "tools/ci-annotate.sh"
       - "cards/**"
       - ".github/workflows/e2e.yml"
   workflow_dispatch:
@@ -90,7 +92,7 @@ jobs:
       # Playwright uses the Chrome of the runner (channel "chrome"), so no browser is downloaded
       - name: End-to-end tests (the M2 flow, games and trainers)
         working-directory: App
-        run: npx playwright test e2e/m2.e2e.ts e2e/games.e2e.ts e2e/trainers.e2e.ts
+        run: bash ../tools/ci-annotate.sh "End-to-end tests" npx playwright test e2e/m2.e2e.ts e2e/games.e2e.ts e2e/trainers.e2e.ts # a failure also shows as a public annotation
       - name: Keep the API log and the traces of a failed run
         if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

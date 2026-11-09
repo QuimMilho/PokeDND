@@ -82,7 +82,7 @@ for (const flavour of flavours) {
       }
       if (!ok) await sleep(3000);
     }
-    if (!ok) throw new Error('/q/health never answered 200\n' + docker(['logs', '--tail', '30', names[1]]).stdout);
+    if (!ok) throw new Error('/q/health never answered 200\n' + docker(['logs', '--tail', '50', names[1]]).stdout);
     console.log(`[${flavour}] /q/health answers 200`);
   } catch (e) {
     console.error(`[${flavour}] ${e.message}`);

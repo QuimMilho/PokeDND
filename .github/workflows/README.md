@@ -38,6 +38,8 @@ Production secrets (database password, JWT keys, SMTP, VAPID, Discord) belong in
 
 ## When a run fails
 
+The App unit tests and the end-to-end tests run through `tools/ci-annotate.sh`: when one fails, the last 60 lines of its output are copied into an annotation of the job, which is public: `https://api.github.com/repos/QuimMilho/PokeDND/check-runs/<job id>/annotations` (the job ids are in `…/actions/runs/<id>/jobs`). Use the same wrapper for any other step whose failure is hard to guess.
+
 The logs of a run need a GitHub login, but the result of each job and step is public: `https://api.github.com/repos/QuimMilho/PokeDND/actions/runs?per_page=10`, then `…/actions/runs/<id>/jobs` (the step that failed has `conclusion: failure`). To see **why**, repeat what the workflow does on a clean copy of the commit, so that nothing generated on your machine hides the problem:
 
 ```sh
