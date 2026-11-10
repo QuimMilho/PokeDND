@@ -68,6 +68,26 @@ public record MoveProfile(String id, PokemonType type, Category category, int po
                 Math.max(0, critRatio - 1), alwaysCrit, ohko, fixed);
     }
 
+    /** A copy of another type. */
+    public MoveProfile withType(PokemonType value) {
+        return new MoveProfile(id, value, category, power, accuracy, critStage, alwaysCrit, ohko, fixedDamage);
+    }
+
+    /** A copy of another category. */
+    public MoveProfile withCategory(Category value) {
+        return new MoveProfile(id, type, value, power, accuracy, critStage, alwaysCrit, ohko, fixedDamage);
+    }
+
+    /** A copy with another base power. */
+    public MoveProfile withPower(int value) {
+        return new MoveProfile(id, type, category, value, accuracy, critStage, alwaysCrit, ohko, fixedDamage);
+    }
+
+    /** A copy with this fixed damage (empty for none). */
+    public MoveProfile withFixedDamage(Optional<FixedDamage> value) {
+        return new MoveProfile(id, type, category, power, accuracy, critStage, alwaysCrit, ohko, value);
+    }
+
     /** True for physical and special moves. */
     public boolean damaging() {
         return category != Category.STATUS;

@@ -134,15 +134,47 @@ class GameReducerTest {
                         List.of(new RollModifier(RollModifier.Kind.MULTIPLIER, "ball", 1.25)), "Roll 1d20", 90_000),
                 new RollAnswered("r4", List.of(), "typed", 11, "u-dani", true, null), new RollCancelled("r2"), new RandomDrawn("flee", 6, 5),
                 new GameEvent.RollSubmitted("r5", List.of(4), null, "u-ana", 1234), new GameEvent.RollRejected("r5", "again"),
-                new GameEvent.RollOverridden("r5", Dice.d(6), List.of(3), null, "admin", null, "fix"), new GameEvent.RollExpired("r6"));
+                new GameEvent.RollOverridden("r5", Dice.d(6), List.of(3), null, "admin", null, "fix"), new GameEvent.RollExpired("r6"),
+                // phase 44: battles
+                new GameEvent.BattleStarted("b1", Battle.Type.PVP, BattleSettings.defaults().withTurnTimer(true, 60, BattleSettings.OnTimeout.AUTO_MOVE),
+                        List.of(new Battle.Participant("ana", Battle.Kind.TRAINER, 0, "Ana", "ana", "u-ana", List.of("m1"), List.of("m2")),
+                                new Battle.Participant("w", Battle.Kind.WILD, 1, "Rattata", null, null, List.of("m3"), List.of())),
+                        List.of(new Battle.Combatant("m1", "ana", "Charmander", 5, 20, 20, 30, false,
+                                        List.of(new Battle.MoveSlot("ember", "Ember", 25, 25, 0, "normal"))),
+                                new Battle.Combatant("m2", "ana", "Pidgey", 5, 18, 18, 30, false, List.of()),
+                                new Battle.Combatant("m3", "w", "Rattata", 3, 12, 12, 25, true, List.of()))),
+                new GameEvent.RoundOpened("b1", 1, List.of(new Battle.InitiativeSlot("ana", "r1", 2, 45)), 0),
+                new GameEvent.InitiativeSet("b1", 1, java.util.Map.of("ana", 4711), 90_000),
+                new GameEvent.ActionDeclared("b1", 1, "m1", Battle.Action.move("ember", "m3")),
+                new GameEvent.ResolveStarted("b1", 1),
+                new GameEvent.ActionResolved("b1", 1, "m1", Battle.Result.DONE),
+                new GameEvent.ReplacementSent("b1", "ana", "m1", "m2"),
+                new GameEvent.CombatantSet("b1", new Battle.Combatant("m1", "ana", "Charmander", 5, 0, 20, 30, false, List.of())),
+                new GameEvent.QueueReordered("b1", List.of("m3", "m1")),
+                new GameEvent.RoundEnded("b1", 1), new GameEvent.BattleEnded("b1", "done"),
+                // phases 45 and 46: what moves do
+                new GameEvent.HpChanged("b1", "m1", -7, "from the burn"), new GameEvent.StatusSet("b1", "m1", Battle.Status.SLEEP, 2, null),
+                new GameEvent.StageChanged("b1", "m1", "atk", 2, null), new GameEvent.VolatileSet("b1", "m1", "confusion", 3, "m1 is confused!"),
+                new GameEvent.HeldItemSet("b1", "m3", null, "Knocked off."), new GameEvent.BattleNoted("b1", "It's super effective!"),
+                new GameEvent.SwitchRequired("b1", "m1"), new GameEvent.AdminTaskOpened("b1", "t1", "m1", "brickbreak", "Apply Brick Break."),
+                new GameEvent.AdminTaskClosed("b1", "t1"));
         assertEquals(EventTypes.all().size(), events.size(), "this test covers every event type");
         for (GameEvent event : events) {
             assertEquals(event, EventTypes.read(event.type(), EventTypes.payload(event)), event.type());
         }
         // other shapes of the same events
+        // a battle with everything a move can leave on a Pokémon survives the JSON of the stored state
+        Battle.Combatant rich = new Battle.Combatant("m9", "ana", "Charmander", 12, 20, 33, 18, false, List.of(),
+                Battle.Build.of(List.of(net.quimmilho.pokednd.core.rules.PokemonType.FIRE), 30, 28, 36, 30, 36).withGender("M").withFriendship(200)
+                        .withHiddenPower(net.quimmilho.pokednd.core.rules.PokemonType.ICE),
+                new Battle.Condition(Battle.Status.TOXIC, 0, java.util.Map.of("atk", 2, "spe", -1), java.util.Map.of("confusion", 3, "substitute", 8), "oran_berry"));
+        assertEquals(rich, EventTypes.read(EventTypes.COMBATANT_SET, EventTypes.payload(new GameEvent.CombatantSet("b1", rich))) instanceof GameEvent.CombatantSet cs ? cs.combatant() : null);
         for (GameEvent event : List.of(new RollRequested("r1", "ana", new Dice(3, 8), "Damage"), new RollAnswered("r1", List.of(1, 8, 4), "admin"),
                 new RollAnswered("r3", List.of(7), "digital", null, null, false, 99L), new GameEvent.RollSubmitted("r5", List.of(), 11, "u-ana", 1234),
-                new GameEvent.RollOverridden("r5", null, List.of(3), null, "digital", 5L, null))) {
+                new GameEvent.RollOverridden("r5", null, List.of(3), null, "digital", 5L, null),
+                new GameEvent.ActionDeclared("b1", 2, "m1", Battle.Action.switchTo("m2")), new GameEvent.ActionDeclared("b1", 2, "m1", Battle.Action.item("potion", "m1")),
+                new GameEvent.ActionDeclared("b1", 2, "m1", Battle.Action.ball("poke_ball", "m3")), new GameEvent.ActionDeclared("b1", 2, "m1", Battle.Action.flee()),
+                new GameEvent.ActionDeclared("b1", 2, "m1", Battle.Action.skip()))) {
             assertEquals(event, EventTypes.read(event.type(), EventTypes.payload(event)), event.type());
         }
     }

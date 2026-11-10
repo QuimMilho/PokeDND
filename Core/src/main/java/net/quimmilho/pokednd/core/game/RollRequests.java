@@ -80,6 +80,12 @@ public final class RollRequests {
         return new RollRequested(requestId, trainerId, dice, reason, Roller.PLAYER, rollerUserId, rollClass, bands, chance, all, text, 0);
     }
 
+    /** A plain roll of dice whose total is what counts: damage (chapter 7.6), the duration of sleep. No bands. */
+    public static RollRequested dice(String requestId, String trainerId, String reason, Dice dice, RollClass rollClass, String rollerUserId) {
+        String text = explain(dice, reason, List.of(), null, List.of(), false, true);
+        return new RollRequested(requestId, trainerId, dice, reason, Roller.PLAYER, rollerUserId, rollClass, List.of(), null, List.of(), text, 0);
+    }
+
     /** The prompt: {@code Roll 1d20 for Scratch · 1–19 hit · 20 crit · chance 80 % (+4 pp command bonus)}. */
     public static String explain(Dice dice, String reason, List<Band> bands, Double trueChance, List<RollModifier> modifiers,
                                  boolean percentileAsTwoD10, boolean showChance) {

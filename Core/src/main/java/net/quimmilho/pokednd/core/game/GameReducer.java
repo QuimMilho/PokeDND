@@ -196,6 +196,7 @@ public final class GameReducer {
                 pending.remove(e.requestId());
                 yield state.withPendingRolls(pending);
             }
+            case GameEvent.BattleEvent e -> BattleReducer.apply(state, e);
             case GameEvent.RandomDrawn e -> {
                 requireText(e.purpose(), "purpose");
                 if (e.bound() < 1 || e.value() < 0 || e.value() >= e.bound()) {

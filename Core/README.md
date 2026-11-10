@@ -6,7 +6,7 @@ Spec: [`project_v2.md`](../project_v2.md), chapters 13.3 and 13.4.
 
 ## Status
 
-Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) the **signature moves** of the cards (phase 20) the **trainers** (phase 37: sheet, classes, creation, levelling, knock-out) the **game state, event log and undo** (phase 42) and the **roll requests and approvals** (phase 43). The battle engine comes next (see [`todo.md`](../todo.md)).
+Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) the **signature moves** of the cards (phase 20) the **trainers** (phase 37: sheet, classes, creation, levelling, knock-out) the **game state, event log and undo** (phase 42), the **roll requests and approvals** (phase 43), the **battle rounds** (phase 44), and **hit, damage, types, statuses and move effects** (phases 45 and 46). Abilities and held items come next (see [`todo.md`](../todo.md)).
 
 ## The importer (`net.quimmilho.pokednd.core.importer`)
 

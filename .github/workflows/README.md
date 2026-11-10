@@ -5,7 +5,7 @@ Each project has its own workflow. A workflow runs only when files of its projec
 | Workflow | Runs when these change | What it does |
 |---|---|---|
 | `tools.yml` | `tools/`, `deploy/`, README, CREDITS, CONTRIBUTING, LICENSE | Downloads the Cobblemon jar and checks its SHA-512, runs `tools/extract.mjs --no-icons` and `tools/check-resources.mjs --no-icons`; checks licence, credits and links (`check-docs`); runs the tests of the tools (the asset check and the fake mod, which needs no resources); checks `deploy/` (`check-deploy`, the settings registry against Appendix A, `docker compose config` for every database profile, both Caddyfiles). |
-| `core.yml` | `Core/`, `cards/`, and the tools that build `resources/` and the roster | Rebuilds `resources/` (the importer tests read it) and writes `build/roster.json` with `check-assets` (they read that too), builds and tests Core with `POKEDND_REQUIRE_RESOURCES=true`, publishes it to Maven local, keeps the jars as an artifact. |
+| `core.yml` | `Core/`, `cards/`, and the tools that build `resources/` and the roster | Rebuilds `resources/` (the importer tests read it), writes `build/roster.json` with `check-assets` (they read that too) and `build/reports/coverage.json` with `effect-coverage` (the move-coverage tests compare it with the code), builds and tests Core with `POKEDND_REQUIRE_RESOURCES=true`, publishes it to Maven local, keeps the jars as an artifact. |
 | `api.yml` | `API/`, `Core/`, `tools/fake-mod/`, `deploy/api.Dockerfile`, `project_v2.md` | Publishes Core to Maven local first, installs Node 24 (the realtime tests run `tools/fake-mod`), then builds and tests the API once per database (PostgreSQL, MySQL, MariaDB, MongoDB; Dev Services start each one), and builds the image of each database and asks it for `/q/health` (`tools/check-api-images.mjs`; the MongoDB image check uses `mongo:7.0` because `mongo:8` does not start on Linux kernels 6.19 and newer, SERVER-121912). |
 | `app.yml` | `App/` | `npm ci`, production build (English and Portuguese), unit tests in headless Chrome, smoke test. |
 | `e2e.yml` | `App/`, `API/`, `Core/`, `tools/fake-mod/`, the tools that build `resources/` | The M2 flow (phase 41): rebuilds `resources/`, the roster and the data bundle, builds the API and the app, starts a PostgreSQL service on port 55432, and runs `e2e/m2.e2e.ts` (an admin opens a lobby, three players join and make trainers, the fake mod gets a spawn command for each) with the games and trainers tests. Playwright uses the Chrome of the runner. A failed run keeps `App/test-results` (the API log and the traces) as an artifact. |
@@ -47,6 +47,7 @@ git clone . ../ci-copy && cp Cobblemon-fabric-*.jar ../ci-copy/    # the committ
 cd ../ci-copy
 node tools/extract.mjs --no-icons                                    # core.yml, tools.yml
 node tools/check-assets.mjs --no-icons                               # core.yml: build/roster.json
+node tools/effect-coverage.mjs                                       # core.yml: build/reports/coverage.json
 (cd Core && POKEDND_REQUIRE_RESOURCES=true ./gradlew build publishToMavenLocal)
 (cd API && ./gradlew build)                                          # needs a database: see API/README.md, Tests
 ```

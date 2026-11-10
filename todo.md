@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 42 of 86 phases done · 2 of 6 stage gates passed
+**Progress:** 46 of 86 phases done · 3 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -44,14 +44,14 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 07 — Deploy skeleton** · tools · [prompt](phases/phase-07-deploy-skeleton.md)
   Create deploy/ with docker-compose.yml, a Caddyfile and .env.example for the API, app and database.
   *Depends on:* Phase 04, Phase 05
-- [ ] **Phase 08 — CI pipelines** · tools · [prompt](phases/phase-08-ci-pipelines.md)
+- [x] **Phase 08 — CI pipelines** · tools · [prompt](phases/phase-08-ci-pipelines.md)
   GitHub Actions that build and test tools, Core, API, App and Mod, download the Cobblemon jar from Modrinth, and run the resource check.
   *Depends on:* Phase 01, Phase 02, Phase 03, Phase 04, Phase 05
 - [x] **Phase 09 — check-assets tool and the roster** · tools · [prompt](phases/phase-09-check-assets-tool-and-the-roster.md)
   Write tools/check-assets: for every species and form report model, texture, shiny texture, animations, poser, resolver, icon, cry and licence file, and write the roster of playable species.
   *Depends on:* Phase 01
 
-- [ ] **M0 gate: all four projects (Mod, Core, API, App) build in CI; the API starts and answers a health check; the app builds and opens.**
+- [x] **M0 gate: all four projects (Mod, Core, API, App) build in CI; the API starts and answers a health check; the app builds and opens.**
 
 ## Stage 1 — Data and cards (M1)
 
@@ -167,13 +167,13 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 43 — Roll requests and approvals** · Core · [prompt](phases/phase-43-roll-requests-and-approvals.md)
   Who rolls which die, the input modes (admin types, player types with approval, digital), approvals and modifiers.
   *Depends on:* Phase 42
-- [ ] **Phase 44 — Battle rounds and the six actions** · Core · [prompt](phases/phase-44-battle-rounds-and-the-six-actions.md)
+- [x] **Phase 44 — Battle rounds and the six actions** · Core · [prompt](phases/phase-44-battle-rounds-and-the-six-actions.md)
   Start a battle, order the actions by initiative, and handle the six actions of a round.
   *Depends on:* Phase 43
-- [ ] **Phase 45 — Hit, damage, types, status** · Core · [prompt](phases/phase-45-hit-damage-types-status.md)
+- [x] **Phase 45 — Hit, damage, types, status** · Core · [prompt](phases/phase-45-hit-damage-types-status.md)
   Put the calculators into the battle: hit rolls, crits, damage, type effects, secondary effects and status conditions.
   *Depends on:* Phase 44, Phase 18
-- [ ] **Phase 46 — Move effects** · Core · [prompt](phases/phase-46-move-effects.md)
+- [x] **Phase 46 — Move effects** · Core · [prompt](phases/phase-46-move-effects.md)
   All plain-data moves work automatically, plus the 25 most-learned scripted moves.
   *Depends on:* Phase 45
 - [ ] **Phase 47 — Abilities and held items** · Core · [prompt](phases/phase-47-abilities-and-held-items.md)

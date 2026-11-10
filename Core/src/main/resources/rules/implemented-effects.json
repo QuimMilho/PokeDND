@@ -1,0 +1,12 @@
+{
+  "_comment": "The 25 most-learned scripted moves that Core runs by hand (plus Struggle, which is a rule of the game, and which no Pokémon learns), and the shared conditions that Core runs for any move (chapter 19.6, phase 46). tools/effect-coverage.mjs and the Java MoveBook both read this file. A scripted move is 'implemented' when it is listed under moves, or when it has no code and every condition it sets is listed under conditions.",
+  "moves": [
+    "rest", "sleeptalk", "helpinghand", "gigaimpact", "hyperbeam", "protect", "endure", "substitute", "terablast", "facade",
+    "snore", "round", "attract", "hiddenpower", "return", "frustration", "endeavor", "secretpower", "curse", "knockoff",
+    "uproar", "covet", "rollout", "stompingtantrum", "naturalgift",
+    "struggle"
+  ],
+  "conditions": [
+    "volatileStatus:mustrecharge"
+  ]
+}

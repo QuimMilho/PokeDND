@@ -49,7 +49,7 @@ class GameLogPropertyTest {
         List<String> trainers = new ArrayList<>(state.trainers().keySet());
         List<String> pending = new ArrayList<>(state.pendingRolls().keySet());
         for (int attempt = 0; ; attempt++) {
-            switch (random.nextInt(13)) {
+            switch (random.nextInt(16)) {
                 case 0 -> {
                     if (state.status() != GameStatus.ENDED) {
                         GameStatus[] all = GameStatus.values();
@@ -124,6 +124,12 @@ class GameLogPropertyTest {
                     List<String> timed = pending.stream().filter(id -> state.pendingRolls().get(id).deadlineMillis() > 0).toList();
                     if (!timed.isEmpty()) {
                         return new GameEvent.RollExpired(timed.get(random.nextInt(timed.size())));
+                    }
+                }
+                case 13, 14, 15 -> {
+                    GameEvent battleEvent = BattleGenerator.next(random, state);
+                    if (battleEvent != null) {
+                        return battleEvent;
                     }
                 }
                 default -> {

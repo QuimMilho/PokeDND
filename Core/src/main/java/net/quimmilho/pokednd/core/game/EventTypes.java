@@ -31,6 +31,26 @@ public final class EventTypes {
     public static final String ROLL_OVERRIDDEN = "roll.overridden";
     public static final String ROLL_EXPIRED = "roll.expired";
     public static final String RANDOM_DRAWN = "random.drawn";
+    public static final String BATTLE_STARTED = "battle.started";
+    public static final String ROUND_OPENED = "battle.round.opened";
+    public static final String INITIATIVE_SET = "battle.initiative";
+    public static final String ACTION_DECLARED = "battle.declared";
+    public static final String RESOLVE_STARTED = "battle.resolve";
+    public static final String ACTION_RESOLVED = "battle.resolved";
+    public static final String REPLACEMENT_SENT = "battle.replacement";
+    public static final String COMBATANT_SET = "battle.combatant";
+    public static final String QUEUE_REORDERED = "battle.reordered";
+    public static final String ROUND_ENDED = "battle.round.ended";
+    public static final String BATTLE_ENDED = "battle.ended";
+    public static final String HP_CHANGED = "battle.hp";
+    public static final String STATUS_SET = "battle.status";
+    public static final String STAGE_CHANGED = "battle.stage";
+    public static final String VOLATILE_SET = "battle.volatile";
+    public static final String HELD_ITEM_SET = "battle.item";
+    public static final String BATTLE_NOTED = "battle.noted";
+    public static final String SWITCH_REQUIRED = "battle.switch.required";
+    public static final String ADMIN_TASK_OPENED = "battle.task.opened";
+    public static final String ADMIN_TASK_CLOSED = "battle.task.closed";
 
     private static final Map<String, Class<? extends GameEvent>> CLASSES = new LinkedHashMap<>();
 
@@ -47,6 +67,26 @@ public final class EventTypes {
         CLASSES.put(ROLL_OVERRIDDEN, GameEvent.RollOverridden.class);
         CLASSES.put(ROLL_EXPIRED, GameEvent.RollExpired.class);
         CLASSES.put(RANDOM_DRAWN, GameEvent.RandomDrawn.class);
+        CLASSES.put(BATTLE_STARTED, GameEvent.BattleStarted.class);
+        CLASSES.put(ROUND_OPENED, GameEvent.RoundOpened.class);
+        CLASSES.put(INITIATIVE_SET, GameEvent.InitiativeSet.class);
+        CLASSES.put(ACTION_DECLARED, GameEvent.ActionDeclared.class);
+        CLASSES.put(RESOLVE_STARTED, GameEvent.ResolveStarted.class);
+        CLASSES.put(ACTION_RESOLVED, GameEvent.ActionResolved.class);
+        CLASSES.put(REPLACEMENT_SENT, GameEvent.ReplacementSent.class);
+        CLASSES.put(COMBATANT_SET, GameEvent.CombatantSet.class);
+        CLASSES.put(QUEUE_REORDERED, GameEvent.QueueReordered.class);
+        CLASSES.put(ROUND_ENDED, GameEvent.RoundEnded.class);
+        CLASSES.put(BATTLE_ENDED, GameEvent.BattleEnded.class);
+        CLASSES.put(HP_CHANGED, GameEvent.HpChanged.class);
+        CLASSES.put(STATUS_SET, GameEvent.StatusSet.class);
+        CLASSES.put(STAGE_CHANGED, GameEvent.StageChanged.class);
+        CLASSES.put(VOLATILE_SET, GameEvent.VolatileSet.class);
+        CLASSES.put(HELD_ITEM_SET, GameEvent.HeldItemSet.class);
+        CLASSES.put(BATTLE_NOTED, GameEvent.BattleNoted.class);
+        CLASSES.put(SWITCH_REQUIRED, GameEvent.SwitchRequired.class);
+        CLASSES.put(ADMIN_TASK_OPENED, GameEvent.AdminTaskOpened.class);
+        CLASSES.put(ADMIN_TASK_CLOSED, GameEvent.AdminTaskClosed.class);
     }
 
     private EventTypes() {

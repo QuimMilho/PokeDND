@@ -14,7 +14,7 @@ import net.quimmilho.pokednd.core.trainer.Trainer;
 
 /**
  * Everything the rules engine knows about a game at one moment (chapter 14.5). It is immutable and is built only by
- * {@link GameReducer} from events, so the same events always give the same state. Later phases add battles, parties and the map here.
+ * {@link GameReducer} from events, so the same events always give the same state. The battle is here; later phases add parties and the map.
  *
  * <p>Rolls and random choices that were already made are part of the state ({@link #rolls}, {@link #draws}) and are never made
  * again: that is what lets an undo, a redo and a replay give back exactly the same game.
@@ -25,9 +25,10 @@ import net.quimmilho.pokednd.core.trainer.Trainer;
  * @param pendingRolls the roll requests that wait for an answer, by request id, oldest first
  * @param rolls        the answered rolls, in the order they were answered
  * @param draws        the random choices that were made, in order
+ * @param battle       the battle that is going on, or the one that has just ended (null if there has been none); only one runs at a time
  */
 public record GameState(GameStatus status, int round, Map<String, Trainer> trainers, Map<String, RollRequest> pendingRolls,
-                        List<RollResult> rolls, List<RandomDraw> draws) {
+                        List<RollResult> rolls, List<RandomDraw> draws, Battle battle) {
 
     /** Who has to answer a roll request. */
     public enum Roller {
@@ -230,7 +231,7 @@ public record GameState(GameStatus status, int round, Map<String, Trainer> train
 
     /** A game that has just been made. */
     public static GameState empty() {
-        return new GameState(GameStatus.DRAFT, 0, Map.of(), Map.of(), List.of(), List.of());
+        return new GameState(GameStatus.DRAFT, 0, Map.of(), Map.of(), List.of(), List.of(), null);
     }
 
     private static <V> Map<String, V> frozen(Map<String, V> map) {
@@ -239,31 +240,36 @@ public record GameState(GameStatus status, int round, Map<String, Trainer> train
 
     /** A copy with another status. */
     public GameState withStatus(GameStatus value) {
-        return new GameState(value, round, trainers, pendingRolls, rolls, draws);
+        return new GameState(value, round, trainers, pendingRolls, rolls, draws, battle);
     }
 
     /** A copy in another round. */
     public GameState withRound(int value) {
-        return new GameState(status, value, trainers, pendingRolls, rolls, draws);
+        return new GameState(status, value, trainers, pendingRolls, rolls, draws, battle);
     }
 
     /** A copy with these trainers. */
     public GameState withTrainers(Map<String, Trainer> value) {
-        return new GameState(status, round, value, pendingRolls, rolls, draws);
+        return new GameState(status, round, value, pendingRolls, rolls, draws, battle);
     }
 
     /** A copy with these pending roll requests. */
     public GameState withPendingRolls(Map<String, RollRequest> value) {
-        return new GameState(status, round, trainers, value, rolls, draws);
+        return new GameState(status, round, trainers, value, rolls, draws, battle);
     }
 
     /** A copy with these answered rolls. */
     public GameState withRolls(List<RollResult> value) {
-        return new GameState(status, round, trainers, pendingRolls, value, draws);
+        return new GameState(status, round, trainers, pendingRolls, value, draws, battle);
     }
 
     /** A copy with these random choices. */
     public GameState withDraws(List<RandomDraw> value) {
-        return new GameState(status, round, trainers, pendingRolls, rolls, value);
+        return new GameState(status, round, trainers, pendingRolls, rolls, value, battle);
+    }
+
+    /** A copy with this battle (null for none). */
+    public GameState withBattle(Battle value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, value);
     }
 }

@@ -10,6 +10,7 @@ on:
       - "tools/build-csv.mjs"
       - "tools/extract.config.json"
       - "tools/check-assets.mjs" # builds build/roster.json, which the importer tests read
+      - "tools/effect-coverage.mjs" # builds build/reports/coverage.json, which the move-coverage tests compare with the code
       - "cards/**"
       - "tools/lib/**"
       - "tools/ported-posers/**"
@@ -22,6 +23,7 @@ on:
       - "tools/build-csv.mjs"
       - "tools/extract.config.json"
       - "tools/check-assets.mjs" # builds build/roster.json, which the importer tests read
+      - "tools/effect-coverage.mjs" # builds build/reports/coverage.json, which the move-coverage tests compare with the code
       - "cards/**"
       - "tools/lib/**"
       - "tools/ported-posers/**"
@@ -56,6 +58,10 @@ jobs:
       - name: Write the roster (build/roster.json)
         working-directory: .
         run: node tools/check-assets.mjs --no-icons
+      # The move-coverage tests (phase 46) compare the moves Core runs with this report (it reads the Showdown data inside the jar).
+      - name: Write the effect coverage report (build/reports/coverage.json)
+        working-directory: .
+        run: node tools/effect-coverage.mjs
       - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
         with:
           distribution: temurin
