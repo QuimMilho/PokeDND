@@ -1,28 +1,7 @@
 // Phase 36: an admin creates a game and opens the lobby, a second user joins and is accepted; the settings screen shows the whole registry.
-import { Page, expect, test } from '@playwright/test';
-import { ADMIN_EMAIL, accessToken, createAccount, createServer, logIn, logInAsAdmin, newEmail, site } from './helpers';
-
-/** The admin makes a game on a new server and opens its lobby. Returns what the other tests need. */
-async function gameWithOpenLobby(page: Page, serverName: string, gameName: string, preset = 'builtin:defaults') {
-  await logInAsAdmin(page);
-  await page.getByTestId('nav-games').click();
-  await expect(page).toHaveURL(/\/en\/games$/);
-  await page.getByTestId('new-game').click();
-  await expect(page).toHaveURL(/\/en\/games\/new$/);
-
-  await page.getByTestId('server').click();
-  await page.getByTestId(`server-${serverName}`).click();
-  await page.getByTestId('name').fill(gameName);
-  await page.getByTestId('preset').click();
-  await page.getByTestId(`preset-${preset}`).click();
-  await page.getByTestId('create').click();
-
-  await expect(page).toHaveURL(/\/en\/games\/[0-9a-f-]{36}$/);
-  const gameId = page.url().split('/').pop()!;
-  await expect(page.getByTestId('game-name')).toHaveText(gameName);
-  await expect(page.getByTestId('game-state')).toHaveText('Draft');
-  return gameId;
-}
+import { expect, test } from '@playwright/test';
+import { ADMIN_EMAIL, accessToken, createAccount, createServer, logIn, newEmail, site } from './helpers';
+import { gameWithOpenLobby } from './flow';
 
 test('an admin creates a game and opens the lobby; a second user joins with the code and is accepted', async ({ page, request, browser }) => {
   const server = await createServer(request);

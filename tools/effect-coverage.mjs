@@ -1,6 +1,7 @@
 // Effect coverage report: how much of Showdown's move / ability / item behaviour is plain data and how much is code.
 // Usage: node tools/effect-coverage.mjs [--jar <path>] [--resources resources] [--out build/reports] [--top 60]
-// Reads: the Showdown data inside the Cobblemon jar, and resources/{attack,pokemon-attacks,pokedex,item}.csv
+// Reads: the Showdown data inside the Cobblemon jar, resources/{attack,pokemon-attacks,pokedex,item}.csv, and
+//        Core/src/main/resources/rules/implemented-effects.json (the scripted moves that Core runs by hand, phase 46)
 // Writes: <out>/coverage.md and <out>/coverage.json   (see chapter 19.6 of project_v2.md)
 //
 // Rules (kept deliberately simple, so the numbers can be trusted):
@@ -9,6 +10,9 @@
 //                          PokeDnD implements the 6 major statuses (status:), confusion and flinch natively (project_v2.md 5.6).
 //              automatic = everything else. A move that sets weather or terrain is automatic: the weather part is ignored (decided, 7.9).
 //              z/max     = Z-moves and Max moves (not in the game).    no data = the move is not in the Showdown data.
+//   Implemented  a scripted move is also "implemented" when Core runs it: it is listed under moves in implemented-effects.json, or it has no code
+//              of its own and every condition it sets is listed under conditions there (the same rule as MoveBook.handling in Core).
+//              The class stays "scripted" (what the data is); "implemented" says who makes it work.
 //   Abilities  scripted = has at least one handler function; "no script" = nothing to implement.
 //   Items      same rule as abilities, for the items listed in item.csv.
 import fs from 'node:fs';
@@ -27,6 +31,7 @@ const RES = path.resolve(opt.resources ?? path.join(repo, 'resources'));
 const OUT = path.resolve(opt.out ?? path.join(repo, 'build/reports'));
 const TOP = +(opt.top ?? 60);
 
+const IMPLEMENTED = JSON.parse(fs.readFileSync(path.join(repo, 'Core/src/main/resources/rules/implemented-effects.json'), 'utf8'));
 const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
 const SD = loadShowdown(JAR, path.join(repo, 'build/showdown'), cfg.showdownFiles);
 
@@ -57,7 +62,10 @@ function classifyMove(id) {
   const fns = [...fnKeys(m)];
   const unsupported = conditionRefs(m).filter((r) => !(r.startsWith('volatileStatus:') && NATIVE_VOLATILE.has(r.split(':')[1])));
   const ignoresWeather = !!(m.weather || m.terrain);
-  if (fns.length || unsupported.length) return { cls: 'scripted', why: [...fns, ...unsupported] };
+  if (fns.length || unsupported.length) {
+    const implemented = IMPLEMENTED.moves.includes(id) || (!fns.length && unsupported.every((c) => IMPLEMENTED.conditions.includes(c)));
+    return { cls: 'scripted', why: [...fns, ...unsupported], implemented };
+  }
   return { cls: 'automatic', ignoresWeather };
 }
 const pct = (a, b) => (b ? (100 * a / b).toFixed(1) + ' %' : '-');
@@ -83,11 +91,18 @@ for (const r of learn) {
 // ---------- moves ----------
 const moves = attacks.map((a) => ({ id: a.move_id, name: a.name, ...classifyMove(a.move_id), species: learners.get(a.move_id)?.size ?? 0, rows: rowsPerMove.get(a.move_id) ?? 0 }));
 const mCount = (c) => moves.filter((m) => m.cls === c).length;
-const scriptedMoves = moves.filter((m) => m.cls === 'scripted').sort((a, b) => b.rows - a.rows || a.name.localeCompare(b.name));
+const byRows = (a, b) => b.rows - a.rows || a.name.localeCompare(b.name);
+const allScripted = moves.filter((m) => m.cls === 'scripted').sort(byRows);
+const implementedMoves = allScripted.filter((m) => m.implemented);
+const scriptedMoves = allScripted.filter((m) => !m.implemented); // what is still to do
 const autoRows = moves.filter((m) => m.cls === 'automatic').reduce((s, m) => s + m.rows, 0);
+const implementedRows = implementedMoves.reduce((s, m) => s + m.rows, 0);
 const handlerFreq = new Map();
 for (const m of scriptedMoves) for (const w of new Set(m.why)) handlerFreq.set(w, (handlerFreq.get(w) ?? 0) + 1);
-const cum = (n) => autoRows + scriptedMoves.slice(0, n).reduce((s, m) => s + m.rows, 0);
+// rows covered by: automatic moves + the moves Core runs by hand + the next n most-learned scripted moves that are still to do
+const cum = (n) => autoRows + implementedRows + scriptedMoves.slice(0, n).reduce((s, m) => s + m.rows, 0);
+// the same without Core's own moves: automatic moves + the n most-learned scripted moves (the first measurement, 2026-11-08)
+const cumFirst = (n) => autoRows + allScripted.slice(0, n).reduce((s, m) => s + m.rows, 0);
 
 // ---------- abilities ----------
 const abilityId = (n) => norm(n);
@@ -120,8 +135,8 @@ const catRows = cats.map((c) => { const l = itemRows.filter((i) => i.category ==
 // ---------- report ----------
 const summary = {
   generatedFrom: cfg.cobblemon.version,
-  moves: { total: moves.length, automatic: mCount('automatic'), scripted: mCount('scripted'), 'z/max': mCount('z/max'), 'no data': mCount('no data'), automaticSetsWeatherOrTerrain: moves.filter((m) => m.ignoresWeather).length },
-  learnsetRowsPlayable: { total: learnRows, automatic: autoRows, withTop25: cum(25), withTop50: cum(50), withTop100: cum(100) },
+  moves: { total: moves.length, automatic: mCount('automatic'), scripted: mCount('scripted'), implemented: implementedMoves.length, 'still scripted': scriptedMoves.length, 'z/max': mCount('z/max'), 'no data': mCount('no data'), automaticSetsWeatherOrTerrain: moves.filter((m) => m.ignoresWeather).length },
+  learnsetRowsPlayable: { total: learnRows, automatic: autoRows, implemented: implementedRows, withImplemented: autoRows + implementedRows, withNext25: cum(25), withNext50: cum(50), withNext100: cum(100), withTop25First: cumFirst(25), withTop50First: cumFirst(50), withTop100First: cumFirst(100) },
   abilities: { usedByPlayableSpecies: abilities.length, scripted: scriptedAb.length, 'no script': abilities.filter((a) => a.cls === 'no script').length, 'no data': abilities.filter((a) => a.cls === 'no data').length, slots },
   items: { total: itemRows.length, 'no script': itemRows.filter((i) => i.cls === 'no script').length, scripted: itemRows.filter((i) => i.cls === 'scripted').length, 'no data': itemRows.filter((i) => i.cls === 'no data').length },
 };
@@ -130,7 +145,7 @@ const md = [];
 md.push(`# Effect coverage\n\nGenerated by \`tools/effect-coverage.mjs\` from the Showdown data inside Cobblemon ${cfg.cobblemon.version} and the CSVs in \`resources/\`. Do not edit by hand.\n`);
 md.push('## Summary\n');
 md.push(table(['Kind', 'Total', 'Automatic / no script', 'Scripted', 'Other'], [
-  ['Moves (attack.csv)', summary.moves.total, `${summary.moves.automatic} (${pct(summary.moves.automatic, summary.moves.total)})`, `${summary.moves.scripted} (${pct(summary.moves.scripted, summary.moves.total)})`, `${summary.moves['z/max']} Z/Max, ${summary.moves['no data']} no data`],
+  ['Moves (attack.csv)', summary.moves.total, `${summary.moves.automatic} (${pct(summary.moves.automatic, summary.moves.total)})`, `${summary.moves.scripted} (${pct(summary.moves.scripted, summary.moves.total)}), of them ${summary.moves.implemented} run by Core and ${summary.moves['still scripted']} still to do`, `${summary.moves['z/max']} Z/Max, ${summary.moves['no data']} no data`],
   ['Abilities used by playable species', summary.abilities.usedByPlayableSpecies, `${summary.abilities['no script']} (${pct(summary.abilities['no script'], summary.abilities.usedByPlayableSpecies)})`, `${summary.abilities.scripted} (${pct(summary.abilities.scripted, summary.abilities.usedByPlayableSpecies)})`, `${summary.abilities['no data']} no data`],
   ['Items (item.csv, without Aprijuice and Pokédexes)', summary.items.total, `${summary.items['no script']} (${pct(summary.items['no script'], summary.items.total)})`, `${summary.items.scripted} (${pct(summary.items.scripted, summary.items.total)})`, `${summary.items['no data']} not in Showdown`],
 ]));
@@ -139,12 +154,16 @@ md.push('## How much play does each choice cover?\n');
 md.push(`Counted over the ${learnRows.toLocaleString('en')} (species, move) learnset rows of playable species.\n`);
 md.push(table(['If these moves work', 'Learnset rows covered'], [
   ['All automatic moves only', `${autoRows.toLocaleString('en')} (${pct(autoRows, learnRows)})`],
-  ['+ the 25 most-learned scripted moves', `${cum(25).toLocaleString('en')} (${pct(cum(25), learnRows)})`],
-  ['+ the 50 most-learned', `${cum(50).toLocaleString('en')} (${pct(cum(50), learnRows)})`],
-  ['+ the 100 most-learned', `${cum(100).toLocaleString('en')} (${pct(cum(100), learnRows)})`],
+  [`+ the ${implementedMoves.length} scripted moves that Core runs by hand (phase 46)`, `${(autoRows + implementedRows).toLocaleString('en')} (${pct(autoRows + implementedRows, learnRows)})`],
+  ['+ the next 25 most-learned scripted moves', `${cum(25).toLocaleString('en')} (${pct(cum(25), learnRows)})`],
+  ['+ the next 50', `${cum(50).toLocaleString('en')} (${pct(cum(50), learnRows)})`],
+  ['+ the next 100', `${cum(100).toLocaleString('en')} (${pct(cum(100), learnRows)})`],
 ]));
+md.push(`\nFor comparison, the first measurement (before Core ran any scripted move): automatic moves plus the 25 most-learned scripted moves would cover ${pct(cumFirst(25), learnRows)}, the top 50 ${pct(cumFirst(50), learnRows)}, the top 100 ${pct(cumFirst(100), learnRows)}.`);
 md.push(`\nAbilities, counted over ${slots.toLocaleString('en')} (species, ability) slots: automatic only ${pct(noScriptSlots, slots)}; + top 25 scripted ${pct(cumAb(25), slots)}; + top 50 ${pct(cumAb(50), slots)}; + top 100 ${pct(cumAb(100), slots)}.\n`);
-md.push(`## Scripted moves to implement first (top ${TOP}, by learnset rows)\n`);
+md.push(`## Scripted moves that Core runs by hand (${implementedMoves.length})\n`);
+md.push(table(['#', 'Move', 'Species', 'Learnset rows', 'How'], implementedMoves.map((m, i) => [i + 1, m.name, m.species, m.rows, IMPLEMENTED.moves.includes(m.id) ? 'written in Java' : 'shared condition ' + m.why.map((w) => '`' + w + '`').join(' ')])));
+md.push(`\n## Scripted moves still to do (top ${TOP}, by learnset rows)\n`);
 md.push(table(['#', 'Move', 'Species', 'Learnset rows', 'Why scripted'], scriptedMoves.slice(0, TOP).map((m, i) => [i + 1, m.name, m.species, m.rows, [...new Set(m.why)].join(', ')])));
 md.push('\n## What makes moves scripted\n');
 md.push(table(['Handler or condition', 'Moves'], [...handlerFreq].sort((a, b) => b[1] - a[1]).slice(0, 25).map(([k, v]) => [`\`${k}\``, v])));
@@ -161,6 +180,7 @@ fs.writeFileSync(path.join(OUT, 'coverage.md'), md.join('\n'));
 fs.writeFileSync(path.join(OUT, 'coverage.json'), JSON.stringify({
   summary,
   moves: Object.fromEntries(moves.map((m) => [m.id, m.cls])),
+  implementedMoves: implementedMoves.map((m) => m.id).sort(),
   abilities: Object.fromEntries(abilities.map((a) => [a.id, a.cls])),
   items: Object.fromEntries(itemRows.map((i) => [i.id, i.cls])),
 }, null, 1));

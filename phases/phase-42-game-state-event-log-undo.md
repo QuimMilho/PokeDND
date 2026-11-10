@@ -21,17 +21,17 @@ The foundation of the rules engine: state is rebuilt from events, so battles can
 
 ## Tasks
 
-- [ ] Event types, a state reducer, snapshots and the log format (14.5).
-- [ ] Undo (12.5): it returns to the exact previous state, including rolls and random choices already made.
-- [ ] An audit log entry for every event, with who did it.
+- [x] Event types, a state reducer, snapshots and the log format (14.5).
+- [x] Undo (12.5): it returns to the exact previous state, including rolls and random choices already made.
+- [x] An audit log entry for every event, with who did it.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Property test: replaying any generated event list gives the same state each time.
-- [ ] Undo n steps then redo equals the original state.
-- [ ] Serialising and loading a snapshot is lossless.
+- [x] Property test: replaying any generated event list gives the same state each time.
+- [x] Undo n steps then redo equals the original state.
+- [x] Serialising and loading a snapshot is lossless.
 
 ## Done when
 

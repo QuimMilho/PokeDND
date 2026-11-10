@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.time.Instant;
@@ -28,6 +29,7 @@ import net.quimmilho.pokednd.api.domain.games.GameRepository.Game;
 import net.quimmilho.pokednd.api.domain.games.GameState;
 import net.quimmilho.pokednd.api.domain.settings.RuleSetRepository;
 import net.quimmilho.pokednd.api.error.ApiException;
+import net.quimmilho.pokednd.api.realtime.GameEvents;
 import net.quimmilho.pokednd.api.games.GameService;
 import net.quimmilho.pokednd.api.settings.SettingsLayers.Layer;
 import net.quimmilho.pokednd.api.settings.SettingsLayers.Resolved;
@@ -76,6 +78,10 @@ public class SettingsService {
 
     @Inject
     AuditRepository audit;
+
+    /** Changes are announced to the realtime channel (phase 40), after the transaction is committed. */
+    @Inject
+    Event<Object> events;
 
     @Inject
     GameService gameService;
@@ -336,6 +342,7 @@ public class SettingsService {
         }
         audit.append(new AuditEntry(Ids.newId(), game.id(), current.id(), action, target, snapshot(game.ruleSet(), game.settings(), game.settingsVersion()),
                 snapshot(ruleSet, overrides, game.settingsVersion() + 1), now));
+        events.fire(new GameEvents.SettingsChanged(game.id()));
         Game changed = games.find(game.id()).orElseThrow();
         Map<String, Resolved> now2 = SettingsLayers.resolve(registry, layers(changed));
         List<Resolved> out = new ArrayList<>();

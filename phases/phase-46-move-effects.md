@@ -21,18 +21,18 @@ Make most moves work. Plain-data moves are automatic; the most-used scripted one
 
 ## Tasks
 
-- [ ] Automatic moves: recoil, drain, healing, multi-hit, one-hit knockouts, fixed damage, self boosts, priority, switch-out, secondary chances.
-- [ ] Implement the 25 most-learned scripted moves from `build/reports/coverage.md` (Rest, Sleep Talk, Helping Hand, Giga Impact, Hyper Beam, Protect, Endure, Substitute, Tera Blast, Facade, and so on).
-- [ ] The manual class: the app shows the move's text and the admin applies the result (7.8).
-- [ ] Regenerate the coverage report and record the new numbers in 19.6.
+- [x] Automatic moves: recoil, drain, healing, multi-hit, one-hit knockouts, fixed damage, self boosts, priority, switch-out, secondary chances.
+- [x] Implement the 25 most-learned scripted moves from `build/reports/coverage.md` (Rest, Sleep Talk, Helping Hand, Giga Impact, Hyper Beam, Protect, Endure, Substitute, Tera Blast, Facade, and so on).
+- [x] The manual class: the app shows the move's text and the admin applies the result (7.8).
+- [x] Regenerate the coverage report and record the new numbers in 19.6.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] One test per implemented scripted move, and a generic test per automatic effect type.
-- [ ] The coverage report counts match the implemented set; the learnset-row coverage reaches about 71 % with the top 25 (19.6).
-- [ ] An unimplemented move produces an admin task, never a crash.
+- [x] One test per implemented scripted move, and a generic test per automatic effect type.
+- [x] The coverage report counts match the implemented set; the learnset-row coverage reaches about 71 % with the top 25 (19.6).
+- [x] An unimplemented move produces an admin task, never a crash.
 
 ## Done when
 

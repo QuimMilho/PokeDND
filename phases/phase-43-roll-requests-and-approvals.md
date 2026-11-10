@@ -21,18 +21,18 @@ The flow around every dice roll: the system asks, a human rolls a real die (or t
 
 ## Tasks
 
-- [ ] Roll request objects: what is rolled, the die, the bands and who must answer (6.7).
-- [ ] Input modes and approvals as settings (6.8): admin enters results; players enter and the admin approves; digital rolls by the system.
-- [ ] Modifiers (6.6) and the explanation text for the UI.
-- [ ] Rolls made by the system use a seeded generator that is stored, so replay is exact.
+- [x] Roll request objects: what is rolled, the die, the bands and who must answer (6.7).
+- [x] Input modes and approvals as settings (6.8): admin enters results; players enter and the admin approves; digital rolls by the system.
+- [x] Modifiers (6.6) and the explanation text for the UI.
+- [x] Rolls made by the system use a seeded generator that is stored, so replay is exact.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Each input mode is a scripted scenario test.
-- [ ] An invalid value (a 7 on a d6) is refused.
-- [ ] Digital rolls replay to the same values from the log.
+- [x] Each input mode is a scripted scenario test.
+- [x] An invalid value (a 7 on a d6) is refused.
+- [x] Digital rolls replay to the same values from the log.
 
 ## Done when
 

@@ -21,7 +21,7 @@ Make a clean machine prove, on every push, that the whole repository builds and 
 
 **Ask the user first:**
 
-- Is there a GitHub remote to test the workflows on?
+- Is there a GitHub remote to test the workflows on? (Answered: yes, `origin` is the public repository `QuimMilho/PokeDND`; runs on `main` happen after each push. A throw-away branch has not been used.)
 
 ## Tasks
 
@@ -37,7 +37,7 @@ Every test must pass before the phase counts as done.
 
 - [x] Every workflow file is valid (run `actionlint` if it can be installed, otherwise a YAML parser).
 - [x] Every command in every workflow runs successfully on this machine, in the same order.
-- [ ] A push to a throw-away branch runs all workflows green (ask the user to push, or to confirm there is a GitHub remote; if there is none, say so).
+- [x] A push to a throw-away branch runs all workflows green (ask the user to push, or to confirm there is a GitHub remote; if there is none, say so). Done on branch `ci/phases-34-43-check`: tools, core, api, app and e2e are green; `mod` is path-filtered and did not run (nothing in `Mod/` changed), its last run on `main` is green.
 
 ## Done when
 

@@ -1,0 +1,13 @@
+{
+  "options": { "walkDelayMs": 300, "skinDelayMs": 50 },
+  "steps": [
+    { "print": "Waiting for the admin to open a lobby (POST /games/{id}/lobby/open)…" },
+    { "waitFor": "lobby.open", "timeoutMs": 60000 },
+    { "expect": { "lobby.open": true } },
+    { "waitFor": "trainer.spawn", "timeoutMs": 120000 },
+    { "waitFor": "trainer.spawned", "dir": "out" },
+    { "print": "A trainer is in the world. Waiting for a walk command…" },
+    { "waitFor": "party.walk", "timeoutMs": 120000 },
+    { "waitFor": "walk.arrived", "dir": "out", "timeoutMs": 5000 }
+  ]
+}

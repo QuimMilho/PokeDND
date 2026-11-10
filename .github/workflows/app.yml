@@ -6,10 +6,12 @@ on:
   push:
     paths:
       - "App/**"
+      - "tools/ci-annotate.sh"
       - ".github/workflows/app.yml"
   pull_request:
     paths:
       - "App/**"
+      - "tools/ci-annotate.sh"
       - ".github/workflows/app.yml"
   workflow_dispatch:
 
@@ -39,6 +41,6 @@ jobs:
       - name: Build (production, English and Portuguese)
         run: npm run build
       - name: Unit tests (headless Chrome, which the runner has)
-        run: npm test
+        run: bash ../tools/ci-annotate.sh "App unit tests" npm test # a failure also shows as a public annotation
       - name: Smoke test of the built app
         run: npm run test:smoke

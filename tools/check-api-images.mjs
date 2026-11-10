@@ -3,6 +3,7 @@
 //
 // Usage: node tools/check-api-images.mjs [postgres] [mysql] [mariadb] [mongo] [--no-build]
 //
+// POKEDND_MONGO_IMAGE chooses the MongoDB image (default mongo:8). CI uses mongo:7.0: MongoDB 8 refuses to start on Linux kernels 6.19 and newer (SERVER-121912).
 // --no-build uses the images pokednd-api:test-<flavour> that an earlier run left. Containers and the network are removed at the end.
 // Exits with 0 only if every image answered /q/health with UP.
 import { spawnSync } from 'node:child_process';
@@ -26,7 +27,7 @@ const specs = {
     api: { QUARKUS_DATASOURCE_JDBC_URL: 'jdbc:mysql://db:3306/pokednd', QUARKUS_DATASOURCE_USERNAME: 'test', QUARKUS_DATASOURCE_PASSWORD: 'test' } },
   mariadb: { image: 'mariadb:11', env: ['MARIADB_ROOT_PASSWORD=test', 'MARIADB_DATABASE=pokednd', 'MARIADB_USER=test', 'MARIADB_PASSWORD=test'], ready: ['healthcheck.sh', '--connect', '--innodb_initialized'],
     api: { QUARKUS_DATASOURCE_JDBC_URL: 'jdbc:mariadb://db:3306/pokednd', QUARKUS_DATASOURCE_USERNAME: 'test', QUARKUS_DATASOURCE_PASSWORD: 'test' } },
-  mongo: { image: 'mongo:8', env: [], ready: ['mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok'],
+  mongo: { image: process.env.POKEDND_MONGO_IMAGE || 'mongo:8', env: [], ready: ['mongosh', '--quiet', '--eval', 'db.adminCommand("ping").ok'],
     api: { QUARKUS_MONGODB_CONNECTION_STRING: 'mongodb://db:27017' } },
 };
 
@@ -57,10 +58,15 @@ for (const flavour of flavours) {
     console.log(`[${flavour}] starting the database and the image`);
     let r = docker(['run', '-d', '--name', names[0], '--network', net, '--network-alias', 'db', ...spec.env.flatMap((e) => ['-e', e]), spec.image]);
     if (r.status !== 0) throw new Error('database: ' + r.stderr);
-    for (let i = 0; ; i++) {
-      if (i > 200) throw new Error('the database did not become ready');
-      const p = docker(['exec', names[0], ...spec.ready], 60000);
-      if (p.status === 0 && (flavour !== 'mongo' || p.stdout.trim() === '1')) break;
+    for (let i = 0, last = null; ; i++) {
+      if (i > 100) {
+        const logs = docker(['logs', '--tail', '25', names[0]]);
+        const tail = (logs.stdout + logs.stderr).split(String.fromCharCode(10)).slice(-25).join(String.fromCharCode(10));
+        throw new Error(`the database did not become ready. Last check: exit ${last?.status}, stdout "${(last?.stdout ?? '').trim()}", stderr "${(last?.stderr ?? '').trim().slice(0, 300)}"`
+          + String.fromCharCode(10) + 'Database log:' + String.fromCharCode(10) + tail);
+      }
+      last = docker(['exec', names[0], ...spec.ready], 60000);
+      if (last.status === 0 && (flavour !== 'mongo' || last.stdout.trim() === '1')) break;
       await sleep(3000);
     }
     const env = {
@@ -82,7 +88,7 @@ for (const flavour of flavours) {
       }
       if (!ok) await sleep(3000);
     }
-    if (!ok) throw new Error('/q/health never answered 200\n' + docker(['logs', '--tail', '30', names[1]]).stdout);
+    if (!ok) throw new Error('/q/health never answered 200\n' + docker(['logs', '--tail', '50', names[1]]).stdout);
     console.log(`[${flavour}] /q/health answers 200`);
   } catch (e) {
     console.error(`[${flavour}] ${e.message}`);

@@ -6,6 +6,7 @@ package net.quimmilho.pokednd.api.games;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.security.SecureRandom;
@@ -33,6 +34,7 @@ import net.quimmilho.pokednd.api.domain.games.GameRepository.JoinCodeTakenExcept
 import net.quimmilho.pokednd.api.domain.games.GameRepository.Membership;
 import net.quimmilho.pokednd.api.domain.games.GameState;
 import net.quimmilho.pokednd.api.error.ApiException;
+import net.quimmilho.pokednd.api.realtime.GameEvents;
 import net.quimmilho.pokednd.api.minecraft.MinecraftLinkService;
 import net.quimmilho.pokednd.api.servers.ServerService;
 import net.quimmilho.pokednd.api.settings.BuiltinRuleSets;
@@ -78,6 +80,10 @@ public class GameService {
     @Inject
     net.quimmilho.pokednd.api.domain.accounts.AccountRepository accounts;
 
+    /** What happens in a game is announced to the realtime channel (phase 40), after the transaction is committed. */
+    @Inject
+    Event<Object> events;
+
     /** How many wrong join codes one person may try in ten minutes. */
     @ConfigProperty(name = "pokednd.games.join-attempts-per-10-minutes", defaultValue = "10")
     int joinAttempts;
@@ -116,7 +122,33 @@ public class GameService {
 
     /** Does this person run the game: a game admin, or the site admin? Only they see the join code. */
     public boolean runs(Game game, UUID userId) {
-        return rolesOf(game, userId).contains(Role.GAME_ADMIN) || current.siteRoles().contains(Role.SITE_ADMIN);
+        return runs(game, userId, current.siteRoles().contains(Role.SITE_ADMIN));
+    }
+
+    /** The same without the request: the realtime channel knows the site role from the access token. */
+    public boolean runs(Game game, UUID userId, boolean siteAdmin) {
+        return siteAdmin || rolesOf(game, userId).contains(Role.GAME_ADMIN);
+    }
+
+    /**
+     * The game, if this person may see it (they hold a role in it, or are the site admin). Used by the realtime channel, which has no
+     * request: whoever may not see a game is told it does not exist, so ids cannot be probed.
+     */
+    public Optional<Game> viewableBy(UUID gameId, UUID userId, boolean siteAdmin) {
+        Optional<Game> game = games.find(gameId);
+        if (game.isEmpty()) {
+            return Optional.empty();
+        }
+        return siteAdmin || !rolesOf(game.get(), userId).isEmpty() ? game : Optional.empty();
+    }
+
+    /** The game that is active on the server (lobby, running or paused), if any. */
+    public Optional<Game> activeOnServer(UUID serverId) {
+        return games.activeOnServer(serverId);
+    }
+
+    public Optional<Game> find(UUID gameId) {
+        return games.find(gameId);
     }
 
     // ------------------------------------------------------------------ creating and reading
@@ -206,7 +238,9 @@ public class GameService {
         if (!moved) {
             throw new ApiException(409, "GAME_CHANGED", "Someone changed this game a moment ago. Look again and retry.");
         }
-        return games.find(gameId).orElseThrow();
+        Game changed = games.find(gameId).orElseThrow();
+        events.fire(new GameEvents.StateChanged(changed, from));
+        return changed;
     }
 
     // ------------------------------------------------------------------ joining
@@ -237,6 +271,7 @@ public class GameService {
                 case GameRepository.REJECTED -> {
                     games.setMembershipStatus(m.id(), GameRepository.REJECTED, GameRepository.REQUESTED);
                     games.setMembershipRole(m.id(), wanted);
+                    events.fire(new GameEvents.MembershipChanged(game.id(), m.id(), me, wanted, GameRepository.REQUESTED));
                 }
                 default -> {
                     // still waiting: asking again changes nothing
@@ -248,6 +283,8 @@ public class GameService {
         if (!games.addMembership(m)) {
             // asked twice at the same moment
             m = games.membership(game.id(), me).orElseThrow();
+        } else {
+            events.fire(new GameEvents.MembershipChanged(game.id(), m.id(), me, wanted, GameRepository.REQUESTED));
         }
         return new Joined(game, m);
     }
@@ -283,7 +320,9 @@ public class GameService {
         if (!games.setMembershipStatus(m.id(), GameRepository.REQUESTED, status)) {
             throw new ApiException(409, "NOT_PENDING", "This request was answered already.");
         }
-        return games.membershipById(gameId, requestId).orElseThrow();
+        Membership answered = games.membershipById(gameId, requestId).orElseThrow();
+        events.fire(new GameEvents.MembershipChanged(gameId, answered.id(), answered.userId(), answered.role(), answered.status()));
+        return answered;
     }
 
     // ------------------------------------------------------------------ members
@@ -306,6 +345,7 @@ public class GameService {
         if (!games.setMembershipStatus(m.id(), GameRepository.ACCEPTED, GameRepository.KICKED)) {
             throw ApiException.notFound("This member");
         }
+        events.fire(new GameEvents.MembershipChanged(gameId, m.id(), userId, m.role(), GameRepository.KICKED));
     }
 
     // ------------------------------------------------------------------ admins

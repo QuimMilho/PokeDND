@@ -6,7 +6,7 @@ Spec: [`project_v2.md`](../project_v2.md), chapters 13.3 and 13.4.
 
 ## Status
 
-Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) the **signature moves** of the cards (phase 20) and the **trainers** (phase 37: sheet, classes, creation, levelling, knock-out). Game state and the battle engine come next (see [`todo.md`](../todo.md)).
+Done: the whole **data importer** (phases 10 to 14: read, merge, evolutions, moves/abilities/items/TMs, learnsets, derived values, the bundle), the **type chart and natures** (phase 15) the **smart-dice selector** (phase 16), **stats, XP and levelling** (phase 17), **hit bands, crits and damage** (phase 18), the **catch and flee calculators** (phase 19) the **signature moves** of the cards (phase 20) the **trainers** (phase 37: sheet, classes, creation, levelling, knock-out) the **game state, event log and undo** (phase 42), the **roll requests and approvals** (phase 43), the **battle rounds** (phase 44), and **hit, damage, types, statuses and move effects** (phases 45 and 46). Abilities and held items come next (see [`todo.md`](../todo.md)).
 
 ## The importer (`net.quimmilho.pokednd.core.importer`)
 
@@ -43,6 +43,34 @@ The importer tests also read the real `resources/` and `build/roster.json`. If t
 | `SmartDice`, `DiceSettings`, `DiceChoice`, `Dice` | The smart-dice rule: the simplest die for any odds, with the faces of each outcome, the error, and a sentence for the screen |
 | `Stats`, `StatBlock`, `Ivs`, `Evs`, `PokemonSettings` | Phase 17: the HP and other-stat formulas (whole-number maths), stat and accuracy stages, IV generation (random or fixed), EV limits |
 | `Growth`, `Experience`, `TrainerXp` | Phase 17: the XP tables of the six growth groups, the XP a defeated Pokémon gives, levelling up, and the trainer XP curve and table |
+
+## Game state, event log, undo (`net.quimmilho.pokednd.core.game`)
+
+Chapters 12.5 and 14.5. A game **is its list of events**: `GameReducer` turns them into a `GameState`, with no clock, no dice and no input or output, so the same events always give the same state. An event carries every number already decided (a roll has the faces that were rolled, a random choice has its value), so undoing, redoing or replaying never rolls again.
+
+| Class | What it does |
+|---|---|
+| `GameState`, `GameStatus` | The immutable state: status, round, trainers, open roll requests, answered rolls, random choices made. Later phases add battles, parties and the map |
+| `GameEvent`, `EventTypes` | The event records (status, round, trainer set/removed, roll requested/submitted/rejected/answered/overridden/expired/cancelled, random drawn), their stored names and the conversion to the log's `type` and JSON `payload`. A new event needs a record, a line in `EventTypes` and a branch in the reducer (the compiler insists) |
+| `GameReducer`, `InvalidEventException` | `(state, event) → new state`. An event that cannot happen (a roll with a wrong number of dice, a request that does not exist) is refused and changes nothing |
+| `GameLog`, `LogEntry`, `Snapshot`, `AuditEntry` | The log of one game: `append` an action (one or more events, added all or nothing), `undo` / `undoTo` / `redo`, a snapshot at the start of every round (`game.autosave.everyRounds`), and one audit entry per event, undo and redo, with who did it and what changed. `GameLog.restore` rebuilds a log from the stored entries, snapshots and audit entries |
+| `GameStateJson`, `StateDiff` | A state as JSON (snapshots) and read back without loss; the changed parts of the state between two points (the audit entry's `before` and `after`) |
+
+The API stores `LogEntry` rows (`seq`, `actionId`, `type`, `actor`, `payload`, `undone`, `discarded`), `Snapshot` rows and `AuditEntry` rows in the same transaction as the game rows, and passes `admin.undo.depth` and `game.autosave.everyRounds` in `GameLog.Settings`. Undone entries stay in the log. Tests: `GameReducerTest`, `GameLogTest`, `RollDeskTest`, and `GameLogPropertyTest` (400 generated games each: replay is always equal, undo then redo gives back the original, snapshots survive JSON).
+
+### Roll requests and approvals (phase 43)
+
+Chapters 6.3, 6.6, 6.7 and 6.8. Every roll is a **roll request**: who must roll, why, the dice, what the faces mean (the bands), the true chance, the modifiers and an optional time limit. A person answers it in one of three ways, and the result is checked and recorded as an event.
+
+| Class | What it does |
+|---|---|
+| `RollRequests` | Builds the request events: `smart` from a `DiceChoice` (die, bands, chance), `classic` for a d20 plus modifier against a difficulty, and the sentence for the screen (`Roll 1d20 for Scratch · 1–4 miss · 5–19 hit · 20 crit · chance 80 % (+4 pp command bonus)`) |
+| `RollModifier` | One bonus or penalty of chapter 6.6 (`STAGE`, `POINTS`, `MULTIPLIER`, `ADD`) with its short text |
+| `RollSettings` | The settings of 6.8: `dice.input.modes`, `dice.approval.required`, `dice.approval.autoSeconds`, `dice.entry.perDie`, `dice.prompt.showTrueChance`, `dice.prompt.timeoutSeconds`, `dice.enemy.mode`, `dice.secret.mode`, `dice.rng.source`, with the defaults of the specification |
+| `RollDesk` | One method per human action (`open`, `submit`, `rollDigital`, `approve`, `edit`, `reject`, `enter`, `cancel`, `override`, `reroll`, `expire`, `autoApprove`). It checks the actor and the settings and returns the events for `GameLog.append`, or throws `RollRefusedException` with a sentence for the person. It has no clock and no random numbers of its own |
+| `DigitalRoller` | Faces from a **stored seed** (JDK generator `L64X128MixRandom`). A digital answer carries its seed, and the reducer refuses faces that the seed does not give, so a replay never rolls again and a log cannot be tampered with unnoticed |
+
+The three ways: **player submits** (the player types the real die; with approval on, the admin approves, edits or rejects), **digital** (the system rolls with a seed, no approval), **admin enters** (always allowed). The sources in the log are `typed` (the player's real die), `digital` and `admin`. Enemy and secret rolls are made by the system, or by the admin with real dice when the setting says `adminPhysical`. Details and the choices made are in Appendix D #89 of the specification.
 
 ## Combat (`net.quimmilho.pokednd.core.combat`)
 

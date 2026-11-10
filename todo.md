@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 36 of 86 phases done · 1 of 6 stage gates passed
+**Progress:** 46 of 86 phases done · 3 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -44,14 +44,14 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 07 — Deploy skeleton** · tools · [prompt](phases/phase-07-deploy-skeleton.md)
   Create deploy/ with docker-compose.yml, a Caddyfile and .env.example for the API, app and database.
   *Depends on:* Phase 04, Phase 05
-- [ ] **Phase 08 — CI pipelines** · tools · [prompt](phases/phase-08-ci-pipelines.md)
+- [x] **Phase 08 — CI pipelines** · tools · [prompt](phases/phase-08-ci-pipelines.md)
   GitHub Actions that build and test tools, Core, API, App and Mod, download the Cobblemon jar from Modrinth, and run the resource check.
   *Depends on:* Phase 01, Phase 02, Phase 03, Phase 04, Phase 05
 - [x] **Phase 09 — check-assets tool and the roster** · tools · [prompt](phases/phase-09-check-assets-tool-and-the-roster.md)
   Write tools/check-assets: for every species and form report model, texture, shiny texture, animations, poser, resolver, icon, cry and licence file, and write the roster of playable species.
   *Depends on:* Phase 01
 
-- [ ] **M0 gate: all four projects (Mod, Core, API, App) build in CI; the API starts and answers a health check; the app builds and opens.**
+- [x] **M0 gate: all four projects (Mod, Core, API, App) build in CI; the API starts and answers a health check; the app builds and opens.**
 
 ## Stage 1 — Data and cards (M1)
 
@@ -132,7 +132,7 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 33 — API: layered settings, rule sets, presets** · API · [prompt](phases/phase-33-api-layered-settings-rule-sets-presets.md)
   A settings registry of every key in Appendix A with defaults, layered per game, plus rule sets and the Fast/Detailed presets.
   *Depends on:* Phase 32
-- [ ] **Phase 34 — API: database flavours** · API · [prompt](phases/phase-34-api-database-flavours.md)
+- [x] **Phase 34 — API: database flavours** · API · [prompt](phases/phase-34-api-database-flavours.md)
   Make the API run on MySQL, MariaDB and MongoDB as well as PostgreSQL, with the same tests on each and one image per flavour.
   *Depends on:* Phase 33
 - [x] **Phase 35 — App: shell, themes, translations** · App · [prompt](phases/phase-35-app-shell-themes-translations.md)
@@ -147,33 +147,33 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 38 — App: trainer wizard** · App · [prompt](phases/phase-38-app-trainer-wizard.md)
   A step-by-step wizard to create a trainer: class, skills, ability scores, starter Pokémon and skin upload.
   *Depends on:* Phase 36, Phase 37
-- [ ] **Phase 39 — tools/fake-mod** · tools · [prompt](phases/phase-39-tools-fake-mod.md)
+- [x] **Phase 39 — tools/fake-mod** · tools · [prompt](phases/phase-39-tools-fake-mod.md)
   A small program that speaks the mod protocol (answers lobby, spawn and walk commands, reports arrivals) so the API and app can be tested without Minecraft.
   *Depends on:* Phase 31
-- [ ] **Phase 40 — API: realtime channel and server protocol** · API · [prompt](phases/phase-40-api-realtime-channel-and-server-protocol.md)
+- [x] **Phase 40 — API: realtime channel and server protocol** · API · [prompt](phases/phase-40-api-realtime-channel-and-server-protocol.md)
   WebSocket endpoints for the app and for the mod: envelope, authentication, hello, config sync, presence and reconnection.
   *Depends on:* Phase 32, Phase 39
-- [ ] **Phase 41 — M2 end-to-end test** · tools · [prompt](phases/phase-41-m2-end-to-end-test.md)
+- [x] **Phase 41 — M2 end-to-end test** · tools · [prompt](phases/phase-41-m2-end-to-end-test.md)
   One automated test: an admin creates a game and opens a lobby, three players join and make trainers, and the fake mod shows the spawn commands.
   *Depends on:* Phase 40, Phase 38, Phase 34
 
-- [ ] **M2 gate: in an automated test, an admin creates a game and opens a lobby, three players join and make trainers, and the fake mod shows the spawn commands.**
+- [x] **M2 gate: in an automated test, an admin creates a game and opens a lobby, three players join and make trainers, and the fake mod shows the spawn commands.**
 
 ## Stage 3 — Rules and combat in the App (M3)
 
-- [ ] **Phase 42 — Game state, event log, undo** · Core · [prompt](phases/phase-42-game-state-event-log-undo.md)
+- [x] **Phase 42 — Game state, event log, undo** · Core · [prompt](phases/phase-42-game-state-event-log-undo.md)
   The game as a log of events: the same log always rebuilds the same state, and the admin can undo.
   *Depends on:* Phase 41
-- [ ] **Phase 43 — Roll requests and approvals** · Core · [prompt](phases/phase-43-roll-requests-and-approvals.md)
+- [x] **Phase 43 — Roll requests and approvals** · Core · [prompt](phases/phase-43-roll-requests-and-approvals.md)
   Who rolls which die, the input modes (admin types, player types with approval, digital), approvals and modifiers.
   *Depends on:* Phase 42
-- [ ] **Phase 44 — Battle rounds and the six actions** · Core · [prompt](phases/phase-44-battle-rounds-and-the-six-actions.md)
+- [x] **Phase 44 — Battle rounds and the six actions** · Core · [prompt](phases/phase-44-battle-rounds-and-the-six-actions.md)
   Start a battle, order the actions by initiative, and handle the six actions of a round.
   *Depends on:* Phase 43
-- [ ] **Phase 45 — Hit, damage, types, status** · Core · [prompt](phases/phase-45-hit-damage-types-status.md)
+- [x] **Phase 45 — Hit, damage, types, status** · Core · [prompt](phases/phase-45-hit-damage-types-status.md)
   Put the calculators into the battle: hit rolls, crits, damage, type effects, secondary effects and status conditions.
   *Depends on:* Phase 44, Phase 18
-- [ ] **Phase 46 — Move effects** · Core · [prompt](phases/phase-46-move-effects.md)
+- [x] **Phase 46 — Move effects** · Core · [prompt](phases/phase-46-move-effects.md)
   All plain-data moves work automatically, plus the 25 most-learned scripted moves.
   *Depends on:* Phase 45
 - [ ] **Phase 47 — Abilities and held items** · Core · [prompt](phases/phase-47-abilities-and-held-items.md)

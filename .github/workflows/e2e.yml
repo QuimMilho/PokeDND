@@ -1,0 +1,102 @@
+# End-to-end tests with a real browser, the real API and the fake mod (spec 20.1, 20.4; phase 41).
+# Runs the M2 flow: an admin opens a lobby, three players join and make trainers, and the fake mod gets a spawn command for each.
+# The stack is started by App/e2e/stack.mjs: a new empty PostgreSQL database per run, the built API, and the built app behind a small web server.
+name: e2e
+
+on:
+  push:
+    paths:
+      - "App/**"
+      - "API/**"
+      - "Core/**"
+      - "tools/fake-mod/**"
+      - "tools/extract.mjs"
+      - "tools/check-assets.mjs"
+      - "tools/lib/**"
+      - "tools/ci-annotate.sh"
+      - "cards/**"
+      - ".github/workflows/e2e.yml"
+  pull_request:
+    paths:
+      - "App/**"
+      - "API/**"
+      - "Core/**"
+      - "tools/fake-mod/**"
+      - "tools/extract.mjs"
+      - "tools/check-assets.mjs"
+      - "tools/lib/**"
+      - "tools/ci-annotate.sh"
+      - "cards/**"
+      - ".github/workflows/e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  m2:
+    name: M2 flow with the fake mod
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    # The address stack.mjs uses by default (postgres://test:test@127.0.0.1:55432/postgres); each run makes its own database in it
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: postgres
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: App/package-lock.json
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+      # The API reads resources/ and the data bundle; neither is stored in git (no icons: the tests below do not look at them)
+      - name: Rebuild resources/ from the Cobblemon jar
+        run: node tools/extract.mjs --no-icons
+      - name: Write the roster (build/roster.json)
+        run: node tools/check-assets.mjs --no-icons
+      - name: Publish Core to Maven local and write the data bundle (build/bundle)
+        working-directory: Core
+        run: |
+          chmod +x gradlew
+          ./gradlew publishToMavenLocal importBundle
+      - name: Build the API
+        working-directory: API
+        run: |
+          chmod +x gradlew
+          ./gradlew quarkusBuild
+      - name: Build the app (English and Portuguese)
+        working-directory: App
+        run: |
+          npm ci
+          npm run build
+      # Playwright uses the Chrome of the runner (channel "chrome"), so no browser is downloaded
+      - name: End-to-end tests (the M2 flow, games and trainers)
+        working-directory: App
+        run: bash ../tools/ci-annotate.sh "End-to-end tests" npx playwright test e2e/m2.e2e.ts e2e/games.e2e.ts e2e/trainers.e2e.ts # a failure also shows as a public annotation
+      - name: Keep the API log and the traces of a failed run
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: e2e-results
+          path: App/test-results
+          if-no-files-found: ignore

@@ -22,7 +22,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 | `render-icons.mjs` | Software renderer: Bedrock model plus texture to a PNG (icons and card art) |
 | `filter-sounds.mjs` | Keeps only the sounds the game needs (part of `extract.mjs`) |
 | `port-posers.mjs` | Converts Cobblemon's Kotlin poser classes to JSON. **Never point it at `ported-posers/`: it deletes its output folder first.** |
-| `effect-coverage.mjs` | Measures how much of the Showdown move, ability and item data is plain data |
+| `effect-coverage.mjs` | Measures how much of the Showdown move, ability and item data is plain data, and how much of the scripted part Core runs (it reads `Core/src/main/resources/rules/implemented-effects.json`). Writes `build/reports/coverage.md` and `coverage.json` |
 | `check-resources.mjs` | Checks that a rebuilt `resources/` is complete |
 | `check-assets.mjs` | For every Pokémon: resolver, model, texture, shiny texture, animations, poser, icon, cry, licence file. Writes `build/reports/assets.md` (Appendix C) and `build/roster.json` (the playable species and forms). `--strict` fails if a species with some assets lacks a required piece; `--expect <roster.json>` fails if a listed species is incomplete; `--no-icons` for a folder made without icons |
 | `export-showdown.mjs` | Unpacks the Showdown data inside the Cobblemon jar and writes it as JSON to `Core/src/main/resources/showdown/` (committed, MIT notice included), so CI needs neither the jar nor the network |
@@ -30,6 +30,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 | `test-api-flavours.mjs` | Runs the API test suite on PostgreSQL, MySQL, MariaDB and MongoDB, one throw-away database container each (no Testcontainers). `--keep` leaves the containers |
 | `check-api-images.mjs` | Builds the API image of every database flavour, starts it against its database with environment variables only, and asks `/q/health` |
 | `check-docs.mjs` | Checks the licence text, the credits table and every link in README, CREDITS and CONTRIBUTING (`--offline` skips the web) |
+| `fake-mod/` | The fake mod: a stand-in for the Minecraft mod that speaks the mod protocol (version 1) over a WebSocket, with an interactive and a scripted (JSON scenario) mode. See [`fake-mod/README.md`](fake-mod/README.md) |
 | `check-deploy.mjs` | Checks `deploy/.env.example` against the spec and `docker-compose.yml` |
 
 ## Folders
@@ -44,7 +45,7 @@ Useful options: `extract.mjs --no-icons` (skip the slowest step; CI does this, a
 ## Tests
 
 ```sh
-node --test "tools/test/*.test.mjs"   # fixtures for the asset check, plus the real resources/ when they have icons
+node --test "tools/test/*.test.mjs"   # fixtures for the asset check, plus the real resources/ when they have icons; the fake mod against a stub server
 ```
 
 The Cobblemon jar, `resources/`, `build/` and `vendor/` are generated and **ignored by git**.

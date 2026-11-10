@@ -21,17 +21,17 @@ Moves now do something: they hit or miss, hurt, and apply statuses and stat stag
 
 ## Tasks
 
-- [ ] Wire hit bands, crit bands and damage dice into move use; type effectiveness and STAB.
-- [ ] Status conditions of 5.6 (burn, poison, bad poison, paralysis, sleep, freeze, confusion, flinch) and stat stages, each with its dice.
-- [ ] Secondary effect chances become smart dice rolled by the attacker's owner (7.8).
+- [x] Wire hit bands, crit bands and damage dice into move use; type effectiveness and STAB.
+- [x] Status conditions of 5.6 (burn, poison, bad poison, paralysis, sleep, freeze, confusion, flinch) and stat stages, each with its dice.
+- [x] Secondary effect chances become smart dice rolled by the attacker's owner (7.8).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Scripted battles with fixed rolls produce the documented damage and statuses.
-- [ ] Each status has a test for start, each turn, and end.
-- [ ] A fainted Pokémon is removed and the battle can end.
+- [x] Scripted battles with fixed rolls produce the documented damage and statuses.
+- [x] Each status has a test for start, each turn, and end.
+- [x] A fainted Pokémon is removed and the battle can end.
 
 ## Done when
 

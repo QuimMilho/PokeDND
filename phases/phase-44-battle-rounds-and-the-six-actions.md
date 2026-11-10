@@ -21,18 +21,18 @@ The turn structure of a battle, without damage yet.
 
 ## Tasks
 
-- [ ] Battle start (7.2) and participants.
-- [ ] The round (7.3): switches, items and flee first, then moves by the `Speed / 20` initiative rule (Appendix D #6).
-- [ ] The six actions (7.4) as commands that produce events.
-- [ ] A text battle log in plain language.
+- [x] Battle start (7.2) and participants.
+- [x] The round (7.3): switches, items and flee first, then moves by the `Speed / 20` initiative rule (Appendix D #6).
+- [x] The six actions (7.4) as commands that produce events.
+- [x] A text battle log in plain language.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Scripted rounds with fixed rolls give the documented order.
-- [ ] A player can skip a turn; a fainted Pokémon cannot act.
-- [ ] The log replays from events.
+- [x] Scripted rounds with fixed rolls give the documented order.
+- [x] A player can skip a turn; a fainted Pokémon cannot act.
+- [x] The log replays from events.
 
 ## Done when
 

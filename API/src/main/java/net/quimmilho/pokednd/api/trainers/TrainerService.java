@@ -7,6 +7,7 @@ package net.quimmilho.pokednd.api.trainers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -35,6 +36,7 @@ import net.quimmilho.pokednd.api.domain.trainers.TrainerRepository.NameTakenExce
 import net.quimmilho.pokednd.api.domain.trainers.TrainerRepository.StoredTrainer;
 import net.quimmilho.pokednd.api.domain.trainers.TrainerRepository.TrainerExistsException;
 import net.quimmilho.pokednd.api.error.ApiException;
+import net.quimmilho.pokednd.api.realtime.GameEvents;
 import net.quimmilho.pokednd.api.games.GameService;
 import net.quimmilho.pokednd.api.settings.SettingsService;
 import net.quimmilho.pokednd.core.trainer.Ability;
@@ -84,6 +86,10 @@ public class TrainerService {
 
     @Inject
     SkinStore skins;
+
+    /** Changes are announced to the realtime channel (phase 40), after the transaction is committed. */
+    @Inject
+    Event<Object> events;
 
     @Inject
     MojangSkins mojang;
@@ -147,6 +153,7 @@ public class TrainerService {
         } catch (TrainerExistsException e) {
             throw new ApiException(409, "TRAINER_EXISTS", "You already have a trainer in this game. Change or remove it instead.");
         }
+        events.fire(new GameEvents.TrainerChanged(gameId, t.id(), GameEvents.TrainerChange.CREATED));
         return t;
     }
 
@@ -161,6 +168,7 @@ public class TrainerService {
         } catch (NameTakenException e) {
             throw invalid(List.of(new TrainerProblem("name_taken", "name", "Another trainer in this game is already called " + t.name() + ".")));
         }
+        events.fire(new GameEvents.TrainerChanged(t.gameId(), trainerId, GameEvents.TrainerChange.UPDATED));
         return trainers.find(trainerId).orElseThrow();
     }
 
@@ -170,6 +178,7 @@ public class TrainerService {
         authorizeEdit(old);
         trainers.delete(trainerId);
         skins.delete(trainerId);
+        events.fire(new GameEvents.TrainerChanged(old.gameId(), trainerId, GameEvents.TrainerChange.REMOVED));
     }
 
     /** Who may change this trainer now: the owner while the game has not started, a game admin while the trainer has not played. */
@@ -355,6 +364,7 @@ public class TrainerService {
         authorizeSkin(t);
         trainers.clearSkin(trainerId);
         skins.delete(trainerId);
+        events.fire(new GameEvents.TrainerChanged(t.gameId(), trainerId, GameEvents.TrainerChange.SKIN));
         return trainers.find(trainerId).orElseThrow();
     }
 
@@ -377,6 +387,7 @@ public class TrainerService {
     private StoredTrainer keep(StoredTrainer t, SkinImages.Clean clean, String model, String source, String username) {
         skins.write(t.id(), clean.png());
         trainers.setSkin(t.id(), model, source, username, clean.sha256(), Instant.now());
+        events.fire(new GameEvents.TrainerChanged(t.gameId(), t.id(), GameEvents.TrainerChange.SKIN));
         return trainers.find(t.id()).orElseThrow();
     }
 

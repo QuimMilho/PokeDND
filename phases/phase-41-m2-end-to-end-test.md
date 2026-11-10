@@ -21,17 +21,17 @@ Finish milestone M2 with a test that runs the whole flow from a clean start.
 
 ## Tasks
 
-- [ ] Start database, API, app and the fake mod from a script (compose or Testcontainers).
-- [ ] Write the Playwright test for the flow in the title, checking what the fake mod received.
-- [ ] Run it in CI (add it to the workflows).
+- [x] Start database, API, app and the fake mod from a script (compose or Testcontainers).
+- [x] Write the Playwright test for the flow in the title, checking what the fake mod received.
+- [x] Run it in CI (add it to the workflows).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] The test passes from a clean database, three times in a row.
-- [ ] All earlier unit and integration tests still pass.
-- [ ] The fake mod log shows a spawn command for each of the three trainers.
+- [x] The test passes from a clean database, three times in a row.
+- [x] All earlier unit and integration tests still pass.
+- [x] The fake mod log shows a spawn command for each of the three trainers.
 
 ## Done when
 
