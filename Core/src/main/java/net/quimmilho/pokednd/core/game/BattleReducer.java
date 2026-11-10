@@ -60,6 +60,10 @@ final class BattleReducer {
             case GameEvent.SwitchRequired e -> switchRequired(state, e);
             case GameEvent.AdminTaskOpened e -> taskOpened(state, e);
             case GameEvent.AdminTaskClosed e -> taskClosed(state, e);
+            case GameEvent.BallThrown e -> ballThrown(state, e);
+            case GameEvent.ParticipantLeft e -> participantLeft(state, e);
+            case GameEvent.FleeFailed e -> fleeFailed(state, e);
+            case GameEvent.BattleSettled e -> settled(state, e);
         };
     }
 
@@ -119,7 +123,7 @@ final class BattleReducer {
         }
         Battle battle = new Battle(e.battleId(), e.battleType(), e.rules(), 0, Step.START, participants, combatants, List.of(), List.of(), 0,
                 Map.of(), List.of(), List.of(), List.of());
-        return state.withBattle(battle.logged(openingLine(battle)));
+        return state.withBattle(battle.withMeetings().logged(openingLine(battle)));
     }
 
     private static String openingLine(Battle b) {
@@ -321,7 +325,11 @@ final class BattleReducer {
                     MoveSlot slot = moveOf(actor, action);
                     if (b.rules().ppEnabled() && !MoveSlot.STRUGGLE.equals(action.moveId()) && !isLocked(actor, action.moveId())) {
                         List<MoveSlot> moves = new ArrayList<>(actor.moves());
-                        moves.set(moves.indexOf(slot), slot.spend());
+                        MoveSlot spent = slot.spend();
+                        if (AbilityScripts.pressure(b, actor, action, slot.targetKind()) > 0) {
+                            spent = spent.spend(); // Pressure: the move costs one more PP
+                        }
+                        moves.set(moves.indexOf(slot), spent);
                         next = replaceCombatant(next, actor.withMoves(moves));
                     }
                     line = moveLine(b, actor, action, slot);
@@ -616,6 +624,105 @@ final class BattleReducer {
         return state.withBattle(b.withTasks(tasks).logged("The admin applied the effect by hand."));
     }
 
+    // ------------------------------------------------------------------------------------------ catching, fleeing, leaving
+
+    private static GameState ballThrown(GameState state, GameEvent.BallThrown e) {
+        Battle b = running(state, e.battleId());
+        Participant thrower = b.participants().get(e.participantId());
+        if (thrower == null || thrower.kind() != Kind.TRAINER) {
+            throw new InvalidEventException("Only a trainer throws a Poké Ball");
+        }
+        if (b.left().containsKey(thrower.id())) {
+            throw new InvalidEventException(thrower.name() + " has left the battle");
+        }
+        requireText(e.ball(), "Poké Ball");
+        if (e.shakes() < 0 || e.shakes() > 3 || e.caught() != (e.shakes() == 3)) {
+            throw new InvalidEventException("A caught Pokémon shook 3 times and a Pokémon that broke free 0 to 2 times, not " + e.shakes());
+        }
+        Combatant target = pokemon(b, e.combatantId());
+        if (target.fainted() || !b.isActive(target)) {
+            throw new InvalidEventException(b.label(target) + " is not on the field");
+        }
+        if (b.sideOf(target) == thrower.side() || b.ownerOf(target).kind() == Kind.TRAINER) {
+            throw new InvalidEventException("A Poké Ball can only be thrown at a Pokémon of the other side that is not another player's");
+        }
+        if (target.boss()) {
+            throw new InvalidEventException("A boss cannot be caught");
+        }
+        String name = b.label(target);
+        if (!e.caught()) {
+            String line = switch (e.shakes()) {
+                case 0 -> "Oh no! " + name + " broke free!";
+                case 1 -> "Aww! It appeared to be caught!";
+                default -> "Aargh! Almost had it!";
+            };
+            return state.withBattle(b.logged(line));
+        }
+        Combatant gone = target.withHp(0);
+        gone = gone.withCondition(target.condition().afterFainting());
+        Map<String, Battle.Catch> caught = new LinkedHashMap<>(b.caught());
+        caught.put(target.id(), new Battle.Catch(target.hp(), thrower.id(), e.ball())); // kept, so the caught Pokémon has the HP it had when the ball hit
+        return state.withBattle(replaceCombatant(b, gone).withCaught(caught).logged("Gotcha! " + name + " was caught!"));
+    }
+
+    private static GameState participantLeft(GameState state, GameEvent.ParticipantLeft e) {
+        Battle b = running(state, e.battleId());
+        Participant p = b.participants().get(e.participantId());
+        if (p == null) {
+            throw new InvalidEventException("There is no participant " + e.participantId());
+        }
+        if (b.left().containsKey(p.id())) {
+            throw new InvalidEventException(p.name() + " has left already");
+        }
+        if (!List.of("fled", "knockedOut", "surrendered").contains(e.reason())) {
+            throw new InvalidEventException("A participant leaves because it fled, was knocked out or surrendered, not \"" + e.reason() + "\"");
+        }
+        Set<String> mine = new HashSet<>(concat(p.active(), p.reserve()));
+        Map<String, String> left = new LinkedHashMap<>(b.left());
+        left.put(p.id(), e.reason());
+        List<String> queue = new ArrayList<>(b.queue());
+        queue.removeAll(mine);
+        Map<String, Action> declared = new LinkedHashMap<>(b.declared());
+        declared.keySet().removeAll(mine);
+        List<String> mustSwitch = new ArrayList<>(b.mustSwitch());
+        mustSwitch.removeAll(mine);
+        String line = switch (e.reason()) {
+            case "fled" -> name(p) + " got away safely!";
+            case "knockedOut" -> name(p) + " is knocked out and leaves the battle.";
+            default -> name(p) + " surrenders.";
+        };
+        Battle next = b.withLeft(left).withQueue(queue, b.resolved()).withDeclared(declared).withMustSwitch(mustSwitch);
+        return state.withBattle(next.logged(line));
+    }
+
+    private static GameState settled(GameState state, GameEvent.BattleSettled e) {
+        Battle b = state.battle();
+        if (b == null || !b.battleId().equals(e.battleId())) {
+            throw new InvalidEventException("There is no battle " + e.battleId());
+        }
+        if (b.step() != Step.ENDED) {
+            throw new InvalidEventException("The rewards of a battle are paid after it has ended");
+        }
+        if (b.settled()) {
+            throw new InvalidEventException("The rewards of this battle have been paid already");
+        }
+        return state.withBattle(b.withSettled().logged("The rewards of the battle are paid."));
+    }
+
+    private static GameState fleeFailed(GameState state, GameEvent.FleeFailed e) {
+        Battle b = running(state, e.battleId());
+        Participant p = b.participants().get(e.participantId());
+        if (p == null || p.kind() != Kind.TRAINER) {
+            throw new InvalidEventException("Only a trainer tries to run away");
+        }
+        if (b.left().containsKey(p.id())) {
+            throw new InvalidEventException(p.name() + " has left the battle");
+        }
+        Map<String, Integer> attempts = new LinkedHashMap<>(b.fleeAttempts());
+        attempts.merge(p.id(), 1, Integer::sum);
+        return state.withBattle(b.withFleeAttempts(attempts).logged(p.name() + " couldn't get away!"));
+    }
+
     // -------------------------------------------------------------------------------------------------------------- actions
 
     /**
@@ -628,6 +735,10 @@ final class BattleReducer {
         String who = b.label(actor);
         switch (action.kind()) {
             case MOVE -> {
+                String locked = b.choiceLockedMove(actor);
+                if (locked != null && !locked.equals(action.moveId()) && !MoveSlot.STRUGGLE.equals(action.moveId())) {
+                    throw new InvalidEventException(who + " is locked into " + pretty(locked) + " by its " + pretty(actor.condition().heldItem()));
+                }
                 MoveSlot slot = moveOf(actor, action, who, b.rules());
                 TargetKind kind = slot.targetKind();
                 List<String> chosen = action.targets();
@@ -635,7 +746,7 @@ final class BattleReducer {
                     if (chosen.size() != 1) {
                         throw new InvalidEventException(slot.name() + " needs exactly one target");
                     }
-                    if (!b.legalTargets(actor, kind).contains(chosen.get(0))) {
+                    if (!b.legalTargets(actor, kind).contains(chosen.get(0)) && !legalTrainerTarget(state, b, actor, kind, chosen.get(0))) {
                         throw new InvalidEventException(slot.name() + " cannot be aimed at " + chosen.get(0));
                     }
                 } else if (kind == TargetKind.SELF) {
@@ -699,6 +810,22 @@ final class BattleReducer {
         }
     }
 
+    /**
+     * True if an enemy (a wild Pokémon or an NPC's Pokémon, never a player's) may aim a move that chooses one foe at this trainer
+     * (chapter 7.12): the trainer is on the other side, has not left the battle and is not at 0 HP.
+     */
+    static boolean legalTrainerTarget(GameState state, Battle b, Combatant actor, TargetKind kind, String target) {
+        if (!Battle.isTrainerTarget(target) || kind != TargetKind.FOE || b.ownerOf(actor).kind() == Kind.TRAINER) {
+            return false;
+        }
+        Participant p = b.participants().get(Battle.trainerTargetId(target));
+        if (p == null || p.kind() != Kind.TRAINER || p.side() == b.sideOf(actor) || b.left().containsKey(p.id()) || p.trainerId() == null) {
+            return false;
+        }
+        Trainer trainer = state.trainers().get(p.trainerId());
+        return trainer != null && trainer.hp() > 0;
+    }
+
     /** The move of an action: one the Pokémon knows, or Struggle. */
     private static MoveSlot moveOf(Combatant actor, Action action) {
         return moveOf(actor, action, actor.name(), null);
@@ -756,7 +883,12 @@ final class BattleReducer {
                 return false;
             }
             if (kind.choosesOne()) {
-                return !standing(b, b.resolveTarget(action.targets().get(0)));
+                String target = action.targets().get(0);
+                if (Battle.isTrainerTarget(target)) {
+                    Participant p = b.participants().get(Battle.trainerTargetId(target));
+                    return p == null || b.out(p);
+                }
+                return !standing(b, b.resolveTarget(target));
             }
             return b.groupTargets(actor, kind).isEmpty();
         }
@@ -778,7 +910,11 @@ final class BattleReducer {
         String prefix = MoveSlot.STRUGGLE.equals(slot.moveId()) ? b.label(actor) + " has no moves left and uses Struggle" : b.label(actor) + " uses " + slot.name();
         TargetKind kind = slot.targetKind();
         if (kind.choosesOne()) {
-            return prefix + " on " + b.label(b.combatant(b.resolveTarget(action.targets().get(0)))) + ".";
+            String target = action.targets().get(0);
+            if (Battle.isTrainerTarget(target)) {
+                return prefix + " on " + b.participants().get(Battle.trainerTargetId(target)).name() + ".";
+            }
+            return prefix + " on " + b.label(b.combatant(b.resolveTarget(target))) + ".";
         }
         List<String> group = b.groupTargets(actor, kind);
         return group.isEmpty() ? prefix + "." : prefix + " on " + andList(group.stream().map(id -> b.label(b.combatant(id))).toList()) + ".";
@@ -862,11 +998,11 @@ final class BattleReducer {
         combatants.put(out, leaving.withCondition(leaving.condition().afterSwitchOut()));
         Battle swapped = b.withTeams(participants, combatants);
         if (leaving.fainted()) {
-            return swapped;
+            return swapped.withMeetings();
         }
         Map<String, String> replaced = new LinkedHashMap<>(b.replacedBy());
         replaced.put(out, in);
-        return swapped.withReplaced(replaced);
+        return swapped.withReplaced(replaced).withMeetings();
     }
 
     private static List<String> concat(List<String> a, List<String> b) {

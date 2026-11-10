@@ -95,6 +95,10 @@ final class Moves {
         m.add(auto("bodypress", "Body Press", "Fighting", "Physical", 80, 100, 10, 0, "normal", "{\"flags\":{\"contact\":1,\"protect\":1},\"overrideOffensiveStat\":\"def\",\"secondary\":null}"));
         m.add(auto("foulplay", "Foul Play", "Dark", "Physical", 95, 100, 15, 0, "normal", "{\"flags\":{\"contact\":1,\"protect\":1},\"overrideOffensivePokemon\":\"target\",\"secondary\":null}"));
         m.add(auto("spectralthief", "Spectral Thief", "Ghost", "Physical", 90, 100, 10, 0, "normal", "{\"flags\":{\"contact\":1,\"protect\":1},\"secondary\":null,\"stealsBoosts\":true}"));
+        // ---- abilities and held items (phase 47): a Bug and a Grass move for the pinch abilities
+        m.add(auto("bugbuzz", "Bug Buzz", "Bug", "Special", 40, 100, 10, 0, "normal", "{\"flags\":{\"protect\":1,\"sound\":1},\"secondary\":null}"));
+        // ---- enemies attack trainers (phase 48)
+        m.add(auto("wingattack", "Wing Attack", "Flying", "Physical", 60, 100, 35, 0, "any", "{\"flags\":{\"contact\":1,\"protect\":1,\"distance\":1},\"secondary\":null}"));
         // ---- the 25 scripted moves (the effect is the Showdown data of the real move)
         m.add(scripted("rest", "Rest", "Psychic", "Status", 0, null, 5, 0, "self", "{\"flags\":{\"heal\":1,\"snatch\":1},\"secondary\":null}", List.of("onHit", "onTry"), List.of("onHit", "onTry")));
         m.add(scripted("sleeptalk", "Sleep Talk", "Normal", "Status", 0, null, 10, 0, "self", "{\"flags\":{\"nosleeptalk\":1},\"secondary\":null,\"sleepUsable\":true}", List.of("onHit", "onTry"), List.of("onHit", "onTry")));

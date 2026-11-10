@@ -61,6 +61,8 @@ final class Arena {
     final RollSettings rolls;
     final LongSupplier seeds = DigitalRoller.seeds(RollSettings.RngSource.SEEDED, 7);
     final MoveBook book;
+    /** What the trainers' sheets add to the battle (none by default; a test sets it). */
+    BattleBonuses bonuses = BattleBonuses.none();
     /** Every roll that was asked, in the order it was asked: {@code id → text of the prompt}. */
     final Map<String, RollRequest> asked = new LinkedHashMap<>();
 
@@ -103,8 +105,18 @@ final class Arena {
     }
 
     Arena start(Battle.Type type, BattleSettings rules, List<Participant> participants, List<Combatant> combatants) {
-        play(BattleDesk.start(log.state(), ADMIN, "b1", type, rules, participants, combatants));
+        play(BattleDesk.start(log.state(), ADMIN, "b1", type, rules, participants, combatants, book));
         return this;
+    }
+
+    /** The same Pokémon with an ability (a Showdown id such as {@code sturdy}). */
+    static Combatant withAbility(Combatant c, String ability) {
+        return c.withBuild(c.build().withAbility(ability));
+    }
+
+    /** The same Pokémon holding an item (an id such as {@code choice_band}). */
+    static Combatant holding(Combatant c, String item) {
+        return c.withCondition(c.condition().withHeldItem(item));
     }
 
     // ------------------------------------------------------------------------------------------------------------------- reading
@@ -178,7 +190,7 @@ final class Arena {
             if (++guard > 300) {
                 fail("the battle does not move on: " + lastLine());
             }
-            List<GameEvent> events = BattleDesk.resolveNext(log.state(), book, rolls, NOW, seeds);
+            List<GameEvent> events = BattleDesk.resolveNext(log.state(), book, rolls, NOW, seeds, bonuses);
             play(events);
             List<RollRequest> open = BattleDesk.awaiting(log.state());
             for (RollRequest r : open) {
@@ -193,7 +205,7 @@ final class Arena {
 
     /** One call of {@code resolveNext}; the roll requests it makes are answered from {@code answers}. */
     List<GameEvent> resolveOnce(Answers answers) {
-        List<GameEvent> events = BattleDesk.resolveNext(log.state(), book, rolls, NOW, seeds);
+        List<GameEvent> events = BattleDesk.resolveNext(log.state(), book, rolls, NOW, seeds, bonuses);
         play(events);
         for (RollRequest r : BattleDesk.awaiting(log.state())) {
             answer(r, answers);
@@ -234,7 +246,7 @@ final class Arena {
 
     /** The end of the round (burn and poison, timers). */
     Arena endRound() {
-        play(BattleDesk.endRound(log.state()));
+        play(BattleDesk.endRound(log.state(), seeds));
         return this;
     }
 

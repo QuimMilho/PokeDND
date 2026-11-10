@@ -64,6 +64,160 @@ public sealed interface GameEvent {
         }
     }
 
+    /**
+     * A trainer gains or loses HP (chapter 4.6): an enemy's attack, healing, the end of a knock-out. {@code delta} is negative for damage
+     * and positive for healing; the HP stays between 0 and the maximum. {@code cause} is the end of the line for the log, or null.
+     */
+    record TrainerHpChanged(String trainerId, int delta, String cause) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.TRAINER_HP_CHANGED;
+        }
+
+        @Override
+        public String target() {
+            return trainerId;
+        }
+    }
+
+    /**
+     * What happens to a trainer at 0 HP is set, or ended ({@code knockout} null). The rule is in {@link GameState.Knockout}; the desk
+     * works out the new state (a death saving throw, a respawn) and this event stores it.
+     */
+    record KnockoutSet(String trainerId, GameState.Knockout knockout) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.KNOCKOUT_SET;
+        }
+
+        @Override
+        public String target() {
+            return trainerId;
+        }
+    }
+
+    /**
+     * A Pokémon is made, or replaced by an edited copy (chapter 5.1): a wild one that appears, one that is caught, one that grows, learns
+     * a move or evolves after a battle, one that is healed. The sheet is given complete.
+     */
+    record PokemonSet(PokemonSheet pokemon) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.POKEMON_SET;
+        }
+
+        @Override
+        public String target() {
+            return pokemon.id();
+        }
+    }
+
+    /** A Pokémon leaves the game: a wild one that despawns, or one that is released. Prompts about it go with it. */
+    record PokemonRemoved(String pokemonId) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.POKEMON_REMOVED;
+        }
+
+        @Override
+        public String target() {
+            return pokemonId;
+        }
+    }
+
+    /** Something waits for an answer: a move to learn, an evolution (chapter 7.15, step 3). */
+    record PromptOpened(Prompt prompt) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.PROMPT_OPENED;
+        }
+
+        @Override
+        public String target() {
+            return prompt.id();
+        }
+    }
+
+    /** A prompt was answered and is gone. What the answer did is added by other events in the same action. */
+    record PromptAnswered(String promptId, String answer) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.PROMPT_ANSWERED;
+        }
+
+        @Override
+        public String target() {
+            return promptId;
+        }
+    }
+
+    // ------------------------------------------------------------------------------------ bag, shops and trading (phase 50)
+
+    /** A merchant is set up, or its shelves changed (a purchase, a restock, the admin's edit). */
+    record MerchantSet(Merchant merchant) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.MERCHANT_SET;
+        }
+
+        @Override
+        public String target() {
+            return merchant == null ? "merchant" : merchant.id();
+        }
+    }
+
+    /** A merchant is taken out of the game. */
+    record MerchantRemoved(String merchantId) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.MERCHANT_REMOVED;
+        }
+
+        @Override
+        public String target() {
+            return merchantId;
+        }
+    }
+
+    /** A trade is proposed, or the open trade changes (the other trainer confirmed). */
+    record TradeSet(Trade trade) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.TRADE_SET;
+        }
+
+        @Override
+        public String target() {
+            return trade == null ? "trade" : trade.id();
+        }
+    }
+
+    /** A trade is over: it happened, or it was declined, cancelled or refused. What changed hands is in the other events of the same action. */
+    record TradeClosed(String tradeId, String outcome) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.TRADE_CLOSED;
+        }
+
+        @Override
+        public String target() {
+            return tradeId;
+        }
+    }
+
+    /** A line for the game log that changes nothing: "Ana bought 2 Potions for 400 ₽", "Ana used a Rare Candy on Pikachu". */
+    record GameNoted(String trainerId, String text) implements GameEvent {
+        @Override
+        public String type() {
+            return EventTypes.GAME_NOTED;
+        }
+
+        @Override
+        public String target() {
+            return trainerId == null ? "game" : trainerId;
+        }
+    }
+
     /** A trainer leaves the game. Their open roll requests are cancelled with them. */
     record TrainerRemoved(String trainerId) implements GameEvent {
         @Override
@@ -243,7 +397,7 @@ public sealed interface GameEvent {
     sealed interface BattleEvent extends GameEvent
             permits BattleStarted, RoundOpened, InitiativeSet, ActionDeclared, ResolveStarted, ActionResolved, ReplacementSent,
             CombatantSet, QueueReordered, RoundEnded, BattleEnded, HpChanged, StatusSet, StageChanged, VolatileSet, HeldItemSet,
-            BattleNoted, SwitchRequired, AdminTaskOpened, AdminTaskClosed {
+            BattleNoted, SwitchRequired, AdminTaskOpened, AdminTaskClosed, BallThrown, ParticipantLeft, FleeFailed, BattleSettled {
 
         /** The battle it is about. */
         String battleId();
@@ -455,6 +609,47 @@ public sealed interface GameEvent {
         @Override
         public String type() {
             return EventTypes.ADMIN_TASK_CLOSED;
+        }
+    }
+
+    // ------------------------------------------------------------------------------------ catching, fleeing, leaving (phase 48)
+
+    /**
+     * A trainer threw a Poké Ball (chapter 7.10). With {@code caught} the Pokémon leaves the battle for good (it is kept in
+     * {@link Battle#caught()}); otherwise {@code shakes} (0 to 2) says how close it was, for the mod's animation. A caught Pokémon always
+     * shook 3 times.
+     */
+    record BallThrown(String battleId, String combatantId, String participantId, String ball, int shakes, boolean caught) implements BattleEvent {
+        @Override
+        public String type() {
+            return EventTypes.BALL_THROWN;
+        }
+    }
+
+    /**
+     * A participant leaves the battle and takes its Pokémon along (chapter 7.11, 4.6, 7.14). {@code reason} is {@code fled},
+     * {@code knockedOut} (its trainer reached 0 HP) or {@code surrendered}.
+     */
+    record ParticipantLeft(String battleId, String participantId, String reason) implements BattleEvent {
+        @Override
+        public String type() {
+            return EventTypes.PARTICIPANT_LEFT;
+        }
+    }
+
+    /** The rewards of the battle have been paid (XP, money, evolution prompts, healing): see {@link AfterBattle}. It happens once. */
+    record BattleSettled(String battleId) implements BattleEvent {
+        @Override
+        public String type() {
+            return EventTypes.BATTLE_SETTLED;
+        }
+    }
+
+    /** A trainer tried to run away and did not get away: the next try is easier (chapter 7.11). */
+    record FleeFailed(String battleId, String participantId) implements BattleEvent {
+        @Override
+        public String type() {
+            return EventTypes.FLEE_FAILED;
         }
     }
 }

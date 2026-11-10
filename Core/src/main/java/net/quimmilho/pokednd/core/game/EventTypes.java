@@ -51,6 +51,21 @@ public final class EventTypes {
     public static final String SWITCH_REQUIRED = "battle.switch.required";
     public static final String ADMIN_TASK_OPENED = "battle.task.opened";
     public static final String ADMIN_TASK_CLOSED = "battle.task.closed";
+    public static final String BALL_THROWN = "battle.ball";
+    public static final String PARTICIPANT_LEFT = "battle.left";
+    public static final String FLEE_FAILED = "battle.flee.failed";
+    public static final String TRAINER_HP_CHANGED = "trainer.hp";
+    public static final String KNOCKOUT_SET = "trainer.knockout";
+    public static final String POKEMON_SET = "pokemon.set";
+    public static final String POKEMON_REMOVED = "pokemon.removed";
+    public static final String PROMPT_OPENED = "prompt.opened";
+    public static final String PROMPT_ANSWERED = "prompt.answered";
+    public static final String BATTLE_SETTLED = "battle.settled";
+    public static final String MERCHANT_SET = "merchant.set";
+    public static final String MERCHANT_REMOVED = "merchant.removed";
+    public static final String TRADE_SET = "trade.set";
+    public static final String TRADE_CLOSED = "trade.closed";
+    public static final String GAME_NOTED = "game.noted";
 
     private static final Map<String, Class<? extends GameEvent>> CLASSES = new LinkedHashMap<>();
 
@@ -87,6 +102,21 @@ public final class EventTypes {
         CLASSES.put(SWITCH_REQUIRED, GameEvent.SwitchRequired.class);
         CLASSES.put(ADMIN_TASK_OPENED, GameEvent.AdminTaskOpened.class);
         CLASSES.put(ADMIN_TASK_CLOSED, GameEvent.AdminTaskClosed.class);
+        CLASSES.put(BALL_THROWN, GameEvent.BallThrown.class);
+        CLASSES.put(PARTICIPANT_LEFT, GameEvent.ParticipantLeft.class);
+        CLASSES.put(FLEE_FAILED, GameEvent.FleeFailed.class);
+        CLASSES.put(TRAINER_HP_CHANGED, GameEvent.TrainerHpChanged.class);
+        CLASSES.put(KNOCKOUT_SET, GameEvent.KnockoutSet.class);
+        CLASSES.put(POKEMON_SET, GameEvent.PokemonSet.class);
+        CLASSES.put(POKEMON_REMOVED, GameEvent.PokemonRemoved.class);
+        CLASSES.put(PROMPT_OPENED, GameEvent.PromptOpened.class);
+        CLASSES.put(PROMPT_ANSWERED, GameEvent.PromptAnswered.class);
+        CLASSES.put(BATTLE_SETTLED, GameEvent.BattleSettled.class);
+        CLASSES.put(MERCHANT_SET, GameEvent.MerchantSet.class);
+        CLASSES.put(MERCHANT_REMOVED, GameEvent.MerchantRemoved.class);
+        CLASSES.put(TRADE_SET, GameEvent.TradeSet.class);
+        CLASSES.put(TRADE_CLOSED, GameEvent.TradeClosed.class);
+        CLASSES.put(GAME_NOTED, GameEvent.GameNoted.class);
     }
 
     private EventTypes() {

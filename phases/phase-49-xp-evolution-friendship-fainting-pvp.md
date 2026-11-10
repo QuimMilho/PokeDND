@@ -21,18 +21,18 @@ Pokémon grow after fights, and trainers can fight each other.
 
 ## Tasks
 
-- [ ] XP awards and level-ups with move-learning prompts (5.3, 5.5).
-- [ ] Evolution triggers from the parsed rules (5.4): level, item, friendship, trade, time of day and the rest; the player or the admin confirms.
-- [ ] Friendship (5.8), fainting and healing (5.7), end of battle (7.15), PvP and NPC trainer battles (7.14).
-- [ ] Breeding (5.10) stays optional: skip it unless the user asks.
+- [x] XP awards and level-ups with move-learning prompts (5.3, 5.5).
+- [x] Evolution triggers from the parsed rules (5.4): level, item, friendship, trade, time of day and the rest; the player or the admin confirms.
+- [x] Friendship (5.8), fainting and healing (5.7), end of battle (7.15), PvP and NPC trainer battles (7.14).
+- [x] Breeding (5.10) stays optional: skip it unless the user asks. *Skipped, as the phase says (Appendix D #95).*
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Scripted level-up and evolution cases for each evolution method found in the data.
-- [ ] Friendship changes as documented; fainted Pokémon stay fainted until healed or revived.
-- [ ] A PvP battle runs to the end with both players' rolls.
+- [x] Scripted level-up and evolution cases for each evolution method found in the data.
+- [x] Friendship changes as documented; fainted Pokémon stay fainted until healed or revived.
+- [x] A PvP battle runs to the end with both players' rolls.
 
 ## Done when
 

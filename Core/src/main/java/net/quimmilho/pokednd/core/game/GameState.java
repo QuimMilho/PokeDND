@@ -26,9 +26,38 @@ import net.quimmilho.pokednd.core.trainer.Trainer;
  * @param rolls        the answered rolls, in the order they were answered
  * @param draws        the random choices that were made, in order
  * @param battle       the battle that is going on, or the one that has just ended (null if there has been none); only one runs at a time
+ * @param knockouts    the trainers who are at 0 HP and what happens to them (chapter 4.6), by trainer id
+ * @param pokemon      every individual Pokémon of the game, by id: the ones the trainers own and the wild ones that exist (chapter 5.1)
+ * @param prompts      what waits for an answer after a battle or a level-up (a move to learn, an evolution), by id, oldest first
+ * @param merchants    the shops (chapter 8.8): what each merchant has left on its shelves, by merchant id
+ * @param trades       the trades that were proposed and are not finished, by trade id, oldest first
  */
 public record GameState(GameStatus status, int round, Map<String, Trainer> trainers, Map<String, RollRequest> pendingRolls,
-                        List<RollResult> rolls, List<RandomDraw> draws, Battle battle) {
+                        List<RollResult> rolls, List<RandomDraw> draws, Battle battle, Map<String, Knockout> knockouts,
+                        Map<String, PokemonSheet> pokemon, Map<String, Prompt> prompts, Map<String, Merchant> merchants,
+                        Map<String, Trade> trades) {
+
+    /**
+     * A trainer at 0 HP (chapter 4.6).
+     *
+     * @param mode  the knock-out rule that applies
+     * @param saves where it stands: with {@code faintRespawn} the state is {@code RESPAWN} (the trainer goes back to the healer when the
+     *              battle is over, and loses some ₽); with {@code deathSaves} the saving throws; with {@code admin} {@code UNCONSCIOUS}
+     *              until the admin decides
+     * @param rolled the ids of the death saving throws that were counted, so that a roll is never counted twice
+     */
+    public record Knockout(net.quimmilho.pokednd.core.trainer.KoMode mode, net.quimmilho.pokednd.core.trainer.KnockOut.DeathSaves saves,
+                           List<String> rolled) {
+        public Knockout {
+            rolled = rolled == null ? List.of() : List.copyOf(rolled);
+        }
+
+        /** A knock-out with no death saving throw counted yet. */
+        public Knockout(net.quimmilho.pokednd.core.trainer.KoMode mode, net.quimmilho.pokednd.core.trainer.KnockOut.DeathSaves saves) {
+            this(mode, saves, List.of());
+        }
+    }
+
 
     /** Who has to answer a roll request. */
     public enum Roller {
@@ -227,11 +256,35 @@ public record GameState(GameStatus status, int round, Map<String, Trainer> train
         pendingRolls = frozen(pendingRolls);
         rolls = List.copyOf(rolls);
         draws = List.copyOf(draws);
+        knockouts = knockouts == null ? Map.of() : frozen(knockouts);
+        pokemon = pokemon == null ? Map.of() : frozen(pokemon);
+        prompts = prompts == null ? Map.of() : frozen(prompts);
+        merchants = merchants == null ? Map.of() : frozen(merchants);
+        trades = trades == null ? Map.of() : frozen(trades);
+    }
+
+    /** A state as phase 49 made it: no shops and no trades. */
+    public GameState(GameStatus status, int round, Map<String, Trainer> trainers, Map<String, RollRequest> pendingRolls,
+                     List<RollResult> rolls, List<RandomDraw> draws, Battle battle, Map<String, Knockout> knockouts,
+                     Map<String, PokemonSheet> pokemon, Map<String, Prompt> prompts) {
+        this(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, Map.of(), Map.of());
+    }
+
+    /** A state as phase 48 made it: no Pokémon and nothing waiting for an answer. */
+    public GameState(GameStatus status, int round, Map<String, Trainer> trainers, Map<String, RollRequest> pendingRolls,
+                     List<RollResult> rolls, List<RandomDraw> draws, Battle battle, Map<String, Knockout> knockouts) {
+        this(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, Map.of(), Map.of(), Map.of(), Map.of());
+    }
+
+    /** A state as phase 48 made it: nobody is knocked out. */
+    public GameState(GameStatus status, int round, Map<String, Trainer> trainers, Map<String, RollRequest> pendingRolls,
+                     List<RollResult> rolls, List<RandomDraw> draws, Battle battle) {
+        this(status, round, trainers, pendingRolls, rolls, draws, battle, Map.of());
     }
 
     /** A game that has just been made. */
     public static GameState empty() {
-        return new GameState(GameStatus.DRAFT, 0, Map.of(), Map.of(), List.of(), List.of(), null);
+        return new GameState(GameStatus.DRAFT, 0, Map.of(), Map.of(), List.of(), List.of(), null, Map.of());
     }
 
     private static <V> Map<String, V> frozen(Map<String, V> map) {
@@ -240,36 +293,61 @@ public record GameState(GameStatus status, int round, Map<String, Trainer> train
 
     /** A copy with another status. */
     public GameState withStatus(GameStatus value) {
-        return new GameState(value, round, trainers, pendingRolls, rolls, draws, battle);
+        return new GameState(value, round, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, merchants, trades);
     }
 
     /** A copy in another round. */
     public GameState withRound(int value) {
-        return new GameState(status, value, trainers, pendingRolls, rolls, draws, battle);
+        return new GameState(status, value, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, merchants, trades);
     }
 
     /** A copy with these trainers. */
     public GameState withTrainers(Map<String, Trainer> value) {
-        return new GameState(status, round, value, pendingRolls, rolls, draws, battle);
+        return new GameState(status, round, value, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, merchants, trades);
     }
 
     /** A copy with these pending roll requests. */
     public GameState withPendingRolls(Map<String, RollRequest> value) {
-        return new GameState(status, round, trainers, value, rolls, draws, battle);
+        return new GameState(status, round, trainers, value, rolls, draws, battle, knockouts, pokemon, prompts, merchants, trades);
     }
 
     /** A copy with these answered rolls. */
     public GameState withRolls(List<RollResult> value) {
-        return new GameState(status, round, trainers, pendingRolls, value, draws, battle);
+        return new GameState(status, round, trainers, pendingRolls, value, draws, battle, knockouts, pokemon, prompts, merchants, trades);
     }
 
     /** A copy with these random choices. */
     public GameState withDraws(List<RandomDraw> value) {
-        return new GameState(status, round, trainers, pendingRolls, rolls, value, battle);
+        return new GameState(status, round, trainers, pendingRolls, rolls, value, battle, knockouts, pokemon, prompts, merchants, trades);
+    }
+
+    /** A copy with these knock-outs. */
+    public GameState withKnockouts(Map<String, Knockout> value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, battle, value, pokemon, prompts, merchants, trades);
+    }
+
+    /** A copy with these Pokémon. */
+    public GameState withPokemon(Map<String, PokemonSheet> value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, value, prompts, merchants, trades);
+    }
+
+    /** A copy with these prompts. */
+    public GameState withPrompts(Map<String, Prompt> value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, value, merchants, trades);
+    }
+
+    /** A copy with these merchants. */
+    public GameState withMerchants(Map<String, Merchant> value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, value, trades);
+    }
+
+    /** A copy with these open trades. */
+    public GameState withTrades(Map<String, Trade> value) {
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, battle, knockouts, pokemon, prompts, merchants, value);
     }
 
     /** A copy with this battle (null for none). */
     public GameState withBattle(Battle value) {
-        return new GameState(status, round, trainers, pendingRolls, rolls, draws, value);
+        return new GameState(status, round, trainers, pendingRolls, rolls, draws, value, knockouts, pokemon, prompts, merchants, trades);
     }
 }

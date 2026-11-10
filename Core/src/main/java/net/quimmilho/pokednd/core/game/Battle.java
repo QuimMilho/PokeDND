@@ -42,11 +42,31 @@ import net.quimmilho.pokednd.core.rules.Stats;
  * @param mustSwitch          the Pokémon on the field that have to be replaced before the battle goes on (after U-turn, or a forced switch)
  * @param replacedBy          the Pokémon that left the field this round (not fainted) and the one that took its place: a move aimed
  *                            at the first one hits the second (cleared when the round ends)
+ * @param caught              the Pokémon that were caught in this battle, by id, with who caught them (they stay in {@code combatants} as
+ *                            fainted ones, so XP is not paid for them)
+ * @param left                the participants that left the battle, by id, with why: {@code fled}, {@code knockedOut} or {@code surrendered}
+ *                            (their Pokémon go with them and take no more part)
+ * @param fleeAttempts        how many times each participant has tried to run away and failed (the next try is one more)
+ * @param met                 for every Pokémon, the Pokémon of the other sides that were on the field together with it (chapter 5.3: the
+ *                            "participants" that share the XP of a defeated Pokémon)
+ * @param settled             true once the rewards of the battle have been paid (XP, money, evolution prompts: {@link AfterBattle})
  */
 public record Battle(String battleId, Type type, BattleSettings rules, int round, Step step, Map<String, Participant> participants,
                      Map<String, Combatant> combatants, List<InitiativeSlot> slots, List<InitiativeEntry> order,
                      long declareDeadlineMillis, Map<String, Action> declared, List<String> queue, List<String> resolved,
-                     List<String> log, List<AdminTask> tasks, List<String> mustSwitch, Map<String, String> replacedBy) {
+                     List<String> log, List<AdminTask> tasks, List<String> mustSwitch, Map<String, String> replacedBy,
+                     Map<String, Catch> caught, Map<String, String> left, Map<String, Integer> fleeAttempts,
+                     Map<String, List<String>> met, boolean settled) {
+
+    /**
+     * A Pokémon that was caught.
+     *
+     * @param hp            the HP it had when the ball hit (a caught Pokémon keeps them)
+     * @param participantId the trainer who caught it
+     * @param ball          the ball
+     */
+    public record Catch(int hp, String participantId, String ball) {
+    }
 
     /** The kinds of battle of chapter 7.1. */
     public enum Type {
@@ -159,38 +179,77 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
      * @param gender      {@code M}, {@code F} or {@code N} (none)
      * @param friendship  0 to 255, read by Return and Frustration
      * @param hiddenPower the type of Hidden Power, worked out from the IVs (null: Normal)
+     * @param ability     the id of the ability in the Showdown data ({@code sturdy}, {@code intimidate}…), or null for none (chapter 7.9)
+     * @param speciesId   the species, for Repeat Ball and for the XP and evolution of phase 49 (null if not known)
+     * @param catchRate   the species' Catch Rate, 3 to 255 (0 if not known: the catch uses {@value #DEFAULT_CATCH_RATE}, chapter 7.10)
      */
     public record Build(List<PokemonType> types, int attack, int defense, int spAttack, int spDefense, int speed, String gender,
-                        int friendship, PokemonType hiddenPower) {
+                        int friendship, PokemonType hiddenPower, String ability, String speciesId, int catchRate) {
+
+        /** The Catch Rate used when the species is not known (the rate of most unevolved Pokémon). */
+        public static final int DEFAULT_CATCH_RATE = 45;
+
         public Build {
             types = types == null ? List.of() : List.copyOf(types);
             gender = gender == null ? "N" : gender;
+            ability = ability == null || ability.isBlank() ? null : ability;
+            speciesId = speciesId == null || speciesId.isBlank() ? null : speciesId;
+            if (catchRate < 0 || catchRate > 255) {
+                throw new IllegalArgumentException("A catch rate is 0 to 255, not " + catchRate);
+            }
+        }
+
+        /** The shape before phase 47: no ability. */
+        public Build(List<PokemonType> types, int attack, int defense, int spAttack, int spDefense, int speed, String gender,
+                     int friendship, PokemonType hiddenPower) {
+            this(types, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower, null, null, 0);
+        }
+
+        /** The shape of phase 47: an ability, no species. */
+        public Build(List<PokemonType> types, int attack, int defense, int spAttack, int spDefense, int speed, String gender,
+                     int friendship, PokemonType hiddenPower, String ability) {
+            this(types, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower, ability, null, 0);
         }
 
         /** Nothing is known: no types, stats of 0. */
         public static Build unknown(int speed) {
-            return new Build(List.of(), 0, 0, 0, 0, speed, "N", 70, null);
+            return new Build(List.of(), 0, 0, 0, 0, speed, "N", 70, null, null, null, 0);
         }
 
-        /** Types and the five stats; gender none, friendship 70. */
+        /** Types and the five stats; gender none, friendship 70, no ability. */
         public static Build of(List<PokemonType> types, int attack, int defense, int spAttack, int spDefense, int speed) {
-            return new Build(types, attack, defense, spAttack, spDefense, speed, "N", 70, null);
+            return new Build(types, attack, defense, spAttack, spDefense, speed, "N", 70, null, null, null, 0);
+        }
+
+        /** The Catch Rate to use: the species' own, or {@value #DEFAULT_CATCH_RATE} when it is not known. */
+        public int effectiveCatchRate() {
+            return catchRate > 0 ? catchRate : DEFAULT_CATCH_RATE;
         }
 
         public Build withGender(String value) {
-            return new Build(types, attack, defense, spAttack, spDefense, speed, value, friendship, hiddenPower);
+            return new Build(types, attack, defense, spAttack, spDefense, speed, value, friendship, hiddenPower, ability, speciesId, catchRate);
         }
 
         public Build withFriendship(int value) {
-            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, value, hiddenPower);
+            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, value, hiddenPower, ability, speciesId, catchRate);
         }
 
         public Build withHiddenPower(PokemonType value) {
-            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, friendship, value);
+            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, friendship, value, ability, speciesId, catchRate);
         }
 
         public Build withTypes(List<PokemonType> value) {
-            return new Build(value, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower);
+            return new Build(value, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower, ability, speciesId, catchRate);
+        }
+
+        /** The same build with this ability (an id such as {@code sturdy}, or null). */
+        public Build withAbility(String value) {
+            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower, value, speciesId, catchRate);
+        }
+
+        /** The same build for this species and Catch Rate. */
+        public Build withSpecies(String species, int rate) {
+            return new Build(types, attack, defense, spAttack, spDefense, speed, gender, friendship, hiddenPower, ability, species, rate);
         }
     }
 
@@ -383,6 +442,14 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
         public static final String LAST_FAILED = "lastfailed";
         /** {@code used.<moveId>}: the move was used this round (Round). */
         public static final String USED = "used.";
+        /** A Choice item locks the holder into the move it used first: the number of that move's place in its list, plus 1 (phase 47). */
+        public static final String CHOICE_LOCK = "choicelock";
+        /** Flash Fire has absorbed a Fire move: the holder's own Fire moves are stronger (phase 47). */
+        public static final String FLASH_FIRE = "flashfire";
+        /** Dire Hit has been used: the Pokémon's moves get +2 critical stages until it leaves the field (phase 50). */
+        public static final String FOCUS_ENERGY = "focusenergy";
+        /** Guard Spec has been used: foes cannot lower the Pokémon's stats until it leaves the field (phase 50). */
+        public static final String GUARD_SPEC = "guardspec";
 
         private Volatiles() {
         }
@@ -494,6 +561,11 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
             return new Action(ActionKind.ITEM, null, List.of(targetCombatantId), null, itemId);
         }
 
+        /** An item used on a Pokémon, with the move it is used on (an Ether). */
+        public static Action item(String itemId, String targetCombatantId, String moveId) {
+            return new Action(ActionKind.ITEM, moveId, List.of(targetCombatantId), null, itemId);
+        }
+
         public static Action ball(String ballId, String wildCombatantId) {
             return new Action(ActionKind.BALL, null, List.of(wildCombatantId), null, ballId);
         }
@@ -554,6 +626,33 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
         tasks = tasks == null ? List.of() : List.copyOf(tasks);
         mustSwitch = mustSwitch == null ? List.of() : List.copyOf(mustSwitch);
         replacedBy = replacedBy == null ? Map.of() : frozen(replacedBy);
+        caught = caught == null ? Map.of() : frozen(caught);
+        left = left == null ? Map.of() : frozen(left);
+        fleeAttempts = fleeAttempts == null ? Map.of() : frozen(fleeAttempts);
+        Map<String, List<String>> copy = new LinkedHashMap<>();
+        if (met != null) {
+            met.forEach((k, v) -> copy.put(k, List.copyOf(v)));
+        }
+        met = Collections.unmodifiableMap(copy);
+    }
+
+    /** A battle as phase 48 made it: nobody has met anybody, the rewards have not been paid. */
+    public Battle(String battleId, Type type, BattleSettings rules, int round, Step step, Map<String, Participant> participants,
+                  Map<String, Combatant> combatants, List<InitiativeSlot> slots, List<InitiativeEntry> order,
+                  long declareDeadlineMillis, Map<String, Action> declared, List<String> queue, List<String> resolved, List<String> log,
+                  List<AdminTask> tasks, List<String> mustSwitch, Map<String, String> replacedBy, Map<String, Catch> caught,
+                  Map<String, String> left, Map<String, Integer> fleeAttempts) {
+        this(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared, queue, resolved,
+                log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, Map.of(), false);
+    }
+
+    /** A battle as phase 47 made it: nobody was caught, nobody has left. */
+    public Battle(String battleId, Type type, BattleSettings rules, int round, Step step, Map<String, Participant> participants,
+                  Map<String, Combatant> combatants, List<InitiativeSlot> slots, List<InitiativeEntry> order,
+                  long declareDeadlineMillis, Map<String, Action> declared, List<String> queue, List<String> resolved, List<String> log,
+                  List<AdminTask> tasks, List<String> mustSwitch, Map<String, String> replacedBy) {
+        this(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared, queue, resolved,
+                log, tasks, mustSwitch, replacedBy, Map.of(), Map.of(), Map.of(), Map.of(), false);
     }
 
     /** A battle as phase 44 made it: no admin tasks, nobody has to switch. */
@@ -561,7 +660,7 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
                   Map<String, Combatant> combatants, List<InitiativeSlot> slots, List<InitiativeEntry> order,
                   long declareDeadlineMillis, Map<String, Action> declared, List<String> queue, List<String> resolved, List<String> log) {
         this(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared, queue, resolved,
-                log, List.of(), List.of(), Map.of());
+                log, List.of(), List.of(), Map.of(), Map.of(), Map.of(), Map.of(), Map.of(), false);
     }
 
     private static <V> Map<String, V> frozen(Map<String, V> map) {
@@ -577,42 +676,81 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
     Battle with(int newRound, Step newStep, List<InitiativeSlot> newSlots, List<InitiativeEntry> newOrder, long deadline,
                 Map<String, Action> newDeclared, List<String> newQueue, List<String> newResolved) {
         return new Battle(battleId, type, rules, newRound, newStep, participants, combatants, newSlots, newOrder, deadline, newDeclared,
-                newQueue, newResolved, log, tasks, mustSwitch, replacedBy);
+                newQueue, newResolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withTeams(Map<String, Participant> newParticipants, Map<String, Combatant> newCombatants) {
         return new Battle(battleId, type, rules, round, step, newParticipants, newCombatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, log, tasks, mustSwitch, replacedBy);
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withQueue(List<String> newQueue, List<String> newResolved) {
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                newQueue, newResolved, log, tasks, mustSwitch, replacedBy);
+                newQueue, newResolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withDeclared(Map<String, Action> newDeclared) {
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, newDeclared,
-                queue, resolved, log, tasks, mustSwitch, replacedBy);
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withStep(Step newStep) {
         return new Battle(battleId, type, rules, round, newStep, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, log, tasks, mustSwitch, replacedBy);
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withReplaced(Map<String, String> newReplacedBy) {
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, log, tasks, mustSwitch, newReplacedBy);
+                queue, resolved, log, tasks, mustSwitch, newReplacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withTasks(List<AdminTask> newTasks) {
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, log, newTasks, mustSwitch, replacedBy);
+                queue, resolved, log, newTasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     Battle withMustSwitch(List<String> newMustSwitch) {
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, log, tasks, newMustSwitch, replacedBy);
+                queue, resolved, log, tasks, newMustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
+    }
+
+    Battle withCaught(Map<String, Catch> newCaught) {
+        return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
+                queue, resolved, log, tasks, mustSwitch, replacedBy, newCaught, left, fleeAttempts, met, settled);
+    }
+
+    Battle withSettled() {
+        return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, true);
+    }
+
+    /** A copy that has noted which Pokémon of different sides are on the field together now (they are "participants" for each other). */
+    Battle withMeetings() {
+        Map<String, List<String>> next = new LinkedHashMap<>();
+        met.forEach((k, v) -> next.put(k, new ArrayList<>(v)));
+        List<Combatant> field = standing();
+        for (Combatant a : field) {
+            for (Combatant other : field) {
+                if (sideOf(a) != sideOf(other)) {
+                    List<String> list = next.computeIfAbsent(a.id(), k -> new ArrayList<>());
+                    if (!list.contains(other.id())) {
+                        list.add(other.id());
+                    }
+                }
+            }
+        }
+        return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, next, settled);
+    }
+
+    Battle withLeft(Map<String, String> newLeft) {
+        return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, newLeft, fleeAttempts, met, settled);
+    }
+
+    Battle withFleeAttempts(Map<String, Integer> newAttempts) {
+        return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
+                queue, resolved, log, tasks, mustSwitch, replacedBy, caught, left, newAttempts, met, settled);
     }
 
     /** A copy with these lines added to the end of the log. */
@@ -620,7 +758,7 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
         List<String> all = new ArrayList<>(log);
         all.addAll(List.of(lines));
         return new Battle(battleId, type, rules, round, step, participants, combatants, slots, order, declareDeadlineMillis, declared,
-                queue, resolved, all, tasks, mustSwitch, replacedBy);
+                queue, resolved, all, tasks, mustSwitch, replacedBy, caught, left, fleeAttempts, met, settled);
     }
 
     // -------------------------------------------------------------------------------------------------------------- reading
@@ -645,6 +783,21 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
         return now;
     }
 
+    /** The target of a move that is aimed at a trainer instead of a Pokémon (chapter 7.12): {@code trainer:<participant id>}. */
+    public static String trainerTarget(String participantId) {
+        return "trainer:" + participantId;
+    }
+
+    /** True if this target is a trainer ({@link #trainerTarget}). */
+    public static boolean isTrainerTarget(String target) {
+        return target != null && target.startsWith("trainer:");
+    }
+
+    /** The participant a trainer target names. */
+    public static String trainerTargetId(String target) {
+        return target.substring("trainer:".length());
+    }
+
     /** The Pokémon with this id, or null. */
     public Combatant combatant(String id) {
         return combatants.get(id);
@@ -667,12 +820,12 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
 
     /** True if the Pokémon is on the field now. */
     public boolean isActive(Combatant combatant) {
-        return ownerOf(combatant).active().contains(combatant.id());
+        return !left.containsKey(combatant.ownerId()) && ownerOf(combatant).active().contains(combatant.id());
     }
 
-    /** True when every Pokémon of the participant has fainted: it can no longer take part. */
+    /** True when every Pokémon of the participant has fainted, or the participant has left the battle: it can no longer take part. */
     public boolean out(Participant participant) {
-        return java.util.stream.Stream.concat(participant.active().stream(), participant.reserve().stream())
+        return left.containsKey(participant.id()) || java.util.stream.Stream.concat(participant.active().stream(), participant.reserve().stream())
                 .allMatch(id -> combatants.get(id).fainted());
     }
 
@@ -680,6 +833,9 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
     public List<Combatant> standing() {
         List<Combatant> list = new ArrayList<>();
         for (Participant p : participants.values()) {
+            if (left.containsKey(p.id())) {
+                continue;
+            }
             for (String id : p.active()) {
                 Combatant c = combatants.get(id);
                 if (!c.fainted()) {
@@ -745,6 +901,49 @@ public record Battle(String battleId, Type type, BattleSettings rules, int round
             }
         }
         return Integer.MAX_VALUE;
+    }
+
+    /** An id written without capitals, underscores or spaces, the way the Showdown data writes it: {@code Choice_Band} → {@code choiceband}. */
+    public static String squash(String id) {
+        return id == null ? null : id.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]", "");
+    }
+
+    /**
+     * The ability of a Pokémon as the rules see it: its id, or null when it has none or {@code combat.abilities.enabled} is off (chapter 7.9).
+     */
+    public String abilityOf(Combatant combatant) {
+        return rules.abilitiesEnabled() ? squash(combatant.build().ability()) : null;
+    }
+
+    /** The held item of a Pokémon as the rules see it (an id without underscores): null if none, or {@code combat.heldItems.enabled} is off. */
+    public String itemOf(Combatant combatant) {
+        return rules.heldItemsEnabled() ? squash(combatant.condition().heldItem()) : null;
+    }
+
+    /** True if the Pokémon has this ability (and abilities are on). */
+    public boolean hasAbility(Combatant combatant, String ability) {
+        return ability.equals(abilityOf(combatant));
+    }
+
+    /** True if the Pokémon holds this item (and held items are on). */
+    public boolean holds(Combatant combatant, String item) {
+        return item.equals(itemOf(combatant));
+    }
+
+    /** True if a foe on the field has Unnerve, so this Pokémon cannot eat its berry. */
+    public boolean unnerved(Combatant combatant) {
+        int side = sideOf(combatant);
+        return standing().stream().anyMatch(c -> sideOf(c) != side && hasAbility(c, "unnerve"));
+    }
+
+    /** The move a Choice item locks the Pokémon into, or null. The lock ends when the Pokémon leaves the field or loses the item. */
+    public String choiceLockedMove(Combatant combatant) {
+        int lock = combatant.condition().volatileValue(Volatiles.CHOICE_LOCK);
+        String item = itemOf(combatant);
+        if (lock < 1 || item == null || !item.startsWith("choice") || lock > combatant.moves().size()) {
+            return null;
+        }
+        return combatant.moves().get(lock - 1).moveId();
     }
 
     /** How a Pokémon is called in the log: {@code Ana's Charmander}, {@code wild Rattata}. */

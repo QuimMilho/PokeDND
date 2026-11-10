@@ -35,12 +35,15 @@ final class BattleGenerator {
 
     static GameEvent next(Random random, GameState state) {
         Battle b = state.battle();
+        if (b != null && b.step() == Step.ENDED && !b.settled() && random.nextInt(3) == 0) {
+            return new GameEvent.BattleSettled(b.battleId());
+        }
         if (b == null || b.step() == Step.ENDED) {
             return start(random, state);
         }
         // sometimes something happens to a Pokémon, whatever the step
         if (random.nextInt(8) == 0) {
-            return tweak(random, b);
+            return tweak(random, state, b);
         }
         if (random.nextInt(40) == 0) {
             return new GameEvent.BattleEnded(b.battleId(), random.nextBoolean() ? "enough" : null);
@@ -55,6 +58,9 @@ final class BattleGenerator {
                     }
                 }
             }
+        }
+        if (!b.mustSwitch().isEmpty()) {
+            return new GameEvent.BattleEnded(b.battleId(), "nobody to send in"); // a Pokémon that must be replaced and has no replacement: the battle cannot go on
         }
         return switch (b.step()) {
             case START, ROUND_END -> openRound(random, state, b);
@@ -103,11 +109,16 @@ final class BattleGenerator {
         return new Combatant(id, owner, "Mon " + id, 5, down ? 0 : hp, hp, speed, random.nextInt(6) == 0, moves);
     }
 
-    private static GameEvent tweak(Random random, Battle b) {
+    private static GameEvent tweak(Random random, GameState state, Battle b) {
         List<Combatant> all = new ArrayList<>(b.combatants().values());
         Combatant c = all.get(random.nextInt(all.size()));
         String id = b.battleId();
-        return switch (random.nextInt(14)) {
+        return switch (random.nextInt(19)) {
+            case 14 -> ball(random, b);
+            case 15 -> leave(random, b);
+            case 16 -> fleeFailed(random, b);
+            case 17 -> trainerHp(random, state, b);
+            case 18 -> knockout(random, state, b);
             case 0 -> new GameEvent.CombatantSet(id, c.withHp(0));
             case 1 -> new GameEvent.CombatantSet(id, c.withHp(1 + random.nextInt(c.maxHp())));
             case 2 -> new GameEvent.CombatantSet(id, c.withSpeed(random.nextInt(120)));
@@ -139,6 +150,152 @@ final class BattleGenerator {
                     : new GameEvent.AdminTaskClosed(id, b.tasks().get(random.nextInt(b.tasks().size())).id());
             default -> new GameEvent.CombatantSet(id, c.withHp(c.maxHp()));
         };
+    }
+
+    // ------------------------------------------------------------------------------------------ phase 49: Pokémon and prompts
+
+    /** One event about the Pokémon or the prompts of the game, valid in any state. */
+    static GameEvent pokemonEvent(Random random, GameState state) {
+        List<String> trainers = new ArrayList<>(state.trainers().keySet());
+        String owner = trainers.isEmpty() || random.nextBoolean() ? null : trainers.get(random.nextInt(trainers.size()));
+        return switch (random.nextInt(5)) {
+            case 0, 1 -> new GameEvent.PokemonSet(PokemonSheet.of("pk" + random.nextInt(6), owner, "bulbasaur", 1 + random.nextInt(60), random.nextInt(5000),
+                    random.nextInt(60), List.of(new MoveSlot("tackle", "Tackle", 10, 35, 0, "normal"))));
+            case 2 -> {
+                if (state.pokemon().isEmpty()) {
+                    yield new GameEvent.PokemonSet(PokemonSheet.of("pk" + random.nextInt(6), owner, "bulbasaur", 5, 0, 20, List.of()));
+                }
+                List<String> ids = new ArrayList<>(state.pokemon().keySet());
+                yield new GameEvent.PokemonRemoved(ids.get(random.nextInt(ids.size())));
+            }
+            case 3 -> openPrompt(random, state, owner);
+            default -> {
+                if (state.prompts().isEmpty()) {
+                    yield openPrompt(random, state, owner);
+                }
+                List<String> ids = new ArrayList<>(state.prompts().keySet());
+                yield new GameEvent.PromptAnswered(ids.get(random.nextInt(ids.size())), random.nextBoolean() ? "yes" : "no");
+            }
+        };
+    }
+
+    // ------------------------------------------------------------------------------------ phase 50: shops, trades and notes
+
+    /** One event about the shops, the trades or the log of the game, valid in any state. */
+    static GameEvent economyEvent(Random random, GameState state) {
+        List<String> trainers = new ArrayList<>(state.trainers().keySet());
+        if (!state.trades().isEmpty() && random.nextInt(3) == 0) {
+            return new GameEvent.TradeClosed(new ArrayList<>(state.trades().keySet()).get(random.nextInt(state.trades().size())), "declined");
+        }
+        switch (random.nextInt(5)) {
+            case 0 -> {
+                return new GameEvent.GameNoted(trainers.isEmpty() || random.nextBoolean() ? null : trainers.get(random.nextInt(trainers.size())), "A line for the log.");
+            }
+            case 1 -> {
+                if (!state.merchants().isEmpty() && random.nextBoolean()) {
+                    return new GameEvent.MerchantRemoved(new ArrayList<>(state.merchants().keySet()).get(random.nextInt(state.merchants().size())));
+                }
+            }
+            case 2 -> {
+                if (!state.trades().isEmpty() && random.nextBoolean()) {
+                    return new GameEvent.TradeClosed(new ArrayList<>(state.trades().keySet()).get(random.nextInt(state.trades().size())), "declined");
+                }
+            }
+            case 3 -> {
+                if (trainers.size() >= 2) {
+                    int a = random.nextInt(trainers.size());
+                    int b = (a + 1 + random.nextInt(trainers.size() - 1)) % trainers.size();
+                    return new GameEvent.TradeSet(new Trade("tr" + random.nextInt(4), random.nextBoolean() ? "centre" : null, trainers.get(a), trainers.get(b),
+                            new Trade.Side(List.of("pk" + random.nextInt(6)), java.util.Map.of("potion", 1 + random.nextInt(3)), random.nextInt(500)),
+                            Trade.Side.nothing(), random.nextBoolean() ? Trade.Status.PROPOSED : Trade.Status.CONFIRMED));
+                }
+            }
+            default -> {
+            }
+        }
+        List<Merchant.StockLine> stock = new ArrayList<>();
+        stock.add(Merchant.StockLine.of("potion", random.nextInt(9)));
+        if (random.nextBoolean()) {
+            stock.add(Merchant.StockLine.unlimited("poke_ball").withPrice(random.nextBoolean() ? null : 100 + random.nextInt(900)));
+        }
+        return new GameEvent.MerchantSet(new Merchant("m" + random.nextInt(3), "Mart " + random.nextInt(3), random.nextBoolean(), random.nextBoolean(),
+                0.5 + random.nextInt(4) / 2.0, random.nextInt(12), state.round(), stock));
+    }
+
+    private static GameEvent openPrompt(Random random, GameState state, String owner) {
+        String pokemon = state.pokemon().isEmpty() || random.nextBoolean() ? null : new ArrayList<>(state.pokemon().keySet()).get(random.nextInt(state.pokemon().size()));
+        String id;
+        do {
+            id = "pr" + random.nextInt(1000);
+        } while (state.prompts().containsKey(id)); // a prompt id is new
+        return new GameEvent.PromptOpened(new Prompt(id, Prompt.Kind.values()[random.nextInt(4)], owner, pokemon, "ivysaur", "A question."));
+    }
+
+    // ---------------------------------------------------------------------------------------------- phase 48: catching, leaving, trainers
+
+    /** A ball at a wild Pokémon that can be caught (or a note when there is none). */
+    private static GameEvent ball(Random random, Battle b) {
+        List<Participant> throwers = b.participants().values().stream().filter(p -> p.kind() == Kind.TRAINER && !b.left().containsKey(p.id())).toList();
+        if (throwers.isEmpty()) {
+            return new GameEvent.BattleNoted(b.battleId(), "Nobody throws.");
+        }
+        Participant thrower = throwers.get(random.nextInt(throwers.size()));
+        List<Combatant> targets = b.standing().stream()
+                .filter(c -> b.ownerOf(c).kind() != Kind.TRAINER && !c.boss() && b.sideOf(c) != thrower.side()).toList();
+        if (targets.isEmpty()) {
+            return new GameEvent.BattleNoted(b.battleId(), "Nothing to catch.");
+        }
+        boolean caught = random.nextInt(3) == 0;
+        return new GameEvent.BallThrown(b.battleId(), targets.get(random.nextInt(targets.size())).id(), thrower.id(), "poke_ball",
+                caught ? 3 : random.nextInt(3), caught);
+    }
+
+    /** A participant leaves, while at least one other stays. */
+    private static GameEvent leave(Random random, Battle b) {
+        List<Participant> staying = b.participants().values().stream().filter(p -> !b.left().containsKey(p.id())).toList();
+        if (staying.size() < 2) {
+            return new GameEvent.BattleNoted(b.battleId(), "Everybody stays.");
+        }
+        return new GameEvent.ParticipantLeft(b.battleId(), staying.get(random.nextInt(staying.size())).id(),
+                new String[] {"fled", "knockedOut", "surrendered"}[random.nextInt(3)]);
+    }
+
+    private static GameEvent fleeFailed(Random random, Battle b) {
+        List<Participant> trainers = b.participants().values().stream().filter(p -> p.kind() == Kind.TRAINER && !b.left().containsKey(p.id())).toList();
+        return trainers.isEmpty() ? new GameEvent.BattleNoted(b.battleId(), "Nobody runs.")
+                : new GameEvent.FleeFailed(b.battleId(), trainers.get(random.nextInt(trainers.size())).id());
+    }
+
+    /** A trainer of the battle loses or gains HP. */
+    private static GameEvent trainerHp(Random random, GameState state, Battle b) {
+        String id = trainerId(random, state, b);
+        if (id == null) {
+            return new GameEvent.BattleNoted(b.battleId(), "Nobody is hurt.");
+        }
+        Trainer trainer = state.trainers().get(id);
+        if (trainer.hp() == 0 || random.nextInt(3) == 0) {
+            return new GameEvent.TrainerHpChanged(id, 1 + random.nextInt(5), "from a test");
+        }
+        return new GameEvent.TrainerHpChanged(id, -1 - random.nextInt(trainer.hp()), "from a test");
+    }
+
+    /** What happens to a trainer at 0 HP is set or ended. */
+    private static GameEvent knockout(Random random, GameState state, Battle b) {
+        String id = trainerId(random, state, b);
+        if (id == null) {
+            return new GameEvent.BattleNoted(b.battleId(), "Nobody falls.");
+        }
+        if (state.knockouts().containsKey(id) && random.nextBoolean()) {
+            return new GameEvent.KnockoutSet(id, null);
+        }
+        net.quimmilho.pokednd.core.trainer.KoMode mode = net.quimmilho.pokednd.core.trainer.KoMode.values()[random.nextInt(3)];
+        return new GameEvent.KnockoutSet(id, new GameState.Knockout(mode, net.quimmilho.pokednd.core.trainer.KnockOut.DeathSaves.start()));
+    }
+
+    private static String trainerId(Random random, GameState state, Battle b) {
+        List<String> ids = b.participants().values().stream().filter(p -> p.kind() == Kind.TRAINER && state.trainers().containsKey(p.trainerId()))
+                .map(Participant::trainerId).toList();
+        return ids.isEmpty() ? null : ids.get(random.nextInt(ids.size()));
     }
 
     private static GameEvent openRound(Random random, GameState state, Battle b) {

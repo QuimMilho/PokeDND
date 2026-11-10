@@ -21,17 +21,17 @@ Give Pokémon their abilities and items in battle, for the most common ones.
 
 ## Tasks
 
-- [ ] Implement the top 25 scripted abilities from the coverage report (Swift Swim, Sturdy, Chlorophyll, Keen Eye, Intimidate, Inner Focus, Blaze, Overgrow, Sheer Force, Swarm, and so on).
-- [ ] Held items: Leftovers, Choice items, Focus Sash, Life Orb, type gems, berries that heal or cure; one-use items are consumed.
-- [ ] Settings `combat.abilities.enabled` and `combat.heldItems.enabled`; manual fallback for the rest.
+- [x] Implement the top 25 scripted abilities from the coverage report (Sturdy, Keen Eye, Intimidate, Inner Focus, Blaze, Overgrow, Sheer Force, Swarm, and so on). *Changed on 2026-11-10 (the user's decision):* Swift Swim, Chlorophyll, Sand Veil and Leaf Guard only matter in weather, which is not in the game, so they do nothing and do not count; the 25 are filled with the next real ones (Appendix D #93).
+- [x] Held items: Leftovers, Choice items, Focus Sash, Life Orb, type gems, berries that heal or cure; one-use items are consumed.
+- [x] Settings `combat.abilities.enabled` and `combat.heldItems.enabled`; manual fallback for the rest.
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] One test per implemented ability and item.
-- [ ] With abilities switched off, battles run without any ability effect.
-- [ ] Coverage numbers regenerated and written to 19.6.
+- [x] One test per implemented ability and item.
+- [x] With abilities switched off, battles run without any ability effect.
+- [x] Coverage numbers regenerated and written to 19.6.
 
 ## Done when
 

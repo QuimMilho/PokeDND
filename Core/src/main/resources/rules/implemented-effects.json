@@ -1,5 +1,5 @@
 {
-  "_comment": "The 25 most-learned scripted moves that Core runs by hand (plus Struggle, which is a rule of the game, and which no Pokémon learns), and the shared conditions that Core runs for any move (chapter 19.6, phase 46). tools/effect-coverage.mjs and the Java MoveBook both read this file. A scripted move is 'implemented' when it is listed under moves, or when it has no code and every condition it sets is listed under conditions.",
+  "_comment": "The 25 most-learned scripted moves that Core runs by hand (plus Struggle, which is a rule of the game, and which no Pokémon learns), the shared conditions that Core runs for any move (chapter 19.6, phase 46), the 25 scripted abilities and the held items that Core runs in a battle (chapter 7.9, phase 47). abilitiesNoEffect lists abilities that only matter in weather or terrain, which are not in the game: they are known and do nothing. tools/effect-coverage.mjs and the Java MoveBook both read this file. A scripted move is 'implemented' when it is listed under moves, or when it has no code and every condition it sets is listed under conditions.",
   "moves": [
     "rest", "sleeptalk", "helpinghand", "gigaimpact", "hyperbeam", "protect", "endure", "substitute", "terablast", "facade",
     "snore", "round", "attract", "hiddenpower", "return", "frustration", "endeavor", "secretpower", "curse", "knockoff",
@@ -8,5 +8,22 @@
   ],
   "conditions": [
     "volatileStatus:mustrecharge"
+  ],
+  "abilities": [
+    "sturdy", "keeneye", "intimidate", "innerfocus", "blaze", "overgrow", "torrent", "swarm", "sheerforce", "owntempo",
+    "frisk", "thickfat", "gluttony", "infiltrator", "oblivious", "shedskin", "waterabsorb", "flashfire", "guts", "unnerve",
+    "hustle", "regenerator", "pressure", "weakarmor", "damp"
+  ],
+  "abilitiesNoEffect": [
+    "swiftswim", "chlorophyll", "sandveil", "leafguard", "drizzle", "drought", "sandstream", "snowwarning", "sandrush", "slushrush",
+    "sandforce", "raindish", "icebody", "hydration", "solarpower", "snowcloak", "flowergift", "forecast", "electricsurge", "grassysurge",
+    "mistysurge", "psychicsurge", "surgesurfer"
+  ],
+  "items": [
+    "leftovers", "choice_band", "choice_specs", "choice_scarf", "focus_sash", "life_orb",
+    "normal_gem", "fire_gem", "water_gem", "electric_gem", "grass_gem", "ice_gem", "fighting_gem", "poison_gem", "ground_gem",
+    "flying_gem", "psychic_gem", "bug_gem", "rock_gem", "ghost_gem", "dragon_gem", "dark_gem", "steel_gem", "fairy_gem",
+    "oran_berry", "sitrus_berry", "figy_berry", "wiki_berry", "mago_berry", "aguav_berry", "iapapa_berry",
+    "cheri_berry", "chesto_berry", "pecha_berry", "rawst_berry", "aspear_berry", "persim_berry", "lum_berry"
   ]
 }

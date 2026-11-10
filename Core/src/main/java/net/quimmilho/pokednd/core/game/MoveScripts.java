@@ -303,7 +303,9 @@ final class MoveScripts {
                     String g1 = a.build().gender();
                     String g2 = t.build().gender();
                     boolean opposite = (g1.equals("M") && g2.equals("F")) || (g1.equals("F") && g2.equals("M"));
-                    if (opposite && !t.condition().has(Volatiles.ATTRACT)) {
+                    if (opposite && AbilityScripts.preventsLove(r.start(), t)) {
+                        r.note(r.start().label(t) + "'s Oblivious keeps it from falling in love!");
+                    } else if (opposite && !t.condition().has(Volatiles.ATTRACT)) {
                         r.vol(t, Volatiles.ATTRACT, 1, r.start().label(t) + " fell in love with " + who + "!");
                     } else {
                         r.note("But it failed!");

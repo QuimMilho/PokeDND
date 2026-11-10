@@ -20,6 +20,12 @@ final class Fixtures {
                 Map.of("poke_ball", 5, "potion", 3));
     }
 
+    /** A trainer of another level, with this maximum HP and HP. */
+    static Trainer trainerAt(String name, int level, int maxHp, int hp) {
+        return new Trainer(name, "ace_trainer", level, 0, AbilityScores.of(15, 14, 13, 11, 10, 9), List.of("pokemon_handling", "insight"), maxHp, hp, 3000,
+                Map.of("poke_ball", 5, "potion", 3));
+    }
+
     static Trainer trainerWithHp(Trainer base, int hp) {
         return new Trainer(base.name(), base.classId(), base.level(), base.xp(), base.scores(), base.skills(), base.maxHp(), hp, base.money(), base.items());
     }

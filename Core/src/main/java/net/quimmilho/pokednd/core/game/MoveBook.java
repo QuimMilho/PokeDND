@@ -19,6 +19,7 @@ import net.quimmilho.pokednd.core.combat.CombatSettings;
 import net.quimmilho.pokednd.core.game.Battle.MoveSlot;
 import net.quimmilho.pokednd.core.combat.MoveProfile;
 import net.quimmilho.pokednd.core.dice.DiceSettings;
+import net.quimmilho.pokednd.core.importer.Catalog.AbilityEntry;
 import net.quimmilho.pokednd.core.importer.Catalog.EffectClass;
 import net.quimmilho.pokednd.core.importer.Catalog.ItemEntry;
 import net.quimmilho.pokednd.core.importer.Catalog.MoveEntry;
@@ -40,15 +41,26 @@ public final class MoveBook {
     private static volatile Implemented implemented;
 
     /**
-     * The moves Core scripts and the conditions it runs for every move that sets them.
+     * The moves, abilities and items Core scripts, and the conditions it runs for every move that sets them.
      *
-     * @param moves      the ids of the scripted moves that are implemented
-     * @param conditions conditions such as {@code volatileStatus:mustrecharge}
+     * @param moves             the ids of the scripted moves that are implemented
+     * @param conditions        conditions such as {@code volatileStatus:mustrecharge}
+     * @param abilities         the ids of the scripted abilities that are implemented (Showdown ids: {@code sheerforce})
+     * @param abilitiesNoEffect abilities that only matter in weather or terrain, which the game does not have: known, and they do nothing
+     * @param items             the ids of the held items and berries that are implemented (the game's ids: {@code choice_band})
      */
-    public record Implemented(Set<String> moves, Set<String> conditions) {
+    public record Implemented(Set<String> moves, Set<String> conditions, Set<String> abilities, Set<String> abilitiesNoEffect, Set<String> items) {
         public Implemented {
             moves = Set.copyOf(moves);
             conditions = Set.copyOf(conditions);
+            abilities = Set.copyOf(abilities);
+            abilitiesNoEffect = Set.copyOf(abilitiesNoEffect);
+            items = Set.copyOf(items);
+        }
+
+        /** Moves and conditions only (the shape before phase 47). */
+        public Implemented(Set<String> moves, Set<String> conditions) {
+            this(moves, conditions, Set.of(), Set.of(), Set.of());
         }
     }
 
@@ -76,14 +88,19 @@ public final class MoveBook {
     private final Map<String, MoveEntry> entries;
     private final Map<String, MoveProfile> profiles = new HashMap<>();
     private final Map<String, Gift> gifts;
+    private final Map<String, AbilityEntry> abilities;
+    private final Map<String, ItemEntry> items;
     private final CombatSettings combat;
     private final TypeChart chart;
     private final DiceSettings dice;
     private final Implemented effects;
 
-    private MoveBook(Map<String, MoveEntry> entries, Map<String, Gift> gifts, CombatSettings combat, TypeChart chart, DiceSettings dice) {
+    private MoveBook(Map<String, MoveEntry> entries, Map<String, Gift> gifts, Map<String, AbilityEntry> abilities, Map<String, ItemEntry> items,
+                     CombatSettings combat, TypeChart chart, DiceSettings dice) {
         this.entries = entries;
         this.gifts = gifts;
+        this.abilities = abilities;
+        this.items = items;
         this.combat = combat;
         this.chart = chart;
         this.dice = dice;
@@ -105,6 +122,11 @@ public final class MoveBook {
 
     /** A book of these moves and items, with the default combat settings, the official type chart and the default dice. */
     public static MoveBook of(Collection<MoveEntry> moves, Collection<ItemEntry> items) {
+        return of(moves, items, List.of());
+    }
+
+    /** A book of these moves, items and abilities (chapter 7.9): a Pokémon with a scripted ability or item that Core does not run gets a task. */
+    public static MoveBook of(Collection<MoveEntry> moves, Collection<ItemEntry> items, Collection<AbilityEntry> abilities) {
         Map<String, MoveEntry> entries = new HashMap<>();
         for (MoveEntry m : moves) {
             entries.put(m.id(), m);
@@ -116,7 +138,15 @@ public final class MoveBook {
                 PokemonType.parse(gift.path("type").asText()).ifPresent(t -> gifts.put(item.id(), new Gift(gift.get("basePower").asInt(), t)));
             }
         }
-        return new MoveBook(entries, gifts, CombatSettings.defaults(), TypeChart.standard(), DiceSettings.defaults());
+        Map<String, ItemEntry> itemsById = new HashMap<>();
+        for (ItemEntry item : items) {
+            itemsById.put(Battle.squash(item.id()), item);
+        }
+        Map<String, AbilityEntry> abilitiesById = new HashMap<>();
+        for (AbilityEntry a : abilities) {
+            abilitiesById.put(Battle.squash(a.id()), a);
+        }
+        return new MoveBook(entries, gifts, abilitiesById, itemsById, CombatSettings.defaults(), TypeChart.standard(), DiceSettings.defaults());
     }
 
     /** A book of these moves with the default settings and no items. */
@@ -126,7 +156,46 @@ public final class MoveBook {
 
     /** The same moves with other settings (a game can edit the power table, the crit chances, the type chart and the dice). */
     public MoveBook with(CombatSettings newCombat, TypeChart newChart, DiceSettings newDice) {
-        return new MoveBook(entries, gifts, newCombat, newChart, newDice);
+        return new MoveBook(entries, gifts, abilities, items, newCombat, newChart, newDice);
+    }
+
+    /** The ability data for an id (any spelling), if the book has it. */
+    public Optional<AbilityEntry> ability(String id) {
+        return Optional.ofNullable(abilities.get(Battle.squash(id)));
+    }
+
+    /** The item data for an id (any spelling), if the book has it. */
+    public Optional<ItemEntry> item(String id) {
+        return Optional.ofNullable(items.get(Battle.squash(id)));
+    }
+
+    /**
+     * Who makes an ability work: {@link Handling#IMPLEMENTED} when Core runs it, {@link Handling#AUTOMATIC} when it does nothing in this game
+     * (no code, or only weather and terrain, or unknown to the book), {@link Handling#MANUAL} when it is scripted and the admin applies it.
+     */
+    public Handling abilityHandling(String id) {
+        String key = Battle.squash(id);
+        if (AbilityScripts.knows(key)) {
+            return Handling.IMPLEMENTED;
+        }
+        if (AbilityScripts.noEffect(key)) {
+            return Handling.AUTOMATIC;
+        }
+        AbilityEntry entry = abilities.get(key);
+        return entry != null && entry.effectClass() != EffectClass.AUTOMATIC ? Handling.MANUAL : Handling.AUTOMATIC;
+    }
+
+    /**
+     * Who makes a held item work in a battle: {@link Handling#IMPLEMENTED} when Core runs it; {@link Handling#MANUAL} for a scripted held
+     * item or berry that it does not run; {@link Handling#AUTOMATIC} for anything else (it does nothing while held).
+     */
+    public Handling itemHandling(String id) {
+        if (ItemScripts.knows(id)) {
+            return Handling.IMPLEMENTED;
+        }
+        ItemEntry entry = items.get(Battle.squash(id));
+        boolean heldKind = entry != null && (entry.category().equals("held_items") || entry.category().equals("berries"));
+        return heldKind && entry.effectClass() == EffectClass.SCRIPTED ? Handling.MANUAL : Handling.AUTOMATIC;
     }
 
     public CombatSettings combat() {
@@ -226,7 +295,13 @@ public final class MoveBook {
             root.path("moves").forEach(n -> moves.add(n.asText()));
             Set<String> conditions = new HashSet<>();
             root.path("conditions").forEach(n -> conditions.add(n.asText()));
-            return new Implemented(moves, conditions);
+            Set<String> abilities = new HashSet<>();
+            root.path("abilities").forEach(n -> abilities.add(n.asText()));
+            Set<String> noEffect = new HashSet<>();
+            root.path("abilitiesNoEffect").forEach(n -> noEffect.add(n.asText()));
+            Set<String> items = new HashSet<>();
+            root.path("items").forEach(n -> items.add(n.asText()));
+            return new Implemented(moves, conditions, abilities, noEffect, items);
         } catch (IOException e) {
             throw new IllegalStateException("Cannot read " + IMPLEMENTED_FILE + ": " + e.getMessage(), e);
         }

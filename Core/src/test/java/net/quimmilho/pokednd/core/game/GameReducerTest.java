@@ -157,7 +157,28 @@ class GameReducerTest {
                 new GameEvent.StageChanged("b1", "m1", "atk", 2, null), new GameEvent.VolatileSet("b1", "m1", "confusion", 3, "m1 is confused!"),
                 new GameEvent.HeldItemSet("b1", "m3", null, "Knocked off."), new GameEvent.BattleNoted("b1", "It's super effective!"),
                 new GameEvent.SwitchRequired("b1", "m1"), new GameEvent.AdminTaskOpened("b1", "t1", "m1", "brickbreak", "Apply Brick Break."),
-                new GameEvent.AdminTaskClosed("b1", "t1"));
+                new GameEvent.AdminTaskClosed("b1", "t1"),
+                // phase 48: catching, leaving, trainers
+                new GameEvent.BallThrown("b1", "m3", "ana", "ultra_ball", 3, true), new GameEvent.ParticipantLeft("b1", "ana", "fled"),
+                new GameEvent.FleeFailed("b1", "ana"), new GameEvent.TrainerHpChanged("ana", -4, "from Wing Attack"),
+                new GameEvent.KnockoutSet("ana", new GameState.Knockout(net.quimmilho.pokednd.core.trainer.KoMode.DEATH_SAVES,
+                        new net.quimmilho.pokednd.core.trainer.KnockOut.DeathSaves(1, 2, net.quimmilho.pokednd.core.trainer.KnockOut.DeathSaves.State.UNCONSCIOUS),
+                        List.of("ko-ana-1", "ko-ana-2", "ko-ana-3"))),
+                // phase 49: Pokémon, prompts and the end of a battle
+                new GameEvent.PokemonSet(new PokemonSheet("pk1", "ana", "bulbasaur", "Bulby", 12, 1728, "adamant", net.quimmilho.pokednd.core.rules.StatBlock.all(15),
+                        new net.quimmilho.pokednd.core.rules.StatBlock(4, 0, 0, 1, 0, 0), "F", true, "overgrow", "oran_berry",
+                        List.of(new Battle.MoveSlot("tackle", "Tackle", 30, 35, 0, "normal")), 31, Battle.Status.PARALYSIS, 120, PokemonSheet.Location.PARTY, "great_ball",
+                        11, java.util.Map.of("use:ragefist", 4, "defeat:bisharp", 2), 64, "silcoon")),
+                new GameEvent.PokemonRemoved("pk1"),
+                new GameEvent.PromptOpened(new Prompt("evolve-pk1-ivysaur", Prompt.Kind.EVOLVE, "ana", "pk1", "ivysaur", "Your Bulby is evolving!")),
+                new GameEvent.PromptAnswered("evolve-pk1-ivysaur", "yes"), new GameEvent.BattleSettled("b1"),
+                // phase 50: shops, trades and notes
+                new GameEvent.MerchantSet(new Merchant("mart", "Poké Mart", true, false, 1.5, 10, 3,
+                        List.of(Merchant.StockLine.of("potion", 5), Merchant.StockLine.unlimited("great_ball").withPrice(500)))),
+                new GameEvent.MerchantRemoved("mart"),
+                new GameEvent.TradeSet(new Trade("tr1", "centre", "ana", "bo", new Trade.Side(List.of("pk1"), java.util.Map.of("potion", 2), 500),
+                        Trade.Side.pokemon("pk2"), Trade.Status.CONFIRMED)),
+                new GameEvent.TradeClosed("tr1", "completed"), new GameEvent.GameNoted("ana", "Ana bought 2 Potions."));
         assertEquals(EventTypes.all().size(), events.size(), "this test covers every event type");
         for (GameEvent event : events) {
             assertEquals(event, EventTypes.read(event.type(), EventTypes.payload(event)), event.type());

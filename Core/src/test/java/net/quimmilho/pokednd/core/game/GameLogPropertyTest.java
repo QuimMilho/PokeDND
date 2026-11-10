@@ -49,7 +49,7 @@ class GameLogPropertyTest {
         List<String> trainers = new ArrayList<>(state.trainers().keySet());
         List<String> pending = new ArrayList<>(state.pendingRolls().keySet());
         for (int attempt = 0; ; attempt++) {
-            switch (random.nextInt(16)) {
+            switch (random.nextInt(18)) {
                 case 0 -> {
                     if (state.status() != GameStatus.ENDED) {
                         GameStatus[] all = GameStatus.values();
@@ -126,7 +126,10 @@ class GameLogPropertyTest {
                         return new GameEvent.RollExpired(timed.get(random.nextInt(timed.size())));
                     }
                 }
-                case 13, 14, 15 -> {
+                case 12 -> {
+                    return random.nextBoolean() ? BattleGenerator.economyEvent(random, state) : BattleGenerator.pokemonEvent(random, state);
+                }
+                case 13, 14, 15, 16 -> {
                     GameEvent battleEvent = BattleGenerator.next(random, state);
                     if (battleEvent != null) {
                         return battleEvent;

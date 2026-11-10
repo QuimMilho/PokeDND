@@ -21,17 +21,17 @@ Items and money work: collect, use, buy, sell and trade.
 
 ## Tasks
 
-- [ ] Bag with pockets and limits (`bag.limit.*`); using items inside and outside battle; the effect handlers per category (8.8) including TMs and IV candies.
-- [ ] Money in Pokédollars, shops and merchants (stock, restock, price multiplier), tutors, healers.
-- [ ] Trading at a trade-centre NPC with confirmation by both sides; trade evolutions trigger.
+- [x] Bag with pockets and limits (`bag.limit.*`); using items inside and outside battle; the effect handlers per category (8.8) including TMs and IV candies. *`BagDesk`, `Bag`, `BattleItems`; Appendix D #96.*
+- [x] Money in Pokédollars, shops and merchants (stock, restock, price multiplier), tutors, healers. *`ShopDesk`, `Merchant`, `EconomySettings`.*
+- [x] Trading at a trade-centre NPC with confirmation by both sides; trade evolutions trigger. *`TradeDesk`, `Trade`.*
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Buy, sell and stock rules (including restock rounds) as scripted scenarios.
-- [ ] IV candies stay within 0-31; a TM teaches its move and replaces one when the Pokémon knows four.
-- [ ] A trade moves the Pokémon, items and money atomically, and can be undone.
+- [x] Buy, sell and stock rules (including restock rounds) as scripted scenarios.
+- [x] IV candies stay within 0-31; a TM teaches its move and replaces one when the Pokémon knows four.
+- [x] A trade moves the Pokémon, items and money atomically, and can be undone.
 
 ## Done when
 

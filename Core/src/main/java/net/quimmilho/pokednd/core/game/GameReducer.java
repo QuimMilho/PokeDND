@@ -65,7 +65,9 @@ public final class GameReducer {
                 trainers.remove(e.trainerId());
                 Map<String, RollRequest> pending = new LinkedHashMap<>(state.pendingRolls());
                 pending.values().removeIf(r -> r.trainerId().equals(e.trainerId()));
-                yield state.withTrainers(trainers).withPendingRolls(pending);
+                Map<String, Trade> trades = new LinkedHashMap<>(state.trades());
+                trades.values().removeIf(t -> t.fromId().equals(e.trainerId()) || t.toId().equals(e.trainerId()));
+                yield state.withTrainers(trainers).withPendingRolls(pending).withTrades(trades);
             }
             case GameEvent.RollRequested e -> {
                 requireText(e.requestId(), "request id");
@@ -197,6 +199,127 @@ public final class GameReducer {
                 yield state.withPendingRolls(pending);
             }
             case GameEvent.BattleEvent e -> BattleReducer.apply(state, e);
+            case GameEvent.TrainerHpChanged e -> {
+                Trainer trainer = state.trainers().get(e.trainerId());
+                if (trainer == null) {
+                    throw new InvalidEventException("There is no trainer " + e.trainerId());
+                }
+                if (e.delta() == 0) {
+                    throw new InvalidEventException("A change of HP is not 0");
+                }
+                Map<String, Trainer> trainers = new LinkedHashMap<>(state.trainers());
+                trainers.put(e.trainerId(), e.delta() < 0 ? trainer.damage(-e.delta()) : trainer.heal(e.delta()));
+                yield state.withTrainers(trainers);
+            }
+            case GameEvent.PokemonSet e -> {
+                PokemonSheet p = e.pokemon();
+                if (p == null) {
+                    throw new InvalidEventException("A Pokémon is missing");
+                }
+                if (p.ownerId() != null && !state.trainers().containsKey(p.ownerId())) {
+                    throw new InvalidEventException("There is no trainer " + p.ownerId() + " to own " + p.id());
+                }
+                if (p.ownerId() == null && p.location() != PokemonSheet.Location.WILD || p.ownerId() != null && p.location() == PokemonSheet.Location.WILD) {
+                    throw new InvalidEventException("A wild Pokémon has no owner, and a Pokémon with an owner is not wild");
+                }
+                Map<String, PokemonSheet> all = new LinkedHashMap<>(state.pokemon());
+                all.put(p.id(), p);
+                yield state.withPokemon(all);
+            }
+            case GameEvent.PokemonRemoved e -> {
+                if (!state.pokemon().containsKey(e.pokemonId())) {
+                    throw new InvalidEventException("There is no Pokémon " + e.pokemonId());
+                }
+                Map<String, PokemonSheet> all = new LinkedHashMap<>(state.pokemon());
+                all.remove(e.pokemonId());
+                Map<String, Prompt> prompts = new LinkedHashMap<>(state.prompts());
+                prompts.values().removeIf(p -> e.pokemonId().equals(p.pokemonId()));
+                yield state.withPokemon(all).withPrompts(prompts);
+            }
+            case GameEvent.PromptOpened e -> {
+                Prompt p = e.prompt();
+                if (p == null) {
+                    throw new InvalidEventException("A prompt is missing");
+                }
+                if (state.prompts().containsKey(p.id())) {
+                    throw new InvalidEventException("The prompt " + p.id() + " is there already");
+                }
+                if (p.pokemonId() != null && !state.pokemon().containsKey(p.pokemonId())) {
+                    throw new InvalidEventException("There is no Pokémon " + p.pokemonId() + " for the prompt " + p.id());
+                }
+                Map<String, Prompt> prompts = new LinkedHashMap<>(state.prompts());
+                prompts.put(p.id(), p);
+                yield state.withPrompts(prompts);
+            }
+            case GameEvent.PromptAnswered e -> {
+                if (!state.prompts().containsKey(e.promptId())) {
+                    throw new InvalidEventException("There is no prompt " + e.promptId() + " waiting");
+                }
+                Map<String, Prompt> prompts = new LinkedHashMap<>(state.prompts());
+                prompts.remove(e.promptId());
+                yield state.withPrompts(prompts);
+            }
+            case GameEvent.MerchantSet e -> {
+                Merchant m = e.merchant();
+                if (m == null) {
+                    throw new InvalidEventException("A merchant is missing");
+                }
+                for (Merchant.StockLine line : m.stock()) {
+                    if (!line.endless() && line.quantity() < 0) {
+                        throw new InvalidEventException(m.name() + " cannot have " + line.quantity() + " of " + line.itemId());
+                    }
+                }
+                Map<String, Merchant> merchants = new LinkedHashMap<>(state.merchants());
+                merchants.put(m.id(), m);
+                yield state.withMerchants(merchants);
+            }
+            case GameEvent.MerchantRemoved e -> {
+                if (!state.merchants().containsKey(e.merchantId())) {
+                    throw new InvalidEventException("There is no merchant " + e.merchantId());
+                }
+                Map<String, Merchant> merchants = new LinkedHashMap<>(state.merchants());
+                merchants.remove(e.merchantId());
+                yield state.withMerchants(merchants);
+            }
+            case GameEvent.TradeSet e -> {
+                Trade t = e.trade();
+                if (t == null) {
+                    throw new InvalidEventException("A trade is missing");
+                }
+                if (!state.trainers().containsKey(t.fromId()) || !state.trainers().containsKey(t.toId())) {
+                    throw new InvalidEventException("A trade needs two trainers of the game");
+                }
+                if (t.fromId().equals(t.toId())) {
+                    throw new InvalidEventException("A trainer cannot trade with themselves");
+                }
+                Map<String, Trade> trades = new LinkedHashMap<>(state.trades());
+                trades.put(t.id(), t);
+                yield state.withTrades(trades);
+            }
+            case GameEvent.TradeClosed e -> {
+                if (!state.trades().containsKey(e.tradeId())) {
+                    throw new InvalidEventException("There is no open trade " + e.tradeId());
+                }
+                Map<String, Trade> trades = new LinkedHashMap<>(state.trades());
+                trades.remove(e.tradeId());
+                yield state.withTrades(trades);
+            }
+            case GameEvent.GameNoted e -> state;
+            case GameEvent.KnockoutSet e -> {
+                if (!state.trainers().containsKey(e.trainerId())) {
+                    throw new InvalidEventException("There is no trainer " + e.trainerId());
+                }
+                if (e.knockout() != null && (e.knockout().mode() == null || e.knockout().saves() == null)) {
+                    throw new InvalidEventException("A knock-out needs a mode and its saves");
+                }
+                Map<String, GameState.Knockout> knockouts = new LinkedHashMap<>(state.knockouts());
+                if (e.knockout() == null) {
+                    knockouts.remove(e.trainerId());
+                } else {
+                    knockouts.put(e.trainerId(), e.knockout());
+                }
+                yield state.withKnockouts(knockouts);
+            }
             case GameEvent.RandomDrawn e -> {
                 requireText(e.purpose(), "purpose");
                 if (e.bound() < 1 || e.value() < 0 || e.value() >= e.bound()) {

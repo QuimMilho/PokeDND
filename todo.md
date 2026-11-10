@@ -12,7 +12,7 @@ The whole project cut into **86 small phases**. Each phase has a prompt file in 
 6. A phase is **small**: one working session, one area, and it ends with something that runs and is tested. If one grows, split it and add the new phase here.
 7. The split into phases is itself a suggestion: reorder or merge phases freely, as long as dependencies still hold.
 
-**Progress:** 46 of 86 phases done · 3 of 6 stage gates passed
+**Progress:** 50 of 86 phases done · 3 of 6 stage gates passed
 
 ## Cut from the project
 
@@ -176,16 +176,16 @@ Decided on 2026-11-08, so no phase builds them:
 - [x] **Phase 46 — Move effects** · Core · [prompt](phases/phase-46-move-effects.md)
   All plain-data moves work automatically, plus the 25 most-learned scripted moves.
   *Depends on:* Phase 45
-- [ ] **Phase 47 — Abilities and held items** · Core · [prompt](phases/phase-47-abilities-and-held-items.md)
+- [x] **Phase 47 — Abilities and held items** · Core · [prompt](phases/phase-47-abilities-and-held-items.md)
   The 25 most-used scripted abilities and the common held items, with an admin fallback and the on/off settings.
   *Depends on:* Phase 46
-- [ ] **Phase 48 — Catching, fleeing, enemy AI, trainer attacks** · Core · [prompt](phases/phase-48-catching-fleeing-enemy-ai-trainer-attacks.md)
+- [x] **Phase 48 — Catching, fleeing, enemy AI, trainer attacks** · Core · [prompt](phases/phase-48-catching-fleeing-enemy-ai-trainer-attacks.md)
   Catch and flee inside battles, the enemy's choices, enemies attacking trainers, and knock-out.
   *Depends on:* Phase 44, Phase 19
-- [ ] **Phase 49 — XP, evolution, friendship, fainting, PvP** · Core · [prompt](phases/phase-49-xp-evolution-friendship-fainting-pvp.md)
+- [x] **Phase 49 — XP, evolution, friendship, fainting, PvP** · Core · [prompt](phases/phase-49-xp-evolution-friendship-fainting-pvp.md)
   After a battle: XP and level-ups, new moves, evolution, friendship, fainting and healing, and PvP and NPC trainer battles.
   *Depends on:* Phase 48
-- [ ] **Phase 50 — Bag, items, money, shops, trading** · Core · [prompt](phases/phase-50-bag-items-money-shops-trading.md)
+- [x] **Phase 50 — Bag, items, money, shops, trading** · Core · [prompt](phases/phase-50-bag-items-money-shops-trading.md)
   The bag and its pockets, using items, money, shops and merchants, tutors, healers and trading.
   *Depends on:* Phase 42, Phase 13
 - [ ] **Phase 51 — World, paths, movement, encounters** · Core · [prompt](phases/phase-51-world-paths-movement-encounters.md)

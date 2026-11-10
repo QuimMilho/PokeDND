@@ -167,7 +167,7 @@ class MoveCoverageRealDataTest {
                         arena.play(RollDesk.rollDigital(arena.state(), arena.rolls, ADMIN, r.requestId(), digital++));
                     }
                 }
-                arena.play(BattleDesk.endRound(arena.state()));
+                arena.play(BattleDesk.endRound(arena.state(), arena.seeds));
                 assertEquals(arena.log.replay(), arena.state(), "the log replays");
                 assertEquals(List.of(), BattleDesk.awaiting(arena.state()), "no roll is left open");
                 used++;

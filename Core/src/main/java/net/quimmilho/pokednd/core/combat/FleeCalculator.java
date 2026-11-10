@@ -70,8 +70,14 @@ public final class FleeCalculator {
      * @param opponentSpeed the opponent's Speed (the fastest one, if there are several)
      * @param attempt       which try this is for this trainer in this battle: 1 for the first
      * @param dexModifier   the trainer's DEX modifier (can be negative)
+     * @param featurePp     percentage points that class features add to the chance (0 if none; chapter 4.4 {@code flee.bonusPp})
      */
-    public record Attempt(Battle battle, int ownSpeed, int opponentSpeed, int attempt, int dexModifier) {
+    public record Attempt(Battle battle, int ownSpeed, int opponentSpeed, int attempt, int dexModifier, double featurePp) {
+
+        /** An attempt without a class-feature bonus. */
+        public Attempt(Battle battle, int ownSpeed, int opponentSpeed, int attempt, int dexModifier) {
+            this(battle, ownSpeed, opponentSpeed, attempt, dexModifier, 0.0);
+        }
 
         public Attempt {
             if (ownSpeed < 0 || opponentSpeed < 0) {
@@ -89,12 +95,17 @@ public final class FleeCalculator {
 
         /** A copy with a DEX modifier. */
         public Attempt withDex(int modifier) {
-            return new Attempt(battle, ownSpeed, opponentSpeed, attempt, modifier);
+            return new Attempt(battle, ownSpeed, opponentSpeed, attempt, modifier, featurePp);
         }
 
         /** A copy for another kind of battle. */
         public Attempt inBattle(Battle value) {
-            return new Attempt(value, ownSpeed, opponentSpeed, attempt, dexModifier);
+            return new Attempt(value, ownSpeed, opponentSpeed, attempt, dexModifier, featurePp);
+        }
+
+        /** A copy with percentage points from class features. */
+        public Attempt withFeaturePp(double value) {
+            return new Attempt(battle, ownSpeed, opponentSpeed, attempt, dexModifier, value);
         }
     }
 
@@ -127,7 +138,7 @@ public final class FleeCalculator {
             return new Odds(true, "", 0, 1.0, SmartDice.success(dice, 1.0));
         }
         int f = (int) ((long) a.ownSpeed() * 128 / a.opponentSpeed()) + 30 * a.attempt();
-        double chance = Math.min(1.0, f / 256.0) + a.dexModifier() * settings.bonusPpPerPoint() / 100.0;
+        double chance = Math.min(1.0, f / 256.0) + (a.dexModifier() * settings.bonusPpPerPoint() + a.featurePp()) / 100.0;
         chance = Math.max(0.0, Math.min(1.0, chance));
         return new Odds(true, "", f, chance, SmartDice.success(dice, chance));
     }

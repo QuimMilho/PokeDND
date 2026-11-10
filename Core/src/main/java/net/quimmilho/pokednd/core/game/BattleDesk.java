@@ -60,11 +60,40 @@ public final class BattleDesk {
     /** The admin (or a trigger the admin allowed) starts a battle. */
     public static List<GameEvent> start(GameState state, Actor actor, String battleId, Battle.Type type, BattleSettings rules,
                                         List<Participant> participants, List<Combatant> combatants) {
+        return start(state, actor, battleId, type, rules, participants, combatants, null);
+    }
+
+    /**
+     * Same as above; the Pokémon on the field also "come onto the field" (chapter 7.9): Intimidate acts, Frisk tells, and a scripted ability
+     * or held item that Core does not run opens a task, as the {@code book} says. Without a book there are no tasks.
+     */
+    public static List<GameEvent> start(GameState state, Actor actor, String battleId, Battle.Type type, BattleSettings rules,
+                                        List<Participant> participants, List<Combatant> combatants, MoveBook book) {
         requireAdmin(actor, "start a battle");
         if (participants.stream().noneMatch(p -> p.trainerId() != null)) {
             throw new BattleRefusedException("A battle needs at least one trainer of the game");
         }
-        return checked(state, List.of(new BattleStarted(battleId, type, rules, participants, combatants)));
+        if (type == Battle.Type.PVP && !rules.prizes().pvpEnabled()) {
+            throw new BattleRefusedException("PvP battles are switched off in this game (combat.pvp.enabled)");
+        }
+        BattleStarted started = new BattleStarted(battleId, type, rules, participants, combatants);
+        List<GameEvent> events = new ArrayList<>();
+        events.add(started);
+        GameState work;
+        try {
+            work = GameReducer.apply(state, started);
+        } catch (InvalidEventException e) {
+            throw new BattleRefusedException(e.getMessage());
+        }
+        for (Participant p : work.battle().participants().values()) {
+            for (String id : p.active()) {
+                Battle now = work.battle();
+                for (GameEvent e : AbilityScripts.onEntry(now, now.combatant(id), book)) {
+                    work = apply(work, e, events);
+                }
+            }
+        }
+        return checked(state, events);
     }
 
     /**
@@ -95,13 +124,14 @@ public final class BattleDesk {
             }
             Combatant lead = b.activeOf(p).stream().filter(c -> !c.fainted()).max(java.util.Comparator.comparingInt(Combatant::speed))
                     .orElseThrow(() -> new BattleRefusedException(p.name() + " must send in a replacement first"));
-            int modifier = Math.floorDiv(lead.speed(), b.rules().speedDivisor()) + bonuses.getOrDefault(p.id(), 0);
+            int speed = (int) (lead.speed() * ItemScripts.speedFactor(b, lead)); // Choice Scarf
+            int modifier = Math.floorDiv(speed, b.rules().speedDivisor()) + bonuses.getOrDefault(p.id(), 0);
             String requestId = b.battleId() + "-r" + round + "-init-" + p.id();
             RollClass rollClass = p.kind() == Kind.TRAINER ? RollClass.NORMAL : RollClass.ENEMY;
             GameEvent.RollRequested ask = RollRequests.classic(requestId, p.trainerId() != null ? p.trainerId() : anchor,
                     "initiative of " + b.label(lead), modifier, null, List.of(), rollClass, p.userId());
             events.addAll(RollDesk.open(state, rollSettings, ask, now, seeds));
-            slots.add(new InitiativeSlot(p.id(), requestId, modifier, lead.speed()));
+            slots.add(new InitiativeSlot(p.id(), requestId, modifier, speed));
         }
         events.add(new RoundOpened(b.battleId(), round, slots, 0));
         return checked(state, events);
@@ -168,6 +198,10 @@ public final class BattleDesk {
             }
         }
         if (action.kind() == ActionKind.FLEE) {
+            boolean playerFoe = b.participants().values().stream().anyMatch(p -> p.kind() == Kind.TRAINER && p.side() != owner.side() && !b.out(p));
+            if (playerFoe) {
+                throw new BattleRefusedException("You cannot run away from another player: surrender instead");
+            }
             boolean trainerBattle = b.participants().values().stream().anyMatch(p -> p.kind() != Kind.WILD && p.side() != owner.side());
             if (trainerBattle && !rules.fleeAllowTrainerBattles()) {
                 throw new BattleRefusedException("You cannot run away from a trainer battle");
@@ -178,6 +212,43 @@ public final class BattleDesk {
             }
         }
         return checked(state, List.of(new ActionDeclared(b.battleId(), b.round(), actorId, action)));
+    }
+
+    /**
+     * Like {@link #declare(GameState, Actor, String, Action, long)}, and an item is also checked against the item data: it must be one
+     * that works in a battle, and it must have an effect now (a Potion on a Pokémon at full HP is refused, so no turn is lost).
+     */
+    public static List<GameEvent> declare(GameState state, Actor who, String actorId, Action action, long now, MoveBook book) {
+        List<GameEvent> events = declare(state, who, actorId, action, now);
+        if (action.kind() == ActionKind.ITEM && action.itemId() != null && !action.targets().isEmpty()) {
+            Battle b = battle(state);
+            Combatant target = b.combatant(action.targets().get(0));
+            String why = target == null ? null : BattleItems.refusal(b, book, target, action.itemId(), action.moveId());
+            if (why != null) {
+                throw new BattleRefusedException(why);
+            }
+        }
+        return events;
+    }
+
+    /**
+     * The enemies choose (chapter 7.13): every Pokémon of a wild participant or an NPC that has not been given an action yet gets one
+     * from the AI of {@code combat.ai.level}. The admin can take over any enemy by declaring for it first, or at any time by declaring
+     * again; a player's Pokémon are never touched. All the randomness of the choices comes from {@code seeds}, and the choices are stored
+     * as ordinary declared actions, so a replay never chooses again.
+     */
+    public static List<GameEvent> declareEnemies(GameState state, MoveBook book, LongSupplier seeds) {
+        Battle b = battle(state);
+        requireStep(b, Step.DECLARE, "choose the actions of the enemies");
+        java.util.Random random = new java.util.Random(seeds.getAsLong());
+        List<GameEvent> events = new ArrayList<>();
+        for (Combatant c : b.standing()) {
+            if (b.ownerOf(c).kind() == Kind.TRAINER || b.declared().containsKey(c.id())) {
+                continue;
+            }
+            events.add(new ActionDeclared(b.battleId(), b.round(), c.id(), EnemyAi.choose(state, b, c, book, random)));
+        }
+        return events.isEmpty() ? events : checked(state, events);
     }
 
     /** The turn timer ran out: everybody who has not chosen skips, or plays the first move that has PP, as {@code combat.turnTimer.onTimeout} says. */
@@ -198,7 +269,9 @@ public final class BattleDesk {
 
     /** The first move with PP against the first foe, or Struggle, or a skip when there is nobody to aim at. */
     private static Action autoMove(Battle b, Combatant c) {
-        MoveSlot slot = c.moves().stream().filter(m -> !b.rules().ppEnabled() || m.pp() > 0).findFirst().orElse(null);
+        String locked = b.choiceLockedMove(c); // a Choice item keeps the holder to one move
+        MoveSlot slot = c.moves().stream().filter(m -> locked == null || m.moveId().equals(locked))
+                .filter(m -> !b.rules().ppEnabled() || m.pp() > 0).findFirst().orElse(null);
         if (slot == null) {
             if (!b.rules().ppEnabled() || !c.outOfPp()) {
                 return Action.skip();
@@ -321,6 +394,17 @@ public final class BattleDesk {
      */
     public static List<GameEvent> resolveNext(GameState state, MoveBook book, RollSettings rollSettings, long now, LongSupplier seeds,
                                               Map<String, Double> accuracyBonusPp) {
+        return resolveNext(state, book, rollSettings, now, seeds, BattleBonuses.accuracy(accuracyBonusPp));
+    }
+
+    /**
+     * Same as above with everything the trainers' sheets add ({@link BattleBonuses}): the accuracy bonus, the catch and flee bonuses, the
+     * defence of a trainer that an enemy attacks, and the place and time that some balls read. Besides moves, this resolves a thrown
+     * Poké Ball (chapter 7.10: one catch roll of the trainer's player, the ball is used up, the Pokémon is caught or breaks free) and an
+     * attempt to run away (7.11: one flee roll; the trainer leaves the battle with their Pokémon if it works).
+     */
+    public static List<GameEvent> resolveNext(GameState state, MoveBook book, RollSettings rollSettings, long now, LongSupplier seeds,
+                                              BattleBonuses bonuses) {
         Battle b = battle(state);
         requireStep(b, Step.RESOLVE, "resolve an action");
         if (b.queue().isEmpty()) {
@@ -329,7 +413,7 @@ public final class BattleDesk {
         if (!b.mustSwitch().isEmpty()) {
             throw new BattleRefusedException(b.label(b.combatant(b.mustSwitch().get(0))) + " has to be replaced before the next action");
         }
-        return checked(state, MoveResolver.resolveNext(state, book, rollSettings, now, seeds, accuracyBonusPp));
+        return checked(state, MoveResolver.resolveNext(state, book, rollSettings, now, seeds, bonuses));
     }
 
     /** The roll requests of this battle that nobody has answered yet: the next action waits for them. */
@@ -348,17 +432,28 @@ public final class BattleDesk {
      * Endure and Helping Hand end.
      */
     public static List<GameEvent> endRound(GameState state) {
+        return endRound(state, () -> {
+            throw new IllegalStateException("This round needs a random number (Shed Skin): use endRound(state, seeds)");
+        });
+    }
+
+    /**
+     * Same as above; {@code seeds} is where the random choices of the end of the round come from. They are kept in the log, so a replay
+     * never chooses again. Besides the effects of chapter 7.3, Leftovers heal 1/16, Shed Skin may cure a status (3 in 10), and berries are
+     * eaten when the HP or the status calls for it (chapter 7.9).
+     */
+    public static List<GameEvent> endRound(GameState state, LongSupplier seeds) {
         Battle b = battle(state);
         requireStep(b, Step.RESOLVE, "end the round");
         if (!b.queue().isEmpty()) {
             throw new BattleRefusedException(b.queue().size() + " action(s) have not happened yet");
         }
-        List<GameEvent> events = new ArrayList<>(endOfRound(state, b));
+        List<GameEvent> events = new ArrayList<>(endOfRound(state, b, seeds));
         events.add(new RoundEnded(b.battleId(), b.round()));
         return checked(state, events);
     }
 
-    private static List<GameEvent> endOfRound(GameState state, Battle b) {
+    private static List<GameEvent> endOfRound(GameState state, Battle b, LongSupplier seeds) {
         List<GameEvent> events = new ArrayList<>();
         GameState work = state;
         String battleId = b.battleId();
@@ -390,6 +485,35 @@ public final class BattleDesk {
             if (after.fainted()) {
                 continue;
             }
+            // held items and abilities (chapter 7.9): Leftovers, Shed Skin, then the berries that the changes of this round call for
+            GameEvent leftovers = ItemScripts.residual(work.battle(), after);
+            if (leftovers != null) {
+                work = apply(work, leftovers, events);
+            }
+            after = work.battle().combatant(id);
+            if (AbilityScripts.shedsSkin(work.battle(), after)) {
+                String purpose = battleId + "-r" + b.round() + "-" + id + "-shedskin";
+                int value = -1;
+                for (GameState.RandomDraw d : work.draws()) {
+                    if (d.purpose().equals(purpose)) {
+                        value = d.value();
+                    }
+                }
+                if (value < 0) {
+                    value = (int) Math.floorMod(seeds.getAsLong(), 10L);
+                    work = apply(work, new GameEvent.RandomDrawn(purpose, 10, value), events);
+                }
+                if (value < 3) {
+                    work = apply(work, new GameEvent.StatusSet(battleId, id, Battle.Status.NONE, 0, b.label(after) + "'s Shed Skin cured its status!"), events);
+                }
+            }
+            for (GameEvent e : ItemScripts.berry(work.battle(), work.battle().combatant(id))) {
+                work = apply(work, e, events);
+            }
+            after = work.battle().combatant(id);
+            if (after.fainted()) {
+                continue;
+            }
             Battle.Condition cond = after.condition();
             if (cond.has(Battle.Volatiles.UPROAR)) {
                 int left = cond.volatileValue(Battle.Volatiles.UPROAR) - 1;
@@ -416,6 +540,11 @@ public final class BattleDesk {
 
     /** A participant sends in a Pokémon from the reserve for one that fainted. It does not use an action. */
     public static List<GameEvent> sendReplacement(GameState state, Actor who, String participantId, String replacementId) {
+        return sendReplacement(state, who, participantId, replacementId, null);
+    }
+
+    /** Same as above; the {@code book} lets a scripted ability or held item that Core does not run open a task when the Pokémon comes in. */
+    public static List<GameEvent> sendReplacement(GameState state, Actor who, String participantId, String replacementId, MoveBook book) {
         Battle b = battle(state);
         Participant p = b.participants().get(participantId);
         if (p == null) {
@@ -426,7 +555,60 @@ public final class BattleDesk {
         }
         String fainted = p.active().stream().filter(id -> b.combatant(id).fainted() || b.mustSwitch().contains(id)).findFirst()
                 .orElseThrow(() -> new BattleRefusedException("None of the Pokémon of " + p.name() + " on the field has fainted or has to be replaced"));
-        return checked(state, List.of(new ReplacementSent(b.battleId(), participantId, fainted, replacementId)));
+        List<GameEvent> events = new ArrayList<>();
+        GameEvent heal = AbilityScripts.leaveHeal(b, b.combatant(fainted)); // Regenerator, for a Pokémon that is going back to its ball alive
+        if (heal != null) {
+            events.add(heal);
+        }
+        ReplacementSent sent = new ReplacementSent(b.battleId(), participantId, fainted, replacementId);
+        events.add(sent);
+        GameState work;
+        try {
+            work = GameReducer.applyAll(state, events);
+        } catch (InvalidEventException e) {
+            throw new BattleRefusedException(e.getMessage());
+        }
+        Battle now = work.battle();
+        Combatant coming = now.combatant(replacementId);
+        for (GameEvent e : AbilityScripts.onEntry(now, coming, book)) {
+            work = apply(work, e, events);
+        }
+        return checked(state, events);
+    }
+
+    /**
+     * A player gives up (chapter 7.14): they leave the battle with their Pokémon and have lost it. Players cannot run away from another
+     * player or an NPC, but they can surrender. Not while the initiative is being rolled. The admin can make anybody surrender.
+     */
+    public static List<GameEvent> surrender(GameState state, Actor who, String participantId) {
+        Battle b = battle(state);
+        Participant p = b.participants().get(participantId);
+        if (p == null || p.kind() != Kind.TRAINER) {
+            throw new BattleRefusedException("Only a player's trainer can surrender");
+        }
+        if (!who.admin() && (p.userId() == null || !p.userId().equals(who.userId()))) {
+            throw new BattleRefusedException("This is not your team");
+        }
+        if (b.left().containsKey(p.id())) {
+            throw new BattleRefusedException(p.name() + " has left the battle already");
+        }
+        if (b.step() == Step.INITIATIVE || b.step() == Step.START) {
+            throw new BattleRefusedException("Wait for the round to begin before surrendering");
+        }
+        if (b.participants().values().stream().noneMatch(o -> o.side() != p.side() && o.kind() != Kind.WILD && !b.out(o))) {
+            throw new BattleRefusedException("There is nobody to surrender to: run away from a wild Pokémon instead");
+        }
+        List<GameEvent> events = new ArrayList<>();
+        for (String id : java.util.stream.Stream.concat(p.active().stream(), p.reserve().stream()).toList()) {
+            String prefix = b.battleId() + "-r" + b.round() + "-" + id + "-";
+            for (GameState.RollRequest r : state.pendingRolls().values()) {
+                if (r.requestId().startsWith(prefix)) {
+                    events.add(new GameEvent.RollCancelled(r.requestId()));
+                }
+            }
+        }
+        events.add(new GameEvent.ParticipantLeft(b.battleId(), p.id(), "surrendered"));
+        return checked(state, events);
     }
 
     /** The battle is over when at most one side can still fight: returns the event that ends it, or nothing. */
@@ -437,6 +619,7 @@ public final class BattleDesk {
         }
         List<GameEvent> events = new ArrayList<>(cancelInitiativeRequests(state, b));
         events.add(new BattleEnded(b.battleId(), b.sidesStanding().isEmpty() ? "nobody is left to fight" : "only one side is left"));
+        events.addAll(TrainerDesk.afterBattle(state, b.rules())); // a knocked-out trainer goes back to the healer
         return checked(state, events);
     }
 
@@ -448,6 +631,7 @@ public final class BattleDesk {
         Battle b = battle(state);
         List<GameEvent> events = new ArrayList<>(cancelInitiativeRequests(state, b));
         events.add(new BattleEnded(b.battleId(), reason == null || reason.isBlank() ? "the admin ended it" : reason));
+        events.addAll(TrainerDesk.afterBattle(state, b.rules()));
         return checked(state, events);
     }
 

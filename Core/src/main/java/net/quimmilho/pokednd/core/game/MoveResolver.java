@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
+import net.quimmilho.pokednd.core.combat.BallTable;
+import net.quimmilho.pokednd.core.combat.CatchCalculator;
 import net.quimmilho.pokednd.core.combat.CombatSettings;
+import net.quimmilho.pokednd.core.combat.FleeCalculator;
 import net.quimmilho.pokednd.core.combat.Damage;
 import net.quimmilho.pokednd.core.combat.HitRoll;
 import net.quimmilho.pokednd.core.combat.MoveProfile;
@@ -34,8 +37,12 @@ import net.quimmilho.pokednd.core.game.GameState.RandomDraw;
 import net.quimmilho.pokednd.core.game.GameState.RollClass;
 import net.quimmilho.pokednd.core.game.GameState.RollResult;
 import net.quimmilho.pokednd.core.importer.Catalog.MoveEntry;
+import net.quimmilho.pokednd.core.rules.MajorStatus;
 import net.quimmilho.pokednd.core.rules.PokemonType;
 import net.quimmilho.pokednd.core.rules.Stats;
+import net.quimmilho.pokednd.core.trainer.KnockOut;
+import net.quimmilho.pokednd.core.trainer.KoMode;
+import net.quimmilho.pokednd.core.trainer.Trainer;
 
 /**
  * Resolves one declared action of the queue, with hit rolls, damage, types, statuses and the effects of moves (chapters 7.4 to 7.8 and
@@ -49,8 +56,15 @@ import net.quimmilho.pokednd.core.rules.Stats;
  * the effects, then {@code ActionResolved}'s successors. Random choices (Sleep Talk, a forced switch) are stored as {@code RandomDrawn}
  * events the first time, so that the next call reads the same value. Roll requests have fixed ids, so the same roll is never asked twice.
  *
- * <p><b>What it does not do.</b> Abilities and held items (phase 47), catching and fleeing (phase 48), items and experience (phases
- * 49 and 50), weather and terrain (not in the game). A move whose effect the game cannot run is left to the admin: see
+ * <p><b>Abilities and held items</b> (phase 47) act through {@link AbilityScripts} and {@link ItemScripts}: the damage factor, immunities,
+ * the hit odds, surviving a hit, recoil, berries after the move, and the Choice lock. When a Pokémon comes onto the field ({@link #entry}),
+ * its ability acts and an ability or item that Core does not run makes a task.
+ *
+ * <p><b>Balls, running away and attacks on trainers</b> (phase 48) are resolved here too: {@link #ball} asks the catch roll,
+ * {@link #flee} the flee roll, and {@link #trainerAttack} the opposed roll of chapter 7.12 when an enemy aims a move at a trainer.
+ *
+ * <p><b>What it does not do.</b> The effect of using items (phase 50), weather and terrain (not in the game). Experience, levels and evolution
+ * are paid after the battle by {@link AfterBattle}. A move whose effect the game cannot run is left to the admin: see
  * {@link MoveBook.Handling}.
  */
 final class MoveResolver {
@@ -68,7 +82,7 @@ final class MoveResolver {
     private final RollSettings rollSettings;
     private final long now;
     private final LongSupplier seeds;
-    private final Map<String, Double> bonusesPp;
+    private final BattleBonuses bonuses;
 
     /** The state with everything emitted so far applied: the roll requests and answers, the draws, and in the end the effects. */
     private GameState work;
@@ -82,13 +96,13 @@ final class MoveResolver {
     private final CombatSettings combat;
     private boolean awake;
 
-    private MoveResolver(GameState state, MoveBook book, RollSettings rollSettings, long now, LongSupplier seeds, Map<String, Double> bonusesPp) {
+    private MoveResolver(GameState state, MoveBook book, RollSettings rollSettings, long now, LongSupplier seeds, BattleBonuses bonuses) {
         this.work = state;
         this.book = book;
         this.rollSettings = rollSettings;
         this.now = now;
         this.seeds = seeds;
-        this.bonusesPp = bonusesPp;
+        this.bonuses = bonuses;
         this.b = state.battle();
         this.actor = b.combatant(b.queue().get(0));
         this.action = b.declared().get(actor.id());
@@ -101,8 +115,8 @@ final class MoveResolver {
      * rolls the system makes) while a roll is missing; or the whole outcome, ending with the action leaving the queue.
      */
     static List<GameEvent> resolveNext(GameState state, MoveBook book, RollSettings rollSettings, long now, LongSupplier seeds,
-                                       Map<String, Double> bonusesPp) {
-        MoveResolver r = new MoveResolver(state, book, rollSettings, now, seeds, bonusesPp);
+                                       BattleBonuses bonuses) {
+        MoveResolver r = new MoveResolver(state, book, rollSettings, now, seeds, bonuses);
         try {
             r.run();
         } catch (Waiting w) {
@@ -126,8 +140,30 @@ final class MoveResolver {
             effect(resolved(Result.FAILED_NO_TARGET));
             return;
         }
+        if (action.kind() == ActionKind.BALL) {
+            ball();
+            return;
+        }
+        if (action.kind() == ActionKind.FLEE) {
+            flee();
+            return;
+        }
+        if (action.kind() == ActionKind.ITEM) {
+            item();
+            return;
+        }
         if (action.kind() != ActionKind.MOVE) {
+            boolean switching = action.kind() == ActionKind.SWITCH;
+            if (switching) {
+                GameEvent heal = AbilityScripts.leaveHeal(b, actor);
+                if (heal != null) {
+                    effect(heal);
+                }
+            }
             effect(resolved(Result.DONE));
+            if (switching) {
+                entry(action.switchTo());
+            }
             return;
         }
         List<GameEvent> pre = new ArrayList<>();
@@ -142,7 +178,254 @@ final class MoveResolver {
         effectsStarted = true;
         pre.forEach(this::effect);
         effect(resolved(Result.DONE));
+        int lock = ItemScripts.lockFor(b, actor, action.moveId());
+        if (lock > 0) {
+            vol(cur(actor.id()), Volatiles.CHOICE_LOCK, lock, b.label(actor) + " is locked into " + slotName(action.moveId()) + " by its "
+                    + BattleReducer.pretty(actor.condition().heldItem()) + ".");
+        }
         apply.run();
+    }
+
+    // ================================================================================================ enemies attack a trainer
+
+    /**
+     * An enemy's move aimed at a trainer (chapter 7.12). The enemy rolls {@code 1d20 + level / 8}; the trainer's player rolls
+     * {@code 1d20 + (AC − 10)} and dodges with at least the same total (a tie favours the trainer). A natural 20 always hits and is a
+     * critical hit, a natural 1 always misses; neither asks the trainer to roll. A hit uses the damage formula of chapter 7.6 with the
+     * trainer's Defense value and no type effect, then the damage is scaled down (rounded up, at least 1) and a class feature may take
+     * some off. Abilities, held items and the side effects of the move do not reach a trainer.
+     */
+    private Runnable trainerAttack(String moveId, String target) {
+        Participant tp = b.participants().get(Battle.trainerTargetId(target));
+        Trainer trainer = tp == null || tp.trainerId() == null ? null : work.trainers().get(tp.trainerId());
+        MoveEntry entry = book.entry(moveId).orElse(null);
+        MoveProfile p = book.profile(moveId).orElse(null);
+        String name = entry != null ? entry.name() : slotName(moveId);
+        String attacker = b.label(actor);
+        if (trainer == null || p == null || !p.damaging() || p.ohko()) {
+            String who = tp == null ? "the trainer" : tp.name();
+            return () -> note(attacker + "'s " + name + " has no effect on " + who + ".");
+        }
+        BattleSettings.Enemy rules = b.rules().enemy();
+        int bonus = actor.level() / rules.attackLevelDivisor();
+        int attackDie = roll("tatk", id -> RollRequests.classic(id, trainerId(), name + " against " + tp.name(), bonus, null, List.of(), RollClass.ENEMY, null));
+        int attackTotal = attackDie + bonus;
+        boolean crit = attackDie == 20;
+        boolean hit;
+        int defenseDie = 0;
+        int defenseMod = bonuses.defenseRoll(tp.id());
+        if (attackDie == 20) {
+            hit = true;
+        } else if (attackDie == 1) {
+            hit = false;
+        } else {
+            String reason = "dodging " + attacker + "'s " + name + " (its attack total is " + attackTotal + ")";
+            defenseDie = roll("tdef", id -> RollRequests.classic(id, tp.trainerId(), reason, defenseMod, attackTotal, List.of(), RollClass.NORMAL, tp.userId()));
+            hit = defenseDie + defenseMod < attackTotal;
+        }
+        int damage = 0;
+        if (hit) {
+            int raw = 0;
+            boolean physical = p.category() == MoveProfile.Category.PHYSICAL;
+            String offKey = physical ? "atk" : "spa";
+            if (p.fixedDamage().isPresent()) {
+                raw = Damage.fixed(p.fixedDamage().get(), actor.level(), 1.0);
+            } else if (p.usesDamageDice()) {
+                Dice dice = p.damageDice(combat).orElseThrow();
+                int total = roll("tdmg", id -> RollRequests.dice(id, trainerId(), name + ": damage", dice, RollClass.ENEMY, null));
+                boolean stab = !MoveSlot.STRUGGLE.equals(moveId) && actor.types().contains(p.type());
+                boolean burned = physical && actor.status() == Status.BURN;
+                raw = Damage.compute(new Damage.Input(actor.level(), total, Math.max(1, stat(actor, offKey)), rules.trainerDefense(trainer.level()),
+                        actor.condition().stage(offKey), 0, crit, stab, 1.0, burned, 1.0), combat).damage();
+            }
+            if (raw > 0) {
+                damage = Math.max(1, (int) Math.ceil(raw * rules.damageScale() - 1e-9));
+                damage = Math.max(0, damage - bonuses.damageReduction(tp.id()));
+            }
+        }
+        boolean landed = hit;
+        boolean critical = crit;
+        int dealt = damage;
+        return () -> {
+            if (!landed) {
+                note(attacker + "'s " + name + (attackDie == 1 ? " misses completely!" : " is dodged by " + tp.name() + "!"));
+                setLastFailed(true);
+                return;
+            }
+            if (critical) {
+                note("A critical hit!");
+            }
+            Trainer now = work.trainers().get(tp.trainerId());
+            int taken = Math.min(dealt, now.hp());
+            if (taken <= 0) {
+                note(tp.name() + " takes no damage.");
+                return;
+            }
+            effect(new GameEvent.TrainerHpChanged(tp.trainerId(), -taken, "from " + name));
+            note(tp.name() + " takes " + taken + " damage from " + attacker + "'s " + name + " (" + (now.hp() - taken) + "/" + now.maxHp() + " HP).");
+            if (now.hp() - taken <= 0) {
+                knockOut(tp);
+            }
+        };
+    }
+
+    /** A trainer is at 0 HP (chapter 4.6): the knock-out rule is stored, and the trainer leaves the battle with their Pokémon. */
+    private void knockOut(Participant tp) {
+        BattleSettings.KnockOutRules ko = b.rules().knockOut();
+        KnockOut.DeathSaves saves = ko.mode() == KoMode.FAINT_RESPAWN
+                ? new KnockOut.DeathSaves(0, 0, KnockOut.DeathSaves.State.RESPAWN) : KnockOut.DeathSaves.start();
+        effect(new GameEvent.KnockoutSet(tp.trainerId(), new GameState.Knockout(ko.mode(), saves)));
+        note(tp.name() + " is knocked out!");
+        effect(new GameEvent.ParticipantLeft(b.battleId(), tp.id(), "knockedOut"));
+        if (ko.mode() == KoMode.ADMIN) {
+            openTask("knockout-" + tp.trainerId(), "the knock-out of " + tp.name() + ": the admin decides what happens");
+        }
+    }
+
+    // ================================================================================================== catching and fleeing
+
+    /** A trainer throws a Poké Ball (chapter 7.10): the catch roll of the trainer's player, then the ball is used up. */
+    private void ball() {
+        Combatant target = b.combatant(b.resolveTarget(action.targets().get(0)));
+        Participant targetOwner = b.ownerOf(target);
+        CatchCalculator.Target kind = target.boss() ? CatchCalculator.Target.BOSS
+                : targetOwner.kind() == Kind.WILD ? CatchCalculator.Target.WILD : CatchCalculator.Target.TRAINER_OWNED;
+        java.util.Optional<MajorStatus> status = switch (target.status()) {
+            case BURN -> java.util.Optional.of(MajorStatus.BURN);
+            case POISON, TOXIC -> java.util.Optional.of(MajorStatus.POISON);
+            case PARALYSIS -> java.util.Optional.of(MajorStatus.PARALYSIS);
+            case SLEEP -> java.util.Optional.of(MajorStatus.SLEEP);
+            case FREEZE -> java.util.Optional.of(MajorStatus.FREEZE);
+            case NONE -> java.util.Optional.empty();
+        };
+        String species = target.build().speciesId();
+        CatchCalculator.Throw thrown = new CatchCalculator.Throw(kind, target.maxHp(), target.hp(), target.build().effectiveCatchRate(), action.itemId(),
+                status, 0, bonuses.catchMultiplier(owner.id()),
+                new BallTable.Context(b.round(), bonuses.nightOrCave(), species != null && bonuses.caughtBefore().contains(species), target.types()));
+        CatchCalculator.Settings settings = new CatchCalculator.Settings(b.rules().catchEnabled(), b.rules().catchAllowTrainerOwned(), 0.05, false);
+        CatchCalculator.Odds odds = CatchCalculator.odds(thrown, settings, BallTable.defaults(), book.dice());
+        if (!odds.allowed()) {
+            effect(resolved(Result.DONE));
+            note(odds.reason());
+            return;
+        }
+        int total = successRoll("ball", "catching " + b.label(target), odds.roll(), odds.chance());
+        boolean caught = succeeded(odds.roll(), total);
+        int shakes = caught ? 3 : shakesOf(odds.roll(), total);
+        effect(resolved(Result.DONE));
+        if (owner.trainerId() != null && work.trainers().containsKey(owner.trainerId())) {
+            Trainer trainer = work.trainers().get(owner.trainerId());
+            Map<String, Integer> bag = new LinkedHashMap<>(trainer.items());
+            int left = bag.getOrDefault(action.itemId(), 0) - 1;
+            if (left > 0) {
+                bag.put(action.itemId(), left);
+            } else {
+                bag.remove(action.itemId());
+            }
+            effect(new GameEvent.TrainerSet(owner.trainerId(), trainer.withItems(bag)));
+        }
+        effect(new GameEvent.BallThrown(b.battleId(), target.id(), owner.id(), action.itemId(), shakes, caught));
+    }
+
+    /** A trainer uses an item from the bag on one of their Pokémon (chapter 7.4, 8.8): it does its work and is used up, or it does nothing and stays in the bag. */
+    private void item() {
+        Combatant target = cur(b.resolveTarget(action.targets().get(0)));
+        List<GameEvent> events = BattleItems.plan(b, book, target, action.itemId(), action.moveId());
+        effect(resolved(Result.DONE));
+        if (events.isEmpty()) {
+            note("It won't have any effect on " + b.label(target) + ".");
+            return;
+        }
+        events.forEach(this::effect);
+        useUp(action.itemId());
+    }
+
+    /** One item leaves the bag of the trainer who owns the acting Pokémon (an NPC has no bag in the game state). */
+    private void useUp(String itemId) {
+        if (owner.trainerId() == null || !work.trainers().containsKey(owner.trainerId())) {
+            return;
+        }
+        Trainer trainer = work.trainers().get(owner.trainerId());
+        Map<String, Integer> bag = new LinkedHashMap<>(trainer.items());
+        int left = bag.getOrDefault(itemId, 0) - 1;
+        if (left > 0) {
+            bag.put(itemId, left);
+        } else {
+            bag.remove(itemId);
+        }
+        effect(new GameEvent.TrainerSet(owner.trainerId(), trainer.withItems(bag)));
+    }
+
+    /** A trainer tries to run away (chapter 7.11): the flee roll, and the trainer leaves the battle with their Pokémon if it works. */
+    private void flee() {
+        int ownSpeed = b.activeOf(owner).stream().filter(c -> !c.fainted()).mapToInt(Combatant::speed).max().orElse(0);
+        int opponentSpeed = b.standing().stream().filter(c -> b.sideOf(c) != owner.side()).mapToInt(Combatant::speed).max().orElse(0);
+        boolean boss = b.standing().stream().anyMatch(c -> b.sideOf(c) != owner.side() && c.boss());
+        boolean trainerFoe = b.participants().values().stream().anyMatch(p -> p.side() != owner.side() && p.kind() != Kind.WILD && !b.out(p));
+        FleeCalculator.Battle kind = boss ? FleeCalculator.Battle.BOSS : trainerFoe ? FleeCalculator.Battle.TRAINER : FleeCalculator.Battle.WILD;
+        int attempt = 1 + b.fleeAttempts().getOrDefault(owner.id(), 0);
+        FleeCalculator.Attempt tryToFlee = new FleeCalculator.Attempt(kind, ownSpeed, opponentSpeed, attempt, 0, bonuses.fleePp(owner.id()));
+        FleeCalculator.Odds odds = FleeCalculator.odds(tryToFlee,
+                new FleeCalculator.Settings(b.rules().fleeAllowTrainerBattles(), b.rules().fleeAllowBoss(), 2.0), book.dice());
+        if (!odds.allowed()) {
+            effect(resolved(Result.DONE));
+            note(odds.reason());
+            return;
+        }
+        int total = successRoll("flee", owner.name() + " running away", odds.roll(), odds.chance());
+        boolean escaped = succeeded(odds.roll(), total);
+        effect(resolved(Result.DONE));
+        if (escaped) {
+            effect(new GameEvent.ParticipantLeft(b.battleId(), owner.id(), "fled"));
+        } else {
+            effect(new GameEvent.FleeFailed(b.battleId(), owner.id()));
+        }
+    }
+
+    /** The number a yes/no roll showed, or -1 when nobody rolled (a chance of 100 % or 0 %). */
+    private int successRoll(String key, String reason, SmartDice.Success success, double chance) {
+        if (success.kind() != SmartDice.Kind.ROLL) {
+            return -1;
+        }
+        return roll(key, id -> RollRequests.smart(id, trainerId(), reason, success.choice(), chance, List.of(), rollClass(), owner.userId(),
+                rollSettings.showTrueChance()));
+    }
+
+    private static boolean succeeded(SmartDice.Success success, int total) {
+        return switch (success.kind()) {
+            case ALWAYS -> true;
+            case NEVER -> false;
+            case ROLL -> total >= success.successFrom() && total <= success.successTo();
+        };
+    }
+
+    /** How many times a ball shook before it failed, 0 to 2: the closer the roll was to the lowest face that catches, the more. */
+    private static int shakesOf(SmartDice.Success success, int total) {
+        if (success.kind() != SmartDice.Kind.ROLL || success.successFrom() <= 1) {
+            return 0;
+        }
+        return Math.max(0, Math.min(2, (int) Math.floor(3.0 * (total - 1) / (success.successFrom() - 1))));
+    }
+
+    /** A Pokémon has come onto the field (a switch, a forced switch): its ability and item act (chapter 7.9). */
+    void entry(String combatantId) {
+        Battle now = work.battle();
+        for (GameEvent e : AbilityScripts.onEntry(now, now.combatant(combatantId), book)) {
+            effect(e);
+        }
+    }
+
+    /** Berries are eaten when the HP or the status calls for it: after a move, for everyone it touched and for the user. */
+    private void berries(List<Strike> strikes) {
+        java.util.Set<String> ids = new java.util.LinkedHashSet<>();
+        strikes.forEach(x -> ids.add(x.target.id()));
+        ids.add(actor.id());
+        for (String id : ids) {
+            Battle now = work.battle();
+            for (GameEvent e : ItemScripts.berry(now, now.combatant(id))) {
+                effect(e);
+            }
+        }
     }
 
     private GameEvent resolved(Result result) {
@@ -285,6 +568,9 @@ final class MoveResolver {
      * @param called   true when another move called this one (it spends no PP and uses a random target)
      */
     private Runnable plan(String moveId, String prefix, List<String> chosen, boolean called) {
+        if (!called && chosen.size() == 1 && Battle.isTrainerTarget(chosen.get(0))) {
+            return trainerAttack(moveId, chosen.get(0));
+        }
         MoveEntry entry = book.entry(moveId).orElse(null);
         MoveProfile base = book.profile(moveId).orElse(null);
         String name = entry != null ? entry.name() : slotName(moveId);
@@ -301,6 +587,9 @@ final class MoveResolver {
         shape(s);
         if (s.failure == null) {
             s.failure = failure(s, prefix);
+        }
+        if (s.failure == null) {
+            s.failure = AbilityScripts.moveFailure(b, actor, s.name, s.effect);
         }
         if (s.failure != null) {
             return () -> failed(s);
@@ -339,6 +628,9 @@ final class MoveResolver {
                 if (x.eff == 0.0 && !effect.path("ignoreImmunity").asBoolean(false)) {
                     x.blocked = "immune";
                 }
+            }
+            if (x.blocked == null) {
+                x.blocked = AbilityScripts.blocks(b, t, p);
             }
             strikes.add(x);
         }
@@ -446,7 +738,19 @@ final class MoveResolver {
             Combatant t = cur(x.target.id());
             String tl = b.label(t);
             if (x.blocked != null) {
-                note("immune".equals(x.blocked) ? "It doesn't affect " + tl + "..." : tl + " protected itself!");
+                switch (x.blocked) {
+                    case "immune" -> note("It doesn't affect " + tl + "...");
+                    case "sturdy" -> note("It doesn't affect " + tl + ", thanks to its Sturdy!");
+                    case "waterabsorb" -> {
+                        note(tl + "'s Water Absorb made the attack useless!");
+                        hp(t, Math.max(1, t.maxHp() / 4), "from Water Absorb");
+                    }
+                    case "flashfire" -> {
+                        note(tl + "'s Flash Fire made the attack useless!");
+                        vol(t, Volatiles.FLASH_FIRE, 1, tl + "'s Fire moves are stronger!");
+                    }
+                    default -> note(tl + " protected itself!");
+                }
                 continue;
             }
             if (t.id().equals(actor.id())) {
@@ -467,9 +771,15 @@ final class MoveResolver {
             } else if (x.eff < 1.0 && x.eff > 0.0) {
                 note("It's not very effective...");
             }
-            dealt += dealDamage(s, x, t);
+            int real = dealDamage(s, x, t);
+            dealt += real;
             if (hits > 1 && x.damage > 0) {
                 note("Hit " + hits + " times!");
+            }
+            Combatant hit = cur(t.id());
+            if (!hit.fainted() && real > 0 && x.absorbedBySubstitute == 0 && AbilityScripts.weakArmorTriggers(b, hit, p, real)) {
+                stage(hit, "def", -1);
+                stage(hit, "spe", 2);
             }
         }
         // thaw a frozen target that was hit by fire
@@ -567,6 +877,18 @@ final class MoveResolver {
         if (MoveSlot.STRUGGLE.equals(s.id) && !user.fainted()) {
             hp(user, -Math.max(1, user.maxHp() / 4), "from the recoil");
         }
+        // held items that a damaging move costs or uses up: Life Orb's recoil (not after a Sheer Force move) and a type gem
+        user = cur(actor.id());
+        if (p.damaging() && dealt > 0 && !user.fainted() && !AbilityScripts.sheerForceActive(b, actor, effect)) {
+            int orb = ItemScripts.lifeOrbRecoil(b, user);
+            if (orb > 0) {
+                hp(user, -Math.min(orb, user.hp()), "from its Life Orb");
+            }
+        }
+        user = cur(actor.id());
+        if (p.damaging() && anyLanded && !user.fainted() && ItemScripts.holdsGemOf(b, user, p.type())) {
+            item(user, null, b.label(actor) + "'s " + BattleReducer.pretty(user.condition().heldItem()) + " boosted the power of the move!");
+        }
         // jumping out and forcing out
         user = cur(actor.id());
         if (!user.fainted() && effect.path("selfSwitch").asBoolean(false) && (anyLanded || p.damaging() == false) && hasAbleReserve(owner)) {
@@ -600,6 +922,7 @@ final class MoveResolver {
         if (handling == MoveBook.Handling.PARTIAL) {
             openTask(s.id, entry.name() + ": " + entry.description());
         }
+        berries(strikes);
         finish(s, failedAll);
     }
 
@@ -609,7 +932,8 @@ final class MoveResolver {
         if (damage <= 0) {
             return 0;
         }
-        if (t.condition().has(Volatiles.SUBSTITUTE) && !s.effect.path("flags").path("bypasssub").asBoolean(false)) {
+        if (t.condition().has(Volatiles.SUBSTITUTE) && !s.effect.path("flags").path("bypasssub").asBoolean(false)
+                && !AbilityScripts.bypassesSubstitute(b, actor)) {
             int decoy = t.condition().volatileValue(Volatiles.SUBSTITUTE);
             int taken = Math.min(damage, decoy);
             x.absorbedBySubstitute = taken;
@@ -624,6 +948,14 @@ final class MoveResolver {
             damage = Math.max(0, t.hp() - 1);
             x.endured = true;
             note(b.label(t) + " endured the hit!");
+        } else if (damage >= t.hp() && t.hp() == t.maxHp() && b.hasAbility(t, "sturdy")) {
+            damage = Math.max(0, t.hp() - 1);
+            x.endured = true;
+            note(b.label(t) + " endured the hit with Sturdy!");
+        } else if (ItemScripts.sashSaves(b, t, damage)) {
+            damage = Math.max(0, t.hp() - 1);
+            x.endured = true;
+            item(t, null, b.label(t) + " hung on using its Focus Sash!");
         }
         int real = Math.min(damage, t.hp());
         if (real > 0) {
@@ -663,7 +995,7 @@ final class MoveResolver {
         boolean crit = x.hit == HitRoll.Result.CRIT;
         int defenseStage = effect.path("ignoreDefensive").asBoolean(false) ? 0 : t.condition().stage(defKey);
         boolean stab = !MoveSlot.STRUGGLE.equals(s.id) && a.types().contains(p.type());
-        boolean burned = physical && a.status() == Status.BURN && !s.ignoreBurnPenalty;
+        boolean burned = physical && a.status() == Status.BURN && !s.ignoreBurnPenalty && !AbilityScripts.ignoresBurn(b, a);
         double other = otherFactor(s, t);
         int total = 0;
         for (int k = 0; k < x.hits; k++) {
@@ -683,6 +1015,11 @@ final class MoveResolver {
         if ("knockoff".equals(s.id) && t.condition().heldItem() != null) {
             f *= 1.5;
         }
+        boolean physical = s.p.category() == MoveProfile.Category.PHYSICAL;
+        PokemonType type = s.p.type();
+        f *= AbilityScripts.attackFactor(b, actor, type, physical, AbilityScripts.sheerForceActive(b, actor, s.effect));
+        f *= AbilityScripts.defenseFactor(b, t, type);
+        f *= ItemScripts.damageFactor(b, actor, type, physical);
         return f;
     }
 
@@ -693,9 +1030,9 @@ final class MoveResolver {
         if (p.ohko()) {
             return HitRoll.oneHitKo(actor.level(), t.level(), book.dice());
         }
-        int evasion = s.effect.path("ignoreEvasion").asBoolean(false) ? 0 : t.condition().stage("evasion");
-        HitRoll.Input in = new HitRoll.Input(p.accuracy(), actor.condition().stage("accuracy"), evasion,
-                bonusesPp.getOrDefault(owner.id(), 0.0), 0, p.critStage(), p.alwaysCrit());
+        int evasion = s.effect.path("ignoreEvasion").asBoolean(false) || AbilityScripts.ignoresEvasion(b, actor) ? 0 : t.condition().stage("evasion");
+        HitRoll.Input in = new HitRoll.Input(AbilityScripts.accuracy(b, actor, p), actor.condition().stage("accuracy"), evasion,
+                bonuses.accuracyPp(owner.id()), 0, p.critStage() + (actor.condition().has(Volatiles.FOCUS_ENERGY) ? 2 : 0), p.alwaysCrit());
         if (!p.damaging()) {
             return HitRoll.compute(in.withCritStage(0).withAlwaysCrit(false), combat.withCritChancesPct(List.of(0, 0, 0, 0)), book.dice());
         }
@@ -704,12 +1041,12 @@ final class MoveResolver {
 
     private List<RollModifier> hitModifiers(Spec s, Combatant t) {
         List<RollModifier> list = new ArrayList<>();
-        int evasion = s.effect.path("ignoreEvasion").asBoolean(false) ? 0 : t.condition().stage("evasion");
+        int evasion = s.effect.path("ignoreEvasion").asBoolean(false) || AbilityScripts.ignoresEvasion(b, actor) ? 0 : t.condition().stage("evasion");
         int net = actor.condition().stage("accuracy") - evasion;
         if (net != 0) {
             list.add(new RollModifier(RollModifier.Kind.STAGE, "accuracy stage", net));
         }
-        double bonus = bonusesPp.getOrDefault(owner.id(), 0.0);
+        double bonus = bonuses.accuracyPp(owner.id());
         if (bonus != 0) {
             list.add(new RollModifier(RollModifier.Kind.POINTS, "command bonus", bonus));
         }
@@ -772,10 +1109,11 @@ final class MoveResolver {
         }
         // the secondary effects
         List<JsonNode> secondaries = new ArrayList<>();
-        if (effect.path("secondary").isObject()) {
+        boolean sheerForce = AbilityScripts.sheerForceActive(b, actor, effect); // Sheer Force trades the secondary effects for power
+        if (effect.path("secondary").isObject() && !sheerForce) {
             secondaries.add(effect.get("secondary"));
         }
-        if (effect.path("secondaries").isArray()) {
+        if (effect.path("secondaries").isArray() && !sheerForce) {
             effect.get("secondaries").forEach(secondaries::add);
         }
         for (JsonNode sec : secondaries) {
@@ -815,8 +1153,13 @@ final class MoveResolver {
         if (x.target.hp() - x.damage <= 0 && s.p.damaging() && x.absorbedBySubstitute == 0 && !x.endured) {
             return false;
         }
-        boolean shielded = x.target.condition().has(Volatiles.SUBSTITUTE) && !s.effect.path("flags").path("bypasssub").asBoolean(false);
+        boolean shielded = x.target.condition().has(Volatiles.SUBSTITUTE) && !s.effect.path("flags").path("bypasssub").asBoolean(false)
+                && !AbilityScripts.bypassesSubstitute(b, actor);
         if (shielded) {
+            return false;
+        }
+        if (Volatiles.FLINCH.equals(side.volatileStatus()) && AbilityScripts.preventsFlinch(b, x.target)
+                || Volatiles.CONFUSION.equals(side.volatileStatus()) && AbilityScripts.preventsConfusion(b, x.target)) {
             return false;
         }
         if (side.status() != null && !canGetStatus(x.target, side.status())) {
@@ -1155,6 +1498,14 @@ final class MoveResolver {
         if (cur(c.id()).fainted() || delta == 0) {
             return;
         }
+        if (delta < 0 && !c.id().equals(actor.id()) && cur(c.id()).condition().has(Volatiles.GUARD_SPEC)) {
+            note(b.label(c) + "'s stats are protected by the mist!");
+            return;
+        }
+        if (AbilityScripts.preventsAccuracyDrop(b, c, stat, delta)) {
+            note(b.label(c) + "'s Keen Eye keeps its accuracy from being lowered!");
+            return;
+        }
         effect(new GameEvent.StageChanged(b.battleId(), c.id(), stat, delta, null));
     }
 
@@ -1191,7 +1542,12 @@ final class MoveResolver {
         }
         int pick = draw("force-" + t.id(), able.size());
         effect(new GameEvent.SwitchRequired(b.battleId(), t.id()));
+        GameEvent heal = AbilityScripts.leaveHeal(work.battle(), cur(t.id()));
+        if (heal != null) {
+            effect(heal);
+        }
         effect(new GameEvent.ReplacementSent(b.battleId(), p.id(), t.id(), able.get(pick)));
+        entry(able.get(pick));
     }
 
     int stat(Combatant c, String key) {

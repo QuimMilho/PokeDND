@@ -21,17 +21,17 @@ Wild Pokémon behave, can be caught or escaped from, and can threaten trainers.
 
 ## Tasks
 
-- [ ] Catching in battle with the roll flow (7.10) and fleeing (7.11).
-- [ ] Enemy AI (7.13) and how enemies choose targets, including attacking trainers (7.12): the 10 % chance, the `level / 8` bonus, the trainer Defense value and the damage scale.
-- [ ] Trainer health and knock-out rules (4.6).
+- [x] Catching in battle with the roll flow (7.10) and fleeing (7.11).
+- [x] Enemy AI (7.13) and how enemies choose targets, including attacking trainers (7.12): the 10 % chance, the `level / 8` bonus, the trainer Defense value and the damage scale.
+- [x] Trainer health and knock-out rules (4.6).
 
 ## Tests
 
 Every test must pass before the phase counts as done.
 
-- [ ] Scripted catch and flee scenarios with fixed rolls.
-- [ ] The AI never chooses an impossible action (property test over random states).
-- [ ] A knocked-out trainer follows the documented rules.
+- [x] Scripted catch and flee scenarios with fixed rolls.
+- [x] The AI never chooses an impossible action (property test over random states).
+- [x] A knocked-out trainer follows the documented rules.
 
 ## Done when
 

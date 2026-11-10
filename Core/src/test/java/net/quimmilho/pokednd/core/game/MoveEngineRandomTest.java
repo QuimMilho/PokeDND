@@ -77,7 +77,8 @@ class MoveEngineRandomTest {
             participants.add(Arena.trainer("bo", boTeam, List.of()));
         }
         participants.add(Arena.wildWithReserve("wild", "Wild", wildTeam.subList(0, 1), wildTeam.subList(1, wildTeam.size())));
-        arena.start(Battle.Type.WILD, BattleSettings.defaults(), participants, mons);
+        // one battle in four runs with abilities and held items switched off
+        arena.start(Battle.Type.WILD, random.nextInt(4) == 0 ? BattleSettings.defaults().withTraits(false, false) : BattleSettings.defaults(), participants, mons);
 
         int usedMoves = 0;
         for (int round = 1; round <= 40 && !arena.battle().over(); round++) {
@@ -114,7 +115,7 @@ class MoveEngineRandomTest {
                     arena.play(RollDesk.rollDigital(arena.state(), arena.rolls, ADMIN, r.requestId(), digital++));
                 }
             }
-            arena.play(BattleDesk.endRound(arena.state()));
+            arena.play(BattleDesk.endRound(arena.state(), arena.seeds));
             check(arena, seed);
         }
         List<GameEvent> end = BattleDesk.endIfOver(arena.state());
@@ -176,17 +177,32 @@ class MoveEngineRandomTest {
         Combatant c = arena.mon(id, owner, "Mon " + id, 5 + random.nextInt(60), 10 + random.nextInt(120), types, 10 + random.nextInt(100),
                 10 + random.nextInt(100), 10 + random.nextInt(100), 10 + random.nextInt(100), 10 + random.nextInt(120), ids);
         String gender = new String[] {"M", "F", "N"}[random.nextInt(3)];
-        Combatant withBuild = c.withBuild(c.build().withGender(gender).withFriendship(random.nextInt(256)).withHiddenPower(TYPES[random.nextInt(TYPES.length)]));
-        return random.nextInt(3) == 0 ? withBuild.withCondition(withBuild.condition().withHeldItem("oran_berry")) : withBuild;
+        String ability = random.nextInt(3) == 0 ? null : ABILITIES.get(random.nextInt(ABILITIES.size()));
+        Combatant withBuild = c.withBuild(c.build().withGender(gender).withFriendship(random.nextInt(256)).withHiddenPower(TYPES[random.nextInt(TYPES.length)])
+                .withAbility(ability));
+        return random.nextInt(2) == 0 ? withBuild.withCondition(withBuild.condition().withHeldItem(ITEMS.get(random.nextInt(ITEMS.size())))) : withBuild;
     }
+
+    /** The abilities that Core runs, and two that it does not (they leave no task here, because the book has no data for them). */
+    private static final List<String> ABILITIES = new ArrayList<>(new java.util.TreeSet<>(AbilityScripts.implemented()));
+    static {
+        ABILITIES.add("moldbreaker");
+        ABILITIES.add("swiftswim");
+    }
+
+    /** The held items that Core runs (the game's ids), a berry that Natural Gift knows, and an item that does nothing. */
+    private static final List<String> ITEMS = List.of("leftovers", "choice_band", "choice_specs", "choice_scarf", "focus_sash", "life_orb", "fire_gem",
+            "normal_gem", "water_gem", "oran_berry", "sitrus_berry", "figy_berry", "cheri_berry", "chesto_berry", "pecha_berry", "rawst_berry", "lum_berry",
+            "persim_berry", "eviolite");
 
     private static Action choose(Random random, Battle b, Combatant c) {
         List<Action> options = new ArrayList<>();
         options.add(Action.skip());
         Battle.Participant owner = b.ownerOf(c);
         owner.reserve().stream().filter(id -> !b.combatant(id).fainted()).forEach(id -> options.add(Action.switchTo(id)));
+        String locked = b.choiceLockedMove(c); // a Choice item keeps the holder to one move
         for (Battle.MoveSlot m : c.moves()) {
-            if (m.pp() <= 0) {
+            if (m.pp() <= 0 || locked != null && !m.moveId().equals(locked)) {
                 continue;
             }
             TargetKind kind = m.targetKind();
